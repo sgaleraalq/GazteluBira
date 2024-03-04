@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_graph">
-
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/matchesFragment">
+    <fragment
+        android:id="@+id/playersFragment"
+        android:name="com.sgalera.gaztelubira.ui.players.PlayersFragment"
+        android:label="fragment_players"
+        tools:layout="@layout/fragment_players" />
+    <fragment
+        android:id="@+id/matchesFragment"
+        android:name="com.sgalera.gaztelubira.ui.matches.MatchesFragment"
+        android:label="fragment_matches"
+        tools:layout="@layout/fragment_matches" />
 </navigation>
