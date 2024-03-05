@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/matchesFragment">
+    app:startDestination="@id/playersFragment">
     <fragment
         android:id="@+id/playersFragment"
         android:name="com.sgalera.gaztelubira.ui.players.PlayerFragment"
@@ -14,4 +14,9 @@
         android:name="com.sgalera.gaztelubira.ui.matches.MatchesFragment"
         android:label="fragment_matches"
         tools:layout="@layout/fragment_matches" />
+    <fragment
+        android:id="@+id/statsFragment"
+        android:name="com.sgalera.gaztelubira.ui.stats.StatsFragment"
+        android:label="fragment_stats"
+        tools:layout="@layout/fragment_stats" />
 </navigation>

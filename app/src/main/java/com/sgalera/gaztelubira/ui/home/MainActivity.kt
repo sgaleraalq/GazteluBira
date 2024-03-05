@@ -3,6 +3,9 @@ package com.sgalera.gaztelubira.ui.home
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,6 +22,12 @@ class MainActivity: AppCompatActivity() {
     }
 
     private fun initUI() {
-        println(1)
+        initNavegation()
+    }
+
+    private fun initNavegation() {
+        val navHost = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        navController = navHost.navController
+        binding.bottomNavView.setupWithNavController(navController)
     }
 }
