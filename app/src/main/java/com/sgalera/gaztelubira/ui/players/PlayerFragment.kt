@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.sgalera.gaztelubira.R
 
-class PlayersFragment : Fragment() {
+class PlayerFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/playerFragment"
+        android:title="@string/playerFragment"
+        android:icon="@drawable/ic_football_player"/>
+
+    <item
+        android:id="@+id/statsFragment"
+        android:title="@string/statsFragment"
+        android:icon="@drawable/ic_stats"/>
+
+    <item
+        android:id="@+id/matchesFragment"
+        android:title="@string/matchesFragment"
+        android:icon="@drawable/ic_football_field"/>
 </menu>
