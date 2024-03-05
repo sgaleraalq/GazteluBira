@@ -11,7 +11,7 @@
         tools:layout="@layout/fragment_matches" />
     <fragment
         android:id="@+id/playerFragment"
-        android:name="com.sgalera.gaztelubira.ui.players.PlayerFragment"
+        android:name="com.sgalera.gaztelubira.ui.player.PlayerFragment"
         android:label="fragment_players"
         tools:layout="@layout/fragment_players" />
     <fragment

@@ -1,12 +1,10 @@
-package com.sgalera.gaztelubira.ui.players
+package com.sgalera.gaztelubira.ui.player
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.sgalera.gaztelubira.R
-import com.sgalera.gaztelubira.databinding.FragmentMatchesBinding
 import com.sgalera.gaztelubira.databinding.FragmentPlayersBinding
 import dagger.hilt.android.AndroidEntryPoint
 

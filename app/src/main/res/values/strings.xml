@@ -7,4 +7,7 @@
     <string name="playerFragment">Player</string>
     <string name="statsFragment">Stats</string>
     <string name="matchesFragment">Matches</string>
+
+    // Player fragment
+    <string name="welcome">Bienvenido,</string>
 </resources>
