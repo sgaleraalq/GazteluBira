@@ -8,7 +8,7 @@ sealed class Team(name: Int, img: Int) {
     data object Arsenal : Team(R.string.arsenal, R.drawable.img_arsenal)
     data object Aterbea : Team(R.string.aterbea, R.drawable.img_aterbea)
     data object EsicGazteak : Team(R.string.esic_gazteak, R.drawable.img_esic_gazteak)
-    data object Esmeraldenos : Team(R.string.esmeraldeños, R.drawable.img_esmeraldenos_tierra_negra)
+    data object Esmeraldenos : Team(R.string.esmeraldeños, R.drawable.img_esmeraldenos)
     data object Garre : Team(R.string.garre, R.drawable.img_garre)
     data object Iturrama : Team(R.string.iturrama, R.drawable.img_iturrama)
     data object Izn : Team(R.string.izn, R.drawable.img_izn)
