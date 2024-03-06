@@ -8,14 +8,12 @@ import com.sgalera.gaztelubira.domain.model.matches.Match
 class MatchesViewHolder(view: View): RecyclerView.ViewHolder(view) {
     private val binding = ItemMatchesBinding.bind(view)
     fun render(match: Match) {
-//        // Local variables
-//        binding.ivLocalTeam.setImageResource(match.visitor.img)
-//        binding.tvLocalName.text = match.local.name
+        // Local variables
+        binding.tvLocalName.text = match.local
         binding.tvGoalsLocal.text = match.localGoals.toString()
 
         // Visitor variables
-//        binding.ivVisitorTeam.setImageResource(match.visitor.img)
-//        binding.tvVisitorName.text = match.visitor.name
+        binding.tvVisitorName.text = match.visitor
         binding.tvGoalsVisitor.text = match.visitorGoals.toString()
     }
 }
