@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.sgalera.gaztelubira.R
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.sgalera.gaztelubira.databinding.FragmentMatchesBinding
+import com.sgalera.gaztelubira.domain.model.Match
+import com.sgalera.gaztelubira.domain.model.Team.*
 import com.sgalera.gaztelubira.ui.matches.adapter.MatchesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,7 +39,27 @@ class MatchesFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
+        matchesAdapter = MatchesAdapter(
+            listOf(
+                Match(
+                    local = GazteluBira,
+                    visitor = Aterbea,
+                    localGoals = 3,
+                    visitorGoals = 1
+                ),
+                Match(
+                    local = GazteluBira,
+                    visitor = Aterbea,
+                    localGoals = 3,
+                    visitorGoals = 1
+                )
+            )
+        )
 
+        binding.recyclerViewMatches.apply {
+            adapter = matchesAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        }
     }
 
     private fun initList() {

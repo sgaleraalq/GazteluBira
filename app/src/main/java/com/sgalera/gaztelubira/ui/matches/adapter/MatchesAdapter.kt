@@ -1,20 +1,23 @@
 package com.sgalera.gaztelubira.ui.matches.adapter
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sgalera.gaztelubira.domain.model.Matches
+import com.sgalera.gaztelubira.R
+import com.sgalera.gaztelubira.domain.model.Match
 
-class MatchesAdapter(matchesList: Matches): RecyclerView.Adapter<MatchesViewHolder>() {
+class MatchesAdapter(private var matchesList: List<Match>) :
+    RecyclerView.Adapter<MatchesViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchesViewHolder {
-        TODO("Not yet implemented")
+        return MatchesViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_matches, parent, false)
+        )
     }
 
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getItemCount() = matchesList.size
 
     override fun onBindViewHolder(holder: MatchesViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        holder.render(matchesList[position])
     }
 
 }

@@ -1,6 +1,6 @@
 package com.sgalera.gaztelubira.domain.model
 
-data class Matches(
+data class Match(
     val local: Team,
     val visitor: Team,
     val localGoals: Int,
