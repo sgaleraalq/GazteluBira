@@ -29,8 +29,8 @@ class MatchesFragment : Fragment() {
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initUI()
     }
 
@@ -43,8 +43,8 @@ class MatchesFragment : Fragment() {
         matchesAdapter = MatchesAdapter(
             listOf(
                 Match(
-                    local = GazteluBira,
-                    visitor = Aterbea,
+                    local = "Gaztelu Bira",
+                    visitor = "Aterbea",
                     localGoals = 3,
                     visitorGoals = 1,
                     starters = Starters(
@@ -65,8 +65,8 @@ class MatchesFragment : Fragment() {
                     bench = listOf("Gareth Bale", "Luka Modric", "Sergio Busquets")
                 ),
                 Match(
-                    local = GazteluBira,
-                    visitor = Aterbea,
+                    local = "Gaztelu Bira",
+                    visitor = "Aterbea",
                     localGoals = 3,
                     visitorGoals = 1,
                     starters = Starters(
