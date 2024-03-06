@@ -3,7 +3,7 @@ package com.sgalera.gaztelubira.ui.matches.adapter
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.sgalera.gaztelubira.databinding.ItemMatchesBinding
-import com.sgalera.gaztelubira.domain.model.Match
+import com.sgalera.gaztelubira.domain.model.matches.Match
 
 class MatchesViewHolder(view: View): RecyclerView.ViewHolder(view) {
     private val binding = ItemMatchesBinding.bind(view)

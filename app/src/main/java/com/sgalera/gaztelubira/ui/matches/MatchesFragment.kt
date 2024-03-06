@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sgalera.gaztelubira.databinding.FragmentMatchesBinding
-import com.sgalera.gaztelubira.domain.model.Match
+import com.sgalera.gaztelubira.domain.model.matches.Match
 import com.sgalera.gaztelubira.domain.model.Team.*
 import com.sgalera.gaztelubira.ui.matches.adapter.MatchesAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,13 +45,15 @@ class MatchesFragment : Fragment() {
                     local = GazteluBira,
                     visitor = Aterbea,
                     localGoals = 3,
-                    visitorGoals = 1
+                    visitorGoals = 1,
+                    starters = 1
                 ),
                 Match(
                     local = GazteluBira,
                     visitor = Aterbea,
                     localGoals = 3,
-                    visitorGoals = 1
+                    visitorGoals = 1,
+                    starters = 1
                 )
             )
         )

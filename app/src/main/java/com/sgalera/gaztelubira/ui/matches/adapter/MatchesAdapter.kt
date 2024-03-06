@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sgalera.gaztelubira.R
-import com.sgalera.gaztelubira.domain.model.Match
+import com.sgalera.gaztelubira.domain.model.matches.Match
 
 class MatchesAdapter(private var matchesList: List<Match>) :
     RecyclerView.Adapter<MatchesViewHolder>() {
