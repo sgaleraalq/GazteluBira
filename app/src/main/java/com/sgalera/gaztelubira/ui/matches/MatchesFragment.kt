@@ -5,6 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sgalera.gaztelubira.databinding.FragmentMatchesBinding
 import com.sgalera.gaztelubira.domain.model.matches.Match
@@ -12,6 +17,8 @@ import com.sgalera.gaztelubira.domain.model.Team.*
 import com.sgalera.gaztelubira.domain.model.matches.Starters
 import com.sgalera.gaztelubira.ui.matches.adapter.MatchesAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MatchesFragment : Fragment() {
@@ -20,6 +27,8 @@ class MatchesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var matchesAdapter: MatchesAdapter
+
+    private val matchesViewModel by viewModels<MatchesViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,67 +44,29 @@ class MatchesFragment : Fragment() {
     }
 
     private fun initUI() {
-        initList()
+        initComponents()
+        initUIState()
         initRecyclerView()
     }
 
-    private fun initRecyclerView() {
-        matchesAdapter = MatchesAdapter(
-            listOf(
-                Match(
-                    local = "Gaztelu Bira",
-                    visitor = "Aterbea",
-                    localGoals = 3,
-                    visitorGoals = 1,
-                    starters = Starters(
-                        goalKeeper = "Iker Casillas",
-                        rightBack = "Dani Alves",
-                        leftBack = "Marcelo",
-                        rightCentreBack = "Sergio Ramos",
-                        leftCentreBack = "Gerard Piqué",
-                        defensiveMidFielder = "Xabi Alonso",
-                        rightMidFielder = "Lionel Messi",
-                        leftMidFielder = "Andrés Iniesta",
-                        rightStriker = "Cristiano Ronaldo",
-                        leftStriker = "Karim Benzema",
-                        striker = "Karim Benzema"
-                    ),
-                    scorers = listOf("Cristiano Ronaldo", "Karim Benzema", "Lionel Messi"),
-                    assitants = listOf("Lionel Messi", "Andrés Iniesta", "Karim Benzema"),
-                    bench = listOf("Gareth Bale", "Luka Modric", "Sergio Busquets")
-                ),
-                Match(
-                    local = "Gaztelu Bira",
-                    visitor = "Aterbea",
-                    localGoals = 3,
-                    visitorGoals = 1,
-                    starters = Starters(
-                        goalKeeper = "Iker Casillas",
-                        rightBack = "Dani Alves",
-                        leftBack = "Marcelo",
-                        rightCentreBack = "Sergio Ramos",
-                        leftCentreBack = "Gerard Piqué",
-                        defensiveMidFielder = "Xabi Alonso",
-                        rightMidFielder = "Lionel Messi",
-                        leftMidFielder = "Andrés Iniesta",
-                        rightStriker = "Cristiano Ronaldo",
-                        leftStriker = "Karim Benzema",
-                        striker = "Karim Benzema"
-                    ),
-                    scorers = listOf("Cristiano Ronaldo", "Karim Benzema", "Lionel Messi"),
-                    assitants = listOf("Lionel Messi", "Andrés Iniesta", "Karim Benzema"),
-                    bench = listOf("Gareth Bale", "Luka Modric", "Sergio Busquets")
-                ),
-            )
-        )
+    private fun initComponents() {
+        matchesAdapter = MatchesAdapter()
+    }
 
+    private fun initUIState() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                matchesViewModel.matches.collect{
+                    matchesAdapter.updateList(it)
+                }
+            }
+        }
+    }
+
+    private fun initRecyclerView() {
         binding.recyclerViewMatches.apply {
             adapter = matchesAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
-    }
-
-    private fun initList() {
-        // Get matches from call here
     }
 }
