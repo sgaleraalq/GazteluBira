@@ -10,5 +10,6 @@ data class Starters(
     val rightMidFielder: String,
     val leftMidFielder: String,
     val rightStriker: String,
-    val leftStriker: String
+    val leftStriker: String,
+    val striker: String
 )
