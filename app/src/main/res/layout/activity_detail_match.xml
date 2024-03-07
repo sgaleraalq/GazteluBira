@@ -19,13 +19,23 @@
         <ImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:contentDescription="@string/description_football_field"
             android:scaleType="centerCrop"
             android:src="@drawable/img_football_field"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/description_football_field" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/ic_player_dot"
+            app:layout_constraintBottom_toBottomOf="@id/relativeLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/relativeLayout" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
