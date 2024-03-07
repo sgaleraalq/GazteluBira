@@ -16,5 +16,16 @@ class DetailMatchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail_match)
         binding = ActivityDetailMatchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initUI()
+    }
+
+    private fun initUI() {
+        initListeners()
+    }
+
+    private fun initListeners() {
+        binding.ivBack.setOnClickListener {
+            onBackPressed()
+        }
     }
 }
