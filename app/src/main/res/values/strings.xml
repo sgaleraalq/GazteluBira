@@ -16,6 +16,9 @@
     // Matches Item
     <string name="slash">-</string>
 
+    // Matches detail
+    <string name="starter_team">Starter team</string>
+
     // Stats fragment
 
     // Teams
@@ -34,6 +37,8 @@
     <string name="lezkairu">Lezkairu</string>
 
     // Image descriptions
+    <string name="description_gaztelu_bira">Gaztelu Bira image</string>
     <string name="description_football_field">Football Field</string>
     <string name="description_football_dot">Football player dot</string>
+    <string name="description_ic_back">Back icon</string>
 </resources>

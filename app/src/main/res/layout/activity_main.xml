@@ -1,29 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/toolBar"
+    <TextView
+        android:id="@+id/tvGazteluBira"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/primary_dark"
+        android:gravity="center_vertical"
+        android:paddingStart="32dp"
+        android:text="@string/gaztelu_bira"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/ivGazteluBira"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivGazteluBira"
+        app:layout_constraintTop_toTopOf="@id/ivGazteluBira"
+        tools:ignore="RtlSymmetry" />
+
+    <ImageView
+        android:id="@+id/ivGazteluBira"
+        android:layout_width="66dp"
+        android:background="@color/primary_dark"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="start"
+        android:paddingStart="16dp"
+        android:contentDescription="@string/description_gaztelu_bira"
+        android:paddingVertical="8dp"
+        android:src="@drawable/img_gaztelu_bira"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="RtlSymmetry" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/gaztelu_bira"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-    </FrameLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
@@ -34,7 +46,7 @@
         app:layout_constraintBottom_toTopOf="@id/bottomNavView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolBar"
+        app:layout_constraintTop_toBottomOf="@id/tvGazteluBira"
         app:navGraph="@navigation/main_graph" />
 
 
