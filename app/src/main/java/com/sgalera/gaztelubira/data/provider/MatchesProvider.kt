@@ -13,13 +13,20 @@ class MatchesProvider @Inject constructor() {
                 id = 1,
                 homeTeam = "Gaztelu Bira",
                 awayTeam = "Esmeraldeños",
-                homeGoals = 3,
-                awayGoals = 2
+                homeGoals = 2,
+                awayGoals = 3
             ),
             MatchInfo(
                 id = 2,
                 homeTeam = "Aterbea",
                 awayTeam = "Gaztelu Bira",
+                homeGoals = 2,
+                awayGoals = 2
+            ),
+            MatchInfo(
+                id = 3,
+                homeTeam = "Gaztelu Bira",
+                awayTeam = "Anaitasuna",
                 homeGoals = 3,
                 awayGoals = 2
             )
