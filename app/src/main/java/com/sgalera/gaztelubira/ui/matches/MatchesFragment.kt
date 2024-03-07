@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sgalera.gaztelubira.databinding.FragmentMatchesBinding
 import com.sgalera.gaztelubira.domain.model.matches.Match
@@ -50,13 +51,17 @@ class MatchesFragment : Fragment() {
     }
 
     private fun initComponents() {
-        matchesAdapter = MatchesAdapter()
+        matchesAdapter = MatchesAdapter(onItemSelected = {
+            findNavController().navigate(
+                MatchesFragmentDirections.actionMatchesFragmentToDetailMatchActivity()
+            )
+        })
     }
 
     private fun initUIState() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                matchesViewModel.matches.collect{
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                matchesViewModel.matches.collect {
                     matchesAdapter.updateList(it)
                 }
             }

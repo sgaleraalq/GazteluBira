@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.domain.model.matches.Match
 
-class MatchesAdapter(private var matchesList: List<Match> = emptyList()) :
+class MatchesAdapter(
+    private var matchesList: List<Match> = emptyList(),
+    onItemSelected: (Int) -> Unit
+) :
     RecyclerView.Adapter<MatchesViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchesViewHolder {
         return MatchesViewHolder(
