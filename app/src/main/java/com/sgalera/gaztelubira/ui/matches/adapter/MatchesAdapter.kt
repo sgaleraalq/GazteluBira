@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.domain.model.matches.Match
+import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
 
 class MatchesAdapter(
-    private var matchesList: List<Match> = emptyList(),
+    private var matchesList: List<MatchInfo> = emptyList(),
     private val onItemSelected: (Int) -> Unit
 ) :
     RecyclerView.Adapter<MatchesViewHolder>() {
@@ -25,7 +26,7 @@ class MatchesAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateList(list: List<Match>) {
+    fun updateList(list: List<MatchInfo>) {
         matchesList = list
         notifyDataSetChanged()
     }
