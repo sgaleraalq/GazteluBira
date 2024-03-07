@@ -32,4 +32,7 @@
     <string name="san_cristobal">San Cristobal</string>
     <string name="tingla2_legens">Tingla2 Legens</string>
     <string name="lezkairu">Lezkairu</string>
+
+    // Image descriptions
+    <string name="description_football_field">Football Field</string>
 </resources>
