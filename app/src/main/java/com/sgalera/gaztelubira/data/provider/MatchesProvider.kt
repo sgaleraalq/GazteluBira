@@ -1,9 +1,7 @@
 package com.sgalera.gaztelubira.data.provider
 
-import com.sgalera.gaztelubira.domain.model.Team.*
-import com.sgalera.gaztelubira.domain.model.matches.Match
+import com.google.firebase.Firebase
 import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
-import com.sgalera.gaztelubira.domain.model.matches.Starters
 import javax.inject.Inject
 
 class MatchesProvider @Inject constructor() {
