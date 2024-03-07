@@ -9,7 +9,7 @@ import com.sgalera.gaztelubira.domain.model.matches.Match
 
 class MatchesAdapter(
     private var matchesList: List<Match> = emptyList(),
-    onItemSelected: (Int) -> Unit
+    private val onItemSelected: (Int) -> Unit
 ) :
     RecyclerView.Adapter<MatchesViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchesViewHolder {
@@ -21,7 +21,7 @@ class MatchesAdapter(
     override fun getItemCount() = matchesList.size
 
     override fun onBindViewHolder(holder: MatchesViewHolder, position: Int) {
-        holder.render(matchesList[position])
+        holder.render(matchesList[position], onItemSelected)
     }
 
     @SuppressLint("NotifyDataSetChanged")

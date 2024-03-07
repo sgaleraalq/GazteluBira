@@ -53,7 +53,7 @@ class MatchesFragment : Fragment() {
     private fun initComponents() {
         matchesAdapter = MatchesAdapter(onItemSelected = {
             findNavController().navigate(
-                MatchesFragmentDirections.actionMatchesFragmentToDetailMatchActivity()
+                MatchesFragmentDirections.actionMatchesFragmentToDetailMatchActivity(it)
             )
         })
     }

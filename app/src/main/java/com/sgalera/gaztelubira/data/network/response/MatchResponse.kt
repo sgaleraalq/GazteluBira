@@ -7,6 +7,7 @@ import com.sgalera.gaztelubira.domain.model.matches.Match
 import com.sgalera.gaztelubira.domain.model.matches.Starters
 
 data class MatchResponse (
+    @SerializedName("id") val id: Int,
     @SerializedName("home_team") val homeTeam: String,
     @SerializedName("away_team") val awayTeam: String,
     @SerializedName("home_goals") val homeGoals: Int,
@@ -17,6 +18,7 @@ data class MatchResponse (
     @SerializedName("bench") val bench: List<String>
 ){
     fun toDomain() = Match(
+        id = id,
         local = mapTeam(homeTeam),
         visitor = mapTeam(awayTeam),
         localGoals = homeGoals,

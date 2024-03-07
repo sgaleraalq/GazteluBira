@@ -10,7 +10,7 @@ import com.sgalera.gaztelubira.domain.model.matches.Match
 
 class MatchesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val binding = ItemMatchesBinding.bind(view)
-    fun render(match: Match) {
+    fun render(match: Match, onItemSelected: (Int) -> Unit) {
         val context = binding.tvLocalName.context
 
         // Local variables
@@ -22,9 +22,13 @@ class MatchesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         binding.ivVisitorTeam.setImageResource(getImage(match.visitor))
         binding.tvVisitorName.text = context.getString(match.visitor.name)
         binding.tvGoalsVisitor.text = match.visitorGoals.toString()
+
+        binding.parent.setOnClickListener {
+            onItemSelected(match.id)
+        }
     }
 
-    fun getImage(team: Team): Int {
+    private fun getImage(team: Team): Int {
         return when(team) {
             GazteluBira -> R.drawable.img_gaztelu_bira
             Anaitasuna -> R.drawable.img_anaitasuna

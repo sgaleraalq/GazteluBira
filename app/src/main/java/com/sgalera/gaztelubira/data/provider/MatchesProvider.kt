@@ -9,6 +9,7 @@ class MatchesProvider @Inject constructor() {
     fun getMatches(): List<Match>{
         return listOf(
             Match(
+                id = 1,
                 local = GazteluBira,
                 visitor = Aterbea,
                 localGoals = 3,
@@ -31,6 +32,7 @@ class MatchesProvider @Inject constructor() {
                 bench = listOf("Gareth Bale", "Luka Modric", "Sergio Busquets")
             ),
             Match(
+                id = 2,
                 local = GazteluBira,
                 visitor = EsicGazteak,
                 localGoals = 3,
