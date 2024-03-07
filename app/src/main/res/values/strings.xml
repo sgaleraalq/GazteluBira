@@ -35,4 +35,5 @@
 
     // Image descriptions
     <string name="description_football_field">Football Field</string>
+    <string name="description_football_dot">Football player dot</string>
 </resources>
