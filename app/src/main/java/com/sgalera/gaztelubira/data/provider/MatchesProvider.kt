@@ -1,15 +1,18 @@
 package com.sgalera.gaztelubira.data.provider
 
-import com.google.firebase.Firebase
+import com.sgalera.gaztelubira.data.network.services.MatchesApiService
 import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
-class MatchesProvider @Inject constructor() {
+class MatchesProvider @Inject constructor(private val matchesApiService: MatchesApiService) {
     fun getMatches(): List<MatchInfo> {
-
+        runBlocking(Dispatchers.IO) { matchesApiService.getMatchesInfo() }
         return listOf(
             MatchInfo(
                 id = 1,
+                match = "liga",
                 homeTeam = "Gaztelu Bira",
                 awayTeam = "Esmeraldeños",
                 homeGoals = 2,
@@ -17,6 +20,7 @@ class MatchesProvider @Inject constructor() {
             ),
             MatchInfo(
                 id = 2,
+                match = "copa",
                 homeTeam = "Aterbea",
                 awayTeam = "Gaztelu Bira",
                 homeGoals = 2,
@@ -24,6 +28,7 @@ class MatchesProvider @Inject constructor() {
             ),
             MatchInfo(
                 id = 3,
+                match = "liga",
                 homeTeam = "Gaztelu Bira",
                 awayTeam = "Anaitasuna",
                 homeGoals = 3,

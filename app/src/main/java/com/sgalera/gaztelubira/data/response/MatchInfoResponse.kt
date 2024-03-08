@@ -14,6 +14,7 @@ data class MatchInfoResponse(
     fun toDomain(): MatchInfo {
         return MatchInfo(
             id = id,
+            match = match,
             homeTeam = homeTeam,
             awayTeam = awayTeam,
             homeGoals = homeGoals,
