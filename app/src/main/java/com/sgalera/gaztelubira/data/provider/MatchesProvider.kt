@@ -5,8 +5,8 @@ import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
 import javax.inject.Inject
 
 class MatchesProvider @Inject constructor(private val matchesApiService: MatchesApiService) {
-    fun getMatches(): List<MatchInfo> {
-
+    suspend fun getMatches(): List<MatchInfo>? {
+        matchesApiService.getMatchesInfo()
         return listOf(
             MatchInfo(
                 id = 1,
