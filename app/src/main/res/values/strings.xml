@@ -41,4 +41,5 @@
     <string name="description_football_field">Football Field</string>
     <string name="description_football_dot">Football player dot</string>
     <string name="description_ic_back">Back icon</string>
+    <string name="description_type_of_match">Type of match (league or cup)</string>
 </resources>
