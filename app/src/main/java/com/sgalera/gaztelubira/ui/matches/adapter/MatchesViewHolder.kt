@@ -75,7 +75,7 @@ class MatchesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             LaUnica -> R.drawable.img_la_unica
             PenaSchool -> R.drawable.img_pena_school
             SanCristobal -> R.drawable.img_san_cristobal
-//            Lezkairu -> R.drawable.img_lezkairu
+            Lezkairu -> R.drawable.img_lezkairu
             else -> R.drawable.img_no_football_shield
         }
     }
