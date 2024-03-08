@@ -66,6 +66,7 @@ dependencies {
 
     // Firebase
     implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.firestore.ktx)
     implementation("com.google.firebase:firebase-analytics")
 
     implementation(libs.androidx.core.ktx)
