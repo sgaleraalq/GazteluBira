@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GazteluBira"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.matches.detail.DetailMatchActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.home.MainActivity"
             android:exported="true">

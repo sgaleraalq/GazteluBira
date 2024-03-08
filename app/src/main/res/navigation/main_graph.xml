@@ -8,7 +8,11 @@
         android:id="@+id/matchesFragment"
         android:name="com.sgalera.gaztelubira.ui.matches.MatchesFragment"
         android:label="fragment_matches"
-        tools:layout="@layout/fragment_matches" />
+        tools:layout="@layout/fragment_matches" >
+        <action
+            android:id="@+id/action_matchesFragment_to_detailMatchActivity"
+            app:destination="@id/detailMatchActivity" />
+    </fragment>
     <fragment
         android:id="@+id/playerFragment"
         android:name="com.sgalera.gaztelubira.ui.player.PlayerFragment"
@@ -19,4 +23,12 @@
         android:name="com.sgalera.gaztelubira.ui.stats.StatsFragment"
         android:label="fragment_stats"
         tools:layout="@layout/fragment_stats" />
+    <activity
+        android:id="@+id/detailMatchActivity"
+        android:name="com.sgalera.gaztelubira.ui.matches.detail.DetailMatchActivity"
+        android:label="activity_detail_match"
+        tools:layout="@layout/activity_detail_match" >
+        <argument android:name="match"
+            app:argType="integer" />
+    </activity>
 </navigation>

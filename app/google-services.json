@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "610988505981",
+    "project_id": "gaztelubira-2067b",
+    "storage_bucket": "gaztelubira-2067b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610988505981:android:4a44db8b535ae8adb1aa14",
+        "android_client_info": {
+          "package_name": "com.sgalera.gaztelubira"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCifrMpp28R90PmNe4kS22GNrmZaDNPuRU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
