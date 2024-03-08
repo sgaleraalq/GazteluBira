@@ -56,11 +56,27 @@ class MatchesFragment: Fragment() {
     private fun initUIState() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                matchesViewModel.matches.collect {
-                    matchesAdapter.updateList(it)
+                matchesViewModel.state.collect() {
+                    when (it) {
+                        MatchInfoState.Loading -> loadingState()
+                        is MatchInfoState.Error -> errorState()
+                        is MatchInfoState.Success -> successState(it)
+                    }
                 }
             }
         }
+    }
+
+    private fun successState(state: MatchInfoState.Success) {
+        println(state.matchesList)
+    }
+
+    private fun errorState() {
+        TODO("Not yet implemented")
+    }
+
+    private fun loadingState() {
+        TODO("Not yet implemented")
     }
 
     private fun initRecyclerView() {
