@@ -1,4 +1,4 @@
-package com.sgalera.gaztelubira.data.network.response
+package com.sgalera.gaztelubira.data.response
 
 import com.google.gson.annotations.SerializedName
 import com.sgalera.gaztelubira.domain.model.Team
