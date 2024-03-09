@@ -22,7 +22,6 @@ class MatchesViewModel @Inject constructor(matchesProvider: MatchesProvider) : V
             val result = withContext(Dispatchers.IO) { matchesProvider.getMatches() }
             if (result != null) {
                 _state.value = MatchInfoState.Success(result)
-
             } else {
                 _state.value = MatchInfoState.Error("Ha ocurrido un error, intentelo más tarde")
             }

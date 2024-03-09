@@ -1,6 +1,7 @@
 package com.sgalera.gaztelubira.data.network.services
 
 import android.util.Log
+import android.widget.Toast
 import com.sgalera.gaztelubira.data.network.firebase.FirebaseClient
 import com.sgalera.gaztelubira.data.response.MatchInfoResponse
 import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
@@ -21,7 +22,6 @@ class MatchesApiService @Inject constructor(private val firebase: FirebaseClient
             collection.documents.map { it.toObject(MatchInfoResponse::class.java)!!.toDomain() }
         }
     } catch (e: Exception) {
-        Log.e("MatchesApiService", "Error getting matches info", e)
         null
     }
 
