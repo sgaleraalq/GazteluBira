@@ -17,7 +17,9 @@
     <string name="slash">-</string>
 
     // Matches detail
+    <string name="match_information">Match information</string>
     <string name="starter_team">Starter team</string>
+    <string name="bench">Bench</string>
 
     // Stats fragment
 
@@ -42,4 +44,6 @@
     <string name="description_football_dot">Football player dot</string>
     <string name="description_ic_back">Back icon</string>
     <string name="description_type_of_match">Type of match (league or cup)</string>
+    <string name="description_team">Team logo</string>
+    <string name="description_goal_icon">Goal icon</string>
 </resources>
