@@ -1,6 +1,7 @@
 package com.sgalera.gaztelubira.ui.matches
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -56,7 +57,7 @@ class MatchesFragment: Fragment() {
     private fun initUIState() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                matchesViewModel.state.collect() {
+                matchesViewModel.state.collect {
                     when (it) {
                         MatchInfoState.Loading -> loadingState()
                         is MatchInfoState.Error -> errorState()
@@ -68,15 +69,16 @@ class MatchesFragment: Fragment() {
     }
 
     private fun successState(state: MatchInfoState.Success) {
-        println(state.matchesList)
+        binding.progressBar.visibility = View.INVISIBLE
+        matchesAdapter.updateList(state.matchesList.sortedBy { it.id })
     }
 
     private fun errorState() {
-        TODO("Not yet implemented")
+        Log.e("sgalera", "Ha ocurrido un error")
     }
 
     private fun loadingState() {
-        TODO("Not yet implemented")
+        binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun initRecyclerView() {
