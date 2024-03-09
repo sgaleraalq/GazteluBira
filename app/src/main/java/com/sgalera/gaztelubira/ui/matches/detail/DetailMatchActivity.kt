@@ -1,7 +1,10 @@
 package com.sgalera.gaztelubira.ui.matches.detail
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +14,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.navArgs
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityDetailMatchBinding
+import com.sgalera.gaztelubira.domain.model.Team
+import com.sgalera.gaztelubira.domain.model.matches.Match
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -35,8 +40,9 @@ class DetailMatchActivity : AppCompatActivity() {
 
     private fun initUIState() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                matchViewModel.state.collect{
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                matchViewModel.getMatch(args.id)
+                matchViewModel.state.collect {
                     when (it) {
                         DetailMatchState.Loading -> loadingState()
                         is DetailMatchState.Error -> errorState(it.error)
@@ -53,12 +59,46 @@ class DetailMatchActivity : AppCompatActivity() {
 
     private fun errorState(error: String) {
         binding.progressBar.visibility = View.INVISIBLE
-        Toast.makeText(this, "Error: $error", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Error: $error", Toast.LENGTH_LONG).show()
     }
 
-    private fun successState(state: DetailMatchState.Success){
+    private fun successState(state: DetailMatchState.Success) {
         binding.progressBar.visibility = View.INVISIBLE
-        println(state.match)
+        initComponents(state.match)
+    }
+
+    private fun initComponents(match: Match) {
+        binding.tvSlash.visibility = View.VISIBLE
+        binding.clStarters.visibility = View.VISIBLE
+
+        // Local
+        binding.ivLocalTeam.setImageResource(match.local.img)
+        binding.tvLocalTeam.text = this.getString(match.local.name)
+        binding.tvLocalGoals.text = match.localGoals.toString()
+
+        // Visitor
+        binding.ivAwayTeam.setImageResource(match.visitor.img)
+        binding.tvAwayTeam.text = this.getString(match.visitor.name)
+        binding.tvAwayGoals.text = match.visitorGoals.toString()
+
+        initLinearLayouts(match.scorers, match.assistants)
+    }
+
+    private fun initLinearLayouts(goalPlayers: List<String>, assistsPlayers: List<String>) {
+        for (player in goalPlayers){
+            val inflater = LayoutInflater.from(this)
+            val itemLayout = inflater.inflate(R.layout.item_detail_match, null) as View
+            itemLayout.findViewById<TextView>(R.id.tvPlayer).text = player.capitalize()
+            itemLayout.findViewById<ImageView>(R.id.ivGoal).setImageResource(R.drawable.ic_football_ball)
+            binding.llGoals.addView(itemLayout)
+        }
+        for (player in assistsPlayers){
+            val inflater = LayoutInflater.from(this)
+            val itemLayout = inflater.inflate(R.layout.item_detail_match, null) as View
+            itemLayout.findViewById<TextView>(R.id.tvPlayer).text = player.capitalize()
+            itemLayout.findViewById<ImageView>(R.id.ivGoal).setImageResource(R.drawable.ic_football_shoe)
+            binding.llAssists.addView(itemLayout)
+        }
     }
 
     private fun initListeners() {
@@ -66,4 +106,5 @@ class DetailMatchActivity : AppCompatActivity() {
             onBackPressed()
         }
     }
+
 }
