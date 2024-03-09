@@ -1,7 +1,6 @@
 package com.sgalera.gaztelubira.data.response
 
 import com.google.firebase.firestore.PropertyName
-import com.google.gson.annotations.SerializedName
 import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
 
 data class MatchInfoResponse(
