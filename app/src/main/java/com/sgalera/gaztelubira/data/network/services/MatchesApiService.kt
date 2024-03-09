@@ -4,6 +4,7 @@ import android.util.Log
 import android.widget.Toast
 import com.sgalera.gaztelubira.data.network.firebase.FirebaseClient
 import com.sgalera.gaztelubira.data.response.MatchInfoResponse
+import com.sgalera.gaztelubira.domain.model.matches.Match
 import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -23,6 +24,10 @@ class MatchesApiService @Inject constructor(private val firebase: FirebaseClient
         }
     } catch (e: Exception) {
         null
+    }
+
+    suspend fun getMatch(): Match? {
+        TODO("Not yet implemented")
     }
 
 }
