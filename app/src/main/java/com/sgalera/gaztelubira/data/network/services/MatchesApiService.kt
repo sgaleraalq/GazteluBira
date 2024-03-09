@@ -13,18 +13,17 @@ class MatchesApiService @Inject constructor(private val firebase: FirebaseClient
         const val MATCHES_STATS = "matches_stats"
     }
 
-    suspend fun getMatchesInfo(): List<MatchInfo>? {
-        return try{
-            val collection = firebase.db.collection(MATCHES_INFO).get().await()
-            if (collection.isEmpty) {
-                null
-            } else {
-                collection.documents.map { it.toObject(MatchInfoResponse::class.java)!!.toDomain() }
-            }
-        } catch (e: Exception) {
-            Log.e("MatchesApiService", "Error getting matches info", e)
+    suspend fun getMatchesInfo(): List<MatchInfo>? = try {
+        val collection = firebase.db.collection(MATCHES_INFO).get().await()
+        if (collection.isEmpty) {
             null
+        } else {
+            collection.documents.map { it.toObject(MatchInfoResponse::class.java)!!.toDomain() }
         }
+    } catch (e: Exception) {
+        Log.e("MatchesApiService", "Error getting matches info", e)
+        null
     }
+
 }
 
