@@ -26,9 +26,10 @@ class MatchesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         setCardBackgroundColor(match)
 
-        if (match.awayTeam == "Lezkairu") {
-            Log.d("sgalera", "Match type: ${match.match}")
+        if (match.match == "copa") {
             binding.ivMatchType.setImageResource(R.drawable.ic_cup)
+        } else {
+            binding.ivMatchType.setImageResource(0)
         }
 
         binding.parent.setOnClickListener {
