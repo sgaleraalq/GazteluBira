@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailMatchViewModel @Inject constructor(private val matchesApiService: MatchesApiService): ViewModel() {
     private var _state = MutableStateFlow<DetailMatchState>(DetailMatchState.Loading)
-    private val state = _state
+    val state = _state
 
     init {
         viewModelScope.launch {

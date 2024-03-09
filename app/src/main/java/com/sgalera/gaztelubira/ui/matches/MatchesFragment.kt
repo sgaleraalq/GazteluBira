@@ -61,7 +61,7 @@ class MatchesFragment: Fragment() {
                 matchesViewModel.state.collect {
                     when (it) {
                         MatchInfoState.Loading -> loadingState()
-                        is MatchInfoState.Error -> errorState()
+                        is MatchInfoState.Error -> errorState(it.error)
                         is MatchInfoState.Success -> successState(it)
                     }
                 }
@@ -74,9 +74,9 @@ class MatchesFragment: Fragment() {
         matchesAdapter.updateList(state.matchesList.sortedBy { it.id })
     }
 
-    private fun errorState() {
+    private fun errorState(error: String) {
         binding.progressBar.visibility = View.INVISIBLE
-        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Error $error", Toast.LENGTH_SHORT).show()
     }
 
     private fun loadingState() {
