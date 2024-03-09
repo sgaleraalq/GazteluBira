@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -74,7 +75,8 @@ class MatchesFragment: Fragment() {
     }
 
     private fun errorState() {
-        Log.e("sgalera", "Ha ocurrido un error")
+        binding.progressBar.visibility = View.INVISIBLE
+        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
     }
 
     private fun loadingState() {
