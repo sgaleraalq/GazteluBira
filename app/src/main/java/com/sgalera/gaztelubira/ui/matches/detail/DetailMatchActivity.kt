@@ -105,7 +105,7 @@ class DetailMatchActivity : AppCompatActivity() {
             val itemLayout = inflater.inflate(R.layout.item_bench, null) as View
             itemLayout.findViewById<TextView>(R.id.tvBenchPlayer).text = player.capitalize()
             itemLayout.findViewById<TextView>(R.id.tvDorsal).text = "10" // TODO
-            binding.llAssists.addView(itemLayout)
+            binding.llBench.addView(itemLayout)
         }
 
     }
