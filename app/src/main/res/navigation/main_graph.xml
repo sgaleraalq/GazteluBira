@@ -28,7 +28,7 @@
         android:name="com.sgalera.gaztelubira.ui.matches.detail.DetailMatchActivity"
         android:label="activity_detail_match"
         tools:layout="@layout/activity_detail_match" >
-        <argument android:name="match"
+        <argument android:name="id"
             app:argType="integer" />
     </activity>
 </navigation>

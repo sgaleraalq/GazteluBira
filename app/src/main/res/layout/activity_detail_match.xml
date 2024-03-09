@@ -61,6 +61,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/frameLayout" />
 
+        <TextView
+            android:id="@+id/tvLocalTeam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/ivLocalTeam"
+            app:layout_constraintStart_toStartOf="@id/ivLocalTeam"
+            app:layout_constraintTop_toBottomOf="@id/ivLocalTeam"
+            tools:text="Gaztelu Bira" />
+
         <ImageView
             android:id="@+id/ivAwayTeam"
             android:layout_width="70dp"
@@ -70,6 +81,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tvSlash"
             app:layout_constraintTop_toTopOf="@id/ivLocalTeam" />
+
+        <TextView
+            android:id="@+id/tvAwayTeam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/ivAwayTeam"
+            app:layout_constraintStart_toStartOf="@id/ivAwayTeam"
+            app:layout_constraintTop_toBottomOf="@id/ivAwayTeam"
+            tools:text="Gaztelu Bira" />
 
         <TextView
             android:id="@+id/tvSlash"
@@ -117,7 +139,7 @@
             android:background="@color/antique_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivLocalTeam" />
+            app:layout_constraintTop_toBottomOf="@id/tvLocalTeam" />
 
         <LinearLayout
             android:id="@+id/llGoals"
@@ -162,7 +184,7 @@
             android:layout_height="200dp"
             android:layout_marginHorizontal="4dp"
             android:layout_marginTop="16dp"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvStarters">
