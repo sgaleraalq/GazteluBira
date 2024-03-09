@@ -18,6 +18,7 @@ import com.sgalera.gaztelubira.domain.model.Team
 import com.sgalera.gaztelubira.domain.model.matches.Match
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.w3c.dom.Text
 
 @AndroidEntryPoint
 class DetailMatchActivity : AppCompatActivity() {
@@ -81,10 +82,10 @@ class DetailMatchActivity : AppCompatActivity() {
         binding.tvAwayTeam.text = this.getString(match.visitor.name)
         binding.tvAwayGoals.text = match.visitorGoals.toString()
 
-        initLinearLayouts(match.scorers, match.assistants)
+        initLinearLayouts(match.scorers, match.assistants, match.bench)
     }
 
-    private fun initLinearLayouts(goalPlayers: List<String>, assistsPlayers: List<String>) {
+    private fun initLinearLayouts(goalPlayers: List<String>, assistsPlayers: List<String>, bench: List<String>) {
         for (player in goalPlayers){
             val inflater = LayoutInflater.from(this)
             val itemLayout = inflater.inflate(R.layout.item_detail_match, null) as View
@@ -99,6 +100,14 @@ class DetailMatchActivity : AppCompatActivity() {
             itemLayout.findViewById<ImageView>(R.id.ivGoal).setImageResource(R.drawable.ic_football_shoe)
             binding.llAssists.addView(itemLayout)
         }
+        for (player in bench){
+            val inflater = LayoutInflater.from(this)
+            val itemLayout = inflater.inflate(R.layout.item_bench, null) as View
+            itemLayout.findViewById<TextView>(R.id.tvBenchPlayer).text = player.capitalize()
+            itemLayout.findViewById<TextView>(R.id.tvDorsal).text = "10" // TODO
+            binding.llAssists.addView(itemLayout)
+        }
+
     }
 
     private fun initListeners() {
