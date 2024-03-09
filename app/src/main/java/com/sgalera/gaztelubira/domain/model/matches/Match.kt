@@ -4,13 +4,14 @@ import com.sgalera.gaztelubira.domain.model.Team
 
 data class Match(
     val id: Int,
+    val match: String,
     val local: Team,
     val visitor: Team,
     val localGoals: Int,
     val visitorGoals: Int,
     val scorers: List<String>,
-    val assitants: List<String>,
-    val starters: Starters,
+    val assistants: List<String>,
+    val starters: Map<String, String>,
     val bench: List<String>
 )
 

@@ -1,9 +1,8 @@
 package com.sgalera.gaztelubira.data.network.services
 
-import android.util.Log
-import android.widget.Toast
 import com.sgalera.gaztelubira.data.network.firebase.FirebaseClient
 import com.sgalera.gaztelubira.data.response.MatchInfoResponse
+import com.sgalera.gaztelubira.data.response.MatchResponse
 import com.sgalera.gaztelubira.domain.model.matches.Match
 import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
 import kotlinx.coroutines.tasks.await
@@ -26,9 +25,12 @@ class MatchesApiService @Inject constructor(private val firebase: FirebaseClient
         null
     }
 
-    suspend fun getMatch(): Match? {
-        TODO("Not yet implemented")
+    suspend fun getMatch(id: Int): Match? {
+        val document = firebase.db.collection(MATCHES_STATS).document(id.toString()).get().await()
+        if (document != null){
+            return document.toObject(MatchResponse::class.java)!!.toDomain()
+        }
+        return null
     }
-
 }
 

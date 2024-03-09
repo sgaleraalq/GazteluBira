@@ -3,6 +3,7 @@ package com.sgalera.gaztelubira.ui.matches.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.data.network.services.MatchesApiService
+import com.sgalera.gaztelubira.data.provider.MatchesProvider
 import com.sgalera.gaztelubira.domain.model.matches.Match
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -13,14 +14,14 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailMatchViewModel @Inject constructor(private val matchesApiService: MatchesApiService): ViewModel() {
+class DetailMatchViewModel @Inject constructor(private val matchesProvider: MatchesProvider): ViewModel() {
     private var _state = MutableStateFlow<DetailMatchState>(DetailMatchState.Loading)
     val state = _state
 
-    init {
+    fun getMatch(id: Int){
         viewModelScope.launch {
             _state.value = DetailMatchState.Loading
-            val result = withContext(Dispatchers.IO){ matchesApiService.getMatch() }
+            val result = withContext(Dispatchers.IO){ matchesProvider.getMatch(id = id) }
             if (result != null){
                 _state.value = DetailMatchState.Success(result)
             } else{
