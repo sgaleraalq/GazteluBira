@@ -46,4 +46,6 @@
     <string name="description_type_of_match">Type of match (league or cup)</string>
     <string name="description_team">Team logo</string>
     <string name="description_goal_icon">Goal icon</string>
+    <string name="description_football_player">Football player</string>
+    <string name="description_stats_icon">Stat icon</string>
 </resources>
