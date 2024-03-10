@@ -223,15 +223,9 @@
             <include
                 android:id="@+id/ivGoalKeeper"
                 layout="@layout/starters_dorsal_image_view"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"  />
-
-            <ImageView
-                android:id="@+id/ivGoalKeeper"
-                style="@style/dots_football_field"
-                android:layout_marginStart="20dp"
-                android:contentDescription="@string/description_football_dot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -239,17 +233,17 @@
             <TextView
                 android:id="@+id/tvGoalKeeper"
                 style="@style/text_view_players_football_field"
-                android:layout_marginStart="4dp"
                 app:layout_constraintEnd_toEndOf="@id/ivGoalKeeper"
                 app:layout_constraintStart_toStartOf="@id/ivGoalKeeper"
                 app:layout_constraintTop_toBottomOf="@id/ivGoalKeeper"
                 tools:text="Whasdfjañsdlf" />
 
-            <ImageView
+            <include
                 android:id="@+id/ivRightBack"
-                style="@style/dots_football_field"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
-                android:contentDescription="@string/description_football_dot"
                 app:layout_constraintBottom_toTopOf="@id/tvRightBack"
                 app:layout_constraintEnd_toEndOf="@id/middlePoint"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -263,16 +257,18 @@
                 app:layout_constraintStart_toStartOf="@id/ivRightBack"
                 tools:text="Whasdfjañsdlf" />
 
-            <ImageView
+            <include
                 android:id="@+id/ivRightCentreBack"
-                style="@style/dots_football_field"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginBottom="30dp"
-                android:contentDescription="@string/description_football_dot"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/ivRightBack"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/middlePoint" />
+
 
             <TextView
                 android:id="@+id/tvRightCentreBack"
@@ -282,11 +278,12 @@
                 app:layout_constraintTop_toBottomOf="@id/ivRightCentreBack"
                 tools:text="Whasdfjañsdlf" />
 
-            <ImageView
+            <include
                 android:id="@+id/ivLeftCentreBack"
-                style="@style/dots_football_field"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:contentDescription="@string/description_football_dot"
                 app:layout_constraintBottom_toBottomOf="@id/middlePoint"
                 app:layout_constraintEnd_toEndOf="@id/ivRightCentreBack"
                 app:layout_constraintStart_toStartOf="@id/ivRightCentreBack"
@@ -300,11 +297,12 @@
                 app:layout_constraintTop_toBottomOf="@id/ivLeftCentreBack"
                 tools:text="añjsfdalsd" />
 
-            <ImageView
+            <include
                 android:id="@+id/ivLeftBack"
-                style="@style/dots_football_field"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:contentDescription="@string/description_football_dot"
                 app:layout_constraintEnd_toEndOf="@id/ivRightBack"
                 app:layout_constraintStart_toStartOf="@id/ivRightBack"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -317,10 +315,11 @@
                 app:layout_constraintTop_toBottomOf="@id/ivLeftBack"
                 tools:text="lkañsjdfñalks" />
 
-            <ImageView
+            <include
                 android:id="@+id/ivDefensiveMidFielder"
-                style="@style/dots_football_field"
-                android:contentDescription="@string/description_football_dot"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/middlePoint"
                 app:layout_constraintStart_toStartOf="@id/ivRightBack"
@@ -334,12 +333,13 @@
                 app:layout_constraintTop_toBottomOf="@id/ivDefensiveMidFielder"
                 tools:text="lkñajsdfañlsajf" />
 
-            <ImageView
+            <include
                 android:id="@+id/ivRightMidFielder"
-                style="@style/dots_football_field"
-                android:layout_marginStart="40dp"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="-10dp"
-                android:contentDescription="@string/description_football_dot"
                 app:layout_constraintStart_toStartOf="@id/middlePoint"
                 app:layout_constraintTop_toTopOf="@id/ivRightCentreBack" />
 
@@ -351,11 +351,12 @@
                 app:layout_constraintTop_toBottomOf="@id/ivRightMidFielder"
                 tools:text="ñalksdfjañfd" />
 
-            <ImageView
+            <include
                 android:id="@+id/ivLeftMidFielder"
-                style="@style/dots_football_field"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:contentDescription="@string/description_football_dot"
                 app:layout_constraintEnd_toEndOf="@id/ivRightMidFielder"
                 app:layout_constraintStart_toStartOf="@id/ivRightMidFielder"
                 app:layout_constraintTop_toTopOf="@id/ivLeftCentreBack" />
@@ -368,11 +369,12 @@
                 app:layout_constraintTop_toBottomOf="@id/ivLeftMidFielder"
                 tools:text="alñsjfdafa" />
 
-            <ImageView
+            <include
                 android:id="@+id/ivRightStriker"
-                style="@style/dots_football_field"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:contentDescription="@string/description_football_dot"
                 app:layout_constraintBottom_toBottomOf="@id/ivRightBack"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/middlePoint" />
@@ -385,11 +387,12 @@
                 app:layout_constraintTop_toBottomOf="@id/ivRightStriker"
                 tools:text="jañlsfdkjads" />
 
-            <ImageView
+            <include
                 android:id="@+id/ivLeftStriker"
-                style="@style/dots_football_field"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:contentDescription="@string/description_football_dot"
                 app:layout_constraintStart_toStartOf="@id/ivRightStriker"
                 app:layout_constraintTop_toTopOf="@id/ivLeftBack" />
 
@@ -401,11 +404,12 @@
                 app:layout_constraintTop_toBottomOf="@id/ivLeftStriker"
                 tools:text="jalñsdfjas" />
 
-            <ImageView
+            <include
                 android:id="@+id/ivStriker"
-                style="@style/dots_football_field"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="40dp"
-                android:contentDescription="@string/description_football_dot"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/ivRightStriker"
