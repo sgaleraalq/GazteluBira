@@ -54,4 +54,5 @@
     <string name="description_goal_icon">Goal icon</string>
     <string name="description_football_player">Football player</string>
     <string name="description_stats_icon">Stat icon</string>
+    <string name="description_versus">Versus icon</string>
 </resources>

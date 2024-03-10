@@ -7,24 +7,18 @@
     android:background="@color/primary"
     tools:context=".ui.player_compare.PlayerCompareFragment">
 
-    <View
-        android:id="@+id/vMiddlePoint"
-        android:layout_width="0.1dp"
-        android:layout_height="0.1dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/ivPlayerOne"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         android:background="@color/main_red"
         android:contentDescription="@string/description_football_player"
         android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@id/vMiddlePoint"
-        app:layout_constraintTop_toTopOf="parent">
+        android:src="@drawable/img_dani"
+        app:layout_constraintBottom_toBottomOf="@id/ivVersus"
+        app:layout_constraintEnd_toStartOf="@id/ivVersus"
+        app:layout_constraintTop_toTopOf="@id/ivVersus">
 
     </ImageView>
 
@@ -33,13 +27,26 @@
         android:id="@+id/ivPlayerTwo"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@color/main_red"
+        android:layout_marginStart="32dp"
         android:contentDescription="@string/description_football_player"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="@id/vMiddlePoint"
+        android:src="@drawable/img_xabi"
+        app:layout_constraintStart_toEndOf="@id/ivVersus"
         app:layout_constraintTop_toTopOf="@id/ivPlayerOne">
 
     </ImageView>
+
+    <ImageView
+        android:id="@+id/ivVersus"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:contentDescription="@string/description_versus"
+        android:src="@drawable/ic_versus"
+        app:layout_constraintBottom_toTopOf="@id/llComparisonStats"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/llComparisonStats"
@@ -47,10 +54,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:orientation="vertical"
+        android:paddingHorizontal="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPlayerOne">
+        app:layout_constraintTop_toBottomOf="@+id/ivVersus">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
