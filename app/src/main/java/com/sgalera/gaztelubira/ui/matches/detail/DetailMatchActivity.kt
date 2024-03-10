@@ -1,6 +1,7 @@
 package com.sgalera.gaztelubira.ui.matches.detail
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -25,6 +26,16 @@ class DetailMatchActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailMatchBinding
     private val matchViewModel: DetailMatchViewModel by viewModels()
     private val args: DetailMatchActivityArgs by navArgs()
+
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        outState.putBoolean("hasDataLoaded", matchViewModel.hasDataLoaded)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        matchViewModel.hasDataLoaded = savedInstanceState.getBoolean("hasDataLoaded", false)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +76,9 @@ class DetailMatchActivity : AppCompatActivity() {
 
     private fun successState(state: DetailMatchState.Success) {
         binding.progressBar.visibility = View.INVISIBLE
-        initComponents(state.match)
+        if (!matchViewModel.hasDataLoaded) {
+            initComponents(state.match)
+        }
     }
 
     private fun initComponents(match: Match) {

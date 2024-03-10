@@ -17,7 +17,7 @@ import javax.inject.Inject
 class DetailMatchViewModel @Inject constructor(private val matchesProvider: MatchesProvider): ViewModel() {
     private var _state = MutableStateFlow<DetailMatchState>(DetailMatchState.Loading)
     val state = _state
-    private var hasDataLoaded = false
+    var hasDataLoaded = false
 
     fun getMatch(id: Int){
         if(!hasDataLoaded){
