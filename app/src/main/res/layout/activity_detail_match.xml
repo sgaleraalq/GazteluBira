@@ -134,7 +134,7 @@
         <View
             android:id="@+id/viewSeparator"
             android:layout_width="0dp"
-            android:layout_height="0.5dp"
+            android:layout_height="1dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
             android:background="@color/antique_white"
@@ -147,7 +147,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="2dp"
             android:orientation="vertical"
             android:padding="8dp"
             app:layout_constraintEnd_toStartOf="@id/tvSlash"
@@ -164,19 +164,30 @@
             app:layout_constraintStart_toEndOf="@id/tvSlash"
             app:layout_constraintTop_toTopOf="@id/llGoals" />
 
+        <View
+            android:id="@+id/viewSeparator2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="16dp"
+            android:background="@color/antique_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/llGoals" />
+
         <TextView
             android:id="@+id/tvStarters"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="12dp"
             android:gravity="center"
             android:paddingHorizontal="30dp"
             android:text="@string/starter_team"
+            android:textAllCaps="true"
             android:textColor="@color/antique_white"
-            android:textSize="20sp"
+            android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/llGoals" />
+            app:layout_constraintTop_toBottomOf="@id/viewSeparator2" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clStarters"
@@ -209,10 +220,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="parent" />
 
+            <include
+                android:id="@+id/ivGoalKeeper"
+                layout="@layout/starters_dorsal_image_view"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"  />
+
             <ImageView
-                android:id="@+id/dotGoalKeeper"
+                android:id="@+id/ivGoalKeeper"
                 style="@style/dots_football_field"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="20dp"
                 android:contentDescription="@string/description_football_dot"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -222,8 +240,9 @@
                 android:id="@+id/tvGoalKeeper"
                 style="@style/text_view_players_football_field"
                 android:layout_marginStart="4dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/dotGoalKeeper"
+                app:layout_constraintEnd_toEndOf="@id/ivGoalKeeper"
+                app:layout_constraintStart_toStartOf="@id/ivGoalKeeper"
+                app:layout_constraintTop_toBottomOf="@id/ivGoalKeeper"
                 tools:text="Whasdfjañsdlf" />
 
             <ImageView
@@ -402,6 +421,20 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+            android:id="@+id/tvBench"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/bench"
+            android:textAllCaps="true"
+            android:textColor="@color/antique_white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clStarters" />
+
 
         <LinearLayout
             android:id="@+id/llBench"
@@ -414,20 +447,19 @@
             android:paddingStart="16dp"
             android:paddingBottom="32dp"
             app:layout_constraintEnd_toStartOf="@id/tvSlash"
-            app:layout_constraintTop_toBottomOf="@id/clStarters"
+            app:layout_constraintTop_toBottomOf="@id/tvBench"
             tools:ignore="RtlSymmetry" />
 
         <LinearLayout
             android:id="@+id/llBench2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:orientation="vertical"
             android:paddingHorizontal="32dp"
             android:paddingBottom="32dp"
             app:layout_constraintStart_toEndOf="@id/tvSlash"
-            app:layout_constraintTop_toBottomOf="@id/clStarters" />
+            app:layout_constraintTop_toTopOf="@id/llBench" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
