@@ -1,11 +1,11 @@
 package com.sgalera.gaztelubira.data.response
 
 import com.google.firebase.firestore.PropertyName
-import com.google.gson.annotations.SerializedName
 import com.sgalera.gaztelubira.domain.model.Team
 import com.sgalera.gaztelubira.domain.model.Team.*
 import com.sgalera.gaztelubira.domain.model.matches.Match
-import com.sgalera.gaztelubira.domain.model.matches.Starters
+import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
+import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
 
 data class MatchResponse (
     val id: Int = 0,
@@ -30,7 +30,7 @@ data class MatchResponse (
         scorers = scorers,
         assistants = assistants,
         starters = starters,
-        bench = bench
+        bench = mapPlayerInfo(bench)
     )
 
     private fun mapTeam(team: String): Team {
@@ -49,6 +49,37 @@ data class MatchResponse (
             "San Cristobal" -> SanCristobal
             "Lezkairu"      -> Lezkairu
             else -> Tingla2Legens
+        }
+    }
+
+    private fun mapPlayerInfo(playerList: List<String>): List<PlayerInfo>{
+        return playerList.map {
+            when (it) {
+                "pedro" -> Pedro
+                "jon" -> Jon
+                "asier" -> Asier
+                "xabi" -> Xabi
+                "oso" -> Oso
+                "diego" -> Diego
+                "mikel" -> Mikel
+                "gorka" -> Gorka
+                "arrondo" -> Arrondo
+                "dani" -> Dani
+                "nando" -> Nando
+                "haaland" -> Haaland
+                "david" -> David
+                "aaron" -> Aaron
+                "mugueta" -> Mugueta
+                "fran" -> Fran
+                "iker" -> Iker
+                "larra" -> Larra
+                "unai" -> Unai
+                "manu" -> Manu
+                "madariaga" -> Madariaga
+                "bryant" -> Bryant
+                "roson" -> Roson
+                else -> Emilio
+            }
         }
     }
 }
