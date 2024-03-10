@@ -20,13 +20,12 @@
 
     <TextView
         android:id="@+id/tvBenchPlayer"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="8dp"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvDorsal"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="ajñdflad" />
