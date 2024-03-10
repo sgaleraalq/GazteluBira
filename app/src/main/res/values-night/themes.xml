@@ -1,6 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.GazteluBira" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Base.Theme.GazteluBira" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/main_red</item>
+    </style>
+    <style name="Theme.GazteluBira" parent="Base.Theme.GazteluBira">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_200</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
