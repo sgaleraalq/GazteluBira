@@ -110,7 +110,7 @@
                 app:layout_constraintEnd_toStartOf="@id/pvGoalsPlayerOne"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/ivIconGoal"
-                tools:text="13" />
+                android:text="@string/random_number" />
 
             <TextView
                 android:id="@+id/tvGoalsPlayerTwo"
@@ -123,7 +123,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/pvGoalsPlayerTwo"
                 app:layout_constraintTop_toTopOf="@id/ivIconGoal"
-                tools:text="13" />
+                android:text="@string/random_number" />
 
             <com.skydoves.progressview.ProgressView
                 android:id="@+id/pvGoalsPlayerTwo"
@@ -193,7 +193,7 @@
                 app:layout_constraintEnd_toStartOf="@id/pvAssistsPlayerOne"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/ivIconAssist"
-                tools:text="13" />
+                android:text="@string/random_number" />
 
             <TextView
                 android:id="@+id/tvAssistsPlayerTwo"
@@ -206,7 +206,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/pvAssistsPlayerTwo"
                 app:layout_constraintTop_toTopOf="@id/ivIconAssist"
-                tools:text="13" />
+                android:text="@string/random_number" />
 
             <com.skydoves.progressview.ProgressView
                 android:id="@+id/pvAssistsPlayerTwo"
@@ -276,7 +276,7 @@
                 app:layout_constraintEnd_toStartOf="@id/pvBigMistakesPlayerOne"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/ivIconBigMistakes"
-                tools:text="13" />
+                android:text="@string/random_number" />
 
             <TextView
                 android:id="@+id/tvBigMistakesPlayerTwo"
@@ -289,7 +289,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/pvBigMistakesPlayerTwo"
                 app:layout_constraintTop_toTopOf="@id/ivIconBigMistakes"
-                tools:text="13" />
+                android:text="@string/random_number" />
 
             <com.skydoves.progressview.ProgressView
                 android:id="@+id/pvBigMistakesPlayerTwo"
@@ -359,7 +359,7 @@
                 app:layout_constraintEnd_toStartOf="@id/pvCleanSheetPlayerOne"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/ivIconCleanSheet"
-                tools:text="13" />
+                android:text="@string/random_number" />
 
             <TextView
                 android:id="@+id/tvCleanSheetPlayerTwo"
@@ -372,7 +372,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/pvCleanSheetPlayerTwo"
                 app:layout_constraintTop_toTopOf="@id/ivIconCleanSheet"
-                tools:text="13" />
+                android:text="@string/random_number" />
 
             <com.skydoves.progressview.ProgressView
                 android:id="@+id/pvCleanSheetPlayerTwo"
@@ -442,7 +442,7 @@
                 app:layout_constraintEnd_toStartOf="@id/pvGamesPlayedPlayerOne"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/ivIconGamesPlayed"
-                tools:text="13" />
+                android:text="@string/random_number" />
 
             <TextView
                 android:id="@+id/tvGamesPlayedPlayerTwo"
@@ -455,7 +455,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/pvGamesPlayedPlayerTwo"
                 app:layout_constraintTop_toTopOf="@id/ivIconGamesPlayed"
-                tools:text="13" />
+                android:text="@string/random_number" />
 
             <com.skydoves.progressview.ProgressView
                 android:id="@+id/pvGamesPlayedPlayerTwo"
