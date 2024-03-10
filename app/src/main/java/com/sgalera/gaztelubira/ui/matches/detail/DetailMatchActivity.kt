@@ -27,16 +27,6 @@ class DetailMatchActivity : AppCompatActivity() {
     private val matchViewModel: DetailMatchViewModel by viewModels()
     private val args: DetailMatchActivityArgs by navArgs()
 
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
-        outState.putBoolean("hasDataLoaded", matchViewModel.hasDataLoaded)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        matchViewModel.hasDataLoaded = savedInstanceState.getBoolean("hasDataLoaded", false)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_match)
@@ -99,6 +89,11 @@ class DetailMatchActivity : AppCompatActivity() {
     }
 
     private fun initLinearLayouts(goalPlayers: List<String>, assistsPlayers: List<String>, bench: List<String>) {
+        binding.llGoals.removeAllViews()
+        binding.llAssists.removeAllViews()
+        binding.llBench.removeAllViews()
+        binding.llBench2.removeAllViews()
+
         for (player in goalPlayers){
             val inflater = LayoutInflater.from(this)
             val itemLayout = inflater.inflate(R.layout.item_detail_match, null) as View

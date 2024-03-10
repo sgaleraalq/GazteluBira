@@ -14,23 +14,22 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailMatchViewModel @Inject constructor(private val matchesProvider: MatchesProvider): ViewModel() {
+class DetailMatchViewModel @Inject constructor(private val matchesProvider: MatchesProvider) :
+    ViewModel() {
     private var _state = MutableStateFlow<DetailMatchState>(DetailMatchState.Loading)
     val state = _state
     var hasDataLoaded = false
 
-    fun getMatch(id: Int){
-        if(!hasDataLoaded){
-            viewModelScope.launch {
-                _state.value = DetailMatchState.Loading
-                val result = withContext(Dispatchers.IO){ matchesProvider.getMatch(id = id) }
-                if (result != null){
-                    _state.value = DetailMatchState.Success(result)
-                } else{
-                    _state.value = DetailMatchState.Error("Ha ocurrido un error, inténtelo de nuevo más tarde")
-                }
+    fun getMatch(id: Int) {
+        viewModelScope.launch {
+            _state.value = DetailMatchState.Loading
+            val result = withContext(Dispatchers.IO) { matchesProvider.getMatch(id = id) }
+            if (result != null) {
+                _state.value = DetailMatchState.Success(result)
+            } else {
+                _state.value =
+                    DetailMatchState.Error("Ha ocurrido un error, inténtelo de nuevo más tarde")
             }
-            hasDataLoaded = true
         }
     }
 }
