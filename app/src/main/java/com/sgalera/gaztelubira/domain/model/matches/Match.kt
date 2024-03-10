@@ -1,6 +1,7 @@
 package com.sgalera.gaztelubira.domain.model.matches
 
 import com.sgalera.gaztelubira.domain.model.Team
+import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 
 data class Match(
     val id: Int,
@@ -12,6 +13,6 @@ data class Match(
     val scorers: List<String>,
     val assistants: List<String>,
     val starters: Map<String, String>,
-    val bench: List<String>
+    val bench: List<PlayerInfo>
 )
 
