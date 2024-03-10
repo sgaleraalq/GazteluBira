@@ -100,12 +100,19 @@ class DetailMatchActivity : AppCompatActivity() {
             itemLayout.findViewById<ImageView>(R.id.ivGoal).setImageResource(R.drawable.ic_football_shoe)
             binding.llAssists.addView(itemLayout)
         }
-        for (player in bench){
+
+        for ((index, player) in bench.withIndex()) {
             val inflater = LayoutInflater.from(this)
             val itemLayout = inflater.inflate(R.layout.item_bench, null) as View
             itemLayout.findViewById<TextView>(R.id.tvBenchPlayer).text = player.capitalize()
             itemLayout.findViewById<TextView>(R.id.tvDorsal).text = "10" // TODO
-            binding.llBench.addView(itemLayout)
+
+            // Decidir en qué LinearLayout colocar el elemento según el índice
+            if (index-1 < bench.size / 2) {
+                binding.llBench.addView(itemLayout)
+            } else {
+                binding.llBench2.addView(itemLayout)
+            }
         }
 
     }
