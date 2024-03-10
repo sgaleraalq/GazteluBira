@@ -12,7 +12,7 @@ data class Match(
     val visitorGoals: Int,
     val scorers: List<String>,
     val assistants: List<String>,
-    val starters: Map<String, String>,
+    val starters: Map<String, PlayerInfo>,
     val bench: List<PlayerInfo>
 )
 

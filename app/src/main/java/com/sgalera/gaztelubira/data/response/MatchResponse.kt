@@ -7,7 +7,7 @@ import com.sgalera.gaztelubira.domain.model.matches.Match
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
 
-data class MatchResponse (
+data class MatchResponse(
     val id: Int = 0,
     val match: String = "",
     val scorers: List<String> = emptyList(),
@@ -19,7 +19,7 @@ data class MatchResponse (
     @get:PropertyName("away_team") @set:PropertyName("away_team") var awayTeam: String = "",
     @get:PropertyName("home_goals") @set:PropertyName("home_goals") var homeGoals: Int = 0,
     @get:PropertyName("away_goals") @set: PropertyName("away_goals") var awayGoals: Int = 0
-){
+) {
     fun toDomain() = Match(
         id = id,
         match = match,
@@ -29,57 +29,55 @@ data class MatchResponse (
         visitorGoals = awayGoals,
         scorers = scorers,
         assistants = assistants,
-        starters = starters,
-        bench = mapPlayerInfo(bench)
+        starters = starters.mapValues { mapPlayerInfo(it.value) },
+        bench = bench.map { mapPlayerInfo(it) }
     )
 
     private fun mapTeam(team: String): Team {
-        return when(team){
-            "Gaztelu Bira"  -> GazteluBira
-            "Anaitasuna"    -> Anaitasuna
-            "Arsenal"       -> Arsenal
-            "Aterbea"       -> Aterbea
-            "ESIC Gazteak"  -> EsicGazteak
-            "Esmeraldeños"  -> Esmeraldenos
-            "Garre"         -> Garre
-            "Iturrama"      -> Iturrama
-            "IZN"           -> Izn
-            "La Unica"      -> LaUnica
-            "Peña School"   -> PenaSchool
+        return when (team) {
+            "Gaztelu Bira" -> GazteluBira
+            "Anaitasuna" -> Anaitasuna
+            "Arsenal" -> Arsenal
+            "Aterbea" -> Aterbea
+            "ESIC Gazteak" -> EsicGazteak
+            "Esmeraldeños" -> Esmeraldenos
+            "Garre" -> Garre
+            "Iturrama" -> Iturrama
+            "IZN" -> Izn
+            "La Unica" -> LaUnica
+            "Peña School" -> PenaSchool
             "San Cristobal" -> SanCristobal
-            "Lezkairu"      -> Lezkairu
+            "Lezkairu" -> Lezkairu
             else -> Tingla2Legens
         }
     }
 
-    private fun mapPlayerInfo(playerList: List<String>): List<PlayerInfo>{
-        return playerList.map {
-            when (it) {
-                "pedro" -> Pedro
-                "jon" -> Jon
-                "asier" -> Asier
-                "xabi" -> Xabi
-                "oso" -> Oso
-                "diego" -> Diego
-                "mikel" -> Mikel
-                "gorka" -> Gorka
-                "arrondo" -> Arrondo
-                "dani" -> Dani
-                "nando" -> Nando
-                "haaland" -> Haaland
-                "david" -> David
-                "aaron" -> Aaron
-                "mugueta" -> Mugueta
-                "fran" -> Fran
-                "iker" -> Iker
-                "larra" -> Larra
-                "unai" -> Unai
-                "manu" -> Manu
-                "madariaga" -> Madariaga
-                "bryant" -> Bryant
-                "roson" -> Roson
-                else -> Emilio
-            }
+    private fun mapPlayerInfo(player: String): PlayerInfo {
+        return when (player) {
+            "pedro" -> Pedro
+            "jon" -> Jon
+            "asier" -> Asier
+            "xabi" -> Xabi
+            "oso" -> Oso
+            "diego" -> Diego
+            "mikel" -> Mikel
+            "gorka" -> Gorka
+            "arrondo" -> Arrondo
+            "dani" -> Dani
+            "nando" -> Nando
+            "haaland" -> Haaland
+            "david" -> David
+            "aaron" -> Aaron
+            "mugueta" -> Mugueta
+            "fran" -> Fran
+            "iker" -> Iker
+            "larra" -> Larra
+            "unai" -> Unai
+            "manu" -> Manu
+            "madariaga" -> Madariaga
+            "bryant" -> Bryant
+            "roson" -> Roson
+            else -> Emilio
         }
     }
 }

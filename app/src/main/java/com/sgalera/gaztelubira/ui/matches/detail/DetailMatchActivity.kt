@@ -139,8 +139,54 @@ class DetailMatchActivity : AppCompatActivity() {
         }
     }
 
-    private fun initStarters(starters: Map<String, String>) {
-        println(1)
+    private fun initStarters(starters: Map<String, PlayerInfo>) {
+        includeGoalKeeper(starters["goal_keeper"])
+        includeBacks(starters["left_back"], starters["right_back"])
+        includeCentreBacks(starters["left_centre_back"], starters["right_centre_back"])
+        includeMidFielders(starters["defensive_mid_fielder"], starters["left_mid_fielder"], starters["right_mid_fielder"])
+        includeStrikers(starters["left_striker"], starters["right_striker"], starters["striker"])
     }
 
+    private fun includeGoalKeeper(playerInfo: PlayerInfo?) {
+        binding.ivGoalKeeper.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
+        binding.tvGoalKeeper.text = playerInfo?.name
+    }
+
+    private fun includeBacks(playerInfo: PlayerInfo?, playerInfo1: PlayerInfo?) {
+        binding.ivLeftBack.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
+        binding.tvLeftBack.text = playerInfo?.name
+
+        binding.ivRightBack.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo1?.dorsal.toString()
+        binding.tvRightBack.text = playerInfo1?.name
+    }
+
+    private fun includeCentreBacks(playerInfo: PlayerInfo?, playerInfo1: PlayerInfo?) {
+        binding.ivLeftCentreBack.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
+        binding.tvLeftCentreBack.text = playerInfo?.name
+
+        binding.ivRightCentreBack.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo1?.dorsal.toString()
+        binding.tvRightCentreBack.text = playerInfo1?.name
+    }
+
+    private fun includeMidFielders(playerInfo: PlayerInfo?, playerInfo1: PlayerInfo?, playerInfo2: PlayerInfo?) {
+        binding.ivDefensiveMidFielder.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
+        binding.tvDefensiveMidFielder.text = playerInfo?.name
+
+        binding.ivLeftMidFielder.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo1?.dorsal.toString()
+        binding.tvLeftMidFielder.text = playerInfo1?.name
+
+        binding.ivRightMidFielder.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo2?.dorsal.toString()
+        binding.tvRightMidFielder.text = playerInfo2?.name
+    }
+
+    private fun includeStrikers(playerInfo: PlayerInfo?, playerInfo1: PlayerInfo?, playerInfo2: PlayerInfo?) {
+        binding.ivLeftStriker.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
+        binding.tvLeftStriker.text = playerInfo?.name
+
+        binding.ivRightStriker.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo1?.dorsal.toString()
+        binding.tvRightStriker.text = playerInfo1?.name
+
+        binding.ivStriker.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo2?.dorsal.toString()
+        binding.tvStriker.text = playerInfo2?.name
+    }
 }
