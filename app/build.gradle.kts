@@ -68,6 +68,9 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore.ktx)
     implementation("com.google.firebase:firebase-analytics")
+    
+    // Progress View
+    implementation(libs.progressview)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
