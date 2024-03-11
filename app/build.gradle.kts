@@ -75,6 +75,9 @@ dependencies {
     // Power spinner
     implementation("com.github.skydoves:powerspinner:1.2.7")
 
+    // Circle Image View
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
