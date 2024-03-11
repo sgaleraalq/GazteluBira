@@ -22,10 +22,10 @@ class MainActivity: AppCompatActivity() {
     }
 
     private fun initUI() {
-        initNavegation()
+        initNavigation()
     }
 
-    private fun initNavegation() {
+    private fun initNavigation() {
         val navHost = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHost.navController
         binding.bottomNavView.setupWithNavController(navController)

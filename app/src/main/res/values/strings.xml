@@ -2,13 +2,22 @@
     <string name="app_name">GazteluBira</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    // Testing
+    <string name="random_number">14</string>
+
     // App and Fragment names
     <string name="gaztelu_bira">Gaztelu Bira</string>
     <string name="playerFragment">Player</string>
     <string name="statsFragment">Stats</string>
     <string name="matchesFragment">Matches</string>
 
-    // Player fragment
+    // Player comparison fragment
+    <string name="goals">Goals</string>
+    <string name="assists">Assists</string>
+    <string name="big_mistakes">Big mistakes</string>
+    <string name="clean_sheet">Clean sheet</string>
+    <string name="games_played">Games played</string>
+    <string name="percentage">Percentage</string>
 
     // Matches fragment
     <string name="matchesPlayed">Played games</string>
@@ -17,7 +26,9 @@
     <string name="slash">-</string>
 
     // Matches detail
+    <string name="match_information">Match information</string>
     <string name="starter_team">Starter team</string>
+    <string name="bench">Bench</string>
 
     // Stats fragment
 
@@ -41,4 +52,10 @@
     <string name="description_football_field">Football Field</string>
     <string name="description_football_dot">Football player dot</string>
     <string name="description_ic_back">Back icon</string>
+    <string name="description_type_of_match">Type of match (league or cup)</string>
+    <string name="description_team">Team logo</string>
+    <string name="description_goal_icon">Goal icon</string>
+    <string name="description_football_player">Football player</string>
+    <string name="description_stats_icon">Stat icon</string>
+    <string name="description_versus">Versus icon</string>
 </resources>

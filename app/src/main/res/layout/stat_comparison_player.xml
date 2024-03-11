@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/primary">
+
+    <ImageView
+        android:id="@+id/ivIconStat"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:contentDescription="@string/description_stats_icon"
+        android:src="@drawable/ic_football_ball"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
+
+    <View
+        android:id="@+id/vDividerOne"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ivIconStat"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/viewTwo"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivIconStat"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.skydoves.progressview.ProgressView
+        android:id="@+id/progressViewPlayerOne"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:rotation="180"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/vDividerOne"
+        app:layout_constraintStart_toEndOf="@id/tvStatPlayerOne"
+        app:layout_constraintTop_toTopOf="parent"
+        app:progressView_autoAnimate="true"
+        app:progressView_colorBackground="@color/primary"
+        app:progressView_colorProgress="@color/antique_white"
+        app:progressView_max="20"
+        app:progressView_orientation="horizontal"
+        app:progressView_progress="13" />
+
+    <TextView
+        android:id="@+id/tvStatPlayerOne"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="13"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/progressViewPlayerOne"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.skydoves.progressview.ProgressView
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/viewTwo"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

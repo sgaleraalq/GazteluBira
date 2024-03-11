@@ -1,28 +1,25 @@
 package com.sgalera.gaztelubira.ui.matches
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sgalera.gaztelubira.databinding.FragmentMatchesBinding
-import com.sgalera.gaztelubira.domain.model.matches.Match
-import com.sgalera.gaztelubira.domain.model.Team.*
-import com.sgalera.gaztelubira.domain.model.matches.Starters
 import com.sgalera.gaztelubira.ui.matches.adapter.MatchesAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MatchesFragment : Fragment() {
+class MatchesFragment: Fragment() {
 
     private var _binding: FragmentMatchesBinding? = null
     private val binding get() = _binding!!
@@ -61,11 +58,29 @@ class MatchesFragment : Fragment() {
     private fun initUIState() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                matchesViewModel.matches.collect {
-                    matchesAdapter.updateList(it)
+                matchesViewModel.state.collect {
+                    when (it) {
+                        MatchInfoState.Loading -> loadingState()
+                        is MatchInfoState.Error -> errorState(it.error)
+                        is MatchInfoState.Success -> successState(it)
+                    }
                 }
             }
         }
+    }
+
+    private fun successState(state: MatchInfoState.Success) {
+        binding.progressBar.visibility = View.INVISIBLE
+        matchesAdapter.updateList(state.matchesList.sortedBy { it.id })
+    }
+
+    private fun errorState(error: String) {
+        binding.progressBar.visibility = View.INVISIBLE
+        Toast.makeText(context, "Error $error", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun loadingState() {
+        binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun initRecyclerView() {

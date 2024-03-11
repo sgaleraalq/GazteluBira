@@ -1,5 +1,6 @@
 package com.sgalera.gaztelubira.ui.matches.adapter
 
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.sgalera.gaztelubira.R
@@ -24,6 +25,12 @@ class MatchesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         binding.tvGoalsVisitor.text = match.awayGoals.toString()
 
         setCardBackgroundColor(match)
+
+        if (match.match == "copa") {
+            binding.ivMatchType.setImageResource(R.drawable.ic_cup)
+        } else {
+            binding.ivMatchType.setImageResource(0)
+        }
 
         binding.parent.setOnClickListener {
             onItemSelected(match.id)
@@ -62,7 +69,7 @@ class MatchesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     }
 
     private fun getImage(team: Team): Int {
-        return when(team) {
+        return when (team) {
             GazteluBira -> R.drawable.img_gaztelu_bira
             Anaitasuna -> R.drawable.img_anaitasuna
             Arsenal -> R.drawable.img_arsenal
@@ -75,7 +82,7 @@ class MatchesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             LaUnica -> R.drawable.img_la_unica
             PenaSchool -> R.drawable.img_pena_school
             SanCristobal -> R.drawable.img_san_cristobal
-//            Lezkairu -> R.drawable.img_lezkairu
+            Lezkairu -> R.drawable.img_lezkairu
             else -> R.drawable.img_no_football_shield
         }
     }
