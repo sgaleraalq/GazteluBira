@@ -19,6 +19,7 @@
     <string name="games_played">Games played</string>
     <string name="percentage">Percentage</string>
     <string name="choose_two_different_players">Choose two different players</string>
+    <string name="done">Done!</string>
 
 
     // Matches fragment
