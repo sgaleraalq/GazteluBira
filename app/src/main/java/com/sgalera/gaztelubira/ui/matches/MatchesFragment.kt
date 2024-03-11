@@ -71,7 +71,7 @@ class MatchesFragment: Fragment() {
 
     private fun successState(state: MatchInfoState.Success) {
         binding.progressBar.visibility = View.INVISIBLE
-        matchesAdapter.updateList(state.matchesList.sortedBy { it.id })
+        matchesAdapter.updateList(state.matchesList.sortedByDescending { it.id })
     }
 
     private fun errorState(error: String) {
