@@ -61,4 +61,5 @@
     <string name="description_stats_icon">Stat icon</string>
     <string name="description_versus">Versus icon</string>
     <string name="description_t_shirt">Gaztelu t-shirt</string>
+    <string name="description_check">Check icon</string>
 </resources>

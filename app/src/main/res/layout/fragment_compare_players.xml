@@ -9,14 +9,15 @@
 
     <ImageView
         android:id="@+id/ivPlayerOne"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@color/main_red"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
         android:contentDescription="@string/description_football_player"
         android:orientation="vertical"
         android:src="@drawable/img_dani"
         app:layout_constraintBottom_toTopOf="@id/llComparisonStats"
-        app:layout_constraintEnd_toStartOf="@id/ivVersus">
+        app:layout_constraintEnd_toStartOf="@id/ivVersus"
+        app:layout_constraintTop_toBottomOf="@id/tvPlayerOneName">
 
     </ImageView>
 
@@ -37,30 +38,34 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:gravity="center"
+        android:text="10"
         android:textColor="@color/white"
         android:textSize="8sp"
         app:layout_constraintBottom_toBottomOf="@id/ivTShirtPlayerOne"
         app:layout_constraintEnd_toEndOf="@id/ivTShirtPlayerOne"
         app:layout_constraintStart_toStartOf="@id/ivTShirtPlayerOne"
         app:layout_constraintTop_toTopOf="@id/ivTShirtPlayerOne"
-        tools:ignore="SmallSp"
-        tools:text="10" />
+        tools:ignore="SmallSp" />
 
     <TextView
         android:id="@+id/tvPlayerOneName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:background="@color/antique_white"
         android:gravity="center"
+        android:paddingVertical="8dp"
+        android:text="Dani"
         android:textAllCaps="true"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/ivPlayerOne"
         app:layout_constraintEnd_toEndOf="@id/ivPlayerOne"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="Dani" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvPositionPlayerOne"
@@ -69,14 +74,14 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="2dp"
         android:gravity="center"
+        android:text="Right defender"
         android:textColor="@color/antique_white"
         android:textSize="8sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toStartOf="@id/ivPlayerOne"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivTShirtPlayerOne"
-        tools:ignore="SmallSp"
-        tools:text="Right defender" />
+        tools:ignore="SmallSp" />
 
     <TextView
         android:id="@+id/tvParticipationPlayerOne"
@@ -85,19 +90,19 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="2dp"
         android:gravity="center"
+        android:text="0,9 %"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/ivPlayerOne"
         app:layout_constraintEnd_toStartOf="@id/ivPlayerOne"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvPositionPlayerOne"
-        tools:text="0,9 %" />
+        app:layout_constraintTop_toBottomOf="@id/tvPositionPlayerOne" />
 
     <ImageView
         android:id="@+id/ivPlayerTwo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:contentDescription="@string/description_football_player"
         android:orientation="vertical"
         android:src="@drawable/img_xabi"
@@ -109,16 +114,17 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginBottom="8dp"
+        android:background="@color/antique_white"
         android:gravity="center"
+        android:paddingVertical="8dp"
+        android:text="Xabi"
         android:textAllCaps="true"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/ivPlayerOne"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/ivPlayerTwo"
-        tools:text="Xabi" />
+        app:layout_constraintTop_toTopOf="@id/tvPlayerOneName" />
 
     <ImageView
         android:id="@+id/ivTShirtPlayerTwo"
@@ -137,14 +143,14 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:gravity="center"
+        android:text="10"
         android:textColor="@color/white"
         android:textSize="8sp"
         app:layout_constraintBottom_toBottomOf="@id/ivTShirtPlayerTwo"
         app:layout_constraintEnd_toEndOf="@id/ivTShirtPlayerTwo"
         app:layout_constraintStart_toStartOf="@id/ivTShirtPlayerTwo"
         app:layout_constraintTop_toTopOf="@id/ivTShirtPlayerTwo"
-        tools:ignore="SmallSp"
-        tools:text="10" />
+        tools:ignore="SmallSp" />
 
     <TextView
         android:id="@+id/tvPositionPlayerTwo"
@@ -153,14 +159,14 @@
         android:layout_marginTop="2dp"
         android:layout_marginEnd="4dp"
         android:gravity="center"
+        android:text="Right defender"
         android:textColor="@color/antique_white"
         android:textSize="8sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivPlayerTwo"
         app:layout_constraintTop_toBottomOf="@id/ivTShirtPlayerOne"
-        tools:ignore="SmallSp"
-        tools:text="Right defender" />
+        tools:ignore="SmallSp" />
 
     <TextView
         android:id="@+id/tvParticipationPlayerTwo"
@@ -169,14 +175,14 @@
         android:layout_marginTop="2dp"
         android:layout_marginEnd="4dp"
         android:gravity="center"
+        android:text="0,9 %"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/ivPlayerTwo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivPlayerTwo"
-        app:layout_constraintTop_toBottomOf="@id/tvPositionPlayerTwo"
-        tools:text="0,9 %" />
+        app:layout_constraintTop_toBottomOf="@id/tvPositionPlayerTwo" />
 
     <View
         android:id="@+id/ivVersus"
@@ -191,13 +197,13 @@
         android:id="@+id/llComparisonStats"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="24dp"
         android:orientation="vertical"
         android:paddingHorizontal="8dp"
         app:layout_constraintBottom_toTopOf="@id/btnChooseTwoPlayers"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivPlayerOne">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -206,8 +212,8 @@
 
             <ImageView
                 android:id="@+id/ivIconGoal"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:contentDescription="@string/description_stats_icon"
                 android:src="@drawable/ic_football_goal"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -288,8 +294,8 @@
 
             <ImageView
                 android:id="@+id/ivIconAssist"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:contentDescription="@string/description_stats_icon"
                 android:src="@drawable/ic_football_shoe"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -372,8 +378,8 @@
 
             <ImageView
                 android:id="@+id/ivIconBigMistakes"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:contentDescription="@string/description_stats_icon"
                 android:src="@drawable/ic_big_mistakes"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -455,8 +461,8 @@
 
             <ImageView
                 android:id="@+id/ivIconCleanSheet"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:contentDescription="@string/description_stats_icon"
                 android:src="@drawable/ic_clean_sheet"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -538,8 +544,8 @@
 
             <ImageView
                 android:id="@+id/ivIconGamesPlayed"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:contentDescription="@string/description_stats_icon"
                 android:src="@drawable/ic_color_football_field"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -623,8 +629,10 @@
         android:background="@drawable/bg_corner_radius_button"
         android:text="@string/choose_two_different_players"
         android:textColor="@color/white"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llComparisonStats" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
