@@ -72,6 +72,10 @@ dependencies {
     // Progress View
     implementation(libs.progressview)
 
+    // Power spinner
+    implementation("com.github.skydoves:powerspinner:1.2.7")
+
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
