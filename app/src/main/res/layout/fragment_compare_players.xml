@@ -11,54 +11,193 @@
         android:id="@+id/ivPlayerOne"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginEnd="32dp"
         android:background="@color/main_red"
         android:contentDescription="@string/description_football_player"
         android:orientation="vertical"
         android:src="@drawable/img_dani"
-        app:layout_constraintBottom_toBottomOf="@id/ivVersus"
-        app:layout_constraintEnd_toStartOf="@id/ivVersus"
-        app:layout_constraintTop_toTopOf="@id/ivVersus">
+        app:layout_constraintBottom_toTopOf="@id/llComparisonStats"
+        app:layout_constraintEnd_toStartOf="@id/ivVersus">
 
     </ImageView>
 
+    <ImageView
+        android:id="@+id/ivTShirtPlayerOne"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/description_t_shirt"
+        android:src="@drawable/ic_football_t_shirt"
+        app:layout_constraintEnd_toStartOf="@id/ivPlayerOne"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivPlayerOne" />
+
+    <TextView
+        android:id="@+id/tvDorsalPlayerOne"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivTShirtPlayerOne"
+        app:layout_constraintEnd_toEndOf="@id/ivTShirtPlayerOne"
+        app:layout_constraintStart_toStartOf="@id/ivTShirtPlayerOne"
+        app:layout_constraintTop_toTopOf="@id/ivTShirtPlayerOne"
+        tools:ignore="SmallSp"
+        tools:text="10" />
+
+    <TextView
+        android:id="@+id/tvPlayerOneName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/ivPlayerOne"
+        app:layout_constraintEnd_toEndOf="@id/ivPlayerOne"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Dani" />
+
+    <TextView
+        android:id="@+id/tvPositionPlayerOne"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:textColor="@color/antique_white"
+        android:textSize="8sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toStartOf="@id/ivPlayerOne"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivTShirtPlayerOne"
+        tools:ignore="SmallSp"
+        tools:text="Right defender" />
+
+    <TextView
+        android:id="@+id/tvParticipationPlayerOne"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/ivPlayerOne"
+        app:layout_constraintEnd_toStartOf="@id/ivPlayerOne"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvPositionPlayerOne"
+        tools:text="0,9 %" />
 
     <ImageView
         android:id="@+id/ivPlayerTwo"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="32dp"
         android:contentDescription="@string/description_football_player"
         android:orientation="vertical"
         android:src="@drawable/img_xabi"
         app:layout_constraintStart_toEndOf="@id/ivVersus"
-        app:layout_constraintTop_toTopOf="@id/ivPlayerOne">
+        app:layout_constraintTop_toTopOf="@id/ivPlayerOne" />
 
-    </ImageView>
+    <TextView
+        android:id="@+id/tvPlayerTwoName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/ivPlayerOne"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/ivPlayerTwo"
+        tools:text="Xabi" />
 
     <ImageView
-        android:id="@+id/ivVersus"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="32dp"
-        android:contentDescription="@string/description_versus"
-        android:src="@drawable/ic_versus"
-        app:layout_constraintBottom_toTopOf="@id/llComparisonStats"
+        android:id="@+id/ivTShirtPlayerTwo"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/description_t_shirt"
+        android:src="@drawable/ic_football_t_shirt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/ivPlayerTwo"
+        app:layout_constraintTop_toTopOf="@id/ivPlayerOne" />
+
+    <TextView
+        android:id="@+id/tvDorsalPlayerTwo"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivTShirtPlayerTwo"
+        app:layout_constraintEnd_toEndOf="@id/ivTShirtPlayerTwo"
+        app:layout_constraintStart_toStartOf="@id/ivTShirtPlayerTwo"
+        app:layout_constraintTop_toTopOf="@id/ivTShirtPlayerTwo"
+        tools:ignore="SmallSp"
+        tools:text="10" />
+
+    <TextView
+        android:id="@+id/tvPositionPlayerTwo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="4dp"
+        android:gravity="center"
+        android:textColor="@color/antique_white"
+        android:textSize="8sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivPlayerTwo"
+        app:layout_constraintTop_toBottomOf="@id/ivTShirtPlayerOne"
+        tools:ignore="SmallSp"
+        tools:text="Right defender" />
+
+    <TextView
+        android:id="@+id/tvParticipationPlayerTwo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="4dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/ivPlayerTwo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivPlayerTwo"
+        app:layout_constraintTop_toBottomOf="@id/tvPositionPlayerTwo"
+        tools:text="0,9 %" />
+
+    <View
+        android:id="@+id/ivVersus"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/ivPlayerOne"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:id="@+id/llComparisonStats"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical"
         android:paddingHorizontal="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnChooseTwoPlayers"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivVersus">
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -105,12 +244,12 @@
                 android:layout_height="0dp"
                 android:gravity="center"
                 android:paddingHorizontal="10dp"
+                android:text="@string/random_number"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@id/tvStatGoals"
                 app:layout_constraintEnd_toStartOf="@id/pvGoalsPlayerOne"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/ivIconGoal"
-                android:text="@string/random_number" />
+                app:layout_constraintTop_toTopOf="@id/ivIconGoal" />
 
             <TextView
                 android:id="@+id/tvGoalsPlayerTwo"
@@ -118,12 +257,12 @@
                 android:layout_height="0dp"
                 android:gravity="center"
                 android:paddingHorizontal="10dp"
+                android:text="@string/random_number"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@id/tvStatGoals"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/pvGoalsPlayerTwo"
-                app:layout_constraintTop_toTopOf="@id/ivIconGoal"
-                android:text="@string/random_number" />
+                app:layout_constraintTop_toTopOf="@id/ivIconGoal" />
 
             <com.skydoves.progressview.ProgressView
                 android:id="@+id/pvGoalsPlayerTwo"
@@ -188,12 +327,12 @@
                 android:layout_height="0dp"
                 android:gravity="center"
                 android:paddingHorizontal="10dp"
+                android:text="@string/random_number"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@id/tvStatAssists"
                 app:layout_constraintEnd_toStartOf="@id/pvAssistsPlayerOne"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/ivIconAssist"
-                android:text="@string/random_number" />
+                app:layout_constraintTop_toTopOf="@id/ivIconAssist" />
 
             <TextView
                 android:id="@+id/tvAssistsPlayerTwo"
@@ -201,12 +340,12 @@
                 android:layout_height="0dp"
                 android:gravity="center"
                 android:paddingHorizontal="10dp"
+                android:text="@string/random_number"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@id/tvStatAssists"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/pvAssistsPlayerTwo"
-                app:layout_constraintTop_toTopOf="@id/ivIconAssist"
-                android:text="@string/random_number" />
+                app:layout_constraintTop_toTopOf="@id/ivIconAssist" />
 
             <com.skydoves.progressview.ProgressView
                 android:id="@+id/pvAssistsPlayerTwo"
@@ -271,12 +410,12 @@
                 android:layout_height="0dp"
                 android:gravity="center"
                 android:paddingHorizontal="10dp"
+                android:text="@string/random_number"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@id/tvStatBigMistakes"
                 app:layout_constraintEnd_toStartOf="@id/pvBigMistakesPlayerOne"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/ivIconBigMistakes"
-                android:text="@string/random_number" />
+                app:layout_constraintTop_toTopOf="@id/ivIconBigMistakes" />
 
             <TextView
                 android:id="@+id/tvBigMistakesPlayerTwo"
@@ -284,12 +423,12 @@
                 android:layout_height="0dp"
                 android:gravity="center"
                 android:paddingHorizontal="10dp"
+                android:text="@string/random_number"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@id/tvStatBigMistakes"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/pvBigMistakesPlayerTwo"
-                app:layout_constraintTop_toTopOf="@id/ivIconBigMistakes"
-                android:text="@string/random_number" />
+                app:layout_constraintTop_toTopOf="@id/ivIconBigMistakes" />
 
             <com.skydoves.progressview.ProgressView
                 android:id="@+id/pvBigMistakesPlayerTwo"
@@ -354,12 +493,12 @@
                 android:layout_height="0dp"
                 android:gravity="center"
                 android:paddingHorizontal="10dp"
+                android:text="@string/random_number"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@id/tvStatCleanSheet"
                 app:layout_constraintEnd_toStartOf="@id/pvCleanSheetPlayerOne"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/ivIconCleanSheet"
-                android:text="@string/random_number" />
+                app:layout_constraintTop_toTopOf="@id/ivIconCleanSheet" />
 
             <TextView
                 android:id="@+id/tvCleanSheetPlayerTwo"
@@ -367,12 +506,12 @@
                 android:layout_height="0dp"
                 android:gravity="center"
                 android:paddingHorizontal="10dp"
+                android:text="@string/random_number"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@id/tvStatCleanSheet"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/pvCleanSheetPlayerTwo"
-                app:layout_constraintTop_toTopOf="@id/ivIconCleanSheet"
-                android:text="@string/random_number" />
+                app:layout_constraintTop_toTopOf="@id/ivIconCleanSheet" />
 
             <com.skydoves.progressview.ProgressView
                 android:id="@+id/pvCleanSheetPlayerTwo"
@@ -437,12 +576,12 @@
                 android:layout_height="0dp"
                 android:gravity="center"
                 android:paddingHorizontal="10dp"
+                android:text="@string/random_number"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@id/tvStatGamesPlayed"
                 app:layout_constraintEnd_toStartOf="@id/pvGamesPlayedPlayerOne"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/ivIconGamesPlayed"
-                android:text="@string/random_number" />
+                app:layout_constraintTop_toTopOf="@id/ivIconGamesPlayed" />
 
             <TextView
                 android:id="@+id/tvGamesPlayedPlayerTwo"
@@ -450,12 +589,12 @@
                 android:layout_height="0dp"
                 android:gravity="center"
                 android:paddingHorizontal="10dp"
+                android:text="@string/random_number"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@id/tvStatGamesPlayed"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/pvGamesPlayedPlayerTwo"
-                app:layout_constraintTop_toTopOf="@id/ivIconGamesPlayed"
-                android:text="@string/random_number" />
+                app:layout_constraintTop_toTopOf="@id/ivIconGamesPlayed" />
 
             <com.skydoves.progressview.ProgressView
                 android:id="@+id/pvGamesPlayedPlayerTwo"
@@ -475,5 +614,17 @@
 
     </LinearLayout>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnChooseTwoPlayers"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_corner_radius_button"
+        android:text="@string/choose_two_different_players"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

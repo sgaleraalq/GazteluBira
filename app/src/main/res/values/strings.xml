@@ -18,6 +18,8 @@
     <string name="clean_sheet">Clean sheet</string>
     <string name="games_played">Games played</string>
     <string name="percentage">Percentage</string>
+    <string name="choose_two_different_players">Choose two different players</string>
+
 
     // Matches fragment
     <string name="matchesPlayed">Played games</string>
@@ -58,4 +60,5 @@
     <string name="description_football_player">Football player</string>
     <string name="description_stats_icon">Stat icon</string>
     <string name="description_versus">Versus icon</string>
+    <string name="description_t_shirt">Gaztelu t-shirt</string>
 </resources>
