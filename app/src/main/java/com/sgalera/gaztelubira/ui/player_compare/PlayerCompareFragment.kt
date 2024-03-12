@@ -1,6 +1,7 @@
 package com.sgalera.gaztelubira.ui.player_compare
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
