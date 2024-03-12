@@ -2,6 +2,8 @@ package com.sgalera.gaztelubira.ui.player_compare
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -66,17 +68,19 @@ class PlayerCompareFragment : Fragment() {
 //        binding.clMessiVsCristiano.visibility = View.GONE
 //        binding.clStats.visibility = View.VISIBLE
 
-        popUpAdapter = PopUpAdapter(playerList = popUpList, onItemSelected = {println(1)})
         val builder = AlertDialog.Builder(requireContext())
         val inflater = LayoutInflater.from(requireContext())
         val view = inflater.inflate(R.layout.item_popup, null)
+        builder.setView(view)
+        val dialog = builder.create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+
+        popUpAdapter = PopUpAdapter(playerList = popUpList, onItemSelected = {println(1)})
         val popUpRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewPlayers)
         popUpRecyclerView.apply{
             adapter = popUpAdapter
-            layoutManager = GridLayoutManager(requireContext(), 3)
+            layoutManager = GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
         }
-        builder.setView(view)
-        val dialog = builder.create()
-        dialog.show()
     }
 }
