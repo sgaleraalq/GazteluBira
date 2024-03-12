@@ -4,9 +4,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_marginHorizontal="8dp"
-    android:background="@color/white"
-    android:padding="8dp">
+    android:background="@drawable/bg_item_player_popup_borders"
+    android:padding="16dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvImage"
@@ -42,9 +41,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:padding="4dp"
         android:textColor="@color/black"
-        android:textSize="12sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cvImage"

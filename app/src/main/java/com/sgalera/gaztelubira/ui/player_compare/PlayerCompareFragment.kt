@@ -51,6 +51,7 @@ class PlayerCompareFragment : Fragment() {
     }
 
     private fun initComponents() {
+        popUpAdapter = PopUpAdapter(onItemSelected = {println(1)})
 //        lifecycleScope.launch{
 //            repeatOnLifecycle(Lifecycle.State.STARTED) {
 //                popUpList = viewModel.getPlayerList()
@@ -76,11 +77,12 @@ class PlayerCompareFragment : Fragment() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
 
-        popUpAdapter = PopUpAdapter(playerList = popUpList, onItemSelected = {println(1)})
+
+        popUpAdapter.updateList(popUpList)
         val popUpRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewPlayers)
         popUpRecyclerView.apply{
             adapter = popUpAdapter
-            layoutManager = GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
+            layoutManager = GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false)
         }
     }
 }
