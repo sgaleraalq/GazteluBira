@@ -1,4 +1,4 @@
-package com.sgalera.gaztelubira.ui.player_compare.items.adapter
+package com.sgalera.gaztelubira.ui.player_compare.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
