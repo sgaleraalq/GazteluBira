@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -76,7 +77,11 @@ class PlayerCompareFragment : Fragment() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
 
-        val popUpAdapter = PopUpAdapter(onItemSelected = { player -> println("Jugador seleccionado: ${player.name}") })
+        val popUpAdapter = PopUpAdapter(onItemSelected = { player -> println("Jugador seleccionado: ${player.name}") },
+            showDoneButton = {
+                view.findViewById<CardView>(R.id.cvDone).visibility = View.VISIBLE
+            })
+
         popUpAdapter.updateList(popUpList)
         val popUpRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewPlayers)
         popUpRecyclerView.apply{

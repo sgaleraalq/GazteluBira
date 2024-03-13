@@ -13,7 +13,9 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 
 class PopUpAdapter(
     private var playerList: List<PlayerInfo> = emptyList(),
-    private val onItemSelected: (PlayerInfo) -> Unit
+    private val onItemSelected: (PlayerInfo) -> Unit,
+    private var selectedPlayers: MutableList<PlayerInfo> = mutableListOf(),
+    private val showDoneButton: () -> Unit
     ): RecyclerView.Adapter<PopUpViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopUpViewHolder {
         return PopUpViewHolder(
@@ -27,16 +29,37 @@ class PopUpAdapter(
         val player = playerList[position]
         holder.render(player)
         holder.itemView.setOnClickListener {
-            selectPlayer(holder.itemView)
+            println(selectedPlayers)
+            if (!alreadySelected(player) && selectedPlayers.size < 2){
+                selectPlayer(holder.itemView)
+            } else{
+                unSelectPlayer(holder.itemView)
+            }
         }
     }
 
+    private fun alreadySelected(player: PlayerInfo): Boolean {
+        player.selected = !player.selected
+        return !player.selected
+    }
+
     private fun selectPlayer(player: View) {
-        player.findViewById<ConstraintLayout>(R.id.clPlayerPopUp).setBackgroundResource(R.color.white)
+        player.findViewById<ConstraintLayout>(R.id.clPlayerPopUp).setBackgroundResource(R.color.white_80_opacity)
         player.findViewById<TextView>(R.id.tvPlayerName).setTextColor(player.resources.getColor(R.color.black))
         player.findViewById<ImageView>(R.id.ivCheck).visibility = View.VISIBLE
-
+        selectedPlayers.add(playerList[playerList.indexOfFirst { it.name == player.findViewById<TextView>(R.id.tvPlayerName).text }])
+        if (selectedPlayers.size == 2){
+            showDoneButton()
+        }
     }
+
+    private fun unSelectPlayer(itemView: View) {
+        itemView.findViewById<ConstraintLayout>(R.id.clPlayerPopUp).setBackgroundResource(R.color.primary_dark)
+        itemView.findViewById<TextView>(R.id.tvPlayerName).setTextColor(itemView.resources.getColor(R.color.white))
+        itemView.findViewById<ImageView>(R.id.ivCheck).visibility = View.GONE
+    }
+
+
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateList(list: List<PlayerInfo>){

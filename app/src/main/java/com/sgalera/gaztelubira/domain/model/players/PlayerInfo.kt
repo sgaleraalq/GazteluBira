@@ -5,7 +5,8 @@ import com.sgalera.gaztelubira.R
 sealed class PlayerInfo(
     val name: String,
     val img: Int,
-    val dorsal: Int
+    val dorsal: Int,
+    var selected: Boolean = false
 ) {
     data object Pedro: PlayerInfo("Pedro", R.drawable.img_no_profile_picture, 1)
     data object Jon: PlayerInfo("Jon", R.drawable.img_jon, 2)
