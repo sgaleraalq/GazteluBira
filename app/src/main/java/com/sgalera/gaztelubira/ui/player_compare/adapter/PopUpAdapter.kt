@@ -13,7 +13,7 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 
 class PopUpAdapter(
     private var playerList: List<PlayerInfo> = emptyList(),
-    private var selectedPlayers: MutableList<View> = mutableListOf(),
+    private var selectedPlayers: MutableList<View>,
     private val showDoneButton: () -> Unit,
     private val hideDoneButton: () -> Unit
 ) : RecyclerView.Adapter<PopUpViewHolder>() {
@@ -28,6 +28,9 @@ class PopUpAdapter(
     override fun onBindViewHolder(holder: PopUpViewHolder, position: Int) {
         val player = playerList[position]
         holder.render(player)
+        if (player.selected) {
+            selectPlayer(holder.itemView)
+        }
         holder.itemView.setOnClickListener {
             dealWithSelection(holder, player)
         }
