@@ -33,6 +33,7 @@ class PlayerCompareFragment : Fragment() {
     private val popUpList: List<PlayerInfo> by lazy {
         viewModel.getPlayerList()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -77,14 +78,17 @@ class PlayerCompareFragment : Fragment() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
 
-        val popUpAdapter = PopUpAdapter(onItemSelected = { player -> println("Jugador seleccionado: ${player.name}") },
+        val popUpAdapter = PopUpAdapter(
             showDoneButton = {
                 view.findViewById<CardView>(R.id.cvDone).visibility = View.VISIBLE
+            },
+            hideDoneButton = {
+                view.findViewById<CardView>(R.id.cvDone).visibility = View.GONE
             })
 
         popUpAdapter.updateList(popUpList)
         val popUpRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewPlayers)
-        popUpRecyclerView.apply{
+        popUpRecyclerView.apply {
             adapter = popUpAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
         }
