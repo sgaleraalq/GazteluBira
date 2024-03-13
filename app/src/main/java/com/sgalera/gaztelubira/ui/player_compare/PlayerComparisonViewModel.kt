@@ -41,4 +41,33 @@ class PlayerComparisonViewModel @Inject constructor(): ViewModel() {
             Emilio
         )
     }
+
+    fun mapPlayer(playerName: CharSequence): PlayerInfo{
+        return when(playerName){
+            "Pedro" -> Pedro
+            "Jon" -> Jon
+            "Asier" -> Asier
+            "Manu" -> Manu
+            "Xabi" -> Xabi
+            "Oso" -> Oso
+            "Diego" -> Diego
+            "Mikel" -> Mikel
+            "Gorka" -> Gorka
+            "Arrondo" -> Arrondo
+            "Dani" -> Dani
+            "Nando" -> Nando
+            "Haaland" -> Haaland
+            "David" -> David
+            "Aaron" -> Aaron
+            "Mugueta" -> Mugueta
+            "Fran" -> Fran
+            "Iker" -> Iker
+            "Larra" -> Larra
+            "Unai" -> Unai
+            "Madariaga" -> Madariaga
+            "Bryant" -> Bryant
+            "Roson" -> Roson
+            else -> Emilio
+        }
+    }
 }
