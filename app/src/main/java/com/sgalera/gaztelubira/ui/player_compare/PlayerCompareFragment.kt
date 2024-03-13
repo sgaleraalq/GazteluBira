@@ -51,7 +51,6 @@ class PlayerCompareFragment : Fragment() {
     }
 
     private fun initComponents() {
-        popUpAdapter = PopUpAdapter(onItemSelected = {println(1)})
 //        lifecycleScope.launch{
 //            repeatOnLifecycle(Lifecycle.State.STARTED) {
 //                popUpList = viewModel.getPlayerList()
@@ -77,7 +76,7 @@ class PlayerCompareFragment : Fragment() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
 
-
+        val popUpAdapter = PopUpAdapter(onItemSelected = { player -> println("Jugador seleccionado: ${player.name}") })
         popUpAdapter.updateList(popUpList)
         val popUpRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewPlayers)
         popUpRecyclerView.apply{
