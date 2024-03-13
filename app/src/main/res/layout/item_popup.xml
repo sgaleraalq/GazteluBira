@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="32dp"
+    android:layout_marginHorizontal="50dp"
     android:layout_marginVertical="50dp"
     app:cardCornerRadius="16dp">
 
@@ -17,28 +17,37 @@
             android:id="@+id/recyclerViewPlayers"
             android:layout_width="0dp"
             android:layout_height="400dp"
-            android:background="@color/white"
-            app:layout_constraintBottom_toTopOf="@id/btnPlayersChosen"
+            app:layout_constraintBottom_toTopOf="@id/cvDone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
         </androidx.recyclerview.widget.RecyclerView>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnPlayersChosen"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvDone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:background="@color/green"
-            android:text="@string/done"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="26sp"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/green"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recyclerViewPlayers" />
+            app:layout_constraintTop_toBottomOf="@id/recyclerViewPlayers">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingVertical="16dp"
+                android:text="@string/done"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>
