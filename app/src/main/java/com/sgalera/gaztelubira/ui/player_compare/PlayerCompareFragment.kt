@@ -1,7 +1,6 @@
 package com.sgalera.gaztelubira.ui.player_compare
 
 import android.app.AlertDialog
-import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -11,9 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sgalera.gaztelubira.R
@@ -21,7 +17,6 @@ import com.sgalera.gaztelubira.databinding.FragmentComparePlayersBinding
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.ui.player_compare.adapter.PopUpAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PlayerCompareFragment : Fragment() {
@@ -29,7 +24,6 @@ class PlayerCompareFragment : Fragment() {
     private var _binding: FragmentComparePlayersBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModels<PlayerComparisonViewModel>()
-    private lateinit var popUpAdapter: PopUpAdapter
     private val popUpList: List<PlayerInfo> by lazy {
         viewModel.getPlayerList()
     }
@@ -49,27 +43,27 @@ class PlayerCompareFragment : Fragment() {
 
     private fun initUI() {
         initListeners()
-        initComponents()
     }
 
-    private fun initComponents() {
-//        lifecycleScope.launch{
-//            repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                popUpList = viewModel.getPlayerList()
-//            }
-//        }
-    }
 
     private fun initListeners() {
         binding.tvChooseTwoPlayers.setOnClickListener {
-            showPlayerComparisonPopUp()
+            showPlayerComparisonPopUp(null, null)
+        }
+        binding.btnChooseTwoPlayers.setOnClickListener {
+            showPlayerComparisonPopUp(null, null)
+        }
+
+        // Change only one player
+        binding.tvPlayerOneName.setOnClickListener {
+            showPlayerComparisonPopUp(null, viewModel.mapPlayer(binding.tvPlayerTwoName.text))
+        }
+        binding.tvPlayerTwoName.setOnClickListener {
+            showPlayerComparisonPopUp(viewModel.mapPlayer(binding.tvPlayerOneName.text), null)
         }
     }
 
-    private fun showPlayerComparisonPopUp() {
-//        binding.clMessiVsCristiano.visibility = View.GONE
-//        binding.clStats.visibility = View.VISIBLE
-
+    private fun showPlayerComparisonPopUp(playerOne: PlayerInfo?, playerTwo: PlayerInfo?) {
         val builder = AlertDialog.Builder(requireContext())
         val inflater = LayoutInflater.from(requireContext())
         val view = inflater.inflate(R.layout.item_popup, null)
@@ -78,12 +72,16 @@ class PlayerCompareFragment : Fragment() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
 
+        selectPlayers(playerOne, playerTwo)
+        val doneButtonPopUp = view.findViewById<CardView>(R.id.cvDone)
         val popUpAdapter = PopUpAdapter(
+            playerList = popUpList,
+            selectedPlayers = mutableListOf(),
             showDoneButton = {
-                view.findViewById<CardView>(R.id.cvDone).visibility = View.VISIBLE
+                doneButtonPopUp.visibility = View.VISIBLE
             },
             hideDoneButton = {
-                view.findViewById<CardView>(R.id.cvDone).visibility = View.GONE
+                doneButtonPopUp.visibility = View.GONE
             })
 
         popUpAdapter.updateList(popUpList)
@@ -92,5 +90,39 @@ class PlayerCompareFragment : Fragment() {
             adapter = popUpAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
         }
+        doneButtonPopUp.setOnClickListener {
+            dialog.dismiss()
+            showPlayersInfo()
+        }
+    }
+
+    private fun selectPlayers(playerOne: PlayerInfo?, playerTwo: PlayerInfo?): List<PlayerInfo> {
+        popUpList.forEach { player ->
+            if (player != playerOne && player != playerTwo) {
+                player.selected = false
+            }
+            if (player == playerOne || player == playerTwo) {
+                player.selected = true
+            }
+        }
+        return popUpList
+    }
+    private fun showPlayersInfo() {
+        binding.clMessiVsCristiano.visibility = View.GONE
+        binding.clStats.visibility = View.VISIBLE
+        fetchData()
+    }
+
+    private fun fetchData() {
+        getPlayerInfo()
+        initComponents()
+    }
+
+    private fun getPlayerInfo() {
+        println(1)
+    }
+
+    private fun initComponents() {
+        println(1)
     }
 }
