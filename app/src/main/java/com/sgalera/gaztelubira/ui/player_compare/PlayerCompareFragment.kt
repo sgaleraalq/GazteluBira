@@ -82,7 +82,7 @@ class PlayerCompareFragment : Fragment() {
         val popUpRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewPlayers)
         popUpRecyclerView.apply{
             adapter = popUpAdapter
-            layoutManager = GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false)
+            layoutManager = GridLayoutManager(requireContext(), 3)
         }
     }
 }
