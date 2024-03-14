@@ -7,6 +7,6 @@ data class PlayerStats(
     val gamesPlayed: Int,
     val bigMistakes: Int,
     val cleanSheet: Int,
-    val positions: List<String>,
+    val position: String,
     var percentage: String? = null
 )
