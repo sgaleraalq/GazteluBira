@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.data.provider.PlayersProvider
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
-import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,12 +20,12 @@ class PlayerComparisonViewModel @Inject constructor(
     private var _state = MutableStateFlow<PlayerComparisonState>(PlayerComparisonState.Loading)
     val state: StateFlow<PlayerComparisonState> = _state
 
-    fun getPlayerStats(playerName: String) {
+    fun getPlayerStats(playerName: String, id: Int) {
         viewModelScope.launch {
             _state.value = PlayerComparisonState.Loading
             val result = withContext(Dispatchers.IO) { playerComparisonProvider.getPlayerStats(playerName) }
             if (result != null){
-                _state.value = PlayerComparisonState.Success(result)
+                _state.value = PlayerComparisonState.Success(result, id)
             } else {
                 _state.value = PlayerComparisonState.Error("Ha ocurrido un error, inténtelo de nuevo más tarde")
             }
