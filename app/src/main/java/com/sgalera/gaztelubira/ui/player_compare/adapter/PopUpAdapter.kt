@@ -13,7 +13,7 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 
 class PopUpAdapter(
     private var playerList: List<PlayerInfo> = emptyList(),
-    private var selectedPlayers: MutableList<View>,
+    private var selectedPlayers: MutableList<PlayerInfo>,
     private val showDoneButton: () -> Unit,
     private val hideDoneButton: () -> Unit
 ) : RecyclerView.Adapter<PopUpViewHolder>() {
@@ -28,8 +28,12 @@ class PopUpAdapter(
     override fun onBindViewHolder(holder: PopUpViewHolder, position: Int) {
         val player = playerList[position]
         holder.render(player)
-        if (player.selected) {
+
+        // Marcar la vista como seleccionada si el jugador está en la lista de seleccionados
+        if (selectedPlayers.contains(player)) {
             selectPlayer(holder.itemView)
+        } else {
+            unSelectPlayer(holder.itemView)
         }
         holder.itemView.setOnClickListener {
             dealWithSelection(holder, player)
@@ -37,16 +41,23 @@ class PopUpAdapter(
     }
 
     private fun dealWithSelection(holder: PopUpViewHolder, player: PlayerInfo) {
-        val state = alreadySelected(player)
-        if (state){
-            if (selectedPlayers.size == 2){
-                unSelectPlayer(selectedPlayers[0])
-                selectPlayer(holder.itemView)
-            } else {
-                selectPlayer(holder.itemView)
-            }
-        } else {
+        if (selectedPlayers.contains(player)) {
             unSelectPlayer(holder.itemView)
+            selectedPlayers.remove(player)
+            player.selected = false
+        } else {
+            // Si ya hay dos jugadores seleccionados, eliminamos el primero
+            if (selectedPlayers.size == 2) {
+                val firstSelectedPlayer = selectedPlayers[0]
+                firstSelectedPlayer.selected = false
+                selectedPlayers.removeAt(0)
+                notifyItemChanged(playerList.indexOf(firstSelectedPlayer))
+            }
+
+            // Seleccionamos el nuevo jugador
+            selectPlayer(holder.itemView)
+            selectedPlayers.add(player)
+            player.selected = true
         }
 
         if (selectedPlayers.size == 2) {
@@ -56,29 +67,20 @@ class PopUpAdapter(
         }
     }
 
-
-    private fun alreadySelected(player: PlayerInfo): Boolean {
-        player.selected = !player.selected
-        return player.selected
-    }
-
-    private fun selectPlayer(player: View) {
-        player.findViewById<ConstraintLayout>(R.id.clPlayerPopUp)
+    private fun selectPlayer(playerView: View) {
+        playerView.findViewById<ConstraintLayout>(R.id.clPlayerPopUp)
             .setBackgroundResource(R.color.white_80_opacity)
-        player.findViewById<TextView>(R.id.tvPlayerName)
-            .setTextColor(player.resources.getColor(R.color.black))
-        player.findViewById<ImageView>(R.id.ivCheck).visibility = View.VISIBLE
-        selectedPlayers.add(player)
+        playerView.findViewById<TextView>(R.id.tvPlayerName)
+            .setTextColor(playerView.resources.getColor(R.color.black))
+        playerView.findViewById<ImageView>(R.id.ivCheck).visibility = View.VISIBLE
     }
 
-    private fun unSelectPlayer(itemView: View) {
-        itemView.findViewById<ConstraintLayout>(R.id.clPlayerPopUp)
+    private fun unSelectPlayer(playerView: View) {
+        playerView.findViewById<ConstraintLayout>(R.id.clPlayerPopUp)
             .setBackgroundResource(R.color.primary_dark)
-        itemView.findViewById<TextView>(R.id.tvPlayerName)
-            .setTextColor(itemView.resources.getColor(R.color.white))
-        itemView.findViewById<ImageView>(R.id.ivCheck).visibility = View.GONE
-
-        selectedPlayers.remove(itemView)
+        playerView.findViewById<TextView>(R.id.tvPlayerName)
+            .setTextColor(playerView.resources.getColor(R.color.white))
+        playerView.findViewById<ImageView>(R.id.ivCheck).visibility = View.GONE
     }
 
 
@@ -87,6 +89,5 @@ class PopUpAdapter(
         playerList = list
         notifyDataSetChanged()
     }
-
 }
 
