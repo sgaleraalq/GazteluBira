@@ -146,8 +146,6 @@ class PlayerCompareFragment : Fragment() {
             cleanSheet = 0,
             positions = listOf("Interior derecho")
         )
-
-        val maxValue = getMaxValue()
         playerOne.percentage = getPercentage(playerOne)
         playerTwo.percentage = getPercentage(playerTwo)
         println(playerOne.percentage)
@@ -155,19 +153,33 @@ class PlayerCompareFragment : Fragment() {
     }
 
     private fun initComponents() {
+        // Main ppal components player one
         binding.tvPlayerOneName.text = playerOne.name.name
         binding.ivPlayerOne.setImageResource(playerOne.name.img)
         binding.tvDorsalPlayerOne.text = playerOne.name.dorsal.toString()
         binding.tvPositionPlayerOne.text = playerOne.positions[0]
         binding.tvParticipationPlayerOne.text = "${playerOne.percentage.toString()} %"
+        binding.tvGoalsPlayerOne.text = playerOne.goals.toString()
+        binding.tvAssistsPlayerOne.text = playerOne.assists.toString()
+        binding.tvBigMistakesPlayerOne.text = playerOne.bigMistakes.toString()
+        binding.tvCleanSheetPlayerOne.text = playerOne.cleanSheet.toString()
+        binding.tvGamesPlayedPlayerOne.text = playerOne.gamesPlayed.toString()
 
-
+        // Main ppal components player two
         binding.tvPlayerTwoName.text = playerTwo.name.name
         binding.ivPlayerTwo.setImageResource(playerTwo.name.img)
         binding.tvDorsalPlayerTwo.text = playerTwo.name.dorsal.toString()
         binding.tvPositionPlayerTwo.text = playerTwo.positions[0]
         binding.tvParticipationPlayerTwo.text = "${playerTwo.percentage.toString()} %"
+        binding.tvGoalsPlayerTwo.text = playerTwo.goals.toString()
+        binding.tvAssistsPlayerTwo.text = playerTwo.assists.toString()
+        binding.tvBigMistakesPlayerTwo.text = playerTwo.bigMistakes.toString()
+        binding.tvCleanSheetPlayerTwo.text = playerTwo.cleanSheet.toString()
+        binding.tvGamesPlayedPlayerTwo.text = playerTwo.gamesPlayed.toString()
+
+        initProgressViews()
     }
+
 
     private fun getPercentage(player: PlayerStats): String {
         val total = player.goals + player.assists + player.cleanSheet - player.bigMistakes
@@ -180,6 +192,32 @@ class PlayerCompareFragment : Fragment() {
         }
     }
 
+    private fun initProgressViews() {
+        val maxValue = getMaxValue()
+        // Player One
+        binding.pvGoalsPlayerOne.max = maxValue.toFloat()
+        binding.pvGoalsPlayerOne.progress = playerOne.goals.toFloat()
+        binding.pvAssistsPlayerOne.max = maxValue.toFloat()
+        binding.pvAssistsPlayerOne.progress = playerOne.assists.toFloat()
+        binding.pvBigMistakesPlayerOne.max = maxValue.toFloat()
+        binding.pvBigMistakesPlayerOne.progress = playerOne.bigMistakes.toFloat()
+        binding.pvCleanSheetPlayerOne.max = maxValue.toFloat()
+        binding.pvCleanSheetPlayerOne.progress = playerOne.cleanSheet.toFloat()
+        binding.pvGamesPlayedPlayerOne.max = maxValue.toFloat()
+        binding.pvGamesPlayedPlayerOne.progress = playerOne.gamesPlayed.toFloat()
+
+        // Player Two
+        binding.pvGoalsPlayerTwo.max = maxValue.toFloat()
+        binding.pvGoalsPlayerTwo.progress = playerTwo.goals.toFloat()
+        binding.pvAssistsPlayerTwo.max = maxValue.toFloat()
+        binding.pvAssistsPlayerTwo.progress = playerTwo.assists.toFloat()
+        binding.pvBigMistakesPlayerTwo.max = maxValue.toFloat()
+        binding.pvBigMistakesPlayerTwo.progress = playerTwo.bigMistakes.toFloat()
+        binding.pvCleanSheetPlayerTwo.max = maxValue.toFloat()
+        binding.pvCleanSheetPlayerTwo.progress = playerTwo.cleanSheet.toFloat()
+        binding.pvGamesPlayedPlayerTwo.max = maxValue.toFloat()
+        binding.pvGamesPlayedPlayerTwo.progress = playerTwo.gamesPlayed.toFloat()
+    }
 
 
     private fun getMaxValue(): Int {
