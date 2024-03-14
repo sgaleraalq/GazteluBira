@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
@@ -71,7 +72,7 @@ class PopUpAdapter(
         playerView.findViewById<ConstraintLayout>(R.id.clPlayerPopUp)
             .setBackgroundResource(R.color.white_80_opacity)
         playerView.findViewById<TextView>(R.id.tvPlayerName)
-            .setTextColor(playerView.resources.getColor(R.color.black))
+            .setTextColor(ContextCompat.getColor(playerView.context,R.color.black))
         playerView.findViewById<ImageView>(R.id.ivCheck).visibility = View.VISIBLE
     }
 
@@ -79,7 +80,7 @@ class PopUpAdapter(
         playerView.findViewById<ConstraintLayout>(R.id.clPlayerPopUp)
             .setBackgroundResource(R.color.primary_dark)
         playerView.findViewById<TextView>(R.id.tvPlayerName)
-            .setTextColor(playerView.resources.getColor(R.color.white))
+            .setTextColor(ContextCompat.getColor(playerView.context,R.color.white))
         playerView.findViewById<ImageView>(R.id.ivCheck).visibility = View.GONE
     }
 
