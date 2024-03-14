@@ -9,8 +9,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sgalera.gaztelubira.R
@@ -19,6 +23,7 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.player_compare.adapter.PopUpAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
 @AndroidEntryPoint
@@ -33,6 +38,11 @@ class PlayerCompareFragment : Fragment() {
 
     private lateinit var playerOne: PlayerStats
     private lateinit var playerTwo: PlayerStats
+    private lateinit var playerOneName: String
+    private lateinit var playerTwoName: String
+
+    private var isPlayerOneLoaded = false
+    private var isPlayerTwoLoaded = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -125,32 +135,68 @@ class PlayerCompareFragment : Fragment() {
     }
 
     private fun getPlayerInfo() {
-        println(1)
+        playerOneName = ""
+        playerTwoName = ""
+        for (element in popUpList){
+            if (element.selected){
+                if (playerOneName.isNotEmpty()){
+                    playerTwoName = element.name
+                } else {
+                    playerOneName = element.name
+                }
+            }
+        }
     }
 
     private fun getAllStats() {
-        playerOne = PlayerStats(
-            name = PlayerInfo.Xabi,
-            goals = 9,
-            assists = 4,
-            gamesPlayed = 12,
-            bigMistakes = 0,
-            cleanSheet = 0,
-            positions = listOf("Extremo izquierdo")
-        )
-        playerTwo = PlayerStats(
-            name = PlayerInfo.Dani,
-            goals = 1,
-            assists = 8,
-            gamesPlayed = 12,
-            bigMistakes = 0,
-            cleanSheet = 0,
-            positions = listOf("Interior derecho")
-        )
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getPlayerStats(playerOneName, 1)
+                viewModel.getPlayerStats(playerTwoName, 2)
+                viewModel.state.collect { state ->
+                    when (state) {
+                        is PlayerComparisonState.Loading -> loadingState()
+                        is PlayerComparisonState.Success -> successState(state.playerStats, state.id)
+                        is PlayerComparisonState.Error -> errorState(state.error)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun loadingState() {
+        binding.pbPlayerOne.visibility = View.VISIBLE
+        binding.pbPlayerTwo.visibility = View.VISIBLE
+    }
+
+    private fun errorState(error: String) {
+        binding.pbPlayerOne.visibility = View.INVISIBLE
+        binding.pbPlayerTwo.visibility = View.INVISIBLE
+        Toast.makeText(requireContext(), "Ha ocurrido un error $error", Toast.LENGTH_SHORT).show()
+
+    }
+
+    private fun successState(playerStats: PlayerStats, id: Int) {
+        binding.pbPlayerOne.visibility = View.INVISIBLE
+        binding.pbPlayerTwo.visibility = View.INVISIBLE
+
+        if (id == 1){
+            playerOne = playerStats
+            isPlayerOneLoaded = true
+        } else if (id == 2) {
+            playerTwo = playerStats
+            isPlayerTwoLoaded = true
+        }
+        if (isPlayerOneLoaded && isPlayerTwoLoaded){
+            initPercentages()
+            initComponents()
+        }
+    }
+
+
+    private fun initPercentages() {
         playerOne.percentage = getPercentage(playerOne)
         playerTwo.percentage = getPercentage(playerTwo)
-        println(playerOne.percentage)
-        initComponents()
     }
 
     @SuppressLint("SetTextI18n")
@@ -159,7 +205,7 @@ class PlayerCompareFragment : Fragment() {
         binding.tvPlayerOneName.text = playerOne.name.name
         binding.ivPlayerOne.setImageResource(playerOne.name.img)
         binding.tvDorsalPlayerOne.text = playerOne.name.dorsal.toString()
-        binding.tvPositionPlayerOne.text = playerOne.positions[0]
+        binding.tvPositionPlayerOne.text = playerOne.position
         binding.tvParticipationPlayerOne.text = "${playerOne.percentage.toString()} %"
         binding.tvGoalsPlayerOne.text = playerOne.goals.toString()
         binding.tvAssistsPlayerOne.text = playerOne.assists.toString()
@@ -171,7 +217,7 @@ class PlayerCompareFragment : Fragment() {
         binding.tvPlayerTwoName.text = playerTwo.name.name
         binding.ivPlayerTwo.setImageResource(playerTwo.name.img)
         binding.tvDorsalPlayerTwo.text = playerTwo.name.dorsal.toString()
-        binding.tvPositionPlayerTwo.text = playerTwo.positions[0]
+        binding.tvPositionPlayerTwo.text = playerTwo.position
         binding.tvParticipationPlayerTwo.text = "${playerTwo.percentage.toString()} %"
         binding.tvGoalsPlayerTwo.text = playerTwo.goals.toString()
         binding.tvAssistsPlayerTwo.text = playerTwo.assists.toString()
