@@ -12,7 +12,6 @@ data class MatchResponse(
     val match: String = "",
     val scorers: List<String> = emptyList(),
     val assistants: List<String> = emptyList(),
-    // TODO Starters
     val starters: Map<String, String> = emptyMap(),
     val bench: List<String> = emptyList(),
     @get:PropertyName("home_team") @set:PropertyName("home_team") var homeTeam: String = "",
