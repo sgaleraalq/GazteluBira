@@ -89,6 +89,7 @@ class PlayerCompareFragment : Fragment() {
         dialog.show()
 
         selectPlayers(playerOne, playerTwo)
+        val popUpRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewPlayers)
         val doneButtonPopUp = view.findViewById<CardView>(R.id.cvDone)
         val popUpAdapter = PopUpAdapter(
             playerList = popUpList,
@@ -101,7 +102,6 @@ class PlayerCompareFragment : Fragment() {
             })
 
         popUpAdapter.updateList(popUpList)
-        val popUpRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewPlayers)
         popUpRecyclerView.apply {
             adapter = popUpAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
