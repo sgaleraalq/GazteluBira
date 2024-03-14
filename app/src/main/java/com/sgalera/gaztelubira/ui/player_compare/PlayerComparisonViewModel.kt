@@ -17,6 +17,8 @@ import javax.inject.Inject
 class PlayerComparisonViewModel @Inject constructor(
     private val playerComparisonProvider: PlayersProvider
 ) : ViewModel() {
+
+    // TODO change flow, not a good practice for this scenario
     private var _state = MutableStateFlow<PlayerComparisonState>(PlayerComparisonState.Loading)
     val state: StateFlow<PlayerComparisonState> = _state
 

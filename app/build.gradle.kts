@@ -68,6 +68,8 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore.ktx)
     implementation("com.google.firebase:firebase-analytics")
+    // Firebase auth
+    implementation("com.google.firebase:firebase-auth")
     
     // Progress View
     implementation(libs.progressview)
