@@ -1,17 +1,37 @@
 package com.sgalera.gaztelubira.ui.player_compare
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.sgalera.gaztelubira.data.provider.PlayersProvider
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
+import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class PlayerComparisonViewModel @Inject constructor(): ViewModel() {
+class PlayerComparisonViewModel @Inject constructor(
+    private val playerComparisonProvider: PlayersProvider
+) : ViewModel() {
     private var _state = MutableStateFlow<PlayerComparisonState>(PlayerComparisonState.Loading)
     val state: StateFlow<PlayerComparisonState> = _state
+
+    fun getPlayerStats(playerName: String) {
+        viewModelScope.launch {
+            _state.value = PlayerComparisonState.Loading
+            val result = withContext(Dispatchers.IO) { playerComparisonProvider.getPlayerStats(playerName) }
+            if (result != null){
+                _state.value = PlayerComparisonState.Success(result)
+            } else {
+                _state.value = PlayerComparisonState.Error("Ha ocurrido un error, inténtelo de nuevo más tarde")
+            }
+        }
+    }
 
     fun getPlayerList(): List<PlayerInfo> {
         return listOf(
@@ -42,8 +62,8 @@ class PlayerComparisonViewModel @Inject constructor(): ViewModel() {
         )
     }
 
-    fun mapPlayer(playerName: CharSequence): PlayerInfo{
-        return when(playerName){
+    fun mapPlayer(playerName: CharSequence): PlayerInfo {
+        return when (playerName) {
             "Pedro" -> Pedro
             "Jon" -> Jon
             "Asier" -> Asier
