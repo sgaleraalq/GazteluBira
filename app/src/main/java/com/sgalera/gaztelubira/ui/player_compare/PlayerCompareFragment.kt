@@ -1,5 +1,6 @@
 package com.sgalera.gaztelubira.ui.player_compare
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -152,6 +153,7 @@ class PlayerCompareFragment : Fragment() {
         initComponents()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initComponents() {
         // Main ppal components player one
         binding.tvPlayerOneName.text = playerOne.name.name
