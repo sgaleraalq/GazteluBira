@@ -38,6 +38,8 @@
     <string name="bench">Bench</string>
 
     // Stats fragment
+    <string name="player">Player</string>
+
 
     // Teams
     <string name="anaitasuna">Anaitasuna</string>
@@ -70,4 +72,7 @@
     <string name="description_messi_vs_cristiano">Image Messi vs Cristiano</string>
     <string name="description_football_card">Background fifa card</string>
     <string name="description_champion">Champion player</string>
+    <string name="description_assist_icon">Assist icon</string>
+    <string name="description_big_mistakes_icon">Big mistakes icon</string>
+    <string name="description_clean_sheet_icon">Clean sheet icon</string>
 </resources>
