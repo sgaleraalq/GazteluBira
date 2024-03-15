@@ -4,6 +4,10 @@
 
     // Testing
     <string name="random_number">14</string>
+    <string name="random_number_1">10</string>
+    <string name="random_number_2">3</string>
+    <string name="madariaga">Madariaga</string>
+
 
     // App and Fragment names
     <string name="gaztelu_bira">Gaztelu Bira</string>
@@ -64,4 +68,6 @@
     <string name="description_t_shirt">Gaztelu t-shirt</string>
     <string name="description_check">Check icon</string>
     <string name="description_messi_vs_cristiano">Image Messi vs Cristiano</string>
+    <string name="description_football_card">Background fifa card</string>
+    <string name="description_champion">Champion player</string>
 </resources>
