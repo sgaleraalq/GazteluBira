@@ -184,6 +184,14 @@
                 android:contentDescription="@string/description_clean_sheet_icon"
                 android:paddingHorizontal="4dp"
                 android:src="@drawable/ic_clean_sheet" />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="2dp"
+                android:contentDescription="@string/description_football_field"
+                android:paddingHorizontal="4dp"
+                android:src="@drawable/ic_color_football_field"/>
 
         </TableRow>
 
@@ -193,88 +201,6 @@
             android:layout_marginHorizontal="10dp"
             android:background="@color/white" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:contentDescription="@string/description_football_player"
-                android:padding="4dp"
-                android:paddingHorizontal="4dp"
-                android:src="@drawable/ic_up" />
-
-            <TextView
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingStart="4dp"
-                android:text="@string/madariaga"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                tools:ignore="RtlSymmetry" />
-
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/random_number"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                tools:ignore="RtlSymmetry" />
-
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/random_number"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                tools:ignore="RtlSymmetry" />
-
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/random_number"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                tools:ignore="RtlSymmetry" />
-
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/random_number"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                tools:ignore="RtlSymmetry" />
-
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/random_number"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                tools:ignore="RtlSymmetry" />
-
-
-        </TableRow>
 
     </TableLayout>
 
