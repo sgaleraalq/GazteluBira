@@ -37,8 +37,8 @@
 
             <ImageView
                 android:id="@+id/ivMatchType"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginTop="4dp"
                 android:contentDescription="@string/description_type_of_match"
                 app:layout_constraintEnd_toEndOf="parent"
