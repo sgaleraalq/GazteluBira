@@ -8,13 +8,26 @@
 
     <ImageView
         android:id="@+id/ivArrow"
-        android:layout_width="30dp"
+        android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_gravity="center"
         android:contentDescription="@string/description_football_player"
         android:padding="4dp"
         android:paddingHorizontal="4dp"
         android:src="@drawable/ic_arrow_up" />
+
+    <TextView
+        android:id="@+id/tvRanking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        android:textColor="@color/white"
+        android:layout_marginHorizontal="4dp"
+        tools:ignore="RtlSymmetry"
+        tools:text="14"  />
 
     <TextView
         android:id="@+id/tvPlayerName"
