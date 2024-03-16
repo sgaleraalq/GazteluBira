@@ -39,6 +39,8 @@
 
     // Stats fragment
     <string name="player">Player</string>
+    <string name="admin">Admin</string>
+
 
 
     // Teams
