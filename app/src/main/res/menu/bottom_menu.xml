@@ -3,7 +3,7 @@
     <item
         android:id="@+id/playerFragment"
         android:icon="@drawable/ic_versus"
-        android:title="@string/playerFragment" />
+        android:title="@string/oneVersusOne" />
 
     <item
         android:id="@+id/statsFragment"
