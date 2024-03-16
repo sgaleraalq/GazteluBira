@@ -105,15 +105,16 @@
         app:layout_constraintStart_toEndOf="@id/tvChampionAssists"
         app:layout_constraintTop_toTopOf="@id/tvChampionAssists" />
 
+
     <TableLayout
-        android:id="@+id/tlClassification"
-        android:layout_width="0dp"
-        android:layout_height="300dp"
+        android:id="@+id/tlClassificationHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@id/svClassification"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivBackgroundFifaCard">
+        app:layout_constraintStart_toStartOf="parent">
 
         <TableRow
             android:layout_width="match_parent"
@@ -139,18 +140,15 @@
                 tools:ignore="RtlSymmetry" />
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
+                style="@style/table_row_image_view_header"
                 android:layout_marginHorizontal="2dp"
+                android:background="@color/grey_80_opacity"
                 android:contentDescription="@string/description_clean_sheet_icon"
                 android:paddingHorizontal="4dp"
                 android:src="@drawable/ic_percentage" />
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
+                style="@style/table_row_image_view_header"
                 android:layout_marginHorizontal="2dp"
                 android:contentDescription="@string/description_goal_icon"
                 android:paddingHorizontal="4dp"
@@ -158,9 +156,7 @@
                 app:tint="@color/white" />
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
+                style="@style/table_row_image_view_header"
                 android:layout_marginHorizontal="2dp"
                 android:contentDescription="@string/description_goal_icon"
                 android:paddingHorizontal="3dp"
@@ -168,27 +164,21 @@
                 app:tint="@color/white" />
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
+                style="@style/table_row_image_view_header"
                 android:layout_marginHorizontal="2dp"
                 android:contentDescription="@string/description_big_mistakes_icon"
                 android:paddingHorizontal="4dp"
                 android:src="@drawable/ic_big_mistakes" />
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
+                style="@style/table_row_image_view_header"
                 android:layout_marginHorizontal="2dp"
                 android:contentDescription="@string/description_clean_sheet_icon"
                 android:paddingHorizontal="4dp"
                 android:src="@drawable/ic_clean_sheet" />
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
+                style="@style/table_row_image_view_header"
                 android:layout_marginHorizontal="2dp"
                 android:contentDescription="@string/description_football_field"
                 android:paddingHorizontal="4dp"
@@ -200,10 +190,39 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="16dp"
             android:background="@color/white" />
 
-
     </TableLayout>
+
+    <ScrollView
+        android:id="@+id/svClassification"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivBackgroundFifaCard">
+
+        <TableLayout
+            android:id="@+id/tlClassification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ProgressBar
+                android:id="@+id/pbLoading"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:indeterminateTint="@color/gold" />
+
+        </TableLayout>
+
+    </ScrollView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvAdmin"
@@ -214,8 +233,8 @@
         app:cardBackgroundColor="@color/main_red"
         app:cardCornerRadius="4dp"
         app:cardElevation="8dp"
-        app:layout_constraintBottom_toTopOf="@id/tlClassification"
-        app:layout_constraintEnd_toEndOf="@id/tlClassification">
+        app:layout_constraintBottom_toTopOf="@id/tlClassificationHeader"
+        app:layout_constraintEnd_toEndOf="@id/tlClassificationHeader">
 
         <TextView
             android:layout_width="wrap_content"
