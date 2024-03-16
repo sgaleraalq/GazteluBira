@@ -31,17 +31,17 @@
     </style>
 
     <style name="table_row_image_view_header">
-        <item name="android:layout_width">30dp</item>
-        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_height">25dp</item>
         <item name="android:layout_gravity">center</item>
     </style>
 
     <style name="table_row_player_stats_text_views">
-        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_width">25dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">10sp</item>
         <item name="android:textStyle">italic</item>
         <item name="android:textColor">@color/white</item>
     </style>

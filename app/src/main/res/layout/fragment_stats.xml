@@ -112,7 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@id/svClassification"
+        app:layout_constraintTop_toBottomOf="@id/ivBackgroundFifaCard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -123,12 +123,12 @@
             android:padding="5dp">
 
             <TextView
-                android:layout_width="20dp"
+                android:layout_width="1dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
 
             <TextView
-                android:layout_width="20dp"
+                android:layout_width="1dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginHorizontal="4dp"
@@ -138,7 +138,7 @@
                 tools:ignore="RtlSymmetry" />
 
             <TextView
-                android:layout_width="120dp"
+                android:layout_width="158dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
@@ -213,13 +213,13 @@
     <ScrollView
         android:id="@+id/svClassification"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="0dp"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivBackgroundFifaCard">
+        app:layout_constraintTop_toBottomOf="@id/tlClassificationHeader">
 
         <TableLayout
             android:id="@+id/tlClassification"

@@ -22,24 +22,24 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center_vertical"
-        android:textSize="12sp"
+        android:textSize="10sp"
         android:textStyle="italic"
         android:textColor="@color/white"
         android:layout_marginHorizontal="4dp"
-        tools:ignore="RtlSymmetry"
+        tools:ignore="RtlSymmetry,SmallSp"
         tools:text="14"  />
 
     <TextView
         android:id="@+id/tvPlayerName"
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1"
         android:lines="1"
+        android:layout_weight="1"
         android:paddingStart="4dp"
         android:text="@string/madariaga"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:textStyle="italic"
         tools:ignore="RtlSymmetry" />
 
