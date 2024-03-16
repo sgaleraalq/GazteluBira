@@ -1,3 +1,7 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -19,6 +23,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val localProperties = Properties()
+        val propertyFile = FileInputStream(rootProject.file("local.properties"))
+        localProperties.load(propertyFile)
+        buildConfigField("String", "ADMIN_PASSWORD", localProperties.getProperty("ADMIN_PASSWORD"))
     }
 
     buildTypes {
@@ -41,6 +50,7 @@ android {
     buildFeatures{
         viewBinding = true
         dataBinding = true
+        buildConfig = true
     }
 }
 

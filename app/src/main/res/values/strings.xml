@@ -40,8 +40,9 @@
     // Stats fragment
     <string name="player">Player</string>
     <string name="admin">Admin</string>
-
-
+    <string name="insert_admin_password">Insert admin password:</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log in</string>
 
     // Teams
     <string name="anaitasuna">Anaitasuna</string>
@@ -77,4 +78,5 @@
     <string name="description_assist_icon">Assist icon</string>
     <string name="description_big_mistakes_icon">Big mistakes icon</string>
     <string name="description_clean_sheet_icon">Clean sheet icon</string>
+    <string name="description_icon_eye">Eye icon</string>
 </resources>
