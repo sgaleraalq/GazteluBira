@@ -19,4 +19,8 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
         }
         return null
     }
+
+    fun getAllStats(): List<PlayerStats>? {
+        return null
+    }
 }

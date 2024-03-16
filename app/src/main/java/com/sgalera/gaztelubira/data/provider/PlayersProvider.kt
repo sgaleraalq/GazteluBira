@@ -9,4 +9,7 @@ class PlayersProvider @Inject constructor(private val playersApiService: Players
         return playersApiService.getPlayerStats(playerName)
     }
 
+    suspend fun getAllStats(): List<PlayerStats>? {
+        return playersApiService.getAllStats()
+    }
 }

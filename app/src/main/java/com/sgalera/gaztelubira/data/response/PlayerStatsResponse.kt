@@ -11,6 +11,8 @@ data class PlayerStatsResponse(
     val goals: Int = 0,
     val assists: Int = 0,
     val position: String = "",
+    val ranking: Int = 0,
+    @get:PropertyName("last_ranking") @set:PropertyName("last_ranking") var lastRanking: Int = 0,
     @get:PropertyName("big_mistakes") @set: PropertyName("big_mistakes") var bigMistakes: Int = 0,
     @get: PropertyName("clean_sheet") @set: PropertyName("clean_sheet") var cleanSheet: Int = 0,
     @get: PropertyName("games_played") @set:PropertyName("games_played") var gamesPlayed: Int = 0,
@@ -23,7 +25,9 @@ data class PlayerStatsResponse(
             gamesPlayed = gamesPlayed,
             bigMistakes = bigMistakes,
             cleanSheet = cleanSheet,
-            position = position
+            position = position,
+            lastRanking = lastRanking,
+            ranking = ranking,
         )
     }
 

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.firestore.auth.FirebaseAuthCredentialsProvider
@@ -17,6 +18,8 @@ class StatsFragment : Fragment() {
 
     private var _binding: FragmentStatsBinding? = null
     private val binding get() = _binding!!
+
+    private val statsViewModel by viewModels<StatsViewModel>()
 
     private lateinit var auth: FirebaseAuth
     override fun onCreateView(
@@ -35,6 +38,22 @@ class StatsFragment : Fragment() {
     }
 
     private fun initUI() {
-
+        initComponents()
+        initListeners()
     }
+
+    private fun initListeners() {
+        binding.cvAdmin.setOnClickListener {
+            showAdminPopUp()
+        }
+    }
+
+    private fun initComponents() {
+        TODO("Not yet implemented")
+    }
+
+    private fun showAdminPopUp() {
+        TODO("Not yet implemented")
+    }
+
 }
