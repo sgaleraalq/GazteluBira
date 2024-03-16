@@ -1,20 +1,25 @@
 package com.sgalera.gaztelubira.ui.stats
 
+import com.sgalera.gaztelubira.ui.manager.PasswordManager
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.firebase.auth.FirebaseAuth
+import com.sgalera.gaztelubira.BuildConfig
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentStatsBinding
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
@@ -199,7 +204,27 @@ class StatsFragment : Fragment() {
     }
 
     private fun showAdminPopUp() {
-        println("Admin")
+        val builder = AlertDialog.Builder(requireContext())
+        val inflater = LayoutInflater.from(requireContext())
+        val view = inflater.inflate(R.layout.item_admin_popup, null)
+        builder.setView(view)
+        val dialog = builder.create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
+
+        val logInBtn = view.findViewById<AppCompatButton>(R.id.btnLogInAdmin)
+        val password = view.findViewById<EditText>(R.id.etAdminPassword)
+        val passwordManager = PasswordManager()
+        logInBtn.setOnClickListener {
+            val enteredPassword = password.text.toString()
+            if (passwordManager.checkPassword(enteredPassword)) {
+                dialog.dismiss()
+                Toast.makeText(context, "Contraseña correcta", Toast.LENGTH_SHORT).show()
+                // TODO Generar el token
+            } else {
+                Toast.makeText(context, "Contraseña incorrecta", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
