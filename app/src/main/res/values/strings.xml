@@ -14,6 +14,7 @@
     <string name="playerFragment">Player</string>
     <string name="statsFragment">Stats</string>
     <string name="matchesFragment">Matches</string>
+    <string name="oneVersusOne">1 v 1</string>
 
     // Player comparison fragment
     <string name="goals">Goals</string>
