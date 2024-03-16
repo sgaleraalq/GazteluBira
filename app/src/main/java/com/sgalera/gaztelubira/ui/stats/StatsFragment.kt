@@ -4,6 +4,7 @@ import com.sgalera.gaztelubira.ui.manager.PasswordManager
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
+import android.text.InputType
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,14 +29,11 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class StatsFragment : Fragment() {
-
     private var _binding: FragmentStatsBinding? = null
     private val binding get() = _binding!!
-
     private val statsViewModel by viewModels<StatsViewModel>()
-
-    private lateinit var auth: FirebaseAuth
     private lateinit var playerStats: List<PlayerStats>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,8 +44,6 @@ class StatsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        auth = FirebaseAuth.getInstance()
         initUI()
     }
 
@@ -214,6 +210,8 @@ class StatsFragment : Fragment() {
 
         val logInBtn = view.findViewById<AppCompatButton>(R.id.btnLogInAdmin)
         val password = view.findViewById<EditText>(R.id.etAdminPassword)
+        val eyeIcon = view.findViewById<ImageView>(R.id.ivEye)
+        initEyeIcon(eyeIcon, password)
         val passwordManager = PasswordManager()
         logInBtn.setOnClickListener {
             val enteredPassword = password.text.toString()
@@ -226,6 +224,21 @@ class StatsFragment : Fragment() {
             }
         }
     }
+
+    private fun initEyeIcon(eye: ImageView, password: EditText) {
+        eye.setOnClickListener {
+            if (password.inputType == InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) {
+                password.inputType = InputType.TYPE_CLASS_TEXT
+                eye.setImageResource(R.drawable.ic_eye_open)
+            } else {
+                password.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                eye.setImageResource(R.drawable.ic_eye_closed)
+            }
+            // Mueve el cursor al final del texto
+            password.setSelection(password.text.length)
+        }
+    }
+
 
     @SuppressLint("SetTextI18n")
     private fun setRowPlayerView(player: PlayerStats, index: Int): View {
