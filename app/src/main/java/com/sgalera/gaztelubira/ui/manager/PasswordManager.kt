@@ -9,7 +9,7 @@ class PasswordManager {
 
     fun checkPassword(password: String): Boolean {
         val enteredHashedPassword = hashPassword(password)
-        return enteredHashedPassword == adminPassword
+        return enteredHashedPassword == hashPassword(adminPassword)
     }
 
     private fun hashPassword(password: String): String {
