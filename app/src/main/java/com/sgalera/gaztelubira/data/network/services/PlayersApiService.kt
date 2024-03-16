@@ -12,15 +12,27 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
     companion object {
         const val PLAYER_STATS = "players_stats"
     }
+
     suspend fun getPlayerStats(playerName: String): PlayerStats? {
-        val document = firebase.db.collection(PLAYER_STATS).document(playerName.lowercase(Locale.ROOT)).get().await()
-        if (document != null){
+        val document =
+            firebase.db.collection(PLAYER_STATS).document(playerName.lowercase(Locale.ROOT)).get()
+                .await()
+        if (document != null) {
             return document.toObject(PlayerStatsResponse::class.java)!!.toDomain()
         }
         return null
     }
 
-    fun getAllStats(): List<PlayerStats>? {
-        return null
+    suspend fun getAllStats(): List<PlayerStats>? = try {
+        val collection = firebase.db.collection(PLAYER_STATS).get().await()
+        if (collection.isEmpty) {
+            null
+        } else {
+            collection.documents.map {
+                it.toObject(PlayerStatsResponse::class.java)!!.toDomain()
+            }
+        }
+    } catch (e: Exception) {
+        null
     }
 }
