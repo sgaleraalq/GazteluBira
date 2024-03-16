@@ -24,7 +24,6 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.player_compare.adapter.PopUpAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.text.DecimalFormat
 
 @AndroidEntryPoint
 class PlayerCompareFragment : Fragment() {
@@ -188,15 +187,8 @@ class PlayerCompareFragment : Fragment() {
             isPlayerTwoLoaded = true
         }
         if (isPlayerOneLoaded && isPlayerTwoLoaded){
-            initPercentages()
             initComponents()
         }
-    }
-
-
-    private fun initPercentages() {
-        playerOne.percentage = getPercentage(playerOne)
-        playerTwo.percentage = getPercentage(playerTwo)
     }
 
     @SuppressLint("SetTextI18n")
@@ -226,18 +218,6 @@ class PlayerCompareFragment : Fragment() {
         binding.tvGamesPlayedPlayerTwo.text = playerTwo.gamesPlayed.toString()
 
         initProgressViews()
-    }
-
-
-    private fun getPercentage(player: PlayerStats): String {
-        val total = player.goals + player.assists + player.cleanSheet - player.bigMistakes
-        val gamesPlayed = player.gamesPlayed.toFloat()
-        return if (gamesPlayed != 0f) {
-            val percentage = (total.toFloat() / gamesPlayed)
-            DecimalFormat("#.##").format(percentage)
-        } else {
-            "0"
-        }
     }
 
     private fun initProgressViews() {

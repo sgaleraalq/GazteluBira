@@ -4,6 +4,7 @@ import com.google.firebase.firestore.PropertyName
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
+import java.text.DecimalFormat
 import java.util.Locale
 
 data class PlayerStatsResponse(
@@ -28,6 +29,7 @@ data class PlayerStatsResponse(
             position = position,
             lastRanking = lastRanking,
             ranking = ranking,
+            percentage = getPercentage(this)
         )
     }
 
@@ -57,6 +59,17 @@ data class PlayerStatsResponse(
             "Bryant" -> Bryant
             "Roson" -> Roson
             else -> Emilio
+        }
+    }
+
+    private fun getPercentage(player: PlayerStatsResponse): String {
+        val total = player.goals + player.assists + player.cleanSheet - player.bigMistakes
+        val gamesPlayed = player.gamesPlayed.toFloat()
+        return if (gamesPlayed != 0f) {
+            val percentage = (total.toFloat() / gamesPlayed)
+            DecimalFormat("#.##").format(percentage)
+        } else {
+            "0"
         }
     }
 
