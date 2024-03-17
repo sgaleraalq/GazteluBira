@@ -46,22 +46,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/primary"
-        android:visibility="gone"
+        android:visibility="visible"
         tools:context=".ui.player_compare.PlayerCompareFragment">
 
-        <ImageView
-            android:id="@+id/ivPlayerOne"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvPlayerOne"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginTop="8dp"
-            android:contentDescription="@string/description_football_player"
-            android:orientation="vertical"
-            android:src="@drawable/img_no_profile_picture"
+            app:cardBackgroundColor="@color/white_80_opacity"
+            app:cardCornerRadius="40dp"
             app:layout_constraintBottom_toTopOf="@id/llComparisonStats"
             app:layout_constraintEnd_toStartOf="@id/ivVersus"
             app:layout_constraintTop_toBottomOf="@id/tvPlayerOneName">
 
-        </ImageView>
+            <ImageView
+                android:id="@+id/ivPlayerOne"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:contentDescription="@string/description_football_player"
+                android:src="@drawable/img_player_david" />
+
+        </androidx.cardview.widget.CardView>
 
         <ImageView
             android:id="@+id/ivTShirtPlayerOne"
@@ -71,9 +77,9 @@
             android:layout_marginBottom="8dp"
             android:contentDescription="@string/description_t_shirt"
             android:src="@drawable/ic_football_t_shirt"
-            app:layout_constraintEnd_toStartOf="@id/ivPlayerOne"
+            app:layout_constraintEnd_toStartOf="@id/cvPlayerOne"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ivPlayerOne" />
+            app:layout_constraintTop_toTopOf="@id/cvPlayerOne" />
 
         <TextView
             android:id="@+id/tvDorsalPlayerOne"
@@ -102,8 +108,8 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/ivPlayerOne"
-            app:layout_constraintEnd_toEndOf="@id/ivPlayerOne"
+            app:layout_constraintBottom_toTopOf="@id/cvPlayerOne"
+            app:layout_constraintEnd_toEndOf="@id/cvPlayerOne"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -117,7 +123,7 @@
             android:textColor="@color/antique_white"
             android:textSize="8sp"
             android:textStyle="italic"
-            app:layout_constraintEnd_toStartOf="@id/ivPlayerOne"
+            app:layout_constraintEnd_toStartOf="@id/cvPlayerOne"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivTShirtPlayerOne"
             tools:ignore="SmallSp" />
@@ -132,20 +138,28 @@
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/ivPlayerOne"
-            app:layout_constraintEnd_toStartOf="@id/ivPlayerOne"
+            app:layout_constraintBottom_toBottomOf="@id/cvPlayerOne"
+            app:layout_constraintEnd_toStartOf="@id/cvPlayerOne"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvPositionPlayerOne" />
 
-        <ImageView
-            android:id="@+id/ivPlayerTwo"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvPlayerTwo"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:contentDescription="@string/description_football_player"
-            android:orientation="vertical"
-            android:src="@drawable/img_no_profile_picture"
+            app:cardBackgroundColor="@color/white_80_opacity"
+            app:cardCornerRadius="40dp"
             app:layout_constraintStart_toEndOf="@id/ivVersus"
-            app:layout_constraintTop_toTopOf="@id/ivPlayerOne" />
+            app:layout_constraintTop_toTopOf="@id/cvPlayerOne">
+
+            <ImageView
+                android:id="@+id/ivPlayerTwo"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:contentDescription="@string/description_football_player"
+                android:src="@drawable/img_no_profile_picture" />
+
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/tvPlayerTwoName"
@@ -160,7 +174,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/ivPlayerTwo"
+            app:layout_constraintStart_toStartOf="@id/cvPlayerTwo"
             app:layout_constraintTop_toTopOf="@id/tvPlayerOneName" />
 
         <ImageView
@@ -172,8 +186,8 @@
             android:contentDescription="@string/description_t_shirt"
             android:src="@drawable/ic_football_t_shirt"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivPlayerTwo"
-            app:layout_constraintTop_toTopOf="@id/ivPlayerOne" />
+            app:layout_constraintStart_toEndOf="@id/cvPlayerTwo"
+            app:layout_constraintTop_toTopOf="@id/cvPlayerOne" />
 
         <TextView
             android:id="@+id/tvDorsalPlayerTwo"
@@ -199,7 +213,7 @@
             android:textSize="8sp"
             android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivPlayerTwo"
+            app:layout_constraintStart_toEndOf="@id/cvPlayerTwo"
             app:layout_constraintTop_toBottomOf="@id/ivTShirtPlayerOne"
             tools:ignore="SmallSp" />
 
@@ -213,9 +227,9 @@
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/ivPlayerTwo"
+            app:layout_constraintBottom_toBottomOf="@id/cvPlayerTwo"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivPlayerTwo"
+            app:layout_constraintStart_toEndOf="@id/cvPlayerTwo"
             app:layout_constraintTop_toBottomOf="@id/tvPositionPlayerTwo" />
 
         <View
@@ -223,7 +237,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="@id/ivPlayerOne"
+            app:layout_constraintBottom_toBottomOf="@id/cvPlayerOne"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -237,7 +251,7 @@
             app:layout_constraintBottom_toTopOf="@id/btnChooseTwoPlayers"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivPlayerOne">
+            app:layout_constraintTop_toBottomOf="@id/cvPlayerOne">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
