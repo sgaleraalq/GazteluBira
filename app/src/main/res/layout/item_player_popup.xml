@@ -22,7 +22,7 @@
             android:id="@+id/cvImage"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@color/transparent"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="30dp"
             app:layout_constraintBottom_toTopOf="@id/tvPlayerName"
             app:layout_constraintEnd_toEndOf="parent"
@@ -35,8 +35,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:contentDescription="@string/description_football_player"
-                android:scaleType="centerCrop"
-                android:src="@drawable/img_xabi" />
+                android:src="@drawable/img_player_david" />
 
         </androidx.cardview.widget.CardView>
 

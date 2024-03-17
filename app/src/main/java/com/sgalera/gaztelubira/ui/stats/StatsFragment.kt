@@ -243,11 +243,11 @@ class StatsFragment : Fragment() {
                 sharedPreferences.saveAdminToken(BuildConfig.AUTH_TOKEN)
                 Toast.makeText(context, "Contraseña correcta", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
+                initToken()
             } else {
                 Toast.makeText(context, "Contraseña incorrecta", Toast.LENGTH_SHORT).show()
             }
         }
-        initToken()
     }
 
     private fun initEyeIcon(eye: ImageView, password: EditText) {
@@ -265,7 +265,7 @@ class StatsFragment : Fragment() {
     }
 
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "InflateParams")
     private fun setRowPlayerView(player: PlayerStats, index: Int): View {
         val view = layoutInflater.inflate(R.layout.item_table_row, null)
         val arrow = getArrow(player)
