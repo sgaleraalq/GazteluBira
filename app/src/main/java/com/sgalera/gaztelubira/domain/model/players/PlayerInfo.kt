@@ -18,11 +18,15 @@ sealed class PlayerInfo(
     data object Mikel: PlayerInfo("Mikel", R.drawable.img_no_profile_picture, 10)
     data object Gorka: PlayerInfo("Gorka", R.drawable.img_no_profile_picture, 11)
     data object Arrondo: PlayerInfo("Arrondo", R.drawable.img_arrondo, 14)
+    data object Bryant: PlayerInfo("Bryant", R.drawable.img_no_profile_picture, 15)
+
     data object Dani: PlayerInfo("Dani", R.drawable.img_dani, 16)
     data object Nando: PlayerInfo("Nando", R.drawable.img_no_profile_picture, 18)
     data object Haaland: PlayerInfo("Haaland", R.drawable.img_no_profile_picture, 22)
-    data object David: PlayerInfo("David", R.drawable.img_sadaba, 23)
+    data object David: PlayerInfo("David", R.drawable.img_player_david, 23)
     data object Aaron: PlayerInfo("Aaron", R.drawable.img_no_profile_picture, 24)
+    data object Roson: PlayerInfo("Roson", R.drawable.img_no_profile_picture, 26)
+
 
 
     data object Mugueta: PlayerInfo("Mugueta", R.drawable.img_no_profile_picture, 50)
@@ -31,8 +35,5 @@ sealed class PlayerInfo(
     data object Larra: PlayerInfo("Larra", R.drawable.img_larra, 53)
     data object Unai: PlayerInfo("Unai", R.drawable.img_no_profile_picture, 54)
     data object Madariaga: PlayerInfo("Madariaga", R.drawable.img_no_profile_picture, 55)
-    data object Bryant: PlayerInfo("Bryant", R.drawable.img_no_profile_picture, 56)
-    data object Roson: PlayerInfo("Roson", R.drawable.img_no_profile_picture, 57)
     data object Emilio: PlayerInfo("Emilio", R.drawable.img_emilio, 58)
-
 }

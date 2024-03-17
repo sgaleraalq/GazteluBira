@@ -19,7 +19,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.google.firebase.auth.FirebaseAuth
 import com.sgalera.gaztelubira.BuildConfig
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentStatsBinding
@@ -50,8 +49,18 @@ class StatsFragment : Fragment() {
     }
 
     private fun initUI() {
+        initToken()
         initComponents()
         initListeners()
+    }
+
+    private fun initToken() {
+        sharedPreferences = SharedPreferences(requireContext())
+        val token = sharedPreferences.getAdminToken()
+        if (token != null) {
+            binding.tvLoggedAsAdmin.visibility = View.VISIBLE
+            binding.cvAdmin.visibility = View.INVISIBLE
+        }
     }
 
     private fun initListeners() {
@@ -170,11 +179,11 @@ class StatsFragment : Fragment() {
                     when (it) {
                         StatsState.Loading -> loadingState()
                         is StatsState.Success -> {
-                            playerStats = it.data
+                            playerStats = it.data.sortedByDescending { it.percentage }
                             startLateListeners()
-                            successState(it.data.sortedByDescending { it.percentage })
+                            successState(playerStats)
+                            showImage( playerStats[0] )
                         }
-
                         is StatsState.Error -> errorState(it.message)
                     }
                 }
@@ -182,11 +191,23 @@ class StatsFragment : Fragment() {
         }
     }
 
+    private fun showImage(player: PlayerStats) {
+        binding.ivIconGoals.visibility = View.VISIBLE
+        binding.ivIconAssists.visibility = View.VISIBLE
+        binding.pbLoadingChampion.visibility = View.INVISIBLE
+        binding.tvNameChampion.text = player.name.name
+        binding.tvChampionGoals.text = player.goals.toString()
+        binding.tvChampionAssists.text = player.assists.toString()
+        binding.ivChampion.setImageResource(player.name.img)
+    }
+
     private fun loadingState() {
+        binding.pbLoadingChampion.visibility = View.VISIBLE
         binding.pbLoading.visibility = View.VISIBLE
     }
 
     private fun errorState(error: String) {
+        binding.pbLoadingChampion.visibility = View.GONE
         binding.pbLoading.visibility = View.GONE
         Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
     }
@@ -226,6 +247,7 @@ class StatsFragment : Fragment() {
                 Toast.makeText(context, "Contraseña incorrecta", Toast.LENGTH_SHORT).show()
             }
         }
+        initToken()
     }
 
     private fun initEyeIcon(eye: ImageView, password: EditText) {
