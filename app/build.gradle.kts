@@ -28,6 +28,7 @@ android {
         val propertyFile = FileInputStream(rootProject.file("local.properties"))
         localProperties.load(propertyFile)
         buildConfigField("String", "ADMIN_PASSWORD", localProperties.getProperty("ADMIN_PASSWORD"))
+        buildConfigField("String", "AUTH_TOKEN", localProperties.getProperty("AUTH_TOKEN"))
     }
 
     buildTypes {
