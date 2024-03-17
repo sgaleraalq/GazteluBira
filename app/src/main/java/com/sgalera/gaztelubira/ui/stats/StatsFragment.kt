@@ -24,6 +24,7 @@ import com.sgalera.gaztelubira.BuildConfig
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentStatsBinding
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
+import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -33,6 +34,7 @@ class StatsFragment : Fragment() {
     private val binding get() = _binding!!
     private val statsViewModel by viewModels<StatsViewModel>()
     private lateinit var playerStats: List<PlayerStats>
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -216,9 +218,10 @@ class StatsFragment : Fragment() {
         logInBtn.setOnClickListener {
             val enteredPassword = password.text.toString()
             if (passwordManager.checkPassword(enteredPassword)) {
-                dialog.dismiss()
+                sharedPreferences = SharedPreferences(requireContext())
+                sharedPreferences.saveAdminToken(BuildConfig.AUTH_TOKEN)
                 Toast.makeText(context, "Contraseña correcta", Toast.LENGTH_SHORT).show()
-                // TODO Generar el token
+                dialog.dismiss()
             } else {
                 Toast.makeText(context, "Contraseña incorrecta", Toast.LENGTH_SHORT).show()
             }
