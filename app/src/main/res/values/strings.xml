@@ -44,6 +44,7 @@
     <string name="insert_admin_password">Insert admin password:</string>
     <string name="password">Password</string>
     <string name="log_in">Log in</string>
+    <string name="loggedAsAdmin">Logged as: Admin</string>
 
     // Teams
     <string name="anaitasuna">Anaitasuna</string>
