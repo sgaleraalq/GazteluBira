@@ -29,7 +29,6 @@ class DetailMatchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_match)
         binding = ActivityDetailMatchBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initUI()
