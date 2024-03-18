@@ -36,15 +36,58 @@
             app:tint="@color/black" />
     </FrameLayout>
 
+    <View
+        android:id="@+id/middlePoint"
+        android:layout_width="0.1dp"
+        android:layout_height="0.1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.skydoves.powerspinner.PowerSpinnerView
+        android:id="@+id/psLocalTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:hint="@string/select_local_team"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toStartOf="@id/middlePoint"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frameLayout"
+        app:spinner_arrow_gravity="end"
+        app:spinner_arrow_padding="8dp"
+        app:spinner_arrow_show="true"
+        app:spinner_arrow_tint="@color/primary"
+        app:spinner_divider_show="true"
+        app:spinner_item_array="@array/teams"
+        app:spinner_popup_animation="dropdown" />
+
+    <com.skydoves.powerspinner.PowerSpinnerView
+        android:id="@+id/psAwayTeam"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:hint="@string/select_away_team"
+        android:padding="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/middlePoint"
+        app:layout_constraintTop_toBottomOf="@id/frameLayout" />
+
 
     <ImageView
         android:id="@+id/ivFootballField"
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:contentDescription="@string/description_football_field"
         android:src="@drawable/img_football_field"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/frameLayout"
-        android:contentDescription="@string/description_football_field" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
