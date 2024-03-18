@@ -1,5 +1,6 @@
 package com.sgalera.gaztelubira.ui.matches
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -42,8 +43,15 @@ class MatchesFragment: Fragment() {
 
     private fun initUI() {
         initComponents()
+        initListeners()
         initUIState()
         initRecyclerView()
+    }
+
+    private fun initListeners() {
+        binding.btnInsertGame.setOnClickListener {
+            insertGame()
+        }
     }
 
     private fun initComponents() {
@@ -96,5 +104,11 @@ class MatchesFragment: Fragment() {
             adapter = matchesAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
+    }
+
+    private fun insertGame() {
+        findNavController().navigate(
+            MatchesFragmentDirections.actionMatchesFragmentToInsertGameDetailActivity()
+        )
     }
 }
