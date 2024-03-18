@@ -26,7 +26,6 @@
     <string name="choose_two_different_players">Choose two different players</string>
     <string name="done">Done!</string>
 
-
     // Matches fragment
     <string name="matchesPlayed">Played games</string>
 
@@ -37,6 +36,12 @@
     <string name="match_information">Match information</string>
     <string name="starter_team">Starter team</string>
     <string name="bench">Bench</string>
+
+    // Insert match activity
+    <string name="insert_game">Insert game</string>
+    <string name="select_local_team">Select local team</string>
+    <string name="select_away_team">Select away team</string>
+
 
     // Stats fragment
     <string name="player">Player</string>
@@ -81,5 +86,4 @@
     <string name="description_big_mistakes_icon">Big mistakes icon</string>
     <string name="description_clean_sheet_icon">Clean sheet icon</string>
     <string name="description_icon_eye">Eye icon</string>
-    <string name="insert_game">Insert game</string>
 </resources>
