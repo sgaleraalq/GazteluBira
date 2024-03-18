@@ -14,19 +14,18 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sgalera.gaztelubira.databinding.FragmentMatchesBinding
+import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import com.sgalera.gaztelubira.ui.matches.adapter.MatchesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MatchesFragment: Fragment() {
-
     private var _binding: FragmentMatchesBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var matchesAdapter: MatchesAdapter
-
     private val matchesViewModel by viewModels<MatchesViewModel>()
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +52,15 @@ class MatchesFragment: Fragment() {
                 MatchesFragmentDirections.actionMatchesFragmentToDetailMatchActivity(it)
             )
         })
+        checkToken()
+    }
+
+    private fun checkToken() {
+        sharedPreferences = SharedPreferences(requireContext())
+        val token = sharedPreferences.getAdminToken()
+        if (token != null){
+            binding.btnInsertGame.visibility = View.VISIBLE
+        }
     }
 
     private fun initUIState() {
