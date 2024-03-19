@@ -68,16 +68,106 @@
 
     <com.skydoves.powerspinner.PowerSpinnerView
         android:id="@+id/psAwayTeam"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:hint="@string/select_away_team"
-        android:padding="4dp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/middlePoint"
-        app:layout_constraintTop_toBottomOf="@id/frameLayout" />
+        app:layout_constraintTop_toBottomOf="@id/frameLayout"
+        app:spinner_arrow_gravity="end"
+        app:spinner_arrow_padding="8dp"
+        app:spinner_arrow_show="true"
+        app:spinner_arrow_tint="@color/primary"
+        app:spinner_divider_show="true"
+        app:spinner_item_array="@array/teams"
+        app:spinner_popup_animation="dropdown" />
+
+    <ImageView
+        android:id="@+id/ivLocalTeam"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="12dp"
+        android:contentDescription="@string/description_team"
+        android:src="@drawable/img_gaztelu_bira"
+        app:layout_constraintEnd_toStartOf="@id/etLocalGoals"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/psLocalTeam" />
+
+    <TextView
+        android:id="@+id/tvLocalTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/ivLocalTeam"
+        app:layout_constraintStart_toStartOf="@id/ivLocalTeam"
+        app:layout_constraintTop_toBottomOf="@id/ivLocalTeam"
+        tools:text="Gaztelu Bira" />
+
+    <EditText
+        android:id="@+id/etLocalGoals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivLocalTeam"
+        app:layout_constraintEnd_toStartOf="@id/middlePoint"
+        app:layout_constraintStart_toEndOf="@id/ivLocalTeam"
+        app:layout_constraintTop_toTopOf="@id/ivLocalTeam"
+        tools:ignore="Autofill"
+        tools:text="3" />
+
+    <TextView
+        android:id="@+id/tvSlash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/slash"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@id/etLocalGoals"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/etLocalGoals" />
+
+    <EditText
+        android:id="@+id/etAwayGoals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivLocalTeam"
+        app:layout_constraintEnd_toStartOf="@id/ivAwayTeam"
+        app:layout_constraintStart_toEndOf="@id/middlePoint"
+        app:layout_constraintTop_toTopOf="@id/ivLocalTeam"
+        tools:ignore="Autofill"
+        tools:text="3" />
+
+    <ImageView
+        android:id="@+id/ivAwayTeam"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="12dp"
+        android:contentDescription="@string/description_team"
+        android:src="@drawable/img_gaztelu_bira"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/etAwayGoals"
+        app:layout_constraintTop_toBottomOf="@id/psLocalTeam" />
+
+    <TextView
+        android:id="@+id/tvAwayTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/ivAwayTeam"
+        app:layout_constraintStart_toStartOf="@id/ivAwayTeam"
+        app:layout_constraintTop_toBottomOf="@id/ivAwayTeam"
+        tools:text="Gaztelu Bira" />
 
 
     <ImageView
