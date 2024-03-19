@@ -2,6 +2,18 @@
 <resources>
     <string-array name="teams">
         <item>Gaztelu Bira</item>
-        <item>IZN</item>
+        <item>Anaitasuna</item>
+        <item>Arsenal</item>
+        <item>Aterbea</item>
+        <item>Esic Gazteak</item>
+        <item>Esmeraldeños</item>
+        <item>Garre</item>
+        <item>Iturrama</item>
+        <item>Izn</item>
+        <item>La Unica</item>
+        <item>Peña School</item>
+        <item>San Cristobal</item>
+        <item>Lezkairu</item>
+        <item>Tingla2 Legends</item>
     </string-array>
 </resources>
