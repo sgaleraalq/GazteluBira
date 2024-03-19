@@ -64,7 +64,8 @@
         app:spinner_arrow_tint="@color/primary"
         app:spinner_divider_show="true"
         app:spinner_item_array="@array/teams"
-        app:spinner_popup_animation="dropdown" />
+        app:spinner_popup_animation="dropdown"
+        app:spinner_popup_background="@color/white" />
 
     <com.skydoves.powerspinner.PowerSpinnerView
         android:id="@+id/psAwayTeam"
@@ -86,7 +87,8 @@
         app:spinner_arrow_tint="@color/primary"
         app:spinner_divider_show="true"
         app:spinner_item_array="@array/teams"
-        app:spinner_popup_animation="dropdown" />
+        app:spinner_popup_animation="dropdown"
+        app:spinner_popup_background="@color/white"/>
 
     <ImageView
         android:id="@+id/ivLocalTeam"
