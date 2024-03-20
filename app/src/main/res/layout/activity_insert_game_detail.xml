@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary"
     tools:context=".ui.insert_game.InsertGameDetailActivity">
 
     <FrameLayout
@@ -54,18 +55,20 @@
         android:hint="@string/select_local_team"
         android:paddingHorizontal="8dp"
         android:paddingVertical="4dp"
-        android:textColorHint="@color/black"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:drawableTint="@color/white"
         app:layout_constraintEnd_toStartOf="@id/mid"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/frameLayout"
         app:spinner_arrow_gravity="end"
         app:spinner_arrow_padding="8dp"
         app:spinner_arrow_show="true"
-        app:spinner_arrow_tint="@color/primary"
+        app:spinner_divider_color="@color/primary"
         app:spinner_divider_show="true"
         app:spinner_item_array="@array/teams"
         app:spinner_popup_animation="dropdown"
-        app:spinner_popup_background="@color/white" />
+        app:spinner_popup_background="@color/primary" />
 
     <com.skydoves.powerspinner.PowerSpinnerView
         android:id="@+id/psAwayTeam"
@@ -77,7 +80,9 @@
         android:hint="@string/select_away_team"
         android:paddingHorizontal="8dp"
         android:paddingVertical="4dp"
-        android:textColorHint="@color/black"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:drawableTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/mid"
         app:layout_constraintTop_toBottomOf="@id/frameLayout"
@@ -85,10 +90,11 @@
         app:spinner_arrow_padding="8dp"
         app:spinner_arrow_show="true"
         app:spinner_arrow_tint="@color/primary"
+        app:spinner_divider_color="@color/primary"
         app:spinner_divider_show="true"
         app:spinner_item_array="@array/teams"
         app:spinner_popup_animation="dropdown"
-        app:spinner_popup_background="@color/white" />
+        app:spinner_popup_background="@color/primary" />
 
     <ImageView
         android:id="@+id/ivLocalTeam"
@@ -106,7 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:textColorHint="@color/black"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@id/ivLocalTeam"
         app:layout_constraintStart_toStartOf="@id/ivLocalTeam"
         app:layout_constraintTop_toBottomOf="@id/ivLocalTeam"
@@ -118,6 +124,7 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:maxLength="1"
+        android:textColor="@color/white"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@id/ivLocalTeam"
         app:layout_constraintEnd_toStartOf="@id/mid"
@@ -131,6 +138,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/slash"
+        android:textColor="@color/white"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@id/etLocalGoals"
         app:layout_constraintEnd_toEndOf="parent"
@@ -142,8 +150,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
-        android:textSize="30sp"
         android:maxLength="1"
+        android:textColor="@color/white"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@id/ivLocalTeam"
         app:layout_constraintEnd_toStartOf="@id/ivAwayTeam"
         app:layout_constraintStart_toEndOf="@id/mid"
@@ -167,7 +176,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:textColorHint="@color/black"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@id/ivAwayTeam"
         app:layout_constraintStart_toStartOf="@id/ivAwayTeam"
         app:layout_constraintTop_toBottomOf="@id/ivAwayTeam"
@@ -418,7 +427,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/bench"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="@id/ivFootballField"
                 app:layout_constraintTop_toBottomOf="@id/ivFootballField" />
 
