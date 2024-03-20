@@ -51,6 +51,17 @@
             app:layout_constraintStart_toStartOf="@id/cvImage"
             app:layout_constraintTop_toTopOf="@id/cvImage" />
 
+        <ImageView
+            android:id="@+id/ivCancel"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:contentDescription="@string/description_check"
+            android:elevation="8dp"
+            android:src="@drawable/ic_cancel"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="@id/cvImage"
+            app:layout_constraintTop_toTopOf="@id/cvImage" />
+
         <TextView
             android:id="@+id/tvPlayerName"
             android:layout_width="0dp"
