@@ -437,10 +437,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@id/btnAddBenchPlayer"
                 app:layout_constraintEnd_toEndOf="@id/ivFootballField"
                 app:layout_constraintStart_toStartOf="@id/ivFootballField"
-                app:layout_constraintTop_toBottomOf="@id/tvBench"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/tvBench" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAddBenchPlayer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/add_bench_player"
+                android:textColor="@color/primary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rvBench" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
