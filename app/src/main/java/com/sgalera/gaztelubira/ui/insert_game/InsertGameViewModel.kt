@@ -9,8 +9,8 @@ import javax.inject.Inject
 @HiltViewModel
 class InsertGameViewModel @Inject constructor(): ViewModel(){
 
-    fun getPlayers(): MutableList<PlayerInfo> {
-        return mutableListOf(
+    fun getPlayers(): List<PlayerInfo> {
+        return listOf(
             Pedro,
             Jon,
             Asier,
