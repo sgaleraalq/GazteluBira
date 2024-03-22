@@ -84,4 +84,18 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         binding.psBenchPlayer.clearSelectedItem()
         binding.psBenchPlayer.setItems(viewModel.state.value)
     }
+
+    private fun playerToStarters(){
+        binding.tvGoalKeeper.text = starterPlayers["goal_keeper"]
+        binding.tvLeftBack.text = starterPlayers["left_back"]
+        binding.tvLeftCentreBack.text = starterPlayers["left_centre_back"]
+        binding.tvRightCentreBack.text = starterPlayers["right_centre_back"]
+        binding.tvRightBack.text = starterPlayers["right_back"]
+        binding.tvLeftMidFielder.text = starterPlayers["left_mid_fielder"]
+        binding.tvDefensiveMidFielder.text = starterPlayers["defensive_mid_fielder"]
+        binding.tvRightMidFielder.text = starterPlayers["right_mid_fielder"]
+        binding.tvLeftStriker.text = starterPlayers["left_striker"]
+        binding.tvRightStriker.text = starterPlayers["right_striker"]
+        binding.tvStriker.text = starterPlayers["striker"]
+    }
 }
