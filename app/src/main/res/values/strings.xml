@@ -42,6 +42,7 @@
     <string name="select_local_team">Select local team</string>
     <string name="select_away_team">Select away team</string>
     <string name="add_bench_player">Add a bench player</string>
+    <string name="insert_bench_player">Bench player name</string>
 
     // Stats fragment
     <string name="player">Player</string>
