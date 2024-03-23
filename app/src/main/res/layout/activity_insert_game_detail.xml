@@ -101,7 +101,7 @@
         android:layout_marginTop="12dp"
         android:contentDescription="@string/description_team"
         android:src="@drawable/img_gaztelu_bira"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@id/etLocalGoals"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/psLocalTeam" />
@@ -111,11 +111,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
+        android:text="@string/gaztelu_bira"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@id/ivLocalTeam"
         app:layout_constraintStart_toStartOf="@id/ivLocalTeam"
-        app:layout_constraintTop_toBottomOf="@id/ivLocalTeam"
-        tools:text="Gaztelu Bira" />
+        app:layout_constraintTop_toBottomOf="@id/ivLocalTeam" />
 
     <EditText
         android:id="@+id/etLocalGoals"

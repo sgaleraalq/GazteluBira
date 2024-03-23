@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -38,7 +39,6 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         "striker" to ""
     )
     private var teams = arrayListOf(
-        "Gaztelu Bira",
         "Anaitasuna",
         "Arsenal",
         "Aterbea",
@@ -57,7 +57,7 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
 
     override fun onPlayerAdded(player: PlayerInfo) {
         viewModel.state.value.add(player.name)
-        powerSpinnerList()
+        powerSpinnerBenchList()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,23 +83,9 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
                 false
             )
         }
-        powerSpinnerList()
-    }
-
-    private fun initAllTeamsButGaztelu() {
-        teams = arrayListOf(
-            "Anaitasuna",
-            "Arsenal",
-            "Aterbea",
-            "ESIC Gazteak",
-            "Esmeraldeños",
-            "Garre",
-            "Iturrama",
-            "IZN",
-            "La Unica",
-            "Peña School",
-            "San Cristobal"
-        )
+        binding.psLocalTeam.setItems(teams)
+        binding.psAwayTeam.setItems(teams)
+        powerSpinnerBenchList()
     }
 
     private fun initListeners() {
@@ -118,38 +104,40 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
                     insertGameAdapter.addPlayer(viewModel.convertToPlayerInfo(player))
                     viewModel.state.value.remove(player)
                     playerList.remove(viewModel.convertToPlayerInfo(player))
-                    powerSpinnerList()
+                    powerSpinnerBenchList()
                 }
             }
-            setPowerSpinnerItems()
 
             // Add name and image of the selected team to the TextView and ImageView
             binding.psLocalTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
                 localTeam = mapTeam(newItem)
-                if (localTeam != Team.GazteluBira){ teams = arrayListOf("Gaztelu Bira") }
-                else if (localTeam == Team.GazteluBira) {
-                    initAllTeamsButGaztelu()
-                }
-                binding.tvLocalTeam.text = this.getString(localTeam.name)
-                binding.ivLocalTeam.setImageResource(localTeam.img)
-                setPowerSpinnerItems()
+
+                // Set away as Gaztelu
+                awayTeam = mapTeam("Gaztelu Bira")
+                insertTeams()
             }
             binding.psAwayTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
                 awayTeam = mapTeam(newItem)
-                if (awayTeam != Team.GazteluBira){ teams = arrayListOf("Gaztelu Bira") }
-                else if (awayTeam == Team.GazteluBira) {
-                    initAllTeamsButGaztelu()
-                }
-                binding.tvAwayTeam.text = this.getString(awayTeam.name)
-                binding.ivAwayTeam.setImageResource(awayTeam.img)
-                setPowerSpinnerItems()
+
+                // Set local as Gaztelu
+                localTeam = mapTeam("Gaztelu Bira")
+                insertTeams()
             }
             initStartersListeners()
         }
 
-    private fun setPowerSpinnerItems() {
-        binding.psLocalTeam.setItems(teams)
-        binding.psAwayTeam.setItems(teams)
+    private fun insertTeams() {
+        binding.tvLocalTeam.text = this.getString(localTeam.name)
+        binding.ivLocalTeam.setImageResource(localTeam.img)
+
+        binding.tvAwayTeam.text = this.getString(awayTeam.name)
+        binding.ivAwayTeam.setImageResource(awayTeam.img)
+
+        binding.ivLocalTeam.visibility = View.VISIBLE
+        binding.ivAwayTeam.visibility = View.VISIBLE
+
+        binding.psLocalTeam.clearSelectedItem()
+        binding.psAwayTeam.clearSelectedItem()
     }
 
     private fun initStartersListeners() {
@@ -221,7 +209,7 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
 
     private fun setStarterPlayerInfo(position: String, name: String) {
         viewModel.state.value.remove(name)
-        powerSpinnerList()
+        powerSpinnerBenchList()
         val playerInfo = viewModel.convertToPlayerInfo(name)
         when (position) {
             "goal_keeper" -> {
@@ -282,7 +270,7 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         starterPlayers[position] = name
     }
 
-    private fun powerSpinnerList() {
+    private fun powerSpinnerBenchList() {
         binding.psBenchPlayer.clearSelectedItem()
         binding.psBenchPlayer.setItems(viewModel.state.value)
     }

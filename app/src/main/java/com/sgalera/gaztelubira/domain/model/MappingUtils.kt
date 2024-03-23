@@ -1,22 +1,25 @@
 package com.sgalera.gaztelubira.domain.model
 
+import com.sgalera.gaztelubira.domain.model.Team.*
+
 object MappingUtils {
     fun mapTeam(team: String): Team {
         return when (team) {
-            "Gaztelu Bira" -> Team.GazteluBira
-            "Anaitasuna" -> Team.Anaitasuna
-            "Arsenal" -> Team.Arsenal
-            "Aterbea" -> Team.Aterbea
-            "ESIC Gazteak" -> Team.EsicGazteak
-            "Esmeraldeños" -> Team.Esmeraldenos
-            "Garre" -> Team.Garre
-            "Iturrama" -> Team.Iturrama
-            "IZN" -> Team.Izn
-            "La Unica" -> Team.LaUnica
-            "Peña School" -> Team.PenaSchool
-            "San Cristobal" -> Team.SanCristobal
-            "Lezkairu" -> Team.Lezkairu
-            else -> Team.Tingla2Legends
+            "Gaztelu Bira" -> GazteluBira
+            "Anaitasuna" -> Anaitasuna
+            "Arsenal" -> Arsenal
+            "Aterbea" -> Aterbea
+            "ESIC Gazteak" -> EsicGazteak
+            "Esmeraldeños" -> Esmeraldenos
+            "Garre" -> Garre
+            "Iturrama" -> Iturrama
+            "IZN" -> Izn
+            "La Unica" -> LaUnica
+            "Peña School" -> PenaSchool
+            "San Cristobal" -> SanCristobal
+            "Lezkairu" -> Lezkairu
+            "Tingla2 Legends" -> Tingla2Legends
+            else -> GazteluBira
         }
     }
 }
