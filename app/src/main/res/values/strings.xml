@@ -87,4 +87,5 @@
     <string name="description_big_mistakes_icon">Big mistakes icon</string>
     <string name="description_clean_sheet_icon">Clean sheet icon</string>
     <string name="description_icon_eye">Eye icon</string>
+    <string name="description_icon_plus">Plus icon</string>
 </resources>
