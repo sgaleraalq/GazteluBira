@@ -66,7 +66,6 @@
         app:spinner_arrow_show="true"
         app:spinner_divider_color="@color/primary"
         app:spinner_divider_show="true"
-        app:spinner_item_array="@array/teams"
         app:spinner_popup_animation="dropdown"
         app:spinner_popup_background="@color/primary" />
 
@@ -92,7 +91,6 @@
         app:spinner_arrow_tint="@color/primary"
         app:spinner_divider_color="@color/primary"
         app:spinner_divider_show="true"
-        app:spinner_item_array="@array/teams"
         app:spinner_popup_animation="dropdown"
         app:spinner_popup_background="@color/primary" />
 
@@ -103,6 +101,7 @@
         android:layout_marginTop="12dp"
         android:contentDescription="@string/description_team"
         android:src="@drawable/img_gaztelu_bira"
+        android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@id/etLocalGoals"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/psLocalTeam" />
@@ -167,6 +166,7 @@
         android:layout_marginTop="12dp"
         android:contentDescription="@string/description_team"
         android:src="@drawable/img_gaztelu_bira"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/etAwayGoals"
         app:layout_constraintTop_toBottomOf="@id/psLocalTeam" />
@@ -465,7 +465,7 @@
                 app:spinner_divider_color="@color/primary"
                 app:spinner_divider_show="true"
                 app:spinner_popup_animation="dropdown"
-                app:spinner_popup_background="@color/primary"/>
+                app:spinner_popup_background="@color/primary" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnAddBenchPlayer"

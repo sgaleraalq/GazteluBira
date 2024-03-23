@@ -14,6 +14,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameDetailBinding
+import com.sgalera.gaztelubira.domain.model.MappingUtils.mapTeam
+import com.sgalera.gaztelubira.domain.model.Team
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.ui.insert_game.adapter.InsertGameAdapter
 
@@ -35,7 +37,23 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         "right_striker" to "",
         "striker" to ""
     )
+    private var teams = arrayListOf(
+        "Gaztelu Bira",
+        "Anaitasuna",
+        "Arsenal",
+        "Aterbea",
+        "ESIC Gazteak",
+        "Esmeraldeños",
+        "Garre",
+        "Iturrama",
+        "IZN",
+        "La Unica",
+        "Peña School",
+        "San Cristobal"
+        )
     private val viewModel by viewModels<InsertGameViewModel>()
+    private lateinit var localTeam: Team
+    private lateinit var awayTeam: Team
 
     override fun onPlayerAdded(player: PlayerInfo) {
         viewModel.state.value.add(player.name)
@@ -68,26 +86,70 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         powerSpinnerList()
     }
 
+    private fun initAllTeamsButGaztelu() {
+        teams = arrayListOf(
+            "Anaitasuna",
+            "Arsenal",
+            "Aterbea",
+            "ESIC Gazteak",
+            "Esmeraldeños",
+            "Garre",
+            "Iturrama",
+            "IZN",
+            "La Unica",
+            "Peña School",
+            "San Cristobal"
+        )
+    }
+
     private fun initListeners() {
-        binding.ivBack.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
-        binding.btnAddBenchPlayer.setOnClickListener {
-            if (benchPlayers.size == 6) {
-                Toast.makeText(
-                    this@InsertGameDetailActivity,
-                    "You can't add more players to bench, please remove one first",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                val player = binding.psBenchPlayer.text.toString()
-                insertGameAdapter.addPlayer(viewModel.convertToPlayerInfo(player))
-                viewModel.state.value.remove(player)
-                powerSpinnerList()
+            binding.ivBack.setOnClickListener {
+                onBackPressedDispatcher.onBackPressed()
             }
+            binding.btnAddBenchPlayer.setOnClickListener {
+                if (benchPlayers.size == 6) {
+                    Toast.makeText(
+                        this@InsertGameDetailActivity,
+                        "You can't add more players to bench, please remove one first",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    val player = binding.psBenchPlayer.text.toString()
+                    insertGameAdapter.addPlayer(viewModel.convertToPlayerInfo(player))
+                    viewModel.state.value.remove(player)
+                    playerList.remove(viewModel.convertToPlayerInfo(player))
+                    powerSpinnerList()
+                }
+            }
+            setPowerSpinnerItems()
+
+            // Add name and image of the selected team to the TextView and ImageView
+            binding.psLocalTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
+                localTeam = mapTeam(newItem)
+                if (localTeam != Team.GazteluBira){ teams = arrayListOf("Gaztelu Bira") }
+                else if (localTeam == Team.GazteluBira) {
+                    initAllTeamsButGaztelu()
+                }
+                binding.tvLocalTeam.text = this.getString(localTeam.name)
+                binding.ivLocalTeam.setImageResource(localTeam.img)
+                setPowerSpinnerItems()
+            }
+            binding.psAwayTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
+                awayTeam = mapTeam(newItem)
+                if (awayTeam != Team.GazteluBira){ teams = arrayListOf("Gaztelu Bira") }
+                else if (awayTeam == Team.GazteluBira) {
+                    initAllTeamsButGaztelu()
+                }
+                binding.tvAwayTeam.text = this.getString(awayTeam.name)
+                binding.ivAwayTeam.setImageResource(awayTeam.img)
+                setPowerSpinnerItems()
+            }
+            initStartersListeners()
         }
 
-        initStartersListeners()
+    private fun setPowerSpinnerItems() {
+        binding.psLocalTeam.setItems(teams)
+        binding.psAwayTeam.setItems(teams)
     }
 
     private fun initStartersListeners() {
