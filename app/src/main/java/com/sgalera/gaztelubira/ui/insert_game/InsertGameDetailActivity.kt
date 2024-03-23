@@ -149,7 +149,7 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
                             playerList.add(viewModel.convertToPlayerInfo(starterPlayers[position]!!))
                         }
                         playerList.remove(player)
-                        setStarterPlayer(position, player.name)
+                        setStarterPlayerInfo(position, player.name)
                         dialogView.dismiss()
                     }
                 addView(itemLayout)
@@ -157,7 +157,9 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         }
     }
 
-    private fun setStarterPlayer(position: String, name: String) {
+    private fun setStarterPlayerInfo(position: String, name: String) {
+        viewModel.state.value.remove(name)
+        powerSpinnerList()
         val playerInfo = viewModel.convertToPlayerInfo(name)
         when (position) {
             "goal_keeper" -> {
