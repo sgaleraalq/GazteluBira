@@ -4,8 +4,6 @@ import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
@@ -92,42 +90,33 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     }
 
     private fun initListeners() {
-            binding.ivBack.setOnClickListener {
-                onBackPressedDispatcher.onBackPressed()
-            }
-            binding.btnAddBenchPlayer.setOnClickListener {
-                if (benchPlayers.size == 6) {
-                    Toast.makeText(
-                        this@InsertGameDetailActivity,
-                        "You can't add more players to bench, please remove one first",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    val player = binding.psBenchPlayer.text.toString()
-                    insertGameAdapter.addPlayer(viewModel.convertToPlayerInfo(player))
-                    viewModel.state.value.remove(player)
-                    playerList.remove(viewModel.convertToPlayerInfo(player))
-                    powerSpinnerBenchList()
-                }
-            }
-
-            // Add name and image of the selected team to the TextView and ImageView
-            binding.psLocalTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
-                localTeam = mapTeam(newItem)
-
-                // Set away as Gaztelu
-                awayTeam = mapTeam("Gaztelu Bira")
-                insertTeams()
-            }
-            binding.psAwayTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
-                awayTeam = mapTeam(newItem)
-
-                // Set local as Gaztelu
-                localTeam = mapTeam("Gaztelu Bira")
-                insertTeams()
-            }
-            initStartersListeners()
+        binding.ivBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
         }
+        binding.btnAddBenchPlayer.setOnClickListener {
+            insertBenchPlayer()
+        }
+
+        // Add name and image of the selected team to the TextView and ImageView
+        binding.psLocalTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
+            localTeam = mapTeam(newItem)
+
+            // Set away as Gaztelu
+            awayTeam = mapTeam("Gaztelu Bira")
+            insertTeams()
+        }
+        binding.psAwayTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
+            awayTeam = mapTeam(newItem)
+
+            // Set local as Gaztelu
+            localTeam = mapTeam("Gaztelu Bira")
+            insertTeams()
+        }
+        initStartersListeners()
+        binding.btnInsertGame.setOnClickListener {
+            insertGoalsAssists()
+        }
+    }
 
     private fun insertTeams() {
         binding.tvLocalTeam.text = this.getString(localTeam.name)
@@ -178,6 +167,29 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             showInsertPlayerDialog("striker")
         }
     }
+
+    private fun insertBenchPlayer() {
+        if (binding.psBenchPlayer.text == "") {
+            Toast.makeText(
+                this@InsertGameDetailActivity,
+                "Please select a player",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else if (benchPlayers.size == 6) {
+            Toast.makeText(
+                this@InsertGameDetailActivity,
+                "You can't add more players to bench, please remove one first",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            val player = binding.psBenchPlayer.text.toString()
+            insertGameAdapter.addPlayer(viewModel.convertToPlayerInfo(player))
+            viewModel.state.value.remove(player)
+            playerList.remove(viewModel.convertToPlayerInfo(player))
+            powerSpinnerBenchList()
+        }
+    }
+
 
     private fun showInsertPlayerDialog(position: String) {
         val builder = AlertDialog.Builder(this)
@@ -294,5 +306,59 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             "striker" -> "Select Striker"
             else -> ""
         }
+    }
+
+
+    private fun insertGoalsAssists() {
+        if (checkTeams() && checkGoals() && checkPlayers()) {
+            showGoalsAssistsPopUp()
+        }
+    }
+
+
+    private fun checkTeams(): Boolean {
+        return if (binding.tvLocalTeam.text == binding.tvAwayTeam.text) {
+            Toast.makeText(this, "Please select two different teams", Toast.LENGTH_SHORT).show()
+            false
+        } else if (binding.tvLocalTeam.text != "Gaztelu Bira" && binding.tvAwayTeam.text != "Gaztelu Bira") {
+            Toast.makeText(this, "One of the teams must be Gaztelu Bira", Toast.LENGTH_SHORT).show()
+            false
+        } else if (binding.ivLocalTeam.visibility == View.INVISIBLE || binding.ivAwayTeam.visibility == View.INVISIBLE) {
+            Toast.makeText(this, "Please select both teams", Toast.LENGTH_SHORT).show()
+            false
+        } else {
+            true
+        }
+    }
+
+    private fun checkGoals(): Boolean {
+        return if (binding.etLocalGoals.text.toString() == "" || binding.etAwayGoals.text.toString() == "") {
+            Toast.makeText(this, "Please insert the goals", Toast.LENGTH_SHORT).show()
+            false
+        } else {
+            true
+        }
+    }
+
+    private fun checkPlayers(): Boolean {
+        return if (starterPlayers.containsValue("")) {
+            Toast.makeText(this, "Please select all the starters", Toast.LENGTH_SHORT).show()
+            false
+        } else if (starterPlayers.containsValue(binding.psBenchPlayer.text.toString())) {
+            Toast.makeText(this, "Player can't be in the bench and starter at the same time", Toast.LENGTH_SHORT).show()
+            false
+        } else {
+            true
+        }
+    }
+
+    private fun showGoalsAssistsPopUp() {
+        val builder = AlertDialog.Builder(this)
+        val inflater = LayoutInflater.from(this)
+        val view = inflater.inflate(R.layout.item_popup_goals_assists, null)
+        builder.setView(view)
+        val dialogView = builder.create()
+        dialogView.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogView.show()
     }
 }
