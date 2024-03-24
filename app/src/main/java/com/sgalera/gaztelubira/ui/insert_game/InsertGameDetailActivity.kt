@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
@@ -68,9 +70,10 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     }
 
     private fun initUI() {
-        initListeners()
         initComponents()
+        initListeners()
     }
+
 
     private fun initComponents() {
         playerList = viewModel.getPlayers()
