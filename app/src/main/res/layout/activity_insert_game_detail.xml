@@ -192,7 +192,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvLocalTeam" />
 
     <ImageView
-        android:id="@+id/tvGoals"
+        android:id="@+id/ivGoals"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginTop="8dp"
@@ -212,10 +212,10 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="@id/tvSlash"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvGoals" />
+        app:layout_constraintTop_toBottomOf="@id/ivGoals" />
 
     <ImageView
-        android:id="@+id/tvAssists"
+        android:id="@+id/ivAssists"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginTop="8dp"
@@ -235,7 +235,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/tvSlash"
-        app:layout_constraintTop_toBottomOf="@id/tvAssists" />
+        app:layout_constraintTop_toBottomOf="@id/ivAssists" />
 
     <ScrollView
         android:id="@+id/scrollView"
