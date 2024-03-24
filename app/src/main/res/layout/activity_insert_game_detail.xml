@@ -182,6 +182,61 @@
         app:layout_constraintTop_toBottomOf="@id/ivAwayTeam"
         tools:text="Gaztelu Bira" />
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="8dp"
+        android:background="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvLocalTeam" />
+
+    <ImageView
+        android:id="@+id/tvGoals"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/description_goal_icon"
+        android:src="@drawable/ic_football_ball"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/tvSlash"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:tint="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/llGoals"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="@id/tvSlash"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvGoals" />
+
+    <ImageView
+        android:id="@+id/tvAssists"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/description_assist_icon"
+        android:src="@drawable/ic_football_shoe"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tvSlash"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:tint="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/llAssists"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tvSlash"
+        app:layout_constraintTop_toBottomOf="@id/tvAssists" />
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="0dp"
@@ -193,7 +248,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvLocalTeam">
+        app:layout_constraintTop_toBottomOf="@id/llGoals">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -483,9 +538,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:textColor="@color/white"
                 android:background="@color/green"
                 android:text="@string/insert_game"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
