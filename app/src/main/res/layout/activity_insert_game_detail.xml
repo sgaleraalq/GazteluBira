@@ -188,6 +188,7 @@
         android:layout_height="0dp"
         android:layout_marginHorizontal="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:paddingVertical="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -476,6 +477,19 @@
                 android:textColor="@color/primary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/psBenchPlayer" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnInsertGame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:textColor="@color/white"
+                android:background="@color/green"
+                android:text="@string/insert_game"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnAddBenchPlayer" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
