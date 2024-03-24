@@ -20,6 +20,7 @@
     <string name="goals">Goals</string>
     <string name="assists">Assists</string>
     <string name="big_mistakes">Big mistakes</string>
+    <string name="penalties">Penalties</string>
     <string name="clean_sheet">Clean sheet</string>
     <string name="games_played">Games played</string>
     <string name="percentage">Percentage</string>
