@@ -356,41 +356,14 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     }
 
     private fun showGoalsAssistsPopUp() {
-        if (localTeam.name == R.string.gaztelu_bira) {
-            goals = binding.etLocalGoals.text.toString().toInt()
-            awayGoals = binding.etAwayGoals.text.toString().toInt()
-        } else {
-            goals = binding.etAwayGoals.text.toString().toInt()
-            awayGoals = binding.etLocalGoals.text.toString().toInt()
-        }
-
-        val builder = AlertDialog.Builder(this)
-        val inflater = LayoutInflater.from(this)
-        val view = inflater.inflate(R.layout.item_popup_goals_assists, null)
-        builder.setView(view)
-        val dialogView = builder.create()
-        dialogView.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialogView.show()
-
-
-        if (goals == 0 && awayGoals > 0){
-            // TODO THIS PART
-            Toast.makeText(this, "Game inserted", Toast.LENGTH_SHORT).show()
-            dialogView.dismiss()
-        } else if (goals > 0 && awayGoals > 0 ){
-            view.findViewById<TextView>(R.id.tvCleanSheet).visibility = View.GONE
-            view.findViewById<LinearLayout>(R.id.llCleanSheet).visibility = View.GONE
-        } else if (goals == 0 && awayGoals == 0) {
-            view.findViewById<TextView>(R.id.tvGoals).visibility = View.GONE
-            view.findViewById<LinearLayout>(R.id.llGoals).visibility = View.GONE
-            view.findViewById<TextView>(R.id.tvAssists).visibility = View.GONE
-            view.findViewById<LinearLayout>(R.id.llAssists).visibility = View.GONE
-            view.findViewById<TextView>(R.id.tvPenalties).visibility = View.GONE
-            view.findViewById<LinearLayout>(R.id.llPenalties).visibility = View.GONE
-        } else {
-            println("hajñlafdskf")
-        }
-
+        val popUp = PopUpGoalsAssists(
+            localTeam,
+            awayTeam,
+            goals,
+            awayGoals,
+            binding
+        )
+        popUp.show(supportFragmentManager, "GoalsAssists")
     }
 
     private fun insertGame() {
