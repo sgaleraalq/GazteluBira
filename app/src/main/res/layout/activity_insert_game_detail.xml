@@ -119,11 +119,14 @@
 
     <EditText
         android:id="@+id/etLocalGoals"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:inputType="number"
+        android:gravity="center"
+        android:padding="8dp"
+        android:background="@color/white_80_opacity"
         android:maxLength="1"
-        android:textColor="@color/white"
+        android:textColor="@color/primary_dark"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@id/ivLocalTeam"
         app:layout_constraintEnd_toStartOf="@id/mid"
@@ -146,11 +149,14 @@
 
     <EditText
         android:id="@+id/etAwayGoals"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:inputType="number"
+        android:gravity="center"
         android:maxLength="1"
-        android:textColor="@color/white"
+        android:background="@color/white_80_opacity"
+        android:padding="8dp"
+        android:textColor="@color/primary_dark"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@id/ivLocalTeam"
         app:layout_constraintEnd_toStartOf="@id/ivAwayTeam"
