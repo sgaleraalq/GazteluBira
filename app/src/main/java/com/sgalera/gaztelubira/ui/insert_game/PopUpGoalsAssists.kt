@@ -1,8 +1,10 @@
 package com.sgalera.gaztelubira.ui.insert_game
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
@@ -20,22 +22,14 @@ class PopUpGoalsAssists(
     private var awayGoals: Int,
     private val binding: ActivityInsertGameDetailBinding
 ): DialogFragment() {
-    init {
-        if (localTeam.name == R.string.gaztelu_bira) {
-            goals = binding.etLocalGoals.text.toString().toInt()
-            awayGoals = binding.etAwayGoals.text.toString().toInt()
-        } else {
-            goals = binding.etAwayGoals.text.toString().toInt()
-            awayGoals = binding.etLocalGoals.text.toString().toInt()
-        }
-        val builder = AlertDialog.Builder(binding.root.context)
-        val view = layoutInflater.inflate(R.layout.item_popup_goals_assists, null)
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val builder = AlertDialog.Builder(requireContext())
+        val view = requireActivity().layoutInflater.inflate(R.layout.item_popup_goals_assists, null)
         builder.setView(view)
         val dialogView = builder.create()
         dialogView.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialogView.show()
-
         initComponents(dialogView, view)
+        return dialogView
     }
 
     private fun initComponents(dialogView: AlertDialog, view: View) {
