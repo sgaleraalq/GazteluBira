@@ -5,7 +5,7 @@ data class PlayerStats(
     val goals: Int,
     val assists: Int,
     val gamesPlayed: Int,
-    val bigMistakes: Int,
+    val penalties: Int,
     val cleanSheet: Int,
     val position: String,
     val lastRanking: Int,

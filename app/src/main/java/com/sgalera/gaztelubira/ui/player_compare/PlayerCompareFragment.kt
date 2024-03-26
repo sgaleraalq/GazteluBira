@@ -201,7 +201,7 @@ class PlayerCompareFragment : Fragment() {
         binding.tvParticipationPlayerOne.text = "${playerOne.percentage.toString()} %"
         binding.tvGoalsPlayerOne.text = playerOne.goals.toString()
         binding.tvAssistsPlayerOne.text = playerOne.assists.toString()
-        binding.tvBigMistakesPlayerOne.text = playerOne.bigMistakes.toString()
+        binding.tvPenaltiesPlayerOne.text = playerOne.penalties.toString()
         binding.tvCleanSheetPlayerOne.text = playerOne.cleanSheet.toString()
         binding.tvGamesPlayedPlayerOne.text = playerOne.gamesPlayed.toString()
 
@@ -213,7 +213,7 @@ class PlayerCompareFragment : Fragment() {
         binding.tvParticipationPlayerTwo.text = "${playerTwo.percentage.toString()} %"
         binding.tvGoalsPlayerTwo.text = playerTwo.goals.toString()
         binding.tvAssistsPlayerTwo.text = playerTwo.assists.toString()
-        binding.tvBigMistakesPlayerTwo.text = playerTwo.bigMistakes.toString()
+        binding.tvPenaltiesPlayerTwo.text = playerTwo.penalties.toString()
         binding.tvCleanSheetPlayerTwo.text = playerTwo.cleanSheet.toString()
         binding.tvGamesPlayedPlayerTwo.text = playerTwo.gamesPlayed.toString()
 
@@ -227,8 +227,8 @@ class PlayerCompareFragment : Fragment() {
         binding.pvGoalsPlayerOne.progress = playerOne.goals.toFloat()
         binding.pvAssistsPlayerOne.max = maxValue.toFloat()
         binding.pvAssistsPlayerOne.progress = playerOne.assists.toFloat()
-        binding.pvBigMistakesPlayerOne.max = maxValue.toFloat()
-        binding.pvBigMistakesPlayerOne.progress = playerOne.bigMistakes.toFloat()
+        binding.pvPenaltiesPlayerOne.max = maxValue.toFloat()
+        binding.pvPenaltiesPlayerOne.progress = playerOne.penalties.toFloat()
         binding.pvCleanSheetPlayerOne.max = maxValue.toFloat()
         binding.pvCleanSheetPlayerOne.progress = playerOne.cleanSheet.toFloat()
         binding.pvGamesPlayedPlayerOne.max = maxValue.toFloat()
@@ -239,8 +239,8 @@ class PlayerCompareFragment : Fragment() {
         binding.pvGoalsPlayerTwo.progress = playerTwo.goals.toFloat()
         binding.pvAssistsPlayerTwo.max = maxValue.toFloat()
         binding.pvAssistsPlayerTwo.progress = playerTwo.assists.toFloat()
-        binding.pvBigMistakesPlayerTwo.max = maxValue.toFloat()
-        binding.pvBigMistakesPlayerTwo.progress = playerTwo.bigMistakes.toFloat()
+        binding.pvPenaltiesPlayerTwo.max = maxValue.toFloat()
+        binding.pvPenaltiesPlayerTwo.progress = playerTwo.penalties.toFloat()
         binding.pvCleanSheetPlayerTwo.max = maxValue.toFloat()
         binding.pvCleanSheetPlayerTwo.progress = playerTwo.cleanSheet.toFloat()
         binding.pvGamesPlayedPlayerTwo.max = maxValue.toFloat()
@@ -252,7 +252,7 @@ class PlayerCompareFragment : Fragment() {
         return maxOf(playerOne.goals, playerTwo.goals,
             playerOne.assists, playerTwo.assists,
             playerOne.gamesPlayed, playerTwo.gamesPlayed,
-            playerOne.bigMistakes, playerTwo.bigMistakes,
+            playerOne.penalties, playerTwo.penalties,
             playerOne.cleanSheet, playerTwo.cleanSheet)
     }
 }

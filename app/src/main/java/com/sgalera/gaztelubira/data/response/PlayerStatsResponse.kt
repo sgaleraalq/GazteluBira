@@ -5,7 +5,6 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import java.text.DecimalFormat
-import java.util.Locale
 
 data class PlayerStatsResponse(
     val name: String = "",
@@ -14,7 +13,7 @@ data class PlayerStatsResponse(
     val position: String = "",
     val ranking: Int = 0,
     @get:PropertyName("last_ranking") @set:PropertyName("last_ranking") var lastRanking: Int = 0,
-    @get:PropertyName("big_mistakes") @set: PropertyName("big_mistakes") var bigMistakes: Int = 0,
+    @get:PropertyName("penalties") @set: PropertyName("penalties") var penalties: Int = 0,
     @get: PropertyName("clean_sheet") @set: PropertyName("clean_sheet") var cleanSheet: Int = 0,
     @get: PropertyName("games_played") @set:PropertyName("games_played") var gamesPlayed: Int = 0,
 ) {
@@ -24,7 +23,7 @@ data class PlayerStatsResponse(
             goals = goals,
             assists = assists,
             gamesPlayed = gamesPlayed,
-            bigMistakes = bigMistakes,
+            penalties = penalties,
             cleanSheet = cleanSheet,
             position = position,
             lastRanking = lastRanking,
@@ -63,7 +62,7 @@ data class PlayerStatsResponse(
     }
 
     private fun getPercentage(player: PlayerStatsResponse): String {
-        val total = player.goals + player.assists + player.cleanSheet - player.bigMistakes
+        val total = player.goals + player.assists + player.cleanSheet + player.penalties
         val gamesPlayed = player.gamesPlayed.toFloat()
         return if (gamesPlayed != 0f) {
             val percentage = (total.toFloat() / gamesPlayed)

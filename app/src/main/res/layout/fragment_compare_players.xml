@@ -421,7 +421,7 @@
                 android:layout_marginVertical="8dp">
 
                 <ImageView
-                    android:id="@+id/ivIconBigMistakes"
+                    android:id="@+id/ivIconPenalties"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:contentDescription="@string/description_stats_icon"
@@ -431,22 +431,22 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tvStatBigMistakes"
+                    android:id="@+id/tvStatPenalties"
                     style="@style/text_view_player_comparison_stats"
                     android:text="@string/big_mistakes"
-                    app:layout_constraintEnd_toEndOf="@id/ivIconBigMistakes"
-                    app:layout_constraintStart_toStartOf="@id/ivIconBigMistakes"
-                    app:layout_constraintTop_toBottomOf="@id/ivIconBigMistakes" />
+                    app:layout_constraintEnd_toEndOf="@id/ivIconPenalties"
+                    app:layout_constraintStart_toStartOf="@id/ivIconPenalties"
+                    app:layout_constraintTop_toBottomOf="@id/ivIconPenalties" />
 
                 <com.skydoves.progressview.ProgressView
-                    android:id="@+id/pvBigMistakesPlayerOne"
+                    android:id="@+id/pvPenaltiesPlayerOne"
                     android:layout_width="0dp"
                     android:layout_height="10dp"
                     android:rotation="180"
-                    app:layout_constraintBottom_toBottomOf="@id/tvStatBigMistakes"
-                    app:layout_constraintEnd_toStartOf="@id/tvStatBigMistakes"
-                    app:layout_constraintStart_toEndOf="@id/tvBigMistakesPlayerOne"
-                    app:layout_constraintTop_toTopOf="@id/ivIconBigMistakes"
+                    app:layout_constraintBottom_toBottomOf="@id/tvStatPenalties"
+                    app:layout_constraintEnd_toStartOf="@id/tvStatPenalties"
+                    app:layout_constraintStart_toEndOf="@id/tvPenaltiesPlayerOne"
+                    app:layout_constraintTop_toTopOf="@id/ivIconPenalties"
                     app:progressView_autoAnimate="true"
                     app:progressView_colorBackground="@color/primary"
                     app:progressView_colorProgress="@color/antique_white"
@@ -455,19 +455,19 @@
                     app:progressView_progress="13" />
 
                 <TextView
-                    android:id="@+id/tvBigMistakesPlayerOne"
+                    android:id="@+id/tvPenaltiesPlayerOne"
                     android:layout_width="50dp"
                     android:layout_height="0dp"
                     android:gravity="center"
                     android:paddingHorizontal="10dp"
                     android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="@id/tvStatBigMistakes"
-                    app:layout_constraintEnd_toStartOf="@id/pvBigMistakesPlayerOne"
+                    app:layout_constraintBottom_toBottomOf="@id/tvStatPenalties"
+                    app:layout_constraintEnd_toStartOf="@id/pvPenaltiesPlayerOne"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/ivIconBigMistakes" />
+                    app:layout_constraintTop_toTopOf="@id/ivIconPenalties" />
 
                 <TextView
-                    android:id="@+id/tvBigMistakesPlayerTwo"
+                    android:id="@+id/tvPenaltiesPlayerTwo"
                     android:layout_width="50dp"
                     android:layout_height="0dp"
                     android:gravity="center"
@@ -475,17 +475,17 @@
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/pvBigMistakesPlayerTwo"
-                    app:layout_constraintTop_toTopOf="@id/ivIconBigMistakes" />
+                    app:layout_constraintStart_toEndOf="@id/pvPenaltiesPlayerTwo"
+                    app:layout_constraintTop_toTopOf="@id/ivIconPenalties" />
 
                 <com.skydoves.progressview.ProgressView
-                    android:id="@+id/pvBigMistakesPlayerTwo"
+                    android:id="@+id/pvPenaltiesPlayerTwo"
                     android:layout_width="0dp"
                     android:layout_height="10dp"
-                    app:layout_constraintBottom_toBottomOf="@id/tvStatBigMistakes"
-                    app:layout_constraintEnd_toStartOf="@id/tvBigMistakesPlayerTwo"
-                    app:layout_constraintStart_toEndOf="@id/tvStatBigMistakes"
-                    app:layout_constraintTop_toTopOf="@id/ivIconBigMistakes"
+                    app:layout_constraintBottom_toBottomOf="@id/tvStatPenalties"
+                    app:layout_constraintEnd_toStartOf="@id/tvPenaltiesPlayerTwo"
+                    app:layout_constraintStart_toEndOf="@id/tvStatPenalties"
+                    app:layout_constraintTop_toTopOf="@id/ivIconPenalties"
                     app:progressView_autoAnimate="true"
                     app:progressView_colorBackground="@color/primary"
                     app:progressView_colorProgress="@color/antique_white"

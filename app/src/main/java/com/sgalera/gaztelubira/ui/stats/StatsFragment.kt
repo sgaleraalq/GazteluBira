@@ -100,15 +100,15 @@ class StatsFragment : Fragment() {
             )
             successState(playerStats.sortedByDescending { it.assists })
         }
-        binding.bigMistakesIcon.setOnClickListener {
+        binding.penaltiesIcon.setOnClickListener {
             clearAllBackgrounds()
-            binding.bigMistakesIcon.setBackgroundColor(
+            binding.penaltiesIcon.setBackgroundColor(
                 ContextCompat.getColor(
                     requireContext(),
                     R.color.grey_80_opacity
                 )
             )
-            successState(playerStats.sortedByDescending { it.bigMistakes })
+            successState(playerStats.sortedByDescending { it.penalties })
         }
         binding.cleanSheetIcon.setOnClickListener {
             clearAllBackgrounds()
@@ -151,7 +151,7 @@ class StatsFragment : Fragment() {
                 R.color.primary
             )
         )
-        binding.bigMistakesIcon.setBackgroundColor(
+        binding.penaltiesIcon.setBackgroundColor(
             ContextCompat.getColor(
                 requireContext(),
                 R.color.primary
@@ -275,7 +275,7 @@ class StatsFragment : Fragment() {
         view.findViewById<TextView>(R.id.tvPlayerProportion).text = player.percentage
         view.findViewById<TextView>(R.id.tvPlayerGoals).text = player.goals.toString()
         view.findViewById<TextView>(R.id.tvPlayerAssists).text = player.assists.toString()
-        view.findViewById<TextView>(R.id.tvPlayerBigMistakes).text = player.bigMistakes.toString()
+        view.findViewById<TextView>(R.id.tvPlayerPenalties).text = player.penalties.toString()
         view.findViewById<TextView>(R.id.tvPlayerCleanSheet).text = player.cleanSheet.toString()
         view.findViewById<TextView>(R.id.tvPlayerGames).text = player.gamesPlayed.toString()
 

@@ -65,7 +65,7 @@
         tools:text="14"  />
 
     <TextView
-        android:id="@+id/tvPlayerBigMistakes"
+        android:id="@+id/tvPlayerPenalties"
         style="@style/table_row_player_stats_text_views"
         android:layout_marginHorizontal="4dp"
         tools:ignore="RtlSymmetry"
