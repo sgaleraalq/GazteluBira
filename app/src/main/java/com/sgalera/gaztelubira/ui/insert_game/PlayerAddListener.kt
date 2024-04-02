@@ -4,4 +4,5 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 
 interface PlayerAddListener {
     fun onPlayerAdded(player: PlayerInfo)
+
 }
