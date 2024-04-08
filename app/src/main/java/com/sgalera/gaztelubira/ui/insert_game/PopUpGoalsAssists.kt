@@ -37,10 +37,10 @@ class PopUpGoalsAssists(
             // TODO THIS PART
             Toast.makeText(binding.root.context, "Game inserted", Toast.LENGTH_SHORT).show()
             dialogView.dismiss()
-        } else if (goals > 0 && awayGoals > 0 ){
+        } else if (goals == 0 && awayGoals == 0){
             view.findViewById<TextView>(R.id.tvCleanSheet).visibility = View.GONE
             view.findViewById<LinearLayout>(R.id.llCleanSheet).visibility = View.GONE
-        } else if (goals == 0 && awayGoals == 0) {
+        } else if (goals > 0 && awayGoals > 0) {
             view.findViewById<TextView>(R.id.tvGoals).visibility = View.GONE
             view.findViewById<LinearLayout>(R.id.llGoals).visibility = View.GONE
             view.findViewById<TextView>(R.id.tvAssists).visibility = View.GONE
