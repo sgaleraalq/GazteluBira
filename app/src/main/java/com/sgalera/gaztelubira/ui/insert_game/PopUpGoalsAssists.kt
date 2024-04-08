@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -47,8 +46,20 @@ class PopUpGoalsAssists(
             view.findViewById<LinearLayout>(R.id.llAssists).visibility = View.GONE
             view.findViewById<TextView>(R.id.tvPenalties).visibility = View.GONE
             view.findViewById<LinearLayout>(R.id.llPenalties).visibility = View.GONE
+            addGoalsItem(view)
         } else {
             println("hajñlafdskf")
         }
+    }
+
+    private fun addGoalsItem(view: View) {
+        for ( goal in 1..goals){
+            val layoutItem = createLayoutItem()
+            view.findViewById<LinearLayout>(R.id.llGoals).addView(layoutItem)
+        }
+    }
+
+    private fun createLayoutItem(): View {
+        return requireActivity().layoutInflater.inflate(R.layout.item_add_goal_or_assist, null)
     }
 }
