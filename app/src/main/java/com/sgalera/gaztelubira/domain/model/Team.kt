@@ -16,6 +16,5 @@ sealed class Team(val name: Int, val img: Int) {
     data object PenaSchool : Team(R.string.pena_school, R.drawable.img_pena_school)
     data object SanCristobal : Team(R.string.san_cristobal, R.drawable.img_san_cristobal)
     data object Lezkairu: Team(R.string.lezkairu, R.drawable.img_lezkairu)
-
-    data object Tingla2Legens : Team(R.string.tingla2_legens, R.drawable.img_no_football_shield)
+    data object Tingla2Legends : Team(R.string.tingla2_legends, R.drawable.img_no_football_shield)
 }

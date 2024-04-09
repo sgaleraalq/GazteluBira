@@ -1,5 +1,6 @@
 package com.sgalera.gaztelubira.ui.matches
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,19 +15,18 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sgalera.gaztelubira.databinding.FragmentMatchesBinding
+import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import com.sgalera.gaztelubira.ui.matches.adapter.MatchesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MatchesFragment: Fragment() {
-
     private var _binding: FragmentMatchesBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var matchesAdapter: MatchesAdapter
-
     private val matchesViewModel by viewModels<MatchesViewModel>()
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,8 +43,15 @@ class MatchesFragment: Fragment() {
 
     private fun initUI() {
         initComponents()
+        initListeners()
         initUIState()
         initRecyclerView()
+    }
+
+    private fun initListeners() {
+        binding.btnInsertGame.setOnClickListener {
+            insertGame()
+        }
     }
 
     private fun initComponents() {
@@ -53,6 +60,15 @@ class MatchesFragment: Fragment() {
                 MatchesFragmentDirections.actionMatchesFragmentToDetailMatchActivity(it)
             )
         })
+        checkToken()
+    }
+
+    private fun checkToken() {
+        sharedPreferences = SharedPreferences(requireContext())
+        val token = sharedPreferences.getAdminToken()
+        if (token != null){
+            binding.btnInsertGame.visibility = View.VISIBLE
+        }
     }
 
     private fun initUIState() {
@@ -71,7 +87,7 @@ class MatchesFragment: Fragment() {
 
     private fun successState(state: MatchInfoState.Success) {
         binding.progressBar.visibility = View.INVISIBLE
-        matchesAdapter.updateList(state.matchesList.sortedBy { it.id })
+        matchesAdapter.updateList(state.matchesList.sortedByDescending { it.id })
     }
 
     private fun errorState(error: String) {
@@ -88,5 +104,11 @@ class MatchesFragment: Fragment() {
             adapter = matchesAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
+    }
+
+    private fun insertGame() {
+        findNavController().navigate(
+            MatchesFragmentDirections.actionMatchesFragmentToInsertGameDetailActivity()
+        )
     }
 }

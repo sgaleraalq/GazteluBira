@@ -24,6 +24,8 @@ class MatchesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         binding.tvVisitorName.text = context.getString(awayTeam.name)
         binding.tvGoalsVisitor.text = match.awayGoals.toString()
 
+        binding.tvJourney.text = match.journey
+
         setCardBackgroundColor(match)
 
         if (match.match == "copa") {
@@ -64,7 +66,7 @@ class MatchesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             "Peña School" -> PenaSchool
             "San Cristobal" -> SanCristobal
             "Lezkairu" -> Lezkairu
-            else -> Tingla2Legens
+            else -> Tingla2Legends
         }
     }
 

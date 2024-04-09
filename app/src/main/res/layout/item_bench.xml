@@ -8,10 +8,10 @@
 
     <TextView
         android:id="@+id/tvDorsal"
-        android:layout_width="50dp"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingHorizontal="8dp"
+        android:paddingHorizontal="4dp"
         android:textColor="@color/white"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_matchesFragment_to_detailMatchActivity"
             app:destination="@id/detailMatchActivity" />
+        <action
+            android:id="@+id/action_matchesFragment_to_insertGameDetailActivity"
+            app:destination="@id/insertGameDetailActivity" />
     </fragment>
     <fragment
         android:id="@+id/playerFragment"
@@ -31,4 +34,9 @@
         <argument android:name="id"
             app:argType="integer" />
     </activity>
+    <activity
+        android:id="@+id/insertGameDetailActivity"
+        android:name="com.sgalera.gaztelubira.ui.insert_game.InsertGameDetailActivity"
+        android:label="activity_insert_game_detail"
+        tools:layout="@layout/activity_insert_game_detail" />
 </navigation>

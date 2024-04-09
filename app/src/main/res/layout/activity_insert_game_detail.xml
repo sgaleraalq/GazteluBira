@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    tools:context=".ui.insert_game.InsertGameDetailActivity">
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/antique_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="16dp"
+            android:text="@string/insert_game"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/description_ic_back"
+            android:padding="24dp"
+            android:src="@drawable/ic_back"
+            app:tint="@color/black" />
+    </FrameLayout>
+
+    <View
+        android:id="@+id/mid"
+        android:layout_width="0.1dp"
+        android:layout_height="0.1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.skydoves.powerspinner.PowerSpinnerView
+        android:id="@+id/psLocalTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:hint="@string/select_local_team"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:drawableTint="@color/white"
+        app:layout_constraintEnd_toStartOf="@id/mid"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frameLayout"
+        app:spinner_arrow_gravity="end"
+        app:spinner_arrow_padding="8dp"
+        app:spinner_arrow_show="true"
+        app:spinner_divider_color="@color/primary"
+        app:spinner_divider_show="true"
+        app:spinner_popup_animation="dropdown"
+        app:spinner_popup_background="@color/primary" />
+
+    <com.skydoves.powerspinner.PowerSpinnerView
+        android:id="@+id/psAwayTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:hint="@string/select_away_team"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:drawableTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/mid"
+        app:layout_constraintTop_toBottomOf="@id/frameLayout"
+        app:spinner_arrow_gravity="end"
+        app:spinner_arrow_padding="8dp"
+        app:spinner_arrow_show="true"
+        app:spinner_arrow_tint="@color/primary"
+        app:spinner_divider_color="@color/primary"
+        app:spinner_divider_show="true"
+        app:spinner_popup_animation="dropdown"
+        app:spinner_popup_background="@color/primary" />
+
+    <ImageView
+        android:id="@+id/ivLocalTeam"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="12dp"
+        android:contentDescription="@string/description_team"
+        android:src="@drawable/img_gaztelu_bira"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@id/etLocalGoals"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/psLocalTeam" />
+
+    <TextView
+        android:id="@+id/tvLocalTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/gaztelu_bira"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/ivLocalTeam"
+        app:layout_constraintStart_toStartOf="@id/ivLocalTeam"
+        app:layout_constraintTop_toBottomOf="@id/ivLocalTeam" />
+
+    <EditText
+        android:id="@+id/etLocalGoals"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:gravity="center"
+        android:padding="8dp"
+        android:background="@color/white_80_opacity"
+        android:maxLength="1"
+        android:textColor="@color/primary_dark"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivLocalTeam"
+        app:layout_constraintEnd_toStartOf="@id/mid"
+        app:layout_constraintStart_toEndOf="@id/ivLocalTeam"
+        app:layout_constraintTop_toTopOf="@id/ivLocalTeam"
+        tools:ignore="Autofill,DuplicateSpeakableTextCheck,LabelFor"
+        tools:text="3" />
+
+    <TextView
+        android:id="@+id/tvSlash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/slash"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@id/etLocalGoals"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/etLocalGoals" />
+
+    <EditText
+        android:id="@+id/etAwayGoals"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:gravity="center"
+        android:maxLength="1"
+        android:background="@color/white_80_opacity"
+        android:padding="8dp"
+        android:textColor="@color/primary_dark"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivLocalTeam"
+        app:layout_constraintEnd_toStartOf="@id/ivAwayTeam"
+        app:layout_constraintStart_toEndOf="@id/mid"
+        app:layout_constraintTop_toTopOf="@id/ivLocalTeam"
+        tools:ignore="Autofill,LabelFor"
+        tools:text="3" />
+
+    <ImageView
+        android:id="@+id/ivAwayTeam"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="12dp"
+        android:contentDescription="@string/description_team"
+        android:src="@drawable/img_gaztelu_bira"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/etAwayGoals"
+        app:layout_constraintTop_toBottomOf="@id/psLocalTeam" />
+
+    <TextView
+        android:id="@+id/tvAwayTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/ivAwayTeam"
+        app:layout_constraintStart_toStartOf="@id/ivAwayTeam"
+        app:layout_constraintTop_toBottomOf="@id/ivAwayTeam"
+        tools:text="Gaztelu Bira" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="8dp"
+        android:background="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvLocalTeam" />
+
+    <ImageView
+        android:id="@+id/ivGoals"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/description_goal_icon"
+        android:src="@drawable/ic_football_ball"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/tvSlash"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:tint="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/llGoals"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="@id/tvSlash"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivGoals" />
+
+    <ImageView
+        android:id="@+id/ivAssists"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/description_assist_icon"
+        android:src="@drawable/ic_football_shoe"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tvSlash"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:tint="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/llAssists"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tvSlash"
+        app:layout_constraintTop_toBottomOf="@id/ivAssists" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:paddingVertical="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llGoals">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/middlePoint"
+                android:layout_width="0.1dp"
+                android:layout_height="0.1dp"
+                app:layout_constraintBottom_toBottomOf="@id/ivFootballField"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/ivFootballField" />
+
+            <ImageView
+                android:id="@+id/ivFootballField"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:contentDescription="@string/description_football_field"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_football_field"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <include
+                android:id="@+id/ivGoalKeeper"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="@id/ivFootballField"
+                app:layout_constraintStart_toStartOf="@id/ivFootballField"
+                app:layout_constraintTop_toTopOf="@id/ivFootballField" />
+
+            <TextView
+                android:id="@+id/tvGoalKeeper"
+                style="@style/text_view_players_football_field"
+                app:layout_constraintEnd_toEndOf="@id/ivGoalKeeper"
+                app:layout_constraintStart_toStartOf="@id/ivGoalKeeper"
+                app:layout_constraintTop_toBottomOf="@id/ivGoalKeeper"
+                tools:text="Whasdfjañsdlf" />
+
+            <include
+                android:id="@+id/ivRightBack"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                app:layout_constraintBottom_toTopOf="@id/tvRightBack"
+                app:layout_constraintEnd_toEndOf="@id/middlePoint"
+                app:layout_constraintStart_toStartOf="@id/ivFootballField" />
+
+            <TextView
+                android:id="@+id/tvRightBack"
+                style="@style/text_view_players_football_field"
+                android:layout_marginBottom="4dp"
+                app:layout_constraintBottom_toBottomOf="@id/ivFootballField"
+                app:layout_constraintEnd_toEndOf="@id/ivRightBack"
+                app:layout_constraintStart_toStartOf="@id/ivRightBack"
+                tools:text="Whasdfjañsdlf" />
+
+            <include
+                android:id="@+id/ivRightCentreBack"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="40dp"
+                app:layout_constraintBottom_toBottomOf="@id/ivFootballField"
+                app:layout_constraintEnd_toEndOf="@id/ivRightBack"
+                app:layout_constraintStart_toStartOf="@id/ivFootballField"
+                app:layout_constraintTop_toTopOf="@id/middlePoint" />
+
+            <TextView
+                android:id="@+id/tvRightCentreBack"
+                style="@style/text_view_players_football_field"
+                app:layout_constraintEnd_toEndOf="@id/ivRightCentreBack"
+                app:layout_constraintStart_toStartOf="@id/ivRightCentreBack"
+                app:layout_constraintTop_toBottomOf="@id/ivRightCentreBack"
+                tools:text="Whasdfjañsdlf" />
+
+            <include
+                android:id="@+id/ivLeftCentreBack"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                app:layout_constraintBottom_toBottomOf="@id/middlePoint"
+                app:layout_constraintEnd_toEndOf="@id/ivRightCentreBack"
+                app:layout_constraintStart_toStartOf="@id/ivRightCentreBack"
+                app:layout_constraintTop_toTopOf="@id/ivFootballField" />
+
+            <TextView
+                android:id="@+id/tvLeftCentreBack"
+                style="@style/text_view_players_football_field"
+                app:layout_constraintEnd_toEndOf="@id/ivLeftCentreBack"
+                app:layout_constraintStart_toStartOf="@id/ivLeftCentreBack"
+                app:layout_constraintTop_toBottomOf="@id/ivLeftCentreBack"
+                tools:text="añjsfdalsd" />
+
+            <include
+                android:id="@+id/ivLeftBack"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:layout_constraintEnd_toEndOf="@id/ivRightBack"
+                app:layout_constraintStart_toStartOf="@id/ivRightBack"
+                app:layout_constraintTop_toTopOf="@id/ivFootballField" />
+
+            <TextView
+                android:id="@+id/tvLeftBack"
+                style="@style/text_view_players_football_field"
+                app:layout_constraintEnd_toEndOf="@id/ivLeftBack"
+                app:layout_constraintStart_toStartOf="@id/ivLeftBack"
+                app:layout_constraintTop_toBottomOf="@id/ivLeftBack"
+                tools:text="lkañsjdfñalks" />
+
+            <include
+                android:id="@+id/ivDefensiveMidFielder"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/ivFootballField"
+                app:layout_constraintEnd_toEndOf="@id/middlePoint"
+                app:layout_constraintStart_toStartOf="@id/ivRightBack"
+                app:layout_constraintTop_toTopOf="@id/ivFootballField" />
+
+            <TextView
+                android:id="@+id/tvDefensiveMidFielder"
+                style="@style/text_view_players_football_field"
+                app:layout_constraintEnd_toEndOf="@id/ivDefensiveMidFielder"
+                app:layout_constraintStart_toStartOf="@id/ivDefensiveMidFielder"
+                app:layout_constraintTop_toBottomOf="@id/ivDefensiveMidFielder"
+                tools:text="lkñajsdfañlsajf" />
+
+            <include
+                android:id="@+id/ivRightMidFielder"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="-10dp"
+                app:layout_constraintStart_toStartOf="@id/middlePoint"
+                app:layout_constraintTop_toTopOf="@id/ivRightCentreBack" />
+
+            <TextView
+                android:id="@+id/tvRightMidFielder"
+                style="@style/text_view_players_football_field"
+                app:layout_constraintEnd_toEndOf="@id/ivRightMidFielder"
+                app:layout_constraintStart_toStartOf="@id/ivRightMidFielder"
+                app:layout_constraintTop_toBottomOf="@id/ivRightMidFielder"
+                tools:text="ñalksdfjañfd" />
+
+            <include
+                android:id="@+id/ivLeftMidFielder"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="@id/ivRightMidFielder"
+                app:layout_constraintStart_toStartOf="@id/ivRightMidFielder"
+                app:layout_constraintTop_toTopOf="@id/ivLeftCentreBack" />
+
+            <TextView
+                android:id="@+id/tvLeftMidFielder"
+                style="@style/text_view_players_football_field"
+                app:layout_constraintEnd_toEndOf="@id/ivLeftMidFielder"
+                app:layout_constraintStart_toStartOf="@id/ivLeftMidFielder"
+                app:layout_constraintTop_toBottomOf="@id/ivLeftMidFielder"
+                tools:text="alñsjfdafa" />
+
+            <include
+                android:id="@+id/ivRightStriker"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/ivRightBack"
+                app:layout_constraintEnd_toEndOf="@id/ivFootballField"
+                app:layout_constraintStart_toStartOf="@id/middlePoint" />
+
+            <TextView
+                android:id="@+id/tvRightStriker"
+                style="@style/text_view_players_football_field"
+                app:layout_constraintEnd_toEndOf="@id/ivRightStriker"
+                app:layout_constraintStart_toStartOf="@id/ivRightStriker"
+                app:layout_constraintTop_toBottomOf="@id/ivRightStriker"
+                tools:text="jañlsfdkjads" />
+
+            <include
+                android:id="@+id/ivLeftStriker"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="@id/ivRightStriker"
+                app:layout_constraintTop_toTopOf="@id/ivLeftBack" />
+
+            <TextView
+                android:id="@+id/tvLeftStriker"
+                style="@style/text_view_players_football_field"
+                app:layout_constraintEnd_toEndOf="@id/ivLeftStriker"
+                app:layout_constraintStart_toStartOf="@id/ivLeftStriker"
+                app:layout_constraintTop_toBottomOf="@id/ivLeftStriker"
+                tools:text="jalñsdfjas" />
+
+            <include
+                android:id="@+id/ivStriker"
+                layout="@layout/starters_dorsal_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="40dp"
+                app:layout_constraintBottom_toBottomOf="@id/ivFootballField"
+                app:layout_constraintEnd_toEndOf="@id/ivFootballField"
+                app:layout_constraintStart_toStartOf="@id/ivRightStriker"
+                app:layout_constraintTop_toTopOf="@id/ivFootballField" />
+
+            <TextView
+                android:id="@+id/tvStriker"
+                style="@style/text_view_players_football_field"
+                app:layout_constraintEnd_toEndOf="@id/ivStriker"
+                app:layout_constraintStart_toStartOf="@id/ivStriker"
+                app:layout_constraintTop_toBottomOf="@id/ivStriker"
+                tools:text="ajslñdfkjad" />
+
+            <TextView
+                android:id="@+id/tvBench"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/bench"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/ivFootballField"
+                app:layout_constraintTop_toBottomOf="@id/ivFootballField" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvBench"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@id/psBenchPlayer"
+                app:layout_constraintEnd_toEndOf="@id/ivFootballField"
+                app:layout_constraintStart_toStartOf="@id/ivFootballField"
+                app:layout_constraintTop_toBottomOf="@id/tvBench" />
+
+            <com.skydoves.powerspinner.PowerSpinnerView
+                android:id="@+id/psBenchPlayer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:hint="@string/insert_bench_player"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                app:drawableTint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rvBench"
+                app:spinner_arrow_gravity="end"
+                app:spinner_arrow_padding="8dp"
+                app:spinner_arrow_show="true"
+                app:spinner_arrow_tint="@color/primary"
+                app:spinner_divider_color="@color/primary"
+                app:spinner_divider_show="true"
+                app:spinner_popup_animation="dropdown"
+                app:spinner_popup_background="@color/primary" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAddBenchPlayer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/add_bench_player"
+                android:textColor="@color/primary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/psBenchPlayer" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnInsertGame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@color/green"
+                android:text="@string/insert_game"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnAddBenchPlayer" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

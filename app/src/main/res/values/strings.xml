@@ -4,20 +4,28 @@
 
     // Testing
     <string name="random_number">14</string>
+    <string name="random_number_1">10</string>
+    <string name="random_number_2">3</string>
+    <string name="madariaga">Madariaga</string>
+
 
     // App and Fragment names
     <string name="gaztelu_bira">Gaztelu Bira</string>
     <string name="playerFragment">Player</string>
     <string name="statsFragment">Stats</string>
     <string name="matchesFragment">Matches</string>
+    <string name="oneVersusOne">1 v 1</string>
 
     // Player comparison fragment
     <string name="goals">Goals</string>
     <string name="assists">Assists</string>
     <string name="big_mistakes">Big mistakes</string>
+    <string name="penalties">Penalties</string>
     <string name="clean_sheet">Clean sheet</string>
     <string name="games_played">Games played</string>
     <string name="percentage">Percentage</string>
+    <string name="choose_two_different_players">Choose two different players</string>
+    <string name="done">Done!</string>
 
     // Matches fragment
     <string name="matchesPlayed">Played games</string>
@@ -30,7 +38,20 @@
     <string name="starter_team">Starter team</string>
     <string name="bench">Bench</string>
 
+    // Insert match activity
+    <string name="insert_game">Insert game</string>
+    <string name="select_local_team">Select local team</string>
+    <string name="select_away_team">Select away team</string>
+    <string name="add_bench_player">Add a bench player</string>
+    <string name="insert_bench_player">Bench player name</string>
+
     // Stats fragment
+    <string name="player">Player</string>
+    <string name="admin">Admin</string>
+    <string name="insert_admin_password">Insert admin password:</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log in</string>
+    <string name="loggedAsAdmin">Logged as: Admin</string>
 
     // Teams
     <string name="anaitasuna">Anaitasuna</string>
@@ -44,7 +65,7 @@
     <string name="la_unica">La Unica</string>
     <string name="pena_school">Peña School</string>
     <string name="san_cristobal">San Cristobal</string>
-    <string name="tingla2_legens">Tingla2 Legens</string>
+    <string name="tingla2_legends">Tingla2 Legends</string>
     <string name="lezkairu">Lezkairu</string>
 
     // Image descriptions
@@ -58,4 +79,14 @@
     <string name="description_football_player">Football player</string>
     <string name="description_stats_icon">Stat icon</string>
     <string name="description_versus">Versus icon</string>
+    <string name="description_t_shirt">Gaztelu t-shirt</string>
+    <string name="description_check">Check icon</string>
+    <string name="description_messi_vs_cristiano">Image Messi vs Cristiano</string>
+    <string name="description_football_card">Background fifa card</string>
+    <string name="description_champion">Champion player</string>
+    <string name="description_assist_icon">Assist icon</string>
+    <string name="description_big_mistakes_icon">Big mistakes icon</string>
+    <string name="description_clean_sheet_icon">Clean sheet icon</string>
+    <string name="description_icon_eye">Eye icon</string>
+    <string name="description_icon_plus">Plus icon</string>
 </resources>

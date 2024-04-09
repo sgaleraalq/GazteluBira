@@ -29,7 +29,6 @@ class DetailMatchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_match)
         binding = ActivityDetailMatchBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initUI()
@@ -126,10 +125,18 @@ class DetailMatchActivity : AppCompatActivity() {
             itemLayout.findViewById<TextView>(R.id.tvDorsal).text = player.dorsal.toString()
 
             // Decidir en qué LinearLayout colocar el elemento según el índice
-            if (index-1 < bench.size / 2) {
-                binding.llBench.addView(itemLayout)
+            if (bench.size % 2 == 0) {
+                if (index < bench.size / 2) {
+                    binding.llBench.addView(itemLayout)
+                } else {
+                    binding.llBench2.addView(itemLayout)
+                }
             } else {
-                binding.llBench2.addView(itemLayout)
+                if (index < bench.size / 2 + 1) {
+                    binding.llBench.addView(itemLayout)
+                } else {
+                    binding.llBench2.addView(itemLayout)
+                }
             }
         }
     }

@@ -1,3 +1,7 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -19,6 +23,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val localProperties = Properties()
+        val propertyFile = FileInputStream(rootProject.file("local.properties"))
+        localProperties.load(propertyFile)
+        buildConfigField("String", "ADMIN_PASSWORD", localProperties.getProperty("ADMIN_PASSWORD"))
+        buildConfigField("String", "AUTH_TOKEN", localProperties.getProperty("AUTH_TOKEN"))
     }
 
     buildTypes {
@@ -41,6 +51,7 @@ android {
     buildFeatures{
         viewBinding = true
         dataBinding = true
+        buildConfig = true
     }
 }
 
@@ -68,9 +79,18 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore.ktx)
     implementation("com.google.firebase:firebase-analytics")
+    // Firebase auth
+    implementation("com.google.firebase:firebase-auth")
     
     // Progress View
     implementation(libs.progressview)
+
+    // Power spinner
+    implementation("com.github.skydoves:powerspinner:1.2.7")
+
+    // Circle Image View
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

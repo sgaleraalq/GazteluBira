@@ -6,5 +6,6 @@ data class MatchInfo (
     val homeTeam: String,
     val awayTeam: String,
     val homeGoals: Int,
-    val awayGoals: Int
+    val awayGoals: Int,
+    val journey: String
 )

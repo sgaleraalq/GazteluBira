@@ -10,6 +10,7 @@
     // My colors
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="white_80_opacity">#CCFFFFFF</color>
 
     // App colors
     <color name="main_red">#e0483b</color>
@@ -21,5 +22,8 @@
     <color name="lemon_chiffon">#DEC02C</color>
     <color name="green">#008000</color>
     <color name="indian_red">#cd5c5c</color>
+    <color name="sandy_brown">#f4a460</color>
+    <color name="grey_80_opacity">#CC9C9B9B</color>
+    <color name="transparent">#00F44336</color>
 
 </resources>

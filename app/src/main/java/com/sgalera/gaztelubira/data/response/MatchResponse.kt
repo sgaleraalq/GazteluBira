@@ -1,8 +1,7 @@
 package com.sgalera.gaztelubira.data.response
 
 import com.google.firebase.firestore.PropertyName
-import com.sgalera.gaztelubira.domain.model.Team
-import com.sgalera.gaztelubira.domain.model.Team.*
+import com.sgalera.gaztelubira.domain.model.MappingUtils.mapTeam
 import com.sgalera.gaztelubira.domain.model.matches.Match
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
@@ -12,7 +11,6 @@ data class MatchResponse(
     val match: String = "",
     val scorers: List<String> = emptyList(),
     val assistants: List<String> = emptyList(),
-    // TODO Starters
     val starters: Map<String, String> = emptyMap(),
     val bench: List<String> = emptyList(),
     @get:PropertyName("home_team") @set:PropertyName("home_team") var homeTeam: String = "",
@@ -32,25 +30,6 @@ data class MatchResponse(
         starters = starters.mapValues { mapPlayerInfo(it.value) },
         bench = bench.map { mapPlayerInfo(it) }
     )
-
-    private fun mapTeam(team: String): Team {
-        return when (team) {
-            "Gaztelu Bira" -> GazteluBira
-            "Anaitasuna" -> Anaitasuna
-            "Arsenal" -> Arsenal
-            "Aterbea" -> Aterbea
-            "ESIC Gazteak" -> EsicGazteak
-            "Esmeraldeños" -> Esmeraldenos
-            "Garre" -> Garre
-            "Iturrama" -> Iturrama
-            "IZN" -> Izn
-            "La Unica" -> LaUnica
-            "Peña School" -> PenaSchool
-            "San Cristobal" -> SanCristobal
-            "Lezkairu" -> Lezkairu
-            else -> Tingla2Legens
-        }
-    }
 
     private fun mapPlayerInfo(player: String): PlayerInfo {
         return when (player) {
