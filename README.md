@@ -12,3 +12,5 @@ The main purpose of the app is to get experience using Android Studio in Kotlin 
     - Progress View (@skydoves)
 
 Main screen consists of: 
+- Picture of current leader of the board (FIFA like)
+- Individual stats for every player with arrows ups and downs
