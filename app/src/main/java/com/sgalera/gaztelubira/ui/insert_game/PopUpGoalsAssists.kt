@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.DialogFragment
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameDetailBinding
@@ -28,33 +29,27 @@ class PopUpGoalsAssists(
         val dialogView = builder.create()
         dialogView.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         initComponents(dialogView, view)
+        println("Goals: $goals, AwayGoals: $awayGoals")
         return dialogView
     }
 
     private fun initComponents(dialogView: AlertDialog, view: View) {
-        if (goals == 0 && awayGoals > 0){
-            // TODO THIS PART
-            Toast.makeText(binding.root.context, "Game inserted", Toast.LENGTH_SHORT).show()
-            dialogView.dismiss()
-        } else if (goals == 0 && awayGoals == 0){
-            view.findViewById<TextView>(R.id.tvCleanSheet).visibility = View.GONE
-            view.findViewById<LinearLayout>(R.id.llCleanSheet).visibility = View.GONE
-        } else if (goals > 0 && awayGoals > 0) {
-            view.findViewById<TextView>(R.id.tvGoals).visibility = View.GONE
-            view.findViewById<LinearLayout>(R.id.llGoals).visibility = View.GONE
-            view.findViewById<TextView>(R.id.tvAssists).visibility = View.GONE
-            view.findViewById<LinearLayout>(R.id.llAssists).visibility = View.GONE
-            view.findViewById<TextView>(R.id.tvPenalties).visibility = View.GONE
-            view.findViewById<LinearLayout>(R.id.llPenalties).visibility = View.GONE
-            addGoalsItem(view)
+        if (goals > 0){
+            view.findViewById<ConstraintLayout>(R.id.clGoals).visibility = View.VISIBLE
+            view.findViewById<ConstraintLayout>(R.id.clAssists).visibility = View.VISIBLE
+            view.findViewById<ConstraintLayout>(R.id.clPenalties).visibility = View.VISIBLE
+        } else if (awayGoals == 0){
+            view.findViewById<ConstraintLayout>(R.id.clCleanSheet).visibility = View.VISIBLE
         } else {
-            println("hajñlafdskf")
+            // TODO insert game
+            Toast.makeText(binding.root.context, "Game inserted", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun addGoalsItem(view: View) {
-        for ( goal in 1..goals){
+        for (goal in 1..goals){
             val layoutItem = createLayoutItem()
+            println(goal)
             view.findViewById<LinearLayout>(R.id.llGoals).addView(layoutItem)
         }
     }
