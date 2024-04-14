@@ -357,10 +357,10 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
 
     private fun showGoalsAssistsPopUp() {
         val popUp = PopUpGoalsAssists(
-            localTeam,
-            awayTeam,
-            goals,
-            awayGoals,
+            Team.GazteluBira,
+            Team.Anaitasuna,
+            2,
+            1,
             binding
         )
         popUp.show(supportFragmentManager, "GoalsAssists")
