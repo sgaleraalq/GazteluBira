@@ -292,7 +292,6 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         binding.psBenchPlayer.setItems(viewModel.state.value)
     }
 
-
     private fun popUpText(position: String): String {
         return when (position) {
             "goal_keeper" -> "Select Goal Keeper"
@@ -309,7 +308,6 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             else -> ""
         }
     }
-
 
     private fun insertGoalsAssists() {
 //        if (checkTeams() && checkGoals() && checkPlayers()) {
@@ -356,14 +354,8 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     }
 
     private fun showGoalsAssistsPopUp() {
-        val popUp = PopUpGoalsAssists(
-            Team.GazteluBira,
-            Team.Anaitasuna,
-            2,
-            1,
-            binding
-        )
-        popUp.show(supportFragmentManager, "GoalsAssists")
+        // TODO insert game
+        Toast.makeText(this, "Game inserted", Toast.LENGTH_SHORT).show()
     }
 
     private fun insertGame() {
