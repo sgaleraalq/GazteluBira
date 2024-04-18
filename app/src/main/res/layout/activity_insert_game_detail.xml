@@ -121,11 +121,11 @@
         android:id="@+id/etLocalGoals"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:gravity="center"
-        android:padding="8dp"
         android:background="@color/white_80_opacity"
+        android:gravity="center"
+        android:inputType="number"
         android:maxLength="1"
+        android:padding="8dp"
         android:textColor="@color/primary_dark"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@id/ivLocalTeam"
@@ -151,10 +151,10 @@
         android:id="@+id/etAwayGoals"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:gravity="center"
-        android:maxLength="1"
         android:background="@color/white_80_opacity"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLength="1"
         android:padding="8dp"
         android:textColor="@color/primary_dark"
         android:textSize="30sp"
@@ -188,6 +188,29 @@
         app:layout_constraintTop_toBottomOf="@id/ivAwayTeam"
         tools:text="Gaztelu Bira" />
 
+    <TextView
+        android:id="@+id/tvGoals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@color/dark_grey"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="@string/goals"
+        android:textColor="@color/primary"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvLocalTeam" />
+
+    <LinearLayout
+        android:id="@+id/llGoals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvGoals"
+        android:layout_marginHorizontal="16dp"
+        android:orientation="vertical" />
+
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
@@ -195,53 +218,7 @@
         android:layout_margin="8dp"
         android:background="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvLocalTeam" />
-
-    <ImageView
-        android:id="@+id/ivGoals"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/description_goal_icon"
-        android:src="@drawable/ic_football_ball"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/tvSlash"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider"
-        app:tint="@color/white" />
-
-    <LinearLayout
-        android:id="@+id/llGoals"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="@id/tvSlash"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivGoals" />
-
-    <ImageView
-        android:id="@+id/ivAssists"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/description_assist_icon"
-        android:src="@drawable/ic_football_shoe"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/tvSlash"
-        app:layout_constraintTop_toBottomOf="@id/divider"
-        app:tint="@color/white" />
-
-    <LinearLayout
-        android:id="@+id/llAssists"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/tvSlash"
-        app:layout_constraintTop_toBottomOf="@id/ivAssists" />
+        app:layout_constraintTop_toBottomOf="@id/llGoals" />
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -254,7 +231,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llGoals">
+        app:layout_constraintTop_toBottomOf="@id/divider">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
