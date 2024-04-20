@@ -50,6 +50,7 @@ class InsertGame : AppCompatActivity() {
         // Get the passed arguments
         id = intent.getIntExtra("id", 0)
         journey = intent.getIntExtra("journey", 0)
+        println("this is the journey $journey")
         initUI()
         initListeners()
     }
@@ -144,16 +145,19 @@ class InsertGame : AppCompatActivity() {
 
     private fun postGame() {
         lifecycleScope.launch {
-            homeTeam = Team.GazteluBira
-            awayTeam = Team.Anaitasuna
-            try {
-                val home = getString(homeTeam!!.name)
-                val away = getString(awayTeam!!.name)
-                val response = viewModel.postGame(home, homeGoals, away, awayGoals, match, journey, id)
-                println(response)
-            } catch(e: Exception) {
-                println(e)
-                Toast.makeText(this@InsertGame, "Error posting game", Toast.LENGTH_SHORT).show()
+            viewModel.stateInsertGame.collect { isLoading ->
+                if (isLoading) {
+                    binding.progressBarInsertGame.visibility = View.VISIBLE
+                } else {
+                    binding.progressBarInsertGame.visibility = View.INVISIBLE
+                    Toast.makeText(this@InsertGame, "Game posted", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+            }
+            viewModel.errorInsertGame.collect { error ->
+                error?.let {
+                    Toast.makeText(this@InsertGame, "Error posting game", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

@@ -15,7 +15,7 @@ class MatchesProvider @Inject constructor(private val matchesApiService: Matches
         return matchesApiService.getMatch(id)
     }
 
-    suspend fun postGame(match: MatchInfo) {
+    suspend fun postGame(match: MatchInfo): Response<Boolean>? {
         matchesApiService.postGame(match)
     }
 }

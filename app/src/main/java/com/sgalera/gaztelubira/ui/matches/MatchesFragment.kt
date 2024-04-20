@@ -114,7 +114,7 @@ class MatchesFragment: Fragment() {
     private fun insertGame() {
         if (id > 0 && journey > 0){
             findNavController().navigate(
-                MatchesFragmentDirections.actionMatchesFragmentToInsertGame(id, journey)
+                MatchesFragmentDirections.actionMatchesFragmentToInsertGame(journey+1, id+1)
             )
         } else{
             Toast.makeText(context, "Please wait until matches are loaded", Toast.LENGTH_SHORT).show()

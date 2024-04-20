@@ -7,9 +7,11 @@ import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,6 +19,9 @@ class InsertGameViewModel @Inject constructor(private val matchesProvider: Match
     ViewModel() {
     private var _state = MutableStateFlow(arrayListOf<String>())
     val state: StateFlow<ArrayList<String>> = _state
+
+    private var _stateInsertGame = MutableStateFlow(InsertGameInfoState.Loading)
+    val stateInsertGame: StateFlow<InsertGameInfoState> = _stateInsertGame
 
     init {
         viewModelScope.launch {
@@ -59,15 +64,15 @@ class InsertGameViewModel @Inject constructor(private val matchesProvider: Match
         journey: Int,
         id: Int
     ) {
-        val jornada = if (match == "liga") {
-            "Jornada ${journey + 1}"
-        } else {
-            "Copa"
-        }
+        _stateInsertGame.value = InsertGameInfoState.Loading
+        val jornada = if (match == "liga") { "Jornada $journey" } else { "Copa" }
         val gameData = createGameData(homeTeam, homeGoals, awayTeam, awayGoals, match, jornada, id)
-        println("heeeeere")
-        println(gameData)
-        return matchesProvider.postGame(gameData)
+        val result = withContext(Dispatchers.IO){ matchesProvider.postGame(gameData) }
+        if (result != null) {
+            _stateInsertGame.value = InsertGameInfoState.Success
+        } else {
+            _stateInsertGame.value = InsertGameInfoState.Error("Ha ocurrido un error, intentelo más tarde")
+        }
     }
 
     private fun createGameData(
