@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    tools:context=".ui.insert_game.InsertGameDetailActivity">
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/antique_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="16dp"
+            android:text="@string/insert_game"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/description_ic_back"
+            android:padding="24dp"
+            android:src="@drawable/ic_back"
+            app:tint="@color/black" />
+    </FrameLayout>
+
+    <View
+        android:id="@+id/mid"
+        android:layout_width="0.1dp"
+        android:layout_height="0.1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.skydoves.powerspinner.PowerSpinnerView
+        android:id="@+id/psHomeTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:hint="@string/select_local_team"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:drawableTint="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/ivHomeTeam"
+        app:layout_constraintEnd_toStartOf="@id/mid"
+        app:layout_constraintStart_toStartOf="parent"
+        app:spinner_arrow_gravity="end"
+        app:spinner_arrow_padding="8dp"
+        app:spinner_arrow_show="true"
+        app:spinner_divider_color="@color/primary"
+        app:spinner_divider_show="true"
+        app:spinner_popup_animation="dropdown"
+        app:spinner_popup_background="@color/primary" />
+
+    <com.skydoves.powerspinner.PowerSpinnerView
+        android:id="@+id/psAwayTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:gravity="center"
+        android:hint="@string/select_away_team"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:drawableTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/psHomeTeam"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/mid"
+        app:layout_constraintTop_toTopOf="@id/psHomeTeam"
+        app:spinner_arrow_gravity="end"
+        app:spinner_arrow_padding="8dp"
+        app:spinner_arrow_show="true"
+        app:spinner_arrow_tint="@color/primary"
+        app:spinner_divider_color="@color/primary"
+        app:spinner_divider_show="true"
+        app:spinner_popup_animation="dropdown"
+        app:spinner_popup_background="@color/primary" />
+
+    <ImageView
+        android:id="@+id/ivHomeTeam"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="80dp"
+        android:contentDescription="@string/description_team"
+        android:src="@drawable/img_gaztelu_bira"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/etHomeGoals"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvHomeTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/gaztelu_bira"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/ivHomeTeam"
+        app:layout_constraintStart_toStartOf="@id/ivHomeTeam"
+        app:layout_constraintTop_toBottomOf="@id/ivHomeTeam" />
+
+    <EditText
+        android:id="@+id/etHomeGoals"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white_80_opacity"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLength="1"
+        android:padding="8dp"
+        android:textColor="@color/primary_dark"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivHomeTeam"
+        app:layout_constraintEnd_toStartOf="@id/mid"
+        app:layout_constraintStart_toEndOf="@id/ivHomeTeam"
+        app:layout_constraintTop_toTopOf="@id/ivHomeTeam"
+        tools:ignore="Autofill,DuplicateSpeakableTextCheck,LabelFor"
+        tools:text="3" />
+
+    <TextView
+        android:id="@+id/tvSlash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/slash"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@id/etHomeGoals"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/etHomeGoals" />
+
+    <EditText
+        android:id="@+id/etAwayGoals"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white_80_opacity"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLength="1"
+        android:padding="8dp"
+        android:textColor="@color/primary_dark"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivHomeTeam"
+        app:layout_constraintEnd_toStartOf="@id/ivAwayTeam"
+        app:layout_constraintStart_toEndOf="@id/mid"
+        app:layout_constraintTop_toTopOf="@id/ivHomeTeam"
+        tools:ignore="Autofill,LabelFor"
+        tools:text="3" />
+
+    <ImageView
+        android:id="@+id/ivAwayTeam"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:contentDescription="@string/description_team"
+        android:src="@drawable/img_gaztelu_bira"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/ivHomeTeam"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/etAwayGoals"
+        app:layout_constraintTop_toTopOf="@id/ivHomeTeam" />
+
+    <TextView
+        android:id="@+id/tvAwayTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/ivAwayTeam"
+        app:layout_constraintStart_toStartOf="@id/ivAwayTeam"
+        app:layout_constraintTop_toBottomOf="@id/ivAwayTeam"
+        tools:text="Gaztelu Bira" />
+
+    <ProgressBar
+        android:id="@+id/progressBarInsertGame"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:indeterminateTint="@color/antique_white"
+        android:layout_marginBottom="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvAwayTeam" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnContinue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/grey_80_opacity"
+        android:paddingHorizontal="30dp"
+        android:text="@string/next"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
