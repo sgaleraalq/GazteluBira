@@ -38,19 +38,6 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         "right_striker" to "",
         "striker" to ""
     )
-    private var teams = arrayListOf(
-        "Anaitasuna",
-        "Arsenal",
-        "Aterbea",
-        "ESIC Gazteak",
-        "Esmeraldeños",
-        "Garre",
-        "Iturrama",
-        "IZN",
-        "La Unica",
-        "Peña School",
-        "San Cristobal"
-        )
     private val viewModel by viewModels<InsertGameViewModel>()
     private lateinit var localTeam: Team
     private lateinit var awayTeam: Team
@@ -86,8 +73,6 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
                 false
             )
         }
-        binding.psLocalTeam.setItems(teams)
-        binding.psAwayTeam.setItems(teams)
         powerSpinnerBenchList()
     }
 
@@ -99,39 +84,10 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             insertBenchPlayer()
         }
 
-        // Add name and image of the selected team to the TextView and ImageView
-        binding.psLocalTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
-            localTeam = mapTeam(newItem)
-
-            // Set away as Gaztelu
-            awayTeam = mapTeam("Gaztelu Bira")
-            insertTeams()
-        }
-        binding.psAwayTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
-            awayTeam = mapTeam(newItem)
-
-            // Set local as Gaztelu
-            localTeam = mapTeam("Gaztelu Bira")
-            insertTeams()
-        }
         initStartersListeners()
         binding.btnInsertGame.setOnClickListener {
             insertGoalsAssists()
         }
-    }
-
-    private fun insertTeams() {
-        binding.tvLocalTeam.text = this.getString(localTeam.name)
-        binding.ivLocalTeam.setImageResource(localTeam.img)
-
-        binding.tvAwayTeam.text = this.getString(awayTeam.name)
-        binding.ivAwayTeam.setImageResource(awayTeam.img)
-
-        binding.ivLocalTeam.visibility = View.VISIBLE
-        binding.ivAwayTeam.visibility = View.VISIBLE
-
-        binding.psLocalTeam.clearSelectedItem()
-        binding.psAwayTeam.clearSelectedItem()
     }
 
     private fun initStartersListeners() {
