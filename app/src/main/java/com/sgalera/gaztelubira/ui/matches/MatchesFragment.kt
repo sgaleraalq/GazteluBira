@@ -106,7 +106,7 @@ class MatchesFragment: Fragment() {
 
     private fun insertGame() {
         findNavController().navigate(
-            MatchesFragmentDirections.actionMatchesFragmentToInsertGameDetailActivity()
+            MatchesFragmentDirections.actionMatchesFragmentToInsertGame()
         )
     }
 }
