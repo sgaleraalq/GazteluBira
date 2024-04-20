@@ -65,8 +65,9 @@ class InsertGameViewModel @Inject constructor(private val matchesProvider: Match
             "Copa"
         }
         val gameData = createGameData(homeTeam, homeGoals, awayTeam, awayGoals, match, jornada, id)
-
-        matchesProvider.postGame(gameData)
+        println("heeeeere")
+        println(gameData)
+        return matchesProvider.postGame(gameData)
     }
 
     private fun createGameData(

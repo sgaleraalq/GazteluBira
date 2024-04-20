@@ -12,8 +12,10 @@ import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameBinding
 import com.sgalera.gaztelubira.domain.model.MappingUtils
 import com.sgalera.gaztelubira.domain.model.Team
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class InsertGame : AppCompatActivity() {
     private var homeTeam: Team? = null
     private var awayTeam: Team? = null
@@ -58,17 +60,18 @@ class InsertGame : AppCompatActivity() {
     }
     private fun initListeners() {
         binding.btnContinue.setOnClickListener {
-            if (checkFields()) {
-                postGame()
-                val intent = Intent(this, InsertGameDetailActivity::class.java)
-                intent.apply {
-                    putExtra("homeTeam", homeTeam!!.name)
-                    putExtra("awayTeam", awayTeam!!.name)
-                    putExtra("homeGoals", homeGoals)
-                    putExtra("awayGoals", awayGoals)
-                }
-                startActivity(intent)
-            }
+            postGame()
+//            if (checkFields()) {
+//                postGame()
+////                val intent = Intent(this, InsertGameDetailActivity::class.java)
+////                intent.apply {
+////                    putExtra("homeTeam", homeTeam!!.name)
+////                    putExtra("awayTeam", awayTeam!!.name)
+////                    putExtra("homeGoals", homeGoals)
+////                    putExtra("awayGoals", awayGoals)
+////                }
+////                startActivity(intent)
+//            }
         }
         binding.cvLeague.setOnClickListener {
             match = "liga"
@@ -141,12 +144,15 @@ class InsertGame : AppCompatActivity() {
 
     private fun postGame() {
         lifecycleScope.launch {
+            homeTeam = Team.GazteluBira
+            awayTeam = Team.Anaitasuna
             try {
-                val home = resources.getString(homeTeam!!.name)
-                val away = resources.getString(awayTeam!!.name)
-                viewModel.postGame(home, homeGoals, away, awayGoals, match, journey, id)
-
+                val home = getString(homeTeam!!.name)
+                val away = getString(awayTeam!!.name)
+                val response = viewModel.postGame(home, homeGoals, away, awayGoals, match, journey, id)
+                println(response)
             } catch(e: Exception) {
+                println(e)
                 Toast.makeText(this@InsertGame, "Error posting game", Toast.LENGTH_SHORT).show()
             }
         }
