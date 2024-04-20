@@ -4,12 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameBinding
 import com.sgalera.gaztelubira.domain.model.MappingUtils
 import com.sgalera.gaztelubira.domain.model.Team
+import kotlinx.coroutines.launch
 
 class InsertGame : AppCompatActivity() {
     private var homeTeam: Team? = null
@@ -32,12 +35,19 @@ class InsertGame : AppCompatActivity() {
     )
 
     private lateinit var binding: ActivityInsertGameBinding
+    private var id: Int = 0
+    private var journey: Int = 0
     private var match: String = "liga"
+
+    private val viewModel: InsertGameViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityInsertGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        // Get the passed arguments
+        id = intent.getIntExtra("id", 0)
+        journey = intent.getIntExtra("journey", 0)
         initUI()
         initListeners()
     }
@@ -72,7 +82,7 @@ class InsertGame : AppCompatActivity() {
         }
 
         binding.cvCup.setOnClickListener {
-            match = "cup"
+            match = "copa"
             binding.cvCup.setCardBackgroundColor(ContextCompat.getColor(this, R.color.green))
             binding.ivCup.setColorFilter(ContextCompat.getColor(this, R.color.white))
             binding.tvCup.setTextColor(ContextCompat.getColor(this, R.color.white))
@@ -130,6 +140,15 @@ class InsertGame : AppCompatActivity() {
     }
 
     private fun postGame() {
-        println("Game posted")
+        lifecycleScope.launch {
+            try {
+                val home = resources.getString(homeTeam!!.name)
+                val away = resources.getString(awayTeam!!.name)
+                viewModel.postGame(home, homeGoals, away, awayGoals, match, journey, id)
+
+            } catch(e: Exception) {
+                Toast.makeText(this@InsertGame, "Error posting game", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

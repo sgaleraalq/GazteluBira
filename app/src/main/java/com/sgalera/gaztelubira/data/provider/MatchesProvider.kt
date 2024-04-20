@@ -13,4 +13,8 @@ class MatchesProvider @Inject constructor(private val matchesApiService: Matches
     suspend fun getMatch(id: Int): Match? {
         return matchesApiService.getMatch(id)
     }
+
+    suspend fun postGame(match: MatchInfo) {
+        matchesApiService.postGame(match)
+    }
 }

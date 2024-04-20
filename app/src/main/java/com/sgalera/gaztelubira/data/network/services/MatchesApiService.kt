@@ -32,5 +32,10 @@ class MatchesApiService @Inject constructor(private val firebase: FirebaseClient
         }
         return null
     }
+
+    // TODO
+    suspend fun postGame(match: MatchInfo) {
+        firebase.db.collection(MATCHES_INFO).document(match.id.toString()).set(match).await()
+    }
 }
 

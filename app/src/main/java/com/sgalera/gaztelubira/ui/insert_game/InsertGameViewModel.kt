@@ -2,6 +2,8 @@ package com.sgalera.gaztelubira.ui.insert_game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sgalera.gaztelubira.data.provider.MatchesProvider
+import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,47 +13,79 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class InsertGameViewModel @Inject constructor(): ViewModel(){
+class InsertGameViewModel @Inject constructor(private val matchesProvider: MatchesProvider) :
+    ViewModel() {
     private var _state = MutableStateFlow(arrayListOf<String>())
     val state: StateFlow<ArrayList<String>> = _state
 
     init {
         viewModelScope.launch {
             val playerNames = arrayListOf(
-                "Pedro", "Jon", "Asier", "Manu", "Xabi", "Oso", "Diego", "Mikel", "Gorka", "Arrondo",
-                "Bryant", "Dani", "Nando", "Haaland", "David", "Aaron", "Roson", "Mugueta", "Fran",
-                "Iker", "Larra", "Unai", "Madariaga", "Emilio"
+                "Pedro",
+                "Jon",
+                "Asier",
+                "Manu",
+                "Xabi",
+                "Oso",
+                "Diego",
+                "Mikel",
+                "Gorka",
+                "Arrondo",
+                "Bryant",
+                "Dani",
+                "Nando",
+                "Haaland",
+                "David",
+                "Aaron",
+                "Roson",
+                "Mugueta",
+                "Fran",
+                "Iker",
+                "Larra",
+                "Unai",
+                "Madariaga",
+                "Emilio"
             )
             _state.value = playerNames
         }
     }
 
-    fun getPlayers(): MutableList<PlayerInfo> {
-        return mutableListOf(
-            Pedro,
-            Jon,
-            Asier,
-            Manu,
-            Xabi,
-            Oso,
-            Diego,
-            Mikel,
-            Gorka,
-            Arrondo,
-            Bryant,
-            Dani,
-            Nando,
-            Haaland,
-            David,
-            Aaron,
-            Roson,
-            Mugueta,
-            Fran,
-            Iker,
-            Larra,
-            Unai,
-            Madariaga,
-            Emilio
+    suspend fun postGame(
+        homeTeam: String,
+        homeGoals: Int,
+        awayTeam: String,
+        awayGoals: Int,
+        match: String,
+        journey: Int,
+        id: Int
+    ) {
+        val jornada = if (match == "liga") {
+            "Jornada ${journey + 1}"
+        } else {
+            "Copa"
+        }
+        val gameData = createGameData(homeTeam, homeGoals, awayTeam, awayGoals, match, jornada, id)
+
+        matchesProvider.postGame(gameData)
+    }
+
+    private fun createGameData(
+        homeTeam: String,
+        homeGoals: Int,
+        awayTeam: String,
+        awayGoals: Int,
+        match: String,
+        jornada: String,
+        id: Int
+    ): MatchInfo {
+        return MatchInfo(
+            homeTeam = homeTeam,
+            homeGoals = homeGoals,
+            awayTeam = awayTeam,
+            awayGoals = awayGoals,
+            match = match,
+            journey = jornada,
+            id = id
         )
     }
 
@@ -83,5 +117,34 @@ class InsertGameViewModel @Inject constructor(): ViewModel(){
             "Emilio" -> Emilio
             else -> throw IllegalArgumentException("Player not found")
         }
+    }
+
+    fun getPlayers(): MutableList<PlayerInfo> {
+        return mutableListOf(
+            Pedro,
+            Jon,
+            Asier,
+            Manu,
+            Xabi,
+            Oso,
+            Diego,
+            Mikel,
+            Gorka,
+            Arrondo,
+            Bryant,
+            Dani,
+            Nando,
+            Haaland,
+            David,
+            Aaron,
+            Roson,
+            Mugueta,
+            Fran,
+            Iker,
+            Larra,
+            Unai,
+            Madariaga,
+            Emilio
+        )
     }
 }
