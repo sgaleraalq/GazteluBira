@@ -2,6 +2,7 @@ package com.sgalera.gaztelubira.ui.insert_game
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameBinding
@@ -24,9 +25,22 @@ class InsertGame : AppCompatActivity() {
     }
 
     private fun initUI() {
-        TODO("Not yet implemented")
+        insertTeams()
     }
 
+    private fun insertTeams() {
+        binding.tvHomeTeam.text = this.getString(homeTeam!!.name)
+        binding.ivHomeTeam.setImageResource(homeTeam!!.img)
+
+        binding.tvAwayTeam.text = this.getString(awayTeam!!.name)
+        binding.ivAwayTeam.setImageResource(awayTeam!!.img)
+
+        binding.ivHomeTeam.visibility = View.VISIBLE
+        binding.ivAwayTeam.visibility = View.VISIBLE
+
+        binding.psHomeTeam.clearSelectedItem()
+        binding.psAwayTeam.clearSelectedItem()
+    }
     private fun initListeners() {
         binding.btnContinue.isEnabled = checkFields()
         binding.btnContinue.setOnClickListener {
