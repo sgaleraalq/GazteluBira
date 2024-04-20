@@ -25,6 +25,8 @@ class MatchesFragment: Fragment() {
     private lateinit var matchesAdapter: MatchesAdapter
     private val matchesViewModel by viewModels<MatchesViewModel>()
     private lateinit var sharedPreferences: SharedPreferences
+    private var journey: Int = 0
+    private var id: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,6 +88,10 @@ class MatchesFragment: Fragment() {
     private fun successState(state: MatchInfoState.Success) {
         binding.progressBar.visibility = View.INVISIBLE
         matchesAdapter.updateList(state.matchesList.sortedByDescending { it.id })
+
+        val lastMatch = state.matchesList.sortedByDescending { it.id }[0]
+        id = lastMatch.id
+        journey = lastMatch.journey.toInt()
     }
 
     private fun errorState(error: String) {
@@ -105,8 +111,12 @@ class MatchesFragment: Fragment() {
     }
 
     private fun insertGame() {
-        findNavController().navigate(
-            MatchesFragmentDirections.actionMatchesFragmentToInsertGame()
-        )
+        if (id > 0 && journey > 0){
+            findNavController().navigate(
+                MatchesFragmentDirections.actionMatchesFragmentToInsertGame(id, journey)
+            )
+        } else{
+            Toast.makeText(context, "Please wait until matches are loaded", Toast.LENGTH_SHORT).show()
+        }
     }
 }

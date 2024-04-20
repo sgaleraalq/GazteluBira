@@ -37,5 +37,12 @@
     <activity
         android:id="@+id/insertGame"
         android:name="com.sgalera.gaztelubira.ui.insert_game.InsertGame"
-        android:label="InsertGame" />
+        android:label="InsertGame" >
+        <argument
+            android:name="journey"
+            app:argType="integer" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </activity>
 </navigation>
