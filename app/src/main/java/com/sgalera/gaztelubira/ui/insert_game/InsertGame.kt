@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameBinding
+import com.sgalera.gaztelubira.domain.model.MappingUtils
 import com.sgalera.gaztelubira.domain.model.Team
 
 class InsertGame : AppCompatActivity() {
@@ -14,7 +17,22 @@ class InsertGame : AppCompatActivity() {
     private var homeGoals: Int = 0
     private var awayGoals: Int = 0
 
+    private var teams = arrayListOf(
+        "Anaitasuna",
+        "Arsenal",
+        "Aterbea",
+        "ESIC Gazteak",
+        "Esmeraldeños",
+        "Garre",
+        "Iturrama",
+        "IZN",
+        "La Unica",
+        "Peña School",
+        "San Cristobal"
+    )
+
     private lateinit var binding: ActivityInsertGameBinding
+    private var match: String = "liga"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +43,65 @@ class InsertGame : AppCompatActivity() {
     }
 
     private fun initUI() {
-        insertTeams()
+        initComponents()
+
+    }
+    private fun initListeners() {
+        binding.btnContinue.setOnClickListener {
+            if (checkFields()) {
+                postGame()
+                val intent = Intent(this, InsertGameDetailActivity::class.java)
+                intent.apply {
+                    putExtra("homeTeam", homeTeam!!.name)
+                    putExtra("awayTeam", awayTeam!!.name)
+                    putExtra("homeGoals", homeGoals)
+                    putExtra("awayGoals", awayGoals)
+                }
+                startActivity(intent)
+            }
+        }
+        binding.cvLeague.setOnClickListener {
+            match = "liga"
+            binding.cvLeague.setCardBackgroundColor(ContextCompat.getColor(this, R.color.green))
+            binding.ivLeague.setColorFilter(ContextCompat.getColor(this, R.color.white))
+            binding.tvLeague.setTextColor(ContextCompat.getColor(this, R.color.white))
+
+            binding.cvCup.setCardBackgroundColor(ContextCompat.getColor(this, R.color.dark_grey))
+            binding.ivCup.setColorFilter(ContextCompat.getColor(this, R.color.black))
+            binding.tvCup.setTextColor(ContextCompat.getColor(this, R.color.black))
+        }
+
+        binding.cvCup.setOnClickListener {
+            match = "cup"
+            binding.cvCup.setCardBackgroundColor(ContextCompat.getColor(this, R.color.green))
+            binding.ivCup.setColorFilter(ContextCompat.getColor(this, R.color.white))
+            binding.tvCup.setTextColor(ContextCompat.getColor(this, R.color.white))
+
+            binding.cvLeague.setCardBackgroundColor(ContextCompat.getColor(this, R.color.dark_grey))
+            binding.ivLeague.setColorFilter(ContextCompat.getColor(this, R.color.black))
+            binding.tvLeague.setTextColor(ContextCompat.getColor(this, R.color.black))
+        }
+
+        // Set teams with Power Spinners
+        binding.psHomeTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
+            homeTeam = MappingUtils.mapTeam(newItem)
+
+            // Set away as Gaztelu
+            awayTeam = MappingUtils.mapTeam("Gaztelu Bira")
+            insertTeams()
+        }
+        binding.psAwayTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
+            awayTeam = MappingUtils.mapTeam(newItem)
+
+            // Set local as Gaztelu
+            homeTeam = MappingUtils.mapTeam("Gaztelu Bira")
+            insertTeams()
+        }
+    }
+
+    private fun initComponents(){
+        binding.psHomeTeam.setItems(teams)
+        binding.psAwayTeam.setItems(teams)
     }
 
     private fun insertTeams() {
@@ -41,23 +117,6 @@ class InsertGame : AppCompatActivity() {
         binding.psHomeTeam.clearSelectedItem()
         binding.psAwayTeam.clearSelectedItem()
     }
-    private fun initListeners() {
-        binding.btnContinue.isEnabled = checkFields()
-        binding.btnContinue.setOnClickListener {
-            insertGame()
-            val intent = Intent(this, InsertGameDetailActivity::class.java)
-            intent.apply {
-                putExtra("homeTeam", homeTeam!!.name)
-                putExtra("awayTeam", awayTeam!!.name)
-                putExtra("homeGoals", homeGoals)
-                putExtra("awayGoals", awayGoals)
-            }
-        }
-    }
-
-    private fun insertGame() {
-        TODO("Not yet implemented")
-    }
 
     private fun checkFields(): Boolean {
         return if (homeTeam != null && awayTeam != null && binding.etHomeGoals.text.toString()
@@ -68,5 +127,9 @@ class InsertGame : AppCompatActivity() {
             Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show()
             false
         }
+    }
+
+    private fun postGame() {
+        println("Game posted")
     }
 }
