@@ -45,6 +45,8 @@
     <string name="add_bench_player">Add a bench player</string>
     <string name="insert_bench_player">Bench player name</string>
     <string name="next">Continue -></string>
+    <string name="league">League</string>
+    <string name="cup">Cup</string>
 
     // Stats fragment
     <string name="player">Player</string>
@@ -90,4 +92,5 @@
     <string name="description_clean_sheet_icon">Clean sheet icon</string>
     <string name="description_icon_eye">Eye icon</string>
     <string name="description_icon_plus">Plus icon</string>
+    <string name="description_league">League icon</string>
 </resources>
