@@ -19,8 +19,6 @@ import kotlinx.coroutines.launch
 class InsertGame : AppCompatActivity() {
     private var homeTeam: Team? = null
     private var awayTeam: Team? = null
-    private var homeGoals: Int = 0
-    private var awayGoals: Int = 0
 
     private var teams = arrayListOf(
         "Anaitasuna",
@@ -171,13 +169,13 @@ class InsertGame : AppCompatActivity() {
     }
 
     private fun moveToInsertDetailGameActivity() {
-//        val intent = Intent(this, InsertGameDetailActivity::class.java)
-//        intent.apply {
-//            putExtra("homeTeam", homeTeam!!.name)
-//            putExtra("awayTeam", awayTeam!!.name)
-//            putExtra("homeGoals", homeGoals)
-//            putExtra("awayGoals", awayGoals)
-//        }
-//        startActivity(intent)
+        val intent = Intent(this, InsertGameDetailActivity::class.java)
+        intent.apply {
+            putExtra("homeTeam", homeTeam!!.name)
+            putExtra("awayTeam", awayTeam!!.name)
+            putExtra("homeGoals", binding.etHomeGoals.text.toString().toInt())
+            putExtra("awayGoals", binding.etAwayGoals.text.toString().toInt())
+        }
+        startActivity(intent)
     }
 }
