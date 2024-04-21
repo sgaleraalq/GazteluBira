@@ -19,7 +19,9 @@ import com.sgalera.gaztelubira.domain.model.MappingUtils.mapTeam
 import com.sgalera.gaztelubira.domain.model.Team
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.ui.insert_game.adapter.InsertGameAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     private lateinit var binding: ActivityInsertGameDetailBinding
     private lateinit var insertGameAdapter: InsertGameAdapter
@@ -39,10 +41,11 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         "striker" to ""
     )
     private val viewModel by viewModels<InsertGameViewModel>()
-    private lateinit var localTeam: Team
-    private lateinit var awayTeam: Team
-    private var goals = 0
-    private var awayGoals = 0
+
+    private var home: Int = 0
+    private var away: Int = 0
+    private var homeGoals: Int = 0
+    private var awayGoals: Int = 0
 
     override fun onPlayerAdded(player: PlayerInfo) {
         viewModel.state.value.add(player.name)
@@ -53,6 +56,10 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         super.onCreate(savedInstanceState)
         binding = ActivityInsertGameDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        home = intent.getIntExtra("homeTeam", 0)
+        away = intent.getIntExtra("awayTeam", 0)
+        homeGoals = intent.getIntExtra("homeGoals", 0)
+        awayGoals = intent.getIntExtra("awayGoals", 0)
         initUI()
     }
 
@@ -74,6 +81,19 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             )
         }
         powerSpinnerBenchList()
+        initResult()
+    }
+
+    private fun initResult() {
+        println("${getString(home)} ${getString(away)} $homeGoals $awayGoals")
+        val homeTeam = mapTeam(getString(home))
+        val awayTeam = mapTeam(getString(away))
+        binding.ivLocalTeam.setImageResource(homeTeam.img)
+        binding.tvLocalTeam.text = getString(homeTeam.name)
+        binding.tvLocalGoals.text = homeGoals.toString()
+        binding.ivAwayTeam.setImageResource(awayTeam.img)
+        binding.tvAwayTeam.text = getString(awayTeam.name)
+        binding.tvAwayGoals.text = awayGoals.toString()
     }
 
     private fun initListeners() {
@@ -288,14 +308,6 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         }
     }
 
-    private fun checkGoals(): Boolean {
-        return if (binding.etLocalGoals.text.toString() == "" || binding.etAwayGoals.text.toString() == "") {
-            Toast.makeText(this, "Please insert the goals", Toast.LENGTH_SHORT).show()
-            false
-        } else {
-            true
-        }
-    }
 
     private fun checkPlayers(): Boolean {
         return if (starterPlayers.containsValue("")) {
