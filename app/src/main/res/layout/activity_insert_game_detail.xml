@@ -45,55 +45,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.skydoves.powerspinner.PowerSpinnerView
-        android:id="@+id/psLocalTeam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:hint="@string/select_local_team"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="4dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        app:drawableTint="@color/white"
-        app:layout_constraintEnd_toStartOf="@id/mid"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/frameLayout"
-        app:spinner_arrow_gravity="end"
-        app:spinner_arrow_padding="8dp"
-        app:spinner_arrow_show="true"
-        app:spinner_divider_color="@color/primary"
-        app:spinner_divider_show="true"
-        app:spinner_popup_animation="dropdown"
-        app:spinner_popup_background="@color/primary" />
-
-    <com.skydoves.powerspinner.PowerSpinnerView
-        android:id="@+id/psAwayTeam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:hint="@string/select_away_team"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="4dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        app:drawableTint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/mid"
-        app:layout_constraintTop_toBottomOf="@id/frameLayout"
-        app:spinner_arrow_gravity="end"
-        app:spinner_arrow_padding="8dp"
-        app:spinner_arrow_show="true"
-        app:spinner_arrow_tint="@color/primary"
-        app:spinner_divider_color="@color/primary"
-        app:spinner_divider_show="true"
-        app:spinner_popup_animation="dropdown"
-        app:spinner_popup_background="@color/primary" />
-
     <ImageView
         android:id="@+id/ivLocalTeam"
         android:layout_width="70dp"
@@ -102,9 +53,9 @@
         android:contentDescription="@string/description_team"
         android:src="@drawable/img_gaztelu_bira"
         android:visibility="visible"
-        app:layout_constraintEnd_toStartOf="@id/etLocalGoals"
+        app:layout_constraintEnd_toStartOf="@id/tvLocalGoals"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/psLocalTeam" />
+        app:layout_constraintTop_toBottomOf="@id/frameLayout" />
 
     <TextView
         android:id="@+id/tvLocalTeam"
@@ -117,16 +68,14 @@
         app:layout_constraintStart_toStartOf="@id/ivLocalTeam"
         app:layout_constraintTop_toBottomOf="@id/ivLocalTeam" />
 
-    <EditText
-        android:id="@+id/etLocalGoals"
+    <TextView
+        android:id="@+id/tvLocalGoals"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:background="@color/white_80_opacity"
         android:gravity="center"
-        android:inputType="number"
         android:maxLength="1"
         android:padding="8dp"
-        android:textColor="@color/primary_dark"
+        android:textColor="@color/antique_white"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@id/ivLocalTeam"
         app:layout_constraintEnd_toStartOf="@id/mid"
@@ -142,21 +91,19 @@
         android:text="@string/slash"
         android:textColor="@color/white"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@id/etLocalGoals"
+        app:layout_constraintBottom_toBottomOf="@id/tvLocalGoals"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/etLocalGoals" />
+        app:layout_constraintTop_toTopOf="@id/tvLocalGoals" />
 
-    <EditText
-        android:id="@+id/etAwayGoals"
+    <TextView
+        android:id="@+id/tvAwayGoals"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:background="@color/white_80_opacity"
         android:gravity="center"
-        android:inputType="number"
         android:maxLength="1"
         android:padding="8dp"
-        android:textColor="@color/primary_dark"
+        android:textColor="@color/antique_white"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@id/ivLocalTeam"
         app:layout_constraintEnd_toStartOf="@id/ivAwayTeam"
@@ -172,10 +119,9 @@
         android:layout_marginTop="12dp"
         android:contentDescription="@string/description_team"
         android:src="@drawable/img_gaztelu_bira"
-        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/etAwayGoals"
-        app:layout_constraintTop_toBottomOf="@id/psLocalTeam" />
+        app:layout_constraintStart_toEndOf="@id/tvAwayGoals"
+        app:layout_constraintTop_toBottomOf="@id/frameLayout" />
 
     <TextView
         android:id="@+id/tvAwayTeam"
@@ -206,10 +152,10 @@
         android:id="@+id/llGoals"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvGoals"
         android:layout_marginHorizontal="16dp"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvGoals" />
 
     <View
         android:id="@+id/divider"
