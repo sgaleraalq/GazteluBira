@@ -4,6 +4,7 @@ import com.sgalera.gaztelubira.data.network.services.MatchesApiService
 import com.sgalera.gaztelubira.domain.model.matches.Match
 import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
 import retrofit2.Response
+import java.util.concurrent.CompletableFuture
 import javax.inject.Inject
 
 class MatchesProvider @Inject constructor(private val matchesApiService: MatchesApiService) {
@@ -15,7 +16,7 @@ class MatchesProvider @Inject constructor(private val matchesApiService: Matches
         return matchesApiService.getMatch(id)
     }
 
-    suspend fun postGame(match: MatchInfo): Response<Boolean>? {
-        matchesApiService.postGame(match)
+    suspend fun postGame(match: MatchInfo): Boolean {
+        return matchesApiService.postGame(match)
     }
 }
