@@ -20,7 +20,7 @@ class InsertGameViewModel @Inject constructor(private val matchesProvider: Match
     private var _state = MutableStateFlow(arrayListOf<String>())
     val state: StateFlow<ArrayList<String>> = _state
 
-    private var _stateInsertGame = MutableStateFlow(InsertGameInfoState.Loading)
+    private var _stateInsertGame = MutableStateFlow<InsertGameInfoState>(InsertGameInfoState.Loading)
     val stateInsertGame: StateFlow<InsertGameInfoState> = _stateInsertGame
 
     init {
@@ -63,15 +63,23 @@ class InsertGameViewModel @Inject constructor(private val matchesProvider: Match
         match: String,
         journey: Int,
         id: Int
-    ) {
+    ): InsertGameInfoState {
         _stateInsertGame.value = InsertGameInfoState.Loading
-        val jornada = if (match == "liga") { "Jornada $journey" } else { "Copa" }
-        val gameData = createGameData(homeTeam, homeGoals, awayTeam, awayGoals, match, jornada, id)
-        val result = withContext(Dispatchers.IO){ matchesProvider.postGame(gameData) }
-        if (result != null) {
-            _stateInsertGame.value = InsertGameInfoState.Success
+        val jornada = if (match == "liga") {
+            "Jornada $journey"
         } else {
-            _stateInsertGame.value = InsertGameInfoState.Error("Ha ocurrido un error, intentelo más tarde")
+            "Copa"
+        }
+        val gameData = createGameData(homeTeam, homeGoals, awayTeam, awayGoals, match, jornada, id)
+
+        return try {
+            val result = matchesProvider.postGame(gameData)
+            _stateInsertGame.value =
+                if (result) InsertGameInfoState.Success else InsertGameInfoState.Error("Ha ocurrido un error, inténtelo más tarde")
+            InsertGameInfoState.Success
+        } catch (e: Exception) {
+            _stateInsertGame.value = InsertGameInfoState.Error("Error: ${e.message}")
+            InsertGameInfoState.Error("Error: ${e.message}")
         }
     }
 
