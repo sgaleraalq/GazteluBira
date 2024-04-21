@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.firebase.database.ktx)
     kapt(libs.hilt.compiler)
 
     // Glide
