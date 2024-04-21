@@ -47,10 +47,10 @@ class InsertGame : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityInsertGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        
         // Get the passed arguments
         id = intent.getIntExtra("id", 0)
         journey = intent.getIntExtra("journey", 0)
-        println("this is the journey $journey")
         initUI()
         initListeners()
     }
@@ -59,20 +59,12 @@ class InsertGame : AppCompatActivity() {
         initComponents()
 
     }
+
     private fun initListeners() {
         binding.btnContinue.setOnClickListener {
-            postGame()
-//            if (checkFields()) {
-//                postGame()
-////                val intent = Intent(this, InsertGameDetailActivity::class.java)
-////                intent.apply {
-////                    putExtra("homeTeam", homeTeam!!.name)
-////                    putExtra("awayTeam", awayTeam!!.name)
-////                    putExtra("homeGoals", homeGoals)
-////                    putExtra("awayGoals", awayGoals)
-////                }
-////                startActivity(intent)
-//            }
+            if (checkFields()) {
+                postGame()
+            }
         }
         binding.cvLeague.setOnClickListener {
             match = "liga"
@@ -113,7 +105,7 @@ class InsertGame : AppCompatActivity() {
         }
     }
 
-    private fun initComponents(){
+    private fun initComponents() {
         binding.psHomeTeam.setItems(teams)
         binding.psAwayTeam.setItems(teams)
     }
@@ -145,20 +137,47 @@ class InsertGame : AppCompatActivity() {
 
     private fun postGame() {
         lifecycleScope.launch {
-            viewModel.stateInsertGame.collect { isLoading ->
-                if (isLoading) {
-                    binding.progressBarInsertGame.visibility = View.VISIBLE
-                } else {
-                    binding.progressBarInsertGame.visibility = View.INVISIBLE
-                    Toast.makeText(this@InsertGame, "Game posted", Toast.LENGTH_SHORT).show()
-                    finish()
-                }
-            }
-            viewModel.errorInsertGame.collect { error ->
-                error?.let {
-                    Toast.makeText(this@InsertGame, "Error posting game", Toast.LENGTH_SHORT).show()
-                }
+            loadingState()
+            val state = viewModel.postGame(
+                getString(homeTeam!!.name),
+                binding.etHomeGoals.text.toString().toInt(),
+                getString(awayTeam!!.name),
+                binding.etAwayGoals.text.toString().toInt(),
+                match,
+                journey,
+                id
+            )
+            when (state) {
+                InsertGameInfoState.Loading -> loadingState()
+                InsertGameInfoState.Success -> successState()
+                is InsertGameInfoState.Error -> errorState()
             }
         }
+    }
+
+    private fun loadingState() {
+        binding.progressBarInsertGame.visibility = View.VISIBLE
+    }
+
+    private fun errorState(){
+        binding.progressBarInsertGame.visibility = View.GONE
+        Toast.makeText(this, "Ha ocurrido un error, inténtelo más tarde", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun successState(){
+        binding.progressBarInsertGame.visibility = View.GONE
+        Toast.makeText(this, "Partido añadido correctamente", Toast.LENGTH_SHORT).show()
+        moveToInsertDetailGameActivity()
+    }
+
+    private fun moveToInsertDetailGameActivity() {
+//        val intent = Intent(this, InsertGameDetailActivity::class.java)
+//        intent.apply {
+//            putExtra("homeTeam", homeTeam!!.name)
+//            putExtra("awayTeam", awayTeam!!.name)
+//            putExtra("homeGoals", homeGoals)
+//            putExtra("awayGoals", awayGoals)
+//        }
+//        startActivity(intent)
     }
 }
