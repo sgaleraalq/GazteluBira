@@ -55,13 +55,13 @@ class InsertGame : AppCompatActivity() {
 
     private fun initUI() {
         initComponents()
-
     }
 
     private fun initListeners() {
         binding.btnContinue.setOnClickListener {
             if (checkFields()) {
-                postGame()
+//                postGame()
+                moveToInsertDetailGameActivity()
             }
         }
         binding.cvLeague.setOnClickListener {
@@ -171,10 +171,16 @@ class InsertGame : AppCompatActivity() {
     private fun moveToInsertDetailGameActivity() {
         val intent = Intent(this, InsertGameDetailActivity::class.java)
         intent.apply {
-            putExtra("homeTeam", homeTeam!!.name)
-            putExtra("awayTeam", awayTeam!!.name)
-            putExtra("homeGoals", binding.etHomeGoals.text.toString().toInt())
-            putExtra("awayGoals", binding.etAwayGoals.text.toString().toInt())
+            putExtra("homeTeam", R.string.gaztelu_bira)
+            putExtra("awayTeam", R.string.arsenal)
+            putExtra("homeGoals", 2)
+            putExtra("awayGoals", 3)
+            putExtra("id", id)
+//            putExtra("homeTeam", homeTeam!!.name)
+//            putExtra("awayTeam", awayTeam!!.name)
+//            putExtra("homeGoals", binding.etHomeGoals.text.toString().toInt())
+//            putExtra("awayGoals", binding.etAwayGoals.text.toString().toInt())
+//            putExtra("id", id)
         }
         startActivity(intent)
     }
