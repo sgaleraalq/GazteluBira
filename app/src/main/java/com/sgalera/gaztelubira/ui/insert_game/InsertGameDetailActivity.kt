@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -16,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameDetailBinding
 import com.sgalera.gaztelubira.domain.model.MappingUtils.mapTeam
-import com.sgalera.gaztelubira.domain.model.Team
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.ui.insert_game.adapter.InsertGameAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -61,13 +61,19 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         homeGoals = intent.getIntExtra("homeGoals", 0)
         awayGoals = intent.getIntExtra("awayGoals", 0)
         initUI()
-    }
-
-    private fun initUI() {
         initComponents()
         initListeners()
     }
 
+    private fun initUI() {
+        if (homeGoals > 0) {
+            binding.tvGoals.visibility = View.VISIBLE
+            binding.llGoals.visibility = View.VISIBLE
+            binding.dividerGoals.visibility = View.VISIBLE
+            setGoals()
+            // TODO missing assists and penalties
+        }
+    }
 
     private fun initComponents() {
         playerList = viewModel.getPlayers()
@@ -109,6 +115,17 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             insertGoalsAssists()
         }
     }
+
+    private fun setGoals() {
+        for (i in 0 until homeGoals) {
+            val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
+                .inflate(R.layout.item_add_goal_or_assist, binding.llGoals, false)
+            itemLayout.setOnClickListener { showStatsPopUp("Goal", itemLayout) }
+            binding.llGoals.addView(itemLayout)
+
+        }
+    }
+
 
     private fun initStartersListeners() {
         binding.ivGoalKeeper.root.setOnClickListener {
@@ -314,7 +331,11 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             Toast.makeText(this, "Please select all the starters", Toast.LENGTH_SHORT).show()
             false
         } else if (starterPlayers.containsValue(binding.psBenchPlayer.text.toString())) {
-            Toast.makeText(this, "Player can't be in the bench and starter at the same time", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                "Player can't be in the bench and starter at the same time",
+                Toast.LENGTH_SHORT
+            ).show()
             false
         } else {
             true
@@ -328,5 +349,32 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
 
     private fun insertGame() {
         println("Game inserted")
+    }
+
+    private fun showStatsPopUp(stat: String, playerStat: View) {
+        val builder = AlertDialog.Builder(this)
+        val inflater = LayoutInflater.from(this)
+        val view = inflater.inflate(R.layout.item_popup_insert_starter, null)
+        view.findViewById<TextView>(R.id.tvStarterPosition).text = stat
+
+        view.findViewById<LinearLayout>(R.id.llStarterPlayers).apply {
+            removeAllViews()
+            playerList.forEach { player ->
+                val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
+                    .inflate(R.layout.item_insert_starters, this, false)
+                itemLayout.findViewById<TextView>(R.id.tvStarterName).text = player.name
+                itemLayout.findViewById<ConstraintLayout>(R.id.parentAddStarter)
+                    .setOnClickListener {
+                        playerStat.findViewById<ImageView>(R.id.ivGoalPlayer).setImageResource(player.img)
+                        playerStat.findViewById<TextView>(R.id.tvPlayerName).text = player.name
+                        builder.create().dismiss()
+                    }
+                addView(itemLayout)
+            }
+            builder.setView(view)
+        }
+        val dialogView = builder.create()
+        dialogView.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogView.show()
     }
 }
