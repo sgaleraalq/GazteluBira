@@ -59,10 +59,10 @@ class InsertGame : AppCompatActivity() {
 
     private fun initListeners() {
         binding.btnContinue.setOnClickListener {
-            if (checkFields()) {
+            moveToInsertDetailGameActivity()
+//            if (checkFields()) {
 //                postGame()
-                moveToInsertDetailGameActivity()
-            }
+//            }
         }
         binding.cvLeague.setOnClickListener {
             match = "liga"
