@@ -36,7 +36,6 @@ class PopUpGoalsAssists(
         val dialogView = builder.create()
         dialogView.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         initComponents(view)
-        println("Goals: $goals, AwayGoals: $awayGoals")
         return dialogView
     }
 
