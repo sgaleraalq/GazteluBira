@@ -6,11 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
-    android:background="@color/primary">
+    android:layout_marginVertical="4dp"
+    android:background="@color/grey_80_opacity">
 
     <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
         android:contentDescription="@string/description_icon_plus"
         android:src="@drawable/ic_plus"
         app:layout_constraintBottom_toBottomOf="parent"
