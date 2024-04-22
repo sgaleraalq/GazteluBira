@@ -139,23 +139,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:background="@color/dark_grey"
         android:gravity="center"
         android:padding="2dp"
         android:text="@string/goals"
-        android:textColor="@color/primary"
+        android:textColor="@color/antique_white"
         android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvLocalTeam" />
+
+    <View
+        android:id="@+id/dividerGoals"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/antique_white"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvGoals" />
 
     <LinearLayout
         android:id="@+id/llGoals"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="2dp"
         android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvGoals" />
+        app:layout_constraintTop_toBottomOf="@id/dividerGoals" />
 
     <View
         android:id="@+id/divider"
