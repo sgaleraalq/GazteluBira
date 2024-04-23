@@ -48,6 +48,11 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     private var homeGoals: Int = 0
     private var awayGoals: Int = 0
 
+    private var goalList = mutableListOf<String>()
+    private var assistList = mutableListOf<String>()
+    private var penaltyList = mutableListOf<String>()
+    private var cleanSheetList = mutableListOf<String>()
+
     private var dialog: AlertDialog? = null
 
     override fun onPlayerAdded(player: PlayerInfo) {
@@ -85,7 +90,12 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             binding.dividerPenalties.visibility = View.VISIBLE
             setPenalties()
 
+            binding.tvCleanSheet.visibility = View.VISIBLE
+            binding.llCleanSheet.visibility = View.VISIBLE
+            binding.dividerCleanSheet.visibility = View.VISIBLE
+            setCleanSheet()
         } else if (awayGoals == 0 ){
+            println("No goals")
             binding.tvCleanSheet.visibility = View.VISIBLE
             binding.llCleanSheet.visibility = View.VISIBLE
             binding.dividerCleanSheet.visibility = View.VISIBLE
@@ -406,6 +416,44 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
                 itemLayout.findViewById<TextView>(R.id.tvStarterName).text = player.name
                 itemLayout.findViewById<ConstraintLayout>(R.id.parentAddStarter)
                     .setOnClickListener {
+                        when (stat) {
+                            "Goal" -> {
+                                if (playerImage.visibility == View.VISIBLE) {
+                                    val index = goalList.indexOf(playerName.text.toString())
+                                    goalList.removeAt(index)
+                                    goalList.add(player.name)
+                                } else {
+                                    goalList.add(player.name)
+                                }
+                            }
+                            "Assist" -> {
+                                if (playerImage.visibility == View.VISIBLE) {
+                                    val index = assistList.indexOf(playerName.text.toString())
+                                    assistList.removeAt(index)
+                                    assistList.add(player.name)
+                                } else {
+                                    assistList.add(player.name)
+                                }
+                            }
+                            "Penalty" -> {
+                                if (playerImage.visibility == View.VISIBLE) {
+                                    val index = penaltyList.indexOf(playerName.text.toString())
+                                    penaltyList.removeAt(index)
+                                    penaltyList.add(player.name)
+                                } else {
+                                    penaltyList.add(player.name)
+                                }
+                            }
+                            "Clean Sheet" -> {
+                                if (playerImage.visibility == View.VISIBLE) {
+                                    val index = cleanSheetList.indexOf(playerName.text.toString())
+                                    cleanSheetList.removeAt(index)
+                                    cleanSheetList.add(player.name)
+                                } else {
+                                    cleanSheetList.add(player.name)
+                                }
+                            }
+                        }
                         playerImage.setImageResource(player.img)
                         playerImage.visibility = View.VISIBLE
                         playerName.text = player.name
@@ -432,24 +480,28 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         when (stat) {
             "Assist" -> {
                 if (binding.llAssists.childCount < homeGoals) {
-                    addLayout(binding.llAssists)
+                    addLayout(stat, binding.llAssists)
                 }
             }
             "Penalty" -> {
                 if (binding.llPenalties.childCount < homeGoals) {
-                    addLayout(binding.llPenalties)
+                    addLayout(stat, binding.llPenalties)
                 }
             }
             "Clean Sheet" -> {
-                addLayout(binding.llCleanSheet)
+                if (cleanSheetList.size >= 4){
+                    addLayout(stat, binding.llCleanSheet)
+                }
             }
         }
     }
 
-    private fun addLayout(view: LinearLayout) {
+    private fun addLayout(stat: String, view: LinearLayout) {
         val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
             .inflate(R.layout.item_add_goal_or_assist, binding.llCleanSheet, false)
-        itemLayout.setOnClickListener { showStatsPopUp("Clean Sheet", itemLayout) }
+        itemLayout.setOnClickListener { showStatsPopUp(stat, itemLayout) }
         view.addView(itemLayout)
     }
+
+    // TODO check there are not 2 player with the same name in clean sheet list
 }
