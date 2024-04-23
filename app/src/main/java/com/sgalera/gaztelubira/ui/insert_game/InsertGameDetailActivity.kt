@@ -47,6 +47,8 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     private var homeGoals: Int = 0
     private var awayGoals: Int = 0
 
+    private var dialog: AlertDialog? = null
+
     override fun onPlayerAdded(player: PlayerInfo) {
         viewModel.state.value.add(player.name)
         powerSpinnerBenchList()
@@ -355,26 +357,35 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         val builder = AlertDialog.Builder(this)
         val inflater = LayoutInflater.from(this)
         val view = inflater.inflate(R.layout.item_popup_insert_starter, null)
-        view.findViewById<TextView>(R.id.tvStarterPosition).text = stat
 
+        // Configura la vista antes de crear el diálogo
+        view.findViewById<TextView>(R.id.tvStarterPosition).text = stat
         view.findViewById<LinearLayout>(R.id.llStarterPlayers).apply {
             removeAllViews()
             playerList.forEach { player ->
+                val playerName = playerStat.findViewById<TextView>(R.id.tvPlayerName)
+                val playerImage = playerStat.findViewById<ImageView>(R.id.ivGoalPlayer)
                 val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
                     .inflate(R.layout.item_insert_starters, this, false)
                 itemLayout.findViewById<TextView>(R.id.tvStarterName).text = player.name
                 itemLayout.findViewById<ConstraintLayout>(R.id.parentAddStarter)
                     .setOnClickListener {
-                        playerStat.findViewById<ImageView>(R.id.ivGoalPlayer).setImageResource(player.img)
-                        playerStat.findViewById<TextView>(R.id.tvPlayerName).text = player.name
-                        builder.create().dismiss()
+                        playerImage.setImageResource(player.img)
+                        playerImage.visibility = View.VISIBLE
+                        playerName.text = player.name
+                        playerName.visibility = View.VISIBLE
+                        playerStat.findViewById<ImageView>(R.id.ivPlus).visibility = View.INVISIBLE
+
+                        // Dismiss the dialog
+                        dialog?.dismiss()
                     }
                 addView(itemLayout)
             }
-            builder.setView(view)
         }
-        val dialogView = builder.create()
-        dialogView.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialogView.show()
+
+        // Crea el diálogo después de configurar la vista
+        dialog = builder.setView(view).create()
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.show()
     }
 }
