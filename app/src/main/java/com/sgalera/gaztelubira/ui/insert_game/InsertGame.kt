@@ -173,8 +173,8 @@ class InsertGame : AppCompatActivity() {
         intent.apply {
             putExtra("homeTeam", R.string.gaztelu_bira)
             putExtra("awayTeam", R.string.arsenal)
-            putExtra("homeGoals", 2)
-            putExtra("awayGoals", 3)
+            putExtra("homeGoals", 0)
+            putExtra("awayGoals", 1)
             putExtra("id", id)
 //            putExtra("homeTeam", homeTeam!!.name)
 //            putExtra("awayTeam", awayTeam!!.name)
