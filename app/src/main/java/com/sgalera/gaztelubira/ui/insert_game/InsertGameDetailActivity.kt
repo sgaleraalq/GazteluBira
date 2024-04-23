@@ -93,7 +93,6 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     }
 
     private fun initResult() {
-        println("${getString(home)} ${getString(away)} $homeGoals $awayGoals")
         val homeTeam = mapTeam(getString(home))
         val awayTeam = mapTeam(getString(away))
         binding.ivLocalTeam.setImageResource(homeTeam.img)
