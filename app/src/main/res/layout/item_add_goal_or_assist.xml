@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:padding="8dp"
     android:layout_marginVertical="4dp"
-    android:background="@color/primary">
+    android:background="@color/primary_soft">
 
     <ImageView
         android:id="@+id/ivPlus"
