@@ -187,6 +187,114 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dividerGoals" />
 
+            <TextView
+                android:id="@+id/tvAssists"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="@string/assists"
+                android:textColor="@color/antique_white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llGoals" />
+
+            <View
+                android:id="@+id/dividerAssists"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/antique_white"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvAssists" />
+
+            <LinearLayout
+                android:id="@+id/llAssists"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="2dp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dividerAssists" />
+
+            <TextView
+                android:id="@+id/tvPenalties"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="@string/penalties"
+                android:textColor="@color/antique_white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llAssists" />
+
+            <View
+                android:id="@+id/dividerPenalties"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/antique_white"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPenalties" />
+
+            <LinearLayout
+                android:id="@+id/llPenalties"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="2dp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dividerPenalties" />
+
+            <TextView
+                android:id="@+id/tvCleanSheet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="@string/clean_sheet"
+                android:textColor="@color/antique_white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llPenalties" />
+
+            <View
+                android:id="@+id/dividerCleanSheet"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/antique_white"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvCleanSheet" />
+
+            <LinearLayout
+                android:id="@+id/llCleanSheet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="2dp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dividerCleanSheet" />
+
             <View
                 android:id="@+id/middlePoint"
                 android:layout_width="0.1dp"
@@ -206,7 +314,7 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/llGoals" />
+                app:layout_constraintTop_toBottomOf="@id/llCleanSheet" />
 
             <include
                 android:id="@+id/ivGoalKeeper"
