@@ -14,6 +14,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.api.Distribution.BucketOptions.Linear
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameDetailBinding
 import com.sgalera.gaztelubira.domain.model.MappingUtils.mapTeam
@@ -73,10 +74,24 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             binding.llGoals.visibility = View.VISIBLE
             binding.dividerGoals.visibility = View.VISIBLE
             setGoals()
-            // TODO missing assists and penalties
+
+            binding.tvAssists.visibility = View.VISIBLE
+            binding.llAssists.visibility = View.VISIBLE
+            binding.dividerAssists.visibility = View.VISIBLE
+            setAssists()
+
+            binding.tvPenalties.visibility = View.VISIBLE
+            binding.llPenalties.visibility = View.VISIBLE
+            binding.dividerPenalties.visibility = View.VISIBLE
+            setPenalties()
+
+        } else if (awayGoals == 0 ){
+            binding.tvCleanSheet.visibility = View.VISIBLE
+            binding.llCleanSheet.visibility = View.VISIBLE
+            binding.dividerCleanSheet.visibility = View.VISIBLE
+            setCleanSheet()
         }
     }
-
     private fun initComponents() {
         playerList = viewModel.getPlayers()
         insertGameAdapter = InsertGameAdapter(benchPlayers, this)
@@ -123,9 +138,31 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
                 .inflate(R.layout.item_add_goal_or_assist, binding.llGoals, false)
             itemLayout.setOnClickListener { showStatsPopUp("Goal", itemLayout) }
             binding.llGoals.addView(itemLayout)
-
         }
     }
+    private fun setAssists() {
+        val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
+            .inflate(R.layout.item_add_goal_or_assist, binding.llAssists, false)
+        itemLayout.setOnClickListener{ showStatsPopUp("Assist", itemLayout) }
+        binding.llAssists.addView(itemLayout)
+    }
+
+    private fun setPenalties() {
+        val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
+            .inflate(R.layout.item_add_goal_or_assist, binding.llPenalties, false)
+        itemLayout.setOnClickListener{ showStatsPopUp("Penalty", itemLayout) }
+        binding.llPenalties.addView(itemLayout)
+    }
+
+    private fun setCleanSheet() {
+        for (i in 0 until 4){
+            val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
+                .inflate(R.layout.item_add_goal_or_assist, binding.llCleanSheet, false)
+            itemLayout.setOnClickListener { showStatsPopUp("Clean Sheet", itemLayout) }
+            binding.llCleanSheet.addView(itemLayout)
+        }
+    }
+
 
 
     private fun initStartersListeners() {
@@ -377,6 +414,9 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
 
                         // Dismiss the dialog
                         dialog?.dismiss()
+                        if (stat == "Assist" || stat == "Penalty" || stat == "Clean Sheet"){
+                            checkStatsLayout(stat)
+                        }
                     }
                 addView(itemLayout)
             }
@@ -386,5 +426,30 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         dialog = builder.setView(view).create()
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.show()
+    }
+
+    private fun checkStatsLayout(stat: String) {
+        when (stat) {
+            "Assist" -> {
+                if (binding.llAssists.childCount < homeGoals) {
+                    addLayout(binding.llAssists)
+                }
+            }
+            "Penalty" -> {
+                if (binding.llPenalties.childCount < homeGoals) {
+                    addLayout(binding.llPenalties)
+                }
+            }
+            "Clean Sheet" -> {
+                addLayout(binding.llCleanSheet)
+            }
+        }
+    }
+
+    private fun addLayout(view: LinearLayout) {
+        val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
+            .inflate(R.layout.item_add_goal_or_assist, binding.llCleanSheet, false)
+        itemLayout.setOnClickListener { showStatsPopUp("Clean Sheet", itemLayout) }
+        view.addView(itemLayout)
     }
 }
