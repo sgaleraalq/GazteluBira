@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.data.provider.MatchesProvider
 import com.sgalera.gaztelubira.data.provider.PlayersProvider
+import com.sgalera.gaztelubira.data.response.MatchResponse
 import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
@@ -70,7 +71,11 @@ class InsertGameViewModel @Inject constructor(
         awayGoals: Int,
         match: String,
         journey: Int,
-        id: Int
+        id: Int,
+        starters: Map<String, String>? = null,
+        bench: List<String>? = null,
+        scorers: List<String>? = null,
+        assistants: List<String>? = null
     ): InsertGameInfoState {
         _stateInsertGame.value = InsertGameInfoState.Loading
         val jornada = if (match == "liga") {
@@ -79,36 +84,32 @@ class InsertGameViewModel @Inject constructor(
             "Copa"
         }
         val gameData = createGameData(homeTeam, homeGoals, awayTeam, awayGoals, match, jornada, id)
+        val gameStats = starters?.let {
+            createGameStats(homeTeam, homeGoals, awayTeam, awayGoals, starters, bench!!, scorers!!, assistants!!)
+        }
 
         return try {
             val result = matchesProvider.postGame(gameData)
-            _stateInsertGame.value =
-                if (result) InsertGameInfoState.Success else InsertGameInfoState.Error("Ha ocurrido un error, inténtelo más tarde")
-            InsertGameInfoState.Success
+            if (result) {
+                _stateInsertGame.value = InsertGameInfoState.Success
+                if (gameStats != null) {
+                    val statsResult = matchesProvider.postGameStats(gameStats)
+                    if (statsResult) {
+                        InsertGameInfoState.Success
+                    } else {
+                        InsertGameInfoState.Error("Error al enviar estadísticas del juego")
+                    }
+                } else {
+                    InsertGameInfoState.Success
+                }
+            } else {
+                _stateInsertGame.value = InsertGameInfoState.Error("Ha ocurrido un error, inténtelo más tarde")
+                InsertGameInfoState.Error("Ha ocurrido un error, inténtelo más tarde")
+            }
         } catch (e: Exception) {
             _stateInsertGame.value = InsertGameInfoState.Error("Error: ${e.message}")
             InsertGameInfoState.Error("Error: ${e.message}")
         }
-    }
-
-    private fun createGameData(
-        homeTeam: String,
-        homeGoals: Int,
-        awayTeam: String,
-        awayGoals: Int,
-        match: String,
-        jornada: String,
-        id: Int
-    ): MatchInfo {
-        return MatchInfo(
-            homeTeam = homeTeam,
-            homeGoals = homeGoals,
-            awayTeam = awayTeam,
-            awayGoals = awayGoals,
-            match = match,
-            journey = jornada,
-            id = id
-        )
     }
 
     suspend fun getAllPlayerInfo() {
@@ -182,6 +183,48 @@ class InsertGameViewModel @Inject constructor(
             Madariaga,
             Lopez,
             Emilio
+        )
+    }
+
+    private fun createGameData(
+        homeTeam: String,
+        homeGoals: Int,
+        awayTeam: String,
+        awayGoals: Int,
+        match: String,
+        jornada: String,
+        id: Int
+    ): MatchInfo {
+        return MatchInfo(
+            homeTeam = homeTeam,
+            homeGoals = homeGoals,
+            awayTeam = awayTeam,
+            awayGoals = awayGoals,
+            match = match,
+            journey = jornada,
+            id = id
+        )
+    }
+
+    private fun createGameStats(
+        homeTeam: String,
+        homeGoals: Int,
+        awayTeam: String,
+        awayGoals: Int,
+        starters: Map<String, String>,
+        bench: List<String>,
+        scorers: List<String>,
+        assistants: List<String>
+    ): MatchResponse {
+        return MatchResponse(
+            homeTeam = homeTeam,
+            homeGoals = homeGoals,
+            awayTeam = awayTeam,
+            awayGoals = awayGoals,
+            starters = starters,
+            bench = bench,
+            scorers = scorers,
+            assistants = assistants
         )
     }
 }

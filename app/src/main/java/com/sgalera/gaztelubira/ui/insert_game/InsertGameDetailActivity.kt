@@ -530,26 +530,56 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     }
 
     private fun insertGame() {
-        lifecycleScope.launch {
-            loadingState()
-            viewModel.postGame(
-                getString(home),
-                homeGoals,
-                getString(away),
-                awayGoals,
-                match,
-                journey,
-                id
-            )
+        if (checkAllFields()) {
+            lifecycleScope.launch {
+                loadingState()
+                viewModel.postGame(
+                    getString(home),
+                    homeGoals,
+                    getString(away),
+                    awayGoals,
+                    match,
+                    journey,
+                    id,
+                    starterPlayers,
+                    benchPlayers.map { it.name },
+                    goalList,
+                    assistList
+                )
 
-            viewModel.stateInsertGame.collect { state ->
-                when (state) {
-                    InsertGameInfoState.Loading -> loadingState()
-                    InsertGameInfoState.Success -> successState()
-                    is InsertGameInfoState.Error -> errorState()
+                viewModel.stateInsertGame.collect { state ->
+                    when (state) {
+                        InsertGameInfoState.Loading -> loadingState()
+                        InsertGameInfoState.Success -> successState()
+                        is InsertGameInfoState.Error -> errorState()
+                    }
                 }
             }
         }
+    }
+
+    private fun checkAllFields(): Boolean {
+        if (goalList.size < homeGoals) {
+            Toast.makeText(this, "Please add all the goals", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (awayGoals == 0 && cleanSheetList.size < 4) {
+            Toast.makeText(this, "Please add all the clean sheets", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (awayGoals == 0 && cleanSheetList.size != cleanSheetList.distinct().size) {
+            Toast.makeText(this, "There are two players with the same name in clean sheet list", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (starterPlayers.containsValue("")) {
+            Toast.makeText(this, "Please select all the starters", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (starterPlayers.containsValue(binding.psBenchPlayer.text.toString())) {
+            Toast.makeText(
+                this,
+                "Player can't be in the bench and starter at the same time",
+                Toast.LENGTH_SHORT
+            ).show()
+            return false
+        }
+        return true
     }
 
     private fun loadingState() {

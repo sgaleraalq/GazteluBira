@@ -44,5 +44,14 @@ class MatchesApiService @Inject constructor(private val firebase: FirebaseClient
             false // Error
         }
     }
+
+    suspend fun postGameStats(matchStats: MatchResponse): Boolean {
+        return try {
+            firebase.db.collection(MATCHES_STATS).document(matchStats.id.toString()).set(matchStats).await()
+            true // Success
+        } catch (e: Exception) {
+            false // Error
+        }
+    }
 }
 
