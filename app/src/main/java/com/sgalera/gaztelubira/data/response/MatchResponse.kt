@@ -56,6 +56,7 @@ data class MatchResponse(
             "madariaga" -> Madariaga
             "bryant" -> Bryant
             "roson" -> Roson
+            "lopez" -> Lopez
             else -> Emilio
         }
     }

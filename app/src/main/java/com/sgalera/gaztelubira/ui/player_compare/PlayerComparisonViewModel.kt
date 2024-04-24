@@ -59,6 +59,7 @@ class PlayerComparisonViewModel @Inject constructor(
             Madariaga,
             Bryant,
             Roson,
+            Lopez,
             Emilio
         )
     }
@@ -88,6 +89,7 @@ class PlayerComparisonViewModel @Inject constructor(
             "Madariaga" -> Madariaga
             "Bryant" -> Bryant
             "Roson" -> Roson
+            "Lopez" -> Lopez
             else -> Emilio
         }
     }

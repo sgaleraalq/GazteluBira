@@ -36,4 +36,6 @@ sealed class PlayerInfo(
     data object Unai: PlayerInfo("Unai", R.drawable.img_no_profile_picture, 54)
     data object Madariaga: PlayerInfo("Madariaga", R.drawable.img_no_profile_picture, 55)
     data object Emilio: PlayerInfo("Emilio", R.drawable.img_emilio, 58)
+
+    data object Lopez: PlayerInfo("Lopez", R.drawable.img_no_profile_picture, 59)
 }

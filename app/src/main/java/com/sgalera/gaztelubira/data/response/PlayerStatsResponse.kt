@@ -57,6 +57,7 @@ data class PlayerStatsResponse(
             "Madariaga" -> Madariaga
             "Bryant" -> Bryant
             "Roson" -> Roson
+            "Lopez" -> Lopez
             else -> Emilio
         }
     }
