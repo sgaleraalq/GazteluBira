@@ -13,14 +13,17 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.api.Distribution.BucketOptions.Linear
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameDetailBinding
 import com.sgalera.gaztelubira.domain.model.MappingUtils.mapTeam
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
+import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.insert_game.adapter.InsertGameAdapter
+import com.sgalera.gaztelubira.ui.stats.StatsState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
@@ -90,12 +93,7 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             binding.dividerPenalties.visibility = View.VISIBLE
             setPenalties()
 
-            binding.tvCleanSheet.visibility = View.VISIBLE
-            binding.llCleanSheet.visibility = View.VISIBLE
-            binding.dividerCleanSheet.visibility = View.VISIBLE
-            setCleanSheet()
         } else if (awayGoals == 0 ){
-            println("No goals")
             binding.tvCleanSheet.visibility = View.VISIBLE
             binding.llCleanSheet.visibility = View.VISIBLE
             binding.dividerCleanSheet.visibility = View.VISIBLE
@@ -354,9 +352,8 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
 //        if (checkTeams() && checkGoals() && checkPlayers()) {
 //            showGoalsAssistsPopUp()
 //        }
-        showGoalsAssistsPopUp()
+        getAllPlayerStats()
     }
-
 
     private fun checkTeams(): Boolean {
         return if (binding.tvLocalTeam.text == binding.tvAwayTeam.text) {
@@ -390,10 +387,6 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         }
     }
 
-    private fun showGoalsAssistsPopUp() {
-        // TODO insert game
-        Toast.makeText(this, "Game inserted", Toast.LENGTH_SHORT).show()
-    }
 
     private fun insertGame() {
         println("Game inserted")
@@ -501,6 +494,32 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             .inflate(R.layout.item_add_goal_or_assist, binding.llCleanSheet, false)
         itemLayout.setOnClickListener { showStatsPopUp(stat, itemLayout) }
         view.addView(itemLayout)
+    }
+
+
+    // Insert all the player stats
+    private fun getAllPlayerStats() {
+        lifecycleScope.launch {
+            viewModel.getAllPlayerInfo()
+            viewModel.allPlayersState.collect{
+                when (it) {
+                    is StatsState.Loading -> {
+                        println("Loading")
+                    }
+                    is StatsState.Success -> {
+                        val players = it.data
+                        insertPlayerStats(players)
+                    }
+                    is StatsState.Error -> {
+                        println("Error")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun insertPlayerStats(players: List<PlayerStats>) {
+        println(players)
     }
 
     // TODO check there are not 2 player with the same name in clean sheet list
