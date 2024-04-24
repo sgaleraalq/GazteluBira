@@ -50,6 +50,9 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     private var away: Int = 0
     private var homeGoals: Int = 0
     private var awayGoals: Int = 0
+    private var match: String = ""
+    private var journey: Int = 0
+    private var id: Int = 0
 
     private var goalList = mutableListOf<String>()
     private var assistList = mutableListOf<String>()
@@ -67,10 +70,14 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         super.onCreate(savedInstanceState)
         binding = ActivityInsertGameDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        home = intent.getIntExtra("homeTeam", 0)
-        away = intent.getIntExtra("awayTeam", 0)
-        homeGoals = intent.getIntExtra("homeGoals", 0)
-        awayGoals = intent.getIntExtra("awayGoals", 0)
+        home            = intent.getIntExtra("homeTeam", 0)
+        away            = intent.getIntExtra("awayTeam", 0)
+        homeGoals       = intent.getIntExtra("homeGoals", 0)
+        awayGoals       = intent.getIntExtra("awayGoals", 0)
+        match           = intent.getStringExtra("match")!!
+        journey         = intent.getIntExtra("journey", 0)
+        id              = intent.getIntExtra("id", 0)
+
         initUI()
         initComponents()
         initListeners()
@@ -355,7 +362,8 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
 //        if (checkTeams() && checkGoals() && checkPlayers()) {
 //            showGoalsAssistsPopUp()
 //        }
-        getAllPlayerStats()
+//        getAllPlayerStats()
+        insertGame()
     }
 
     private fun checkTeams(): Boolean {
@@ -522,7 +530,40 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     }
 
     private fun insertGame() {
-        println("Game inserted")
+        lifecycleScope.launch {
+            loadingState()
+            viewModel.postGame(
+                getString(home),
+                homeGoals,
+                getString(away),
+                awayGoals,
+                match,
+                journey,
+                id
+            )
+
+            viewModel.stateInsertGame.collect { state ->
+                when (state) {
+                    InsertGameInfoState.Loading -> loadingState()
+                    InsertGameInfoState.Success -> successState()
+                    is InsertGameInfoState.Error -> errorState()
+                }
+            }
+        }
+    }
+
+    private fun loadingState() {
+        binding.progressBarInsertGame.visibility = View.VISIBLE
+    }
+
+    private fun errorState(){
+        binding.progressBarInsertGame.visibility = View.GONE
+        Toast.makeText(this, "Ha ocurrido un error, inténtelo más tarde", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun successState(){
+        binding.progressBarInsertGame.visibility = View.GONE
+        Toast.makeText(this, "Partido añadido correctamente", Toast.LENGTH_SHORT).show()
     }
     // TODO check there are not 2 player with the same name in clean sheet list
 }
