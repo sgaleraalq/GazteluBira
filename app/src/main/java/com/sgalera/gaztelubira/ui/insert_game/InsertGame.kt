@@ -136,7 +136,7 @@ class InsertGame : AppCompatActivity() {
     private fun postGame() {
         lifecycleScope.launch {
             loadingState()
-            val state = viewModel.postGame(
+            viewModel.postGame(
                 getString(homeTeam!!.name),
                 binding.etHomeGoals.text.toString().toInt(),
                 getString(awayTeam!!.name),
@@ -145,10 +145,13 @@ class InsertGame : AppCompatActivity() {
                 journey,
                 id
             )
-            when (state) {
-                InsertGameInfoState.Loading -> loadingState()
-                InsertGameInfoState.Success -> successState()
-                is InsertGameInfoState.Error -> errorState()
+
+            viewModel.stateInsertGame.collect { state ->
+                when (state) {
+                    InsertGameInfoState.Loading -> loadingState()
+                    InsertGameInfoState.Success -> successState()
+                    is InsertGameInfoState.Error -> errorState()
+                }
             }
         }
     }
@@ -173,7 +176,7 @@ class InsertGame : AppCompatActivity() {
         intent.apply {
             putExtra("homeTeam", R.string.gaztelu_bira)
             putExtra("awayTeam", R.string.arsenal)
-            putExtra("homeGoals", 0)
+            putExtra("homeGoals", 2)
             putExtra("awayGoals", 1)
             putExtra("id", id)
 //            putExtra("homeTeam", homeTeam!!.name)
