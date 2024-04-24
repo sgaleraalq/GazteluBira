@@ -92,8 +92,8 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             binding.llPenalties.visibility = View.VISIBLE
             binding.dividerPenalties.visibility = View.VISIBLE
             setPenalties()
-
-        } else if (awayGoals == 0 ){
+        }
+        if (awayGoals == 0 ){
             binding.tvCleanSheet.visibility = View.VISIBLE
             binding.llCleanSheet.visibility = View.VISIBLE
             binding.dividerCleanSheet.visibility = View.VISIBLE
@@ -137,6 +137,9 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         initStartersListeners()
         binding.btnInsertGame.setOnClickListener {
             insertGoalsAssists()
+        }
+        binding.btnDeleteGame.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 
@@ -388,10 +391,6 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     }
 
 
-    private fun insertGame() {
-        println("Game inserted")
-    }
-
     private fun showStatsPopUp(stat: String, playerStat: View) {
         val builder = AlertDialog.Builder(this)
         val inflater = LayoutInflater.from(this)
@@ -522,5 +521,8 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         println(players)
     }
 
+    private fun insertGame() {
+        println("Game inserted")
+    }
     // TODO check there are not 2 player with the same name in clean sheet list
 }
