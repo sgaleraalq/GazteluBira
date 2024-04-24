@@ -85,7 +85,7 @@ class InsertGameViewModel @Inject constructor(
         }
         val gameData = createGameData(homeTeam, homeGoals, awayTeam, awayGoals, match, jornada, id)
         val gameStats = starters?.let {
-            createGameStats(homeTeam, homeGoals, awayTeam, awayGoals, starters, bench!!, scorers!!, assistants!!)
+            createGameStats(homeTeam, homeGoals, awayTeam, awayGoals, match, id, starters, bench!!, scorers!!, assistants!!)
         }
 
         return try {
@@ -211,6 +211,8 @@ class InsertGameViewModel @Inject constructor(
         homeGoals: Int,
         awayTeam: String,
         awayGoals: Int,
+        match: String,
+        id: Int,
         starters: Map<String, String>,
         bench: List<String>,
         scorers: List<String>,
@@ -222,6 +224,8 @@ class InsertGameViewModel @Inject constructor(
             awayTeam = awayTeam,
             awayGoals = awayGoals,
             starters = starters,
+            match = match,
+            id = id,
             bench = bench,
             scorers = scorers,
             assistants = assistants
