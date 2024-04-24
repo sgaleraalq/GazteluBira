@@ -3,25 +3,32 @@ package com.sgalera.gaztelubira.ui.insert_game
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.data.provider.MatchesProvider
+import com.sgalera.gaztelubira.data.provider.PlayersProvider
 import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
+import com.sgalera.gaztelubira.ui.stats.StatsState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class InsertGameViewModel @Inject constructor(private val matchesProvider: MatchesProvider) :
+class InsertGameViewModel @Inject constructor(
+    private val matchesProvider: MatchesProvider,
+    private val playersProvider: PlayersProvider
+) :
     ViewModel() {
     private var _state = MutableStateFlow(arrayListOf<String>())
     val state: StateFlow<ArrayList<String>> = _state
 
-    private var _stateInsertGame = MutableStateFlow<InsertGameInfoState>(InsertGameInfoState.Loading)
+    private var _stateInsertGame =
+        MutableStateFlow<InsertGameInfoState>(InsertGameInfoState.Loading)
     val stateInsertGame: StateFlow<InsertGameInfoState> = _stateInsertGame
+
+    private var _allPlayersState = MutableStateFlow<StatsState>(StatsState.Loading)
+    val allPlayersState: StateFlow<StatsState> = _allPlayersState
 
     init {
         viewModelScope.launch {
@@ -101,6 +108,19 @@ class InsertGameViewModel @Inject constructor(private val matchesProvider: Match
             journey = jornada,
             id = id
         )
+    }
+
+    suspend fun getAllPlayerInfo() {
+        viewModelScope.launch {
+            _allPlayersState.value = StatsState.Loading
+            val result = playersProvider.getAllStats()
+            if (result != null) {
+                _allPlayersState.value = StatsState.Success(result)
+            } else {
+                _allPlayersState.value =
+                    StatsState.Error("Ha ocurrido un error, intentelo más tarde")
+            }
+        }
     }
 
     fun convertToPlayerInfo(player: String): PlayerInfo {
