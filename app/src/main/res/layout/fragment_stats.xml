@@ -200,7 +200,7 @@
                 android:id="@+id/penaltiesIcon"
                 style="@style/table_row_image_view_header"
                 android:layout_marginHorizontal="2dp"
-                android:contentDescription="@string/description_big_mistakes_icon"
+                android:contentDescription="@string/description_penalties_icon"
                 android:paddingHorizontal="4dp"
                 android:src="@drawable/ic_penalty" />
 
