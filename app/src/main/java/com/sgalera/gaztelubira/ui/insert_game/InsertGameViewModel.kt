@@ -56,6 +56,7 @@ class InsertGameViewModel @Inject constructor(
                 "Larra",
                 "Unai",
                 "Madariaga",
+                "Lopez",
                 "Emilio"
             )
             _state.value = playerNames
@@ -148,6 +149,7 @@ class InsertGameViewModel @Inject constructor(
             "Larra" -> Larra
             "Unai" -> Unai
             "Madariaga" -> Madariaga
+            "Lopez" -> Lopez
             "Emilio" -> Emilio
             else -> throw IllegalArgumentException("Player not found")
         }
@@ -178,6 +180,7 @@ class InsertGameViewModel @Inject constructor(
             Larra,
             Unai,
             Madariaga,
+            Lopez,
             Emilio
         )
     }
