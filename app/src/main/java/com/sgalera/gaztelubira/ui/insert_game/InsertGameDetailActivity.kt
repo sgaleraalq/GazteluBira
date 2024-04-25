@@ -566,7 +566,6 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             count += 1
         }
         viewModel.insertGameStats(players)
-        viewModel._stateInsertGame.value = InsertGameInfoState.Loading
     }
 
     private fun checkAllFields(): Boolean {

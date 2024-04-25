@@ -25,7 +25,7 @@ class InsertGameViewModel @Inject constructor(
     private var _state = MutableStateFlow(arrayListOf<String>())
     val state: StateFlow<ArrayList<String>> = _state
 
-    var _stateInsertGame =
+    private var _stateInsertGame =
         MutableStateFlow<InsertGameInfoState>(InsertGameInfoState.Loading)
     val stateInsertGame: StateFlow<InsertGameInfoState> = _stateInsertGame
 

@@ -11,4 +11,18 @@ data class PlayerStats(
     var lastRanking: Int,
     var ranking: Int,
     var percentage: String? = null
-)
+){
+    fun toMap(): Map<String, Any> {
+        return mapOf(
+            "name" to name.name,
+            "goals" to goals,
+            "assists" to assists,
+            "gamesPlayed" to gamesPlayed,
+            "penalties" to penalties,
+            "cleanSheet" to cleanSheet,
+            "position" to position,
+            "lastRanking" to lastRanking,
+            "ranking" to ranking
+        )
+    }
+}
