@@ -503,9 +503,7 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         view.addView(itemLayout)
     }
 
-
-    // Insert all the player stats
-    private fun getAllPlayerStats() {
+    private fun insertGame() {
         lifecycleScope.launch {
             viewModel.getAllPlayerInfo()
             viewModel.allPlayersState.collect{
@@ -515,7 +513,7 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
                     }
                     is StatsState.Success -> {
                         val players = it.data
-                        insertPlayerStats(players)
+                        updatePlayerStats(players)
                     }
                     is StatsState.Error -> {
                         println("Error")
@@ -523,39 +521,52 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
                 }
             }
         }
+//        if (checkAllFields()) {
+//            lifecycleScope.launch {
+//                loadingState()
+//                viewModel.postGame(
+//                    getString(home),
+//                    homeGoals,
+//                    getString(away),
+//                    awayGoals,
+//                    match,
+//                    journey,
+//                    id,
+//                    starterPlayers,
+//                    benchPlayers.map { it.name },
+//                    goalList,
+//                    assistList
+//                )
+//
+//                viewModel.stateInsertGame.collect { state ->
+//                    when (state) {
+//                        InsertGameInfoState.Loading -> loadingState()
+//                        InsertGameInfoState.Success -> successState()
+//                        is InsertGameInfoState.Error -> errorState()
+//                    }
+//                }
+//            }
+//        }
     }
 
-    private fun insertPlayerStats(players: List<PlayerStats>) {
-        println(players)
-    }
-
-    private fun insertGame() {
-        if (checkAllFields()) {
-            lifecycleScope.launch {
-                loadingState()
-                viewModel.postGame(
-                    getString(home),
-                    homeGoals,
-                    getString(away),
-                    awayGoals,
-                    match,
-                    journey,
-                    id,
-                    starterPlayers,
-                    benchPlayers.map { it.name },
-                    goalList,
-                    assistList
-                )
-
-                viewModel.stateInsertGame.collect { state ->
-                    when (state) {
-                        InsertGameInfoState.Loading -> loadingState()
-                        InsertGameInfoState.Success -> successState()
-                        is InsertGameInfoState.Error -> errorState()
-                    }
-                }
-            }
+    private fun updatePlayerStats(players: List<PlayerStats>) {
+        for (player in players) {
+            if (player.name.toString() in goalList) { player.goals += goalList.count { it == player.name.toString() } }
+            if (player.name.toString() in assistList) { player.assists += assistList.count { it == player.name.toString() } }
+            if (player.name.toString() in penaltyList) { player.penalties += penaltyList.count { it == player.name.toString() } }
+            if (player.name.toString() in cleanSheetList) { player.cleanSheet += 1 }
+            if (player.name.toString() in starterPlayers.values) { player.gamesPlayed += 1 }
+            if (player.name.toString() in benchPlayers.map { it.name }) { player.gamesPlayed += 1 }
+            player.lastRanking = player.ranking
+            player.percentage = getPercentage(player)
         }
+        var count = 1
+        for (player in players.sortedByDescending { it.percentage!!.toFloat() }) {
+            player.ranking = count
+            count += 1
+        }
+        viewModel.insertGameStats(players)
+        viewModel._stateInsertGame.value = InsertGameInfoState.Loading
     }
 
     private fun checkAllFields(): Boolean {
@@ -595,5 +606,4 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         binding.progressBarInsertGame.visibility = View.GONE
         Toast.makeText(this, "Partido añadido correctamente", Toast.LENGTH_SHORT).show()
     }
-    // TODO check there are not 2 player with the same name in clean sheet list
 }

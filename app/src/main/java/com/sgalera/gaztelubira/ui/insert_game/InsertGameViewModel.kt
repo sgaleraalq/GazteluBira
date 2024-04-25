@@ -8,6 +8,7 @@ import com.sgalera.gaztelubira.data.response.MatchResponse
 import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
+import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.stats.StatsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +25,7 @@ class InsertGameViewModel @Inject constructor(
     private var _state = MutableStateFlow(arrayListOf<String>())
     val state: StateFlow<ArrayList<String>> = _state
 
-    private var _stateInsertGame =
+    var _stateInsertGame =
         MutableStateFlow<InsertGameInfoState>(InsertGameInfoState.Loading)
     val stateInsertGame: StateFlow<InsertGameInfoState> = _stateInsertGame
 
@@ -121,6 +122,14 @@ class InsertGameViewModel @Inject constructor(
             } else {
                 _allPlayersState.value =
                     StatsState.Error("Ha ocurrido un error, intentelo más tarde")
+            }
+        }
+    }
+
+    fun insertGameStats(players: List<PlayerStats>) {
+        viewModelScope.launch {
+            players.forEach {
+                playersProvider.insertPlayerStats(it)
             }
         }
     }
