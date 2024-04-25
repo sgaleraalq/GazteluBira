@@ -177,7 +177,7 @@ class InsertGame : AppCompatActivity() {
             putExtra("homeTeam", R.string.gaztelu_bira)
             putExtra("awayTeam", R.string.arsenal)
             putExtra("homeGoals", 2)
-            putExtra("awayGoals", 1)
+            putExtra("awayGoals", 0)
             putExtra("match", "liga")
             putExtra("journey", 25)
             putExtra("id", 25)
