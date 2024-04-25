@@ -12,4 +12,8 @@ class PlayersProvider @Inject constructor(private val playersApiService: Players
     suspend fun getAllStats(): List<PlayerStats>? {
         return playersApiService.getAllStats()
     }
+
+    suspend fun insertPlayerStats(playerStats: PlayerStats) {
+        playersApiService.insertPlayerStats(playerStats)
+    }
 }
