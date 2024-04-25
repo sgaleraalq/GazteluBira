@@ -258,7 +258,7 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         dialogView.findViewById<TextView>(R.id.tvStarterPosition).text = popUpText(position)
         dialogView.findViewById<LinearLayout>(R.id.llStarterPlayers).apply {
             removeAllViews()
-            playerList.forEach { player ->
+            playerList.sortedBy { it.name }.forEach { player ->
                 val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
                     .inflate(R.layout.item_insert_starters, this, false)
                 itemLayout.findViewById<TextView>(R.id.tvStarterName).text = player.name
@@ -370,7 +370,7 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         view.findViewById<TextView>(R.id.tvStarterPosition).text = stat
         view.findViewById<LinearLayout>(R.id.llStarterPlayers).apply {
             removeAllViews()
-            playerList.forEach { player ->
+            playerList.sortedBy { it.name }.forEach { player ->
                 val playerName = playerStat.findViewById<TextView>(R.id.tvPlayerName)
                 val playerImage = playerStat.findViewById<ImageView>(R.id.ivGoalPlayer)
                 val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
@@ -495,22 +495,25 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     }
 
     private fun updatePlayerStats(players: List<PlayerStats>) {
-        for (player in players) {
-            if (player.name.toString() in goalList) { player.goals += goalList.count { it == player.name.toString() } }
-            if (player.name.toString() in assistList) { player.assists += assistList.count { it == player.name.toString() } }
-            if (player.name.toString() in penaltyList) { player.penalties += penaltyList.count { it == player.name.toString() } }
-            if (player.name.toString() in cleanSheetList) { player.cleanSheet += 1 }
-            if (player.name.toString() in starterPlayers.values) { player.gamesPlayed += 1 }
-            if (player.name.toString() in benchPlayers.map { it.name }) { player.gamesPlayed += 1 }
-            player.lastRanking = player.ranking
-            player.percentage = getPercentage(player)
+//        for (player in players) {
+//            if (player.name.toString() in goalList) { player.goals += goalList.count { it == player.name.toString() } }
+//            if (player.name.toString() in assistList) { player.assists += assistList.count { it == player.name.toString() } }
+//            if (player.name.toString() in penaltyList) { player.penalties += penaltyList.count { it == player.name.toString() } }
+//            if (player.name.toString() in cleanSheetList) { player.cleanSheet += 1 }
+//            if (player.name.toString() in starterPlayers.values) { player.gamesPlayed += 1 }
+//            if (player.name.toString() in benchPlayers.map { it.name }) { player.gamesPlayed += 1 }
+//            player.lastRanking = player.ranking
+//            player.percentage = getPercentage(player)
+//        }
+//        var count = 1
+//        for (player in players.sortedByDescending { it.percentage!!.toFloat() }) {
+//            player.ranking = count
+//            count += 1
+//        }
+        if (viewModel.insertGameStats(players)){
+            finishSuccess()
+            restartApp()
         }
-        var count = 1
-        for (player in players.sortedByDescending { it.percentage!!.toFloat() }) {
-            player.ranking = count
-            count += 1
-        }
-        viewModel.insertGameStats(players)
     }
 
     private fun checkAllFields(): Boolean {
@@ -557,7 +560,6 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
                     is StatsState.Success -> {
                         val players = it.data
                         updatePlayerStats(players)
-                        finishSuccess()
                     }
                     is StatsState.Error -> {
                         errorState()
@@ -570,7 +572,10 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     private fun finishSuccess() {
         binding.progressBarInsertGame.visibility = View.GONE
         Toast.makeText(this, "Partido insertado correctamente", Toast.LENGTH_SHORT).show()
-        // Restart app completely
+    }
+
+    private fun restartApp() {
+        Thread.sleep(2000)
         val intent = Intent(applicationContext, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         applicationContext.startActivity(intent)
@@ -579,4 +584,5 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         }
         Runtime.getRuntime().exit(0)
     }
+
 }

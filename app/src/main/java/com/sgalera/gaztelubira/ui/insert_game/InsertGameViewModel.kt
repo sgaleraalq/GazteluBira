@@ -14,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -126,11 +127,16 @@ class InsertGameViewModel @Inject constructor(
         }
     }
 
-    fun insertGameStats(players: List<PlayerStats>) {
-        viewModelScope.launch {
-            players.forEach {
-                playersProvider.insertPlayerStats(it)
+    fun insertGameStats(players: List<PlayerStats>): Boolean {
+        return try {
+            runBlocking {
+                players.forEach {
+                    playersProvider.insertPlayerStats(it)
+                }
             }
+            true
+        } catch (e: Exception) {
+            false
         }
     }
 
