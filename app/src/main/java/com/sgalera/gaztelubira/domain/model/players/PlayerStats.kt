@@ -2,13 +2,13 @@ package com.sgalera.gaztelubira.domain.model.players
 
 data class PlayerStats(
     val name: PlayerInfo,
-    val goals: Int,
-    val assists: Int,
-    val gamesPlayed: Int,
-    val penalties: Int,
-    val cleanSheet: Int,
+    var goals: Int,
+    var assists: Int,
+    var gamesPlayed: Int,
+    var penalties: Int,
+    var cleanSheet: Int,
     val position: String,
-    val lastRanking: Int,
-    val ranking: Int,
+    var lastRanking: Int,
+    var ranking: Int,
     var percentage: String? = null
 )
