@@ -5,6 +5,7 @@ import com.sgalera.gaztelubira.domain.model.MappingUtils.mapTeam
 import com.sgalera.gaztelubira.domain.model.matches.Match
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
+import java.util.Locale
 
 data class MatchResponse(
     val id: Int = 0,
@@ -32,7 +33,7 @@ data class MatchResponse(
     )
 
     private fun mapPlayerInfo(player: String): PlayerInfo {
-        return when (player) {
+        return when (player.lowercase(Locale.ROOT)) {
             "pedro" -> Pedro
             "jon" -> Jon
             "asier" -> Asier

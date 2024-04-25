@@ -1,6 +1,8 @@
 package com.sgalera.gaztelubira.ui.insert_game
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -20,6 +22,7 @@ import com.sgalera.gaztelubira.databinding.ActivityInsertGameDetailBinding
 import com.sgalera.gaztelubira.domain.model.MappingUtils.mapTeam
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
+import com.sgalera.gaztelubira.ui.home.MainActivity
 import com.sgalera.gaztelubira.ui.insert_game.adapter.InsertGameAdapter
 import com.sgalera.gaztelubira.ui.stats.StatsState
 import dagger.hilt.android.AndroidEntryPoint
@@ -567,7 +570,13 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     private fun finishSuccess() {
         binding.progressBarInsertGame.visibility = View.GONE
         Toast.makeText(this, "Partido insertado correctamente", Toast.LENGTH_SHORT).show()
-        // Go back to main activity (two back pressed)
-        onBackPressedDispatcher.onBackPressed()
+        // Restart app completely
+        val intent = Intent(applicationContext, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        applicationContext.startActivity(intent)
+        if (applicationContext is Activity) {
+            (applicationContext as Activity).finish()
+        }
+        Runtime.getRuntime().exit(0)
     }
 }
