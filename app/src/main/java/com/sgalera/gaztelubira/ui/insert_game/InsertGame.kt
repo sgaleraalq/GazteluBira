@@ -21,7 +21,7 @@ class InsertGame : AppCompatActivity() {
         "Anaitasuna",
         "Arsenal",
         "Aterbea",
-        "ESIC Gazteak",
+        "Esic Gazteak",
         "Esmeraldeños",
         "Garre",
         "Iturrama",
