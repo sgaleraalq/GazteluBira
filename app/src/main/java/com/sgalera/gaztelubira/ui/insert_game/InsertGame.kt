@@ -4,16 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameBinding
 import com.sgalera.gaztelubira.domain.model.MappingUtils
 import com.sgalera.gaztelubira.domain.model.Team
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class InsertGame : AppCompatActivity() {
@@ -39,8 +36,6 @@ class InsertGame : AppCompatActivity() {
     private var journey: Int = 0
     private var match: String = "liga"
 
-    private val viewModel: InsertGameViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityInsertGameBinding.inflate(layoutInflater)
@@ -59,10 +54,9 @@ class InsertGame : AppCompatActivity() {
 
     private fun initListeners() {
         binding.btnContinue.setOnClickListener {
-            moveToInsertDetailGameActivity()
-//            if (checkFields()) {
-//                postGame()
-//            }
+            if (checkFields()) {
+                moveToInsertDetailGameActivity()
+            }
         }
         binding.cvLeague.setOnClickListener {
             match = "liga"
@@ -133,61 +127,16 @@ class InsertGame : AppCompatActivity() {
         }
     }
 
-    private fun postGame() {
-        lifecycleScope.launch {
-            loadingState()
-            viewModel.postGame(
-                getString(homeTeam!!.name),
-                binding.etHomeGoals.text.toString().toInt(),
-                getString(awayTeam!!.name),
-                binding.etAwayGoals.text.toString().toInt(),
-                match,
-                journey,
-                id
-            )
-
-            viewModel.stateInsertGame.collect { state ->
-                when (state) {
-                    InsertGameInfoState.Loading -> loadingState()
-                    InsertGameInfoState.Success -> successState()
-                    is InsertGameInfoState.Error -> errorState()
-                }
-            }
-        }
-    }
-
-    private fun loadingState() {
-        binding.progressBarInsertGame.visibility = View.VISIBLE
-    }
-
-    private fun errorState(){
-        binding.progressBarInsertGame.visibility = View.GONE
-        Toast.makeText(this, "Ha ocurrido un error, inténtelo más tarde", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun successState(){
-        binding.progressBarInsertGame.visibility = View.GONE
-        Toast.makeText(this, "Partido añadido correctamente", Toast.LENGTH_SHORT).show()
-        moveToInsertDetailGameActivity()
-    }
-
     private fun moveToInsertDetailGameActivity() {
         val intent = Intent(this, InsertGameDetailActivity::class.java)
         intent.apply {
-            putExtra("homeTeam", R.string.gaztelu_bira)
-            putExtra("awayTeam", R.string.arsenal)
-            putExtra("homeGoals", 2)
-            putExtra("awayGoals", 0)
-            putExtra("match", "liga")
-            putExtra("journey", 25)
-            putExtra("id", 25)
-//            putExtra("homeTeam", homeTeam!!.name)
-//            putExtra("awayTeam", awayTeam!!.name)
-//            putExtra("homeGoals", binding.etHomeGoals.text.toString().toInt())
-//            putExtra("awayGoals", binding.etAwayGoals.text.toString().toInt())
-//            putExtra("match", match)
-//            putExtra("journey", journey)
-//            putExtra("id", id)
+            putExtra("homeTeam", homeTeam!!.name)
+            putExtra("awayTeam", awayTeam!!.name)
+            putExtra("homeGoals", binding.etHomeGoals.text.toString().toInt())
+            putExtra("awayGoals", binding.etAwayGoals.text.toString().toInt())
+            putExtra("match", match)
+            putExtra("journey", journey)
+            putExtra("id", id)
         }
         startActivity(intent)
     }

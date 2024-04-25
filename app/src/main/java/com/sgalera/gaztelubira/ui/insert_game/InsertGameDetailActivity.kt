@@ -143,7 +143,7 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
 
         initStartersListeners()
         binding.btnInsertGame.setOnClickListener {
-            insertGoalsAssists()
+            insertGame()
         }
         binding.btnDeleteGame.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
@@ -358,47 +358,6 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         }
     }
 
-    private fun insertGoalsAssists() {
-//        if (checkTeams() && checkGoals() && checkPlayers()) {
-//            showGoalsAssistsPopUp()
-//        }
-//        getAllPlayerStats()
-        insertGame()
-    }
-
-    private fun checkTeams(): Boolean {
-        return if (binding.tvLocalTeam.text == binding.tvAwayTeam.text) {
-            Toast.makeText(this, "Please select two different teams", Toast.LENGTH_SHORT).show()
-            false
-        } else if (binding.tvLocalTeam.text != "Gaztelu Bira" && binding.tvAwayTeam.text != "Gaztelu Bira") {
-            Toast.makeText(this, "One of the teams must be Gaztelu Bira", Toast.LENGTH_SHORT).show()
-            false
-        } else if (binding.ivLocalTeam.visibility == View.INVISIBLE || binding.ivAwayTeam.visibility == View.INVISIBLE) {
-            Toast.makeText(this, "Please select both teams", Toast.LENGTH_SHORT).show()
-            false
-        } else {
-            true
-        }
-    }
-
-
-    private fun checkPlayers(): Boolean {
-        return if (starterPlayers.containsValue("")) {
-            Toast.makeText(this, "Please select all the starters", Toast.LENGTH_SHORT).show()
-            false
-        } else if (starterPlayers.containsValue(binding.psBenchPlayer.text.toString())) {
-            Toast.makeText(
-                this,
-                "Player can't be in the bench and starter at the same time",
-                Toast.LENGTH_SHORT
-            ).show()
-            false
-        } else {
-            true
-        }
-    }
-
-
     private fun showStatsPopUp(stat: String, playerStat: View) {
         val builder = AlertDialog.Builder(this)
         val inflater = LayoutInflater.from(this)
@@ -504,49 +463,32 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     }
 
     private fun insertGame() {
-        lifecycleScope.launch {
-            viewModel.getAllPlayerInfo()
-            viewModel.allPlayersState.collect{
-                when (it) {
-                    is StatsState.Loading -> {
-                        println("Loading")
-                    }
-                    is StatsState.Success -> {
-                        val players = it.data
-                        updatePlayerStats(players)
-                    }
-                    is StatsState.Error -> {
-                        println("Error")
+        if (checkAllFields()) {
+            lifecycleScope.launch {
+                loadingState()
+                viewModel.postGame(
+                    getString(home),
+                    homeGoals,
+                    getString(away),
+                    awayGoals,
+                    match,
+                    journey,
+                    id,
+                    starterPlayers,
+                    benchPlayers.map { it.name },
+                    goalList,
+                    assistList
+                )
+
+                viewModel.stateInsertGame.collect { state ->
+                    when (state) {
+                        InsertGameInfoState.Loading -> loadingState()
+                        InsertGameInfoState.Success -> successState()
+                        is InsertGameInfoState.Error -> errorState()
                     }
                 }
             }
         }
-//        if (checkAllFields()) {
-//            lifecycleScope.launch {
-//                loadingState()
-//                viewModel.postGame(
-//                    getString(home),
-//                    homeGoals,
-//                    getString(away),
-//                    awayGoals,
-//                    match,
-//                    journey,
-//                    id,
-//                    starterPlayers,
-//                    benchPlayers.map { it.name },
-//                    goalList,
-//                    assistList
-//                )
-//
-//                viewModel.stateInsertGame.collect { state ->
-//                    when (state) {
-//                        InsertGameInfoState.Loading -> loadingState()
-//                        InsertGameInfoState.Success -> successState()
-//                        is InsertGameInfoState.Error -> errorState()
-//                    }
-//                }
-//            }
-//        }
     }
 
     private fun updatePlayerStats(players: List<PlayerStats>) {
@@ -602,7 +544,30 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     }
 
     private fun successState(){
+        lifecycleScope.launch {
+            viewModel.getAllPlayerInfo()
+            viewModel.allPlayersState.collect{
+                when (it) {
+                    is StatsState.Loading -> {
+                        loadingState()
+                    }
+                    is StatsState.Success -> {
+                        val players = it.data
+                        updatePlayerStats(players)
+                        finishSuccess()
+                    }
+                    is StatsState.Error -> {
+                        errorState()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun finishSuccess() {
         binding.progressBarInsertGame.visibility = View.GONE
-        Toast.makeText(this, "Partido añadido correctamente", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Partido insertado correctamente", Toast.LENGTH_SHORT).show()
+        // Go back to main activity (two back pressed)
+        onBackPressedDispatcher.onBackPressed()
     }
 }
