@@ -169,6 +169,7 @@
                 android:textStyle="bold"
                 tools:ignore="RtlSymmetry" />
 
+
             <ImageView
                 android:id="@+id/percentageIcon"
                 style="@style/table_row_image_view_header"
