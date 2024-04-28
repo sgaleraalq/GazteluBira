@@ -38,7 +38,7 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
     }
 
     suspend fun insertPlayerStats(playerStats: PlayerStats) {
-        firebase.db.collection(PLAYER_TEST).document(playerStats.name.name.lowercase(Locale.ROOT))
+        firebase.db.collection(PLAYER_STATS).document(playerStats.name.name.lowercase(Locale.ROOT))
             .set(playerStats.toMap()).await()
     }
 }
