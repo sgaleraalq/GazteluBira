@@ -17,11 +17,11 @@ data class PlayerStats(
             "name" to name.name,
             "goals" to goals,
             "assists" to assists,
-            "gamesPlayed" to gamesPlayed,
+            "games_played" to gamesPlayed,
             "penalties" to penalties,
-            "cleanSheet" to cleanSheet,
+            "clean_sheet" to cleanSheet,
             "position" to position,
-            "lastRanking" to lastRanking,
+            "last_ranking" to lastRanking,
             "ranking" to ranking
         )
     }
