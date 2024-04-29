@@ -1,10 +1,14 @@
 package com.sgalera.gaztelubira.data.response
 
 import com.google.firebase.firestore.PropertyName
+import com.sgalera.gaztelubira.data.network.firebase.FirebaseClient
+import com.sgalera.gaztelubira.data.network.services.PlayersApiService
 import com.sgalera.gaztelubira.domain.model.MappingUtils.mapTeam
 import com.sgalera.gaztelubira.domain.model.matches.Match
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
+import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
+import kotlinx.coroutines.runBlocking
 import java.util.Locale
 
 data class MatchResponse(
@@ -28,9 +32,25 @@ data class MatchResponse(
         visitorGoals = awayGoals,
         scorers = scorers,
         assistants = assistants,
-        starters = starters.mapValues { mapPlayerInfo(it.value) },
+        starters = starters.mapValues { runBlocking { mapPlayerInformation(it.value) } },
         bench = bench.map { mapPlayerInfo(it) }
     )
+
+    private suspend fun mapPlayerInformation(player: String): PlayerInformation? {
+        return try{
+            val apiService = PlayersApiService(firebase = FirebaseClient())
+            apiService.playerInformation(player)
+        } catch (e: Exception) {
+            PlayerInformation(
+                name = "Error",
+                surname = "Error",
+                img = "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/img_player_david.webp?alt=media&token=d3922acb-4379-4a21-ac15-5e07146b47fd",
+                dorsal = 0,
+                stats = null,
+                selected = false
+            )
+        }
+    }
 
     private fun mapPlayerInfo(player: String): PlayerInfo {
         return when (player.lowercase(Locale.ROOT)) {
