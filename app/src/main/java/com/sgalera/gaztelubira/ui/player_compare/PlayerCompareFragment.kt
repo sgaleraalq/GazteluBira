@@ -194,9 +194,9 @@ class PlayerCompareFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun initComponents() {
         // Main ppal components player one
-        binding.tvPlayerOneName.text = playerOne.name.name
-        binding.ivPlayerOne.setImageResource(playerOne.name.img)
-        binding.tvDorsalPlayerOne.text = playerOne.name.dorsal.toString()
+        binding.tvPlayerOneName.text = playerOne.information!!.name
+//        binding.ivPlayerOne.setImageResource(playerOne.name.img)
+        binding.tvDorsalPlayerOne.text = playerOne.information!!.dorsal.toString()
         binding.tvPositionPlayerOne.text = playerOne.position
         binding.tvParticipationPlayerOne.text = "${playerOne.percentage.toString()} %"
         binding.tvGoalsPlayerOne.text = playerOne.goals.toString()
@@ -206,9 +206,9 @@ class PlayerCompareFragment : Fragment() {
         binding.tvGamesPlayedPlayerOne.text = playerOne.gamesPlayed.toString()
 
         // Main ppal components player two
-        binding.tvPlayerTwoName.text = playerTwo.name.name
-        binding.ivPlayerTwo.setImageResource(playerTwo.name.img)
-        binding.tvDorsalPlayerTwo.text = playerTwo.name.dorsal.toString()
+        binding.tvPlayerTwoName.text = playerTwo.information!!.name
+//        binding.ivPlayerTwo.setImageResource(playerTwo.name.img)
+        binding.tvDorsalPlayerTwo.text = playerTwo.information!!.dorsal.toString()
         binding.tvPositionPlayerTwo.text = playerTwo.position
         binding.tvParticipationPlayerTwo.text = "${playerTwo.percentage.toString()} %"
         binding.tvGoalsPlayerTwo.text = playerTwo.goals.toString()

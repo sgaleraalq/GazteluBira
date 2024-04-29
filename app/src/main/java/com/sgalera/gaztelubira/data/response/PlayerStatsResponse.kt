@@ -1,9 +1,9 @@
 package com.sgalera.gaztelubira.data.response
 
+import PlayerMapper.mapPlayerInformation
 import com.google.firebase.firestore.PropertyName
-import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
-import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
+import kotlinx.coroutines.runBlocking
 import java.text.DecimalFormat
 
 data class PlayerStatsResponse(
@@ -19,7 +19,7 @@ data class PlayerStatsResponse(
 ) {
     fun toDomain(): PlayerStats {
         return PlayerStats(
-            name = mapName(name),
+            information = runBlocking { mapPlayerInformation(name) },
             goals = goals,
             assists = assists,
             gamesPlayed = gamesPlayed,
@@ -30,36 +30,6 @@ data class PlayerStatsResponse(
             ranking = ranking,
             percentage = getPercentage(this)
         )
-    }
-
-    private fun mapName(name: String): PlayerInfo {
-        return when (name) {
-            "Pedro" -> Pedro
-            "Jon" -> Jon
-            "Asier" -> Asier
-            "Manu" -> Manu
-            "Xabi" -> Xabi
-            "Oso" -> Oso
-            "Diego" -> Diego
-            "Mikel" -> Mikel
-            "Gorka" -> Gorka
-            "Arrondo" -> Arrondo
-            "Dani" -> Dani
-            "Nando" -> Nando
-            "Haaland" -> Haaland
-            "David" -> David
-            "Aaron" -> Aaron
-            "Mugueta" -> Mugueta
-            "Fran" -> Fran
-            "Iker" -> Iker
-            "Larra" -> Larra
-            "Unai" -> Unai
-            "Madariaga" -> Madariaga
-            "Bryant" -> Bryant
-            "Roson" -> Roson
-            "Lopez" -> Lopez
-            else -> Emilio
-        }
     }
 
     private fun getPercentage(player: PlayerStatsResponse): String {

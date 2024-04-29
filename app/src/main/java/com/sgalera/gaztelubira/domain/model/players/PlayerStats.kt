@@ -1,7 +1,7 @@
 package com.sgalera.gaztelubira.domain.model.players
 
 data class PlayerStats(
-    val name: PlayerInfo,
+    val information: PlayerInformation?,
     var goals: Int,
     var assists: Int,
     var gamesPlayed: Int,
@@ -14,7 +14,7 @@ data class PlayerStats(
 ){
     fun toMap(): Map<String, Any> {
         return mapOf(
-            "name" to name.name,
+            "name" to information!!.name,
             "goals" to goals,
             "assists" to assists,
             "games_played" to gamesPlayed,

@@ -496,12 +496,12 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
 
     private fun updatePlayerStats(players: List<PlayerStats>) {
         for (player in players) {
-            if (player.name.toString() in goalList) { player.goals += goalList.count { it == player.name.toString() } }
-            if (player.name.toString() in assistList) { player.assists += assistList.count { it == player.name.toString() } }
-            if (player.name.toString() in penaltyList) { player.penalties += penaltyList.count { it == player.name.toString() } }
-            if (player.name.toString() in cleanSheetList) { player.cleanSheet += 1 }
-            if (player.name.toString() in starterPlayers.values) { player.gamesPlayed += 1 }
-            if (player.name.toString() in benchPlayers.map { it.name }) { player.gamesPlayed += 1 }
+            if (player.information!!.name in goalList) { player.goals += goalList.count { it == player.information.name } }
+            if (player.information.name in assistList) { player.assists += assistList.count { it == player.information.name } }
+            if (player.information.name in penaltyList) { player.penalties += penaltyList.count { it == player.information.name } }
+            if (player.information.name in cleanSheetList) { player.cleanSheet += 1 }
+            if (player.information.name in starterPlayers.values) { player.gamesPlayed += 1 }
+            if (player.information.name in benchPlayers.map { it.name }) { player.gamesPlayed += 1 }
             player.lastRanking = player.ranking
             player.percentage = getPercentage(player)
         }

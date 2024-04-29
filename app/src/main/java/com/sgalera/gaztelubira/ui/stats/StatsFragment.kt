@@ -19,6 +19,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.BuildConfig
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentStatsBinding
@@ -194,10 +195,12 @@ class StatsFragment : Fragment() {
         binding.ivIconGoals.visibility = View.VISIBLE
         binding.ivIconAssists.visibility = View.VISIBLE
         binding.pbLoadingChampion.visibility = View.INVISIBLE
-        binding.tvNameChampion.text = player.name.name
+        binding.tvNameChampion.text = player.information!!.name
         binding.tvChampionGoals.text = player.goals.toString()
         binding.tvChampionAssists.text = player.assists.toString()
-        binding.ivChampion.setImageResource(player.name.img)
+        Glide.with(requireContext())
+            .load(player.information.img)
+            .into(binding.ivChampion)
     }
 
     private fun loadingState() {
@@ -269,7 +272,7 @@ class StatsFragment : Fragment() {
         val arrow = getArrow(player)
         view.findViewById<ImageView>(R.id.ivArrow).setImageResource(arrow)
         view.findViewById<TextView>(R.id.tvRanking).text = (index + 1).toString()
-        view.findViewById<TextView>(R.id.tvPlayerName).text = player.name.toString()
+        view.findViewById<TextView>(R.id.tvPlayerName).text = player.information!!.name
         view.findViewById<TextView>(R.id.tvPlayerProportion).text = player.percentage
         view.findViewById<TextView>(R.id.tvPlayerGoals).text = player.goals.toString()
         view.findViewById<TextView>(R.id.tvPlayerAssists).text = player.assists.toString()
