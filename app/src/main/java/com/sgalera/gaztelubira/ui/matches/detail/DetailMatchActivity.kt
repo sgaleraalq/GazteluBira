@@ -17,6 +17,7 @@ import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityDetailMatchBinding
 import com.sgalera.gaztelubira.domain.model.matches.Match
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
+import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -74,6 +75,8 @@ class DetailMatchActivity : AppCompatActivity() {
         binding.tvSlash.visibility = View.VISIBLE
         binding.clStarters.visibility = View.VISIBLE
 
+
+        // TODO change to call to the database
         // Local
         binding.ivLocalTeam.setImageResource(match.local.img)
         binding.tvLocalTeam.text = this.getString(match.local.name)
@@ -146,7 +149,7 @@ class DetailMatchActivity : AppCompatActivity() {
         }
     }
 
-    private fun initStarters(starters: Map<String, PlayerInfo>) {
+    private fun initStarters(starters: Map<String, PlayerInformation?>) {
         includeGoalKeeper(starters["goal_keeper"])
         includeBacks(starters["left_back"], starters["right_back"])
         includeCentreBacks(starters["left_centre_back"], starters["right_centre_back"])
@@ -154,12 +157,12 @@ class DetailMatchActivity : AppCompatActivity() {
         includeStrikers(starters["left_striker"], starters["right_striker"], starters["striker"])
     }
 
-    private fun includeGoalKeeper(playerInfo: PlayerInfo?) {
+    private fun includeGoalKeeper(playerInfo: PlayerInformation?) {
         binding.ivGoalKeeper.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
         binding.tvGoalKeeper.text = playerInfo?.name
     }
 
-    private fun includeBacks(playerInfo: PlayerInfo?, playerInfo1: PlayerInfo?) {
+    private fun includeBacks(playerInfo: PlayerInformation?, playerInfo1: PlayerInformation?) {
         binding.ivLeftBack.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
         binding.tvLeftBack.text = playerInfo?.name
 
@@ -167,7 +170,7 @@ class DetailMatchActivity : AppCompatActivity() {
         binding.tvRightBack.text = playerInfo1?.name
     }
 
-    private fun includeCentreBacks(playerInfo: PlayerInfo?, playerInfo1: PlayerInfo?) {
+    private fun includeCentreBacks(playerInfo: PlayerInformation?, playerInfo1: PlayerInformation?) {
         binding.ivLeftCentreBack.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
         binding.tvLeftCentreBack.text = playerInfo?.name
 
@@ -175,7 +178,7 @@ class DetailMatchActivity : AppCompatActivity() {
         binding.tvRightCentreBack.text = playerInfo1?.name
     }
 
-    private fun includeMidFielders(playerInfo: PlayerInfo?, playerInfo1: PlayerInfo?, playerInfo2: PlayerInfo?) {
+    private fun includeMidFielders(playerInfo: PlayerInformation?, playerInfo1: PlayerInformation?, playerInfo2: PlayerInformation?) {
         binding.ivDefensiveMidFielder.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
         binding.tvDefensiveMidFielder.text = playerInfo?.name
 
@@ -186,7 +189,7 @@ class DetailMatchActivity : AppCompatActivity() {
         binding.tvRightMidFielder.text = playerInfo2?.name
     }
 
-    private fun includeStrikers(playerInfo: PlayerInfo?, playerInfo1: PlayerInfo?, playerInfo2: PlayerInfo?) {
+    private fun includeStrikers(playerInfo: PlayerInformation?, playerInfo1: PlayerInformation?, playerInfo2: PlayerInformation?) {
         binding.ivLeftStriker.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
         binding.tvLeftStriker.text = playerInfo?.name
 
