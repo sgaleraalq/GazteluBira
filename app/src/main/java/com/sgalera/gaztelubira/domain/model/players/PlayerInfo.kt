@@ -1,5 +1,6 @@
 package com.sgalera.gaztelubira.domain.model.players
 
+import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.R
 
 sealed class PlayerInfo(
@@ -36,3 +37,12 @@ sealed class PlayerInfo(
     data object Madariaga: PlayerInfo("Madariaga", R.drawable.img_no_profile_picture, 55)
     data object Lopez: PlayerInfo("Lopez", R.drawable.img_no_profile_picture, 59)
 }
+
+data class PlayerInformation(
+    val name: String,
+    val surname: String,
+    val img: String,
+    val dorsal: Int,
+    val stats: DocumentReference? = null,
+    var selected: Boolean = false
+)
