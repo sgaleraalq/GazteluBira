@@ -44,7 +44,7 @@ data class MatchResponse(
             PlayerInformation(
                 name = "Error",
                 surname = "Error",
-                img = "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/img_player_david.webp?alt=media&token=d3922acb-4379-4a21-ac15-5e07146b47fd",
+                img = "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/img_no_profile_picture.webp?alt=media&token=3704b325-2ffc-42eb-892d-147c3860d8b1",
                 dorsal = 0,
                 stats = null,
                 selected = false
