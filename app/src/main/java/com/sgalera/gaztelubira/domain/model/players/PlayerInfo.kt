@@ -40,7 +40,7 @@ sealed class PlayerInfo(
 
 data class PlayerInformation(
     val name: String,
-    val surname: String,
+    val completeName: String,
     val img: String,
     val dorsal: Int,
     val stats: DocumentReference? = null,
