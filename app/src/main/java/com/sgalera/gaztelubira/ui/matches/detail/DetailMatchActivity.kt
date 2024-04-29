@@ -16,7 +16,6 @@ import androidx.navigation.navArgs
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityDetailMatchBinding
 import com.sgalera.gaztelubira.domain.model.matches.Match
-import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -119,12 +118,12 @@ class DetailMatchActivity : AppCompatActivity() {
         }
     }
     @SuppressLint("InflateParams")
-    private fun initBenchPlayers(bench: List<PlayerInfo>) {
-        val benchList = bench.sortedBy { it.dorsal }
+    private fun initBenchPlayers(bench: List<PlayerInformation?>) {
+        val benchList = bench.sortedBy { it!!.dorsal }
         for ((index, player) in benchList.withIndex()) {
             val inflater = LayoutInflater.from(this)
             val itemLayout = inflater.inflate(R.layout.item_bench, null) as View
-            itemLayout.findViewById<TextView>(R.id.tvBenchPlayer).text = player.name
+            itemLayout.findViewById<TextView>(R.id.tvBenchPlayer).text = player!!.name
             itemLayout.findViewById<TextView>(R.id.tvDorsal).text = player.dorsal.toString()
 
             // Decidir en qué LinearLayout colocar el elemento según el índice
