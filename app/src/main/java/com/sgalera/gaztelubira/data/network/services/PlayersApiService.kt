@@ -1,7 +1,9 @@
 package com.sgalera.gaztelubira.data.network.services
 
 import com.sgalera.gaztelubira.data.network.firebase.FirebaseClient
+import com.sgalera.gaztelubira.data.response.PlayerInfoResponse
 import com.sgalera.gaztelubira.data.response.PlayerStatsResponse
+import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import kotlinx.coroutines.tasks.await
 import java.util.Locale
@@ -12,6 +14,7 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
     companion object {
         const val PLAYER_STATS = "players_stats"
         const val PLAYER_TEST = "players_test"
+        const val PLAYERS = "players"
     }
 
     suspend fun getPlayerStats(playerName: String): PlayerStats? {
@@ -40,5 +43,19 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
     suspend fun insertPlayerStats(playerStats: PlayerStats) {
         firebase.db.collection(PLAYER_STATS).document(playerStats.name.name.lowercase(Locale.ROOT))
             .set(playerStats.toMap()).await()
+    }
+
+    suspend fun playerInformation(playerName: String): PlayerInformation? {
+        val document = firebase.db.collection(PLAYERS).document(playerName.lowercase(Locale.ROOT)).get()
+            .await()
+        if (document != null) {
+            try {
+                document.toObject(PlayerInfoResponse::class.java)
+            } catch (e: Exception) {
+                println("Error: ${e.message}")
+            }
+            return document.toObject(PlayerInfoResponse::class.java)!!.toDomain()
+        }
+        return null
     }
 }
