@@ -14,7 +14,10 @@ data class PlayerInfoResponse(
         return PlayerInformation(
             name = name,
             img = img,
-            dorsal = dorsal
+            dorsal = dorsal,
+            stats = stats,
+            selected = false,
+            surname = surname
         )
     }
 }
