@@ -5,11 +5,8 @@ import com.sgalera.gaztelubira.data.network.firebase.FirebaseClient
 import com.sgalera.gaztelubira.data.network.services.PlayersApiService
 import com.sgalera.gaztelubira.domain.model.MappingUtils.mapTeam
 import com.sgalera.gaztelubira.domain.model.matches.Match
-import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
-import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
 import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import kotlinx.coroutines.runBlocking
-import java.util.Locale
 
 data class MatchResponse(
     val id: Int = 0,
@@ -33,7 +30,7 @@ data class MatchResponse(
         scorers = scorers,
         assistants = assistants,
         starters = starters.mapValues { runBlocking { mapPlayerInformation(it.value) } },
-        bench = bench.map { mapPlayerInfo(it) }
+        bench = bench.map { runBlocking { mapPlayerInformation(it) } }
     )
 
     private suspend fun mapPlayerInformation(player: String): PlayerInformation? {
@@ -49,36 +46,6 @@ data class MatchResponse(
                 stats = null,
                 selected = false
             )
-        }
-    }
-
-    private fun mapPlayerInfo(player: String): PlayerInfo {
-        return when (player.lowercase(Locale.ROOT)) {
-            "pedro" -> Pedro
-            "jon" -> Jon
-            "asier" -> Asier
-            "xabi" -> Xabi
-            "oso" -> Oso
-            "diego" -> Diego
-            "mikel" -> Mikel
-            "gorka" -> Gorka
-            "arrondo" -> Arrondo
-            "dani" -> Dani
-            "nando" -> Nando
-            "haaland" -> Haaland
-            "david" -> David
-            "aaron" -> Aaron
-            "mugueta" -> Mugueta
-            "fran" -> Fran
-            "iker" -> Iker
-            "larra" -> Larra
-            "unai" -> Unai
-            "manu" -> Manu
-            "madariaga" -> Madariaga
-            "bryant" -> Bryant
-            "roson" -> Roson
-            "lopez" -> Lopez
-            else -> Emilio
         }
     }
 }
