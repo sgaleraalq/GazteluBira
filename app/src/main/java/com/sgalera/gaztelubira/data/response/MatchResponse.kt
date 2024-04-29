@@ -1,12 +1,9 @@
 package com.sgalera.gaztelubira.data.response
 
-import PlayerMapper.mapPlayerInformation
+import com.sgalera.gaztelubira.domain.model.players.PlayerMapper.mapPlayerInformation
 import com.google.firebase.firestore.PropertyName
-import com.sgalera.gaztelubira.data.network.firebase.FirebaseClient
-import com.sgalera.gaztelubira.data.network.services.PlayersApiService
 import com.sgalera.gaztelubira.domain.model.MappingUtils.mapTeam
 import com.sgalera.gaztelubira.domain.model.matches.Match
-import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import kotlinx.coroutines.runBlocking
 
 data class MatchResponse(

@@ -1,6 +1,6 @@
 package com.sgalera.gaztelubira.data.response
 
-import PlayerMapper.mapPlayerInformation
+import com.sgalera.gaztelubira.domain.model.players.PlayerMapper.mapPlayerInformation
 import com.google.firebase.firestore.PropertyName
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import kotlinx.coroutines.runBlocking

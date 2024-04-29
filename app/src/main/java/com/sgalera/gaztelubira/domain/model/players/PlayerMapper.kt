@@ -1,6 +1,7 @@
+package com.sgalera.gaztelubira.domain.model.players
+
 import com.sgalera.gaztelubira.data.network.firebase.FirebaseClient
 import com.sgalera.gaztelubira.data.network.services.PlayersApiService
-import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 
 object PlayerMapper {
     suspend fun mapPlayerInformation(player: String): PlayerInformation? {
