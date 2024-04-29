@@ -433,7 +433,7 @@
                 <TextView
                     android:id="@+id/tvStatPenalties"
                     style="@style/text_view_player_comparison_stats"
-                    android:text="@string/big_mistakes"
+                    android:text="@string/penalties"
                     app:layout_constraintEnd_toEndOf="@id/ivIconPenalties"
                     app:layout_constraintStart_toStartOf="@id/ivIconPenalties"
                     app:layout_constraintTop_toBottomOf="@id/ivIconPenalties" />

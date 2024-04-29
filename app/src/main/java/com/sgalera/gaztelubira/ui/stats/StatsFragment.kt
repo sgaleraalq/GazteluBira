@@ -171,7 +171,6 @@ class StatsFragment : Fragment() {
         )
     }
 
-
     private fun initComponents() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -263,7 +262,6 @@ class StatsFragment : Fragment() {
             password.setSelection(password.text.length)
         }
     }
-
 
     @SuppressLint("SetTextI18n", "InflateParams")
     private fun setRowPlayerView(player: PlayerStats, index: Int): View {

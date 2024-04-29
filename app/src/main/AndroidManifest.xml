@@ -18,6 +18,8 @@
         <activity
             android:name=".ui.insert_game.InsertGameDetailActivity"
             android:exported="false" />
+        <activity android:name=".ui.insert_game.InsertGame"
+            android:exported="false" />
         <activity
             android:name=".ui.matches.detail.DetailMatchActivity"
             android:exported="false" />

@@ -9,7 +9,7 @@ object MappingUtils {
             "Anaitasuna" -> Anaitasuna
             "Arsenal" -> Arsenal
             "Aterbea" -> Aterbea
-            "ESIC Gazteak" -> EsicGazteak
+            "Esic Gazteak" -> EsicGazteak
             "Esmeraldeños" -> Esmeraldenos
             "Garre" -> Garre
             "Iturrama" -> Iturrama

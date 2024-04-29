@@ -9,6 +9,8 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.marginStart
 import androidx.fragment.app.DialogFragment
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameDetailBinding
@@ -21,41 +23,79 @@ class PopUpGoalsAssists(
     private var awayGoals: Int,
     private val binding: ActivityInsertGameDetailBinding
 ): DialogFragment() {
+
+    private var scorers = mutableListOf<String>()
+    private var assisters = mutableListOf<String>()
+    private var penaltyScorers = mutableListOf<String>()
+    private var emptySheeters = mutableListOf<String>()
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireContext())
         val view = requireActivity().layoutInflater.inflate(R.layout.item_popup_goals_assists, null)
         builder.setView(view)
         val dialogView = builder.create()
         dialogView.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        initComponents(dialogView, view)
+        initComponents(view)
         return dialogView
     }
 
-    private fun initComponents(dialogView: AlertDialog, view: View) {
-        if (goals == 0 && awayGoals > 0){
-            // TODO THIS PART
-            Toast.makeText(binding.root.context, "Game inserted", Toast.LENGTH_SHORT).show()
-            dialogView.dismiss()
-        } else if (goals == 0 && awayGoals == 0){
-            view.findViewById<TextView>(R.id.tvCleanSheet).visibility = View.GONE
-            view.findViewById<LinearLayout>(R.id.llCleanSheet).visibility = View.GONE
-        } else if (goals > 0 && awayGoals > 0) {
-            view.findViewById<TextView>(R.id.tvGoals).visibility = View.GONE
-            view.findViewById<LinearLayout>(R.id.llGoals).visibility = View.GONE
-            view.findViewById<TextView>(R.id.tvAssists).visibility = View.GONE
-            view.findViewById<LinearLayout>(R.id.llAssists).visibility = View.GONE
-            view.findViewById<TextView>(R.id.tvPenalties).visibility = View.GONE
-            view.findViewById<LinearLayout>(R.id.llPenalties).visibility = View.GONE
+    private fun initComponents(view: View) {
+        if (goals > 0){
+            view.findViewById<ConstraintLayout>(R.id.clGoals).visibility = View.VISIBLE
+            view.findViewById<ConstraintLayout>(R.id.clAssists).visibility = View.VISIBLE
+            view.findViewById<ConstraintLayout>(R.id.clPenalties).visibility = View.VISIBLE
             addGoalsItem(view)
+            addAssistsItem(view)
+        } else if (awayGoals == 0){
+            view.findViewById<ConstraintLayout>(R.id.clCleanSheet).visibility = View.VISIBLE
         } else {
-            println("hajñlafdskf")
+            // TODO insert game
+            Toast.makeText(binding.root.context, "Game inserted", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun addGoalsItem(view: View) {
-        for ( goal in 1..goals){
+        val linearLayout = view.findViewById<LinearLayout>(R.id.llGoals)
+
+        for (goal in 1..goals) {
             val layoutItem = createLayoutItem()
-            view.findViewById<LinearLayout>(R.id.llGoals).addView(layoutItem)
+
+            val params = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+
+            val marginVertical = resources.getDimensionPixelSize(R.dimen.vertical_margin_between_items)
+            params.setMargins(0, marginVertical, 0, marginVertical)
+
+            layoutItem.layoutParams = params
+
+            layoutItem.setOnClickListener {
+                showPlayersPopUp("scorers")
+            }
+            linearLayout.addView(layoutItem)
+        }
+    }
+
+    private fun addAssistsItem(view: View) {
+        showPlayersPopUp("assisters")
+    }
+    private fun showPlayersPopUp(type: String) {
+        val builder = AlertDialog.Builder(requireContext())
+        val dialog = builder.create()
+        val view = requireActivity().layoutInflater.inflate(R.layout.item_popup_insert_starter, null)
+
+        when (type) {
+            "scorers" -> {
+                dialog.setTitle("Select scorer")
+                dialog.setView(view)
+                dialog.show()
+            }
+            "assisters" -> {
+                dialog.setTitle("Select assister")
+                dialog.setView(view)
+                dialog.show()
+            }
         }
     }
 

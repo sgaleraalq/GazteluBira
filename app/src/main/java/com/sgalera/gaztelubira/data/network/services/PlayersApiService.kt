@@ -11,6 +11,7 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
 
     companion object {
         const val PLAYER_STATS = "players_stats"
+        const val PLAYER_TEST = "players_test"
     }
 
     suspend fun getPlayerStats(playerName: String): PlayerStats? {
@@ -34,5 +35,10 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
         }
     } catch (e: Exception) {
         null
+    }
+
+    suspend fun insertPlayerStats(playerStats: PlayerStats) {
+        firebase.db.collection(PLAYER_STATS).document(playerStats.name.name.lowercase(Locale.ROOT))
+            .set(playerStats.toMap()).await()
     }
 }

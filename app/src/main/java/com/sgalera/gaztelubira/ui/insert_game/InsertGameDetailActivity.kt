@@ -1,25 +1,34 @@
 package com.sgalera.gaztelubira.ui.insert_game
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameDetailBinding
 import com.sgalera.gaztelubira.domain.model.MappingUtils.mapTeam
-import com.sgalera.gaztelubira.domain.model.Team
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
+import com.sgalera.gaztelubira.domain.model.players.PlayerStats
+import com.sgalera.gaztelubira.ui.home.MainActivity
 import com.sgalera.gaztelubira.ui.insert_game.adapter.InsertGameAdapter
+import com.sgalera.gaztelubira.ui.stats.StatsState
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     private lateinit var binding: ActivityInsertGameDetailBinding
     private lateinit var insertGameAdapter: InsertGameAdapter
@@ -38,24 +47,22 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         "right_striker" to "",
         "striker" to ""
     )
-    private var teams = arrayListOf(
-        "Anaitasuna",
-        "Arsenal",
-        "Aterbea",
-        "ESIC Gazteak",
-        "Esmeraldeños",
-        "Garre",
-        "Iturrama",
-        "IZN",
-        "La Unica",
-        "Peña School",
-        "San Cristobal"
-        )
     private val viewModel by viewModels<InsertGameViewModel>()
-    private lateinit var localTeam: Team
-    private lateinit var awayTeam: Team
-    private var goals = 0
-    private var awayGoals = 0
+
+    private var home: Int = 0
+    private var away: Int = 0
+    private var homeGoals: Int = 0
+    private var awayGoals: Int = 0
+    private var match: String = ""
+    private var journey: Int = 0
+    private var id: Int = 0
+
+    private var goalList = mutableListOf<String>()
+    private var assistList = mutableListOf<String>()
+    private var penaltyList = mutableListOf<String>()
+    private var cleanSheetList = mutableListOf<String>()
+
+    private var dialog: AlertDialog? = null
 
     override fun onPlayerAdded(player: PlayerInfo) {
         viewModel.state.value.add(player.name)
@@ -66,15 +73,43 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         super.onCreate(savedInstanceState)
         binding = ActivityInsertGameDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initUI()
-    }
+        home            = intent.getIntExtra("homeTeam", 0)
+        away            = intent.getIntExtra("awayTeam", 0)
+        homeGoals       = intent.getIntExtra("homeGoals", 0)
+        awayGoals       = intent.getIntExtra("awayGoals", 0)
+        match           = intent.getStringExtra("match")!!
+        journey         = intent.getIntExtra("journey", 0)
+        id              = intent.getIntExtra("id", 0)
 
-    private fun initUI() {
+        initUI()
         initComponents()
         initListeners()
     }
 
+    private fun initUI() {
+        if (homeGoals > 0) {
+            binding.tvGoals.visibility = View.VISIBLE
+            binding.llGoals.visibility = View.VISIBLE
+            binding.dividerGoals.visibility = View.VISIBLE
+            setGoals()
 
+            binding.tvAssists.visibility = View.VISIBLE
+            binding.llAssists.visibility = View.VISIBLE
+            binding.dividerAssists.visibility = View.VISIBLE
+            setAssists()
+
+            binding.tvPenalties.visibility = View.VISIBLE
+            binding.llPenalties.visibility = View.VISIBLE
+            binding.dividerPenalties.visibility = View.VISIBLE
+            setPenalties()
+        }
+        if (awayGoals == 0 ){
+            binding.tvCleanSheet.visibility = View.VISIBLE
+            binding.llCleanSheet.visibility = View.VISIBLE
+            binding.dividerCleanSheet.visibility = View.VISIBLE
+            setCleanSheet()
+        }
+    }
     private fun initComponents() {
         playerList = viewModel.getPlayers()
         insertGameAdapter = InsertGameAdapter(benchPlayers, this)
@@ -86,9 +121,19 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
                 false
             )
         }
-        binding.psLocalTeam.setItems(teams)
-        binding.psAwayTeam.setItems(teams)
         powerSpinnerBenchList()
+        initResult()
+    }
+
+    private fun initResult() {
+        val homeTeam = mapTeam(getString(home))
+        val awayTeam = mapTeam(getString(away))
+        binding.ivLocalTeam.setImageResource(homeTeam.img)
+        binding.tvLocalTeam.text = getString(homeTeam.name)
+        binding.tvLocalGoals.text = homeGoals.toString()
+        binding.ivAwayTeam.setImageResource(awayTeam.img)
+        binding.tvAwayTeam.text = getString(awayTeam.name)
+        binding.tvAwayGoals.text = awayGoals.toString()
     }
 
     private fun initListeners() {
@@ -99,40 +144,47 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             insertBenchPlayer()
         }
 
-        // Add name and image of the selected team to the TextView and ImageView
-        binding.psLocalTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
-            localTeam = mapTeam(newItem)
-
-            // Set away as Gaztelu
-            awayTeam = mapTeam("Gaztelu Bira")
-            insertTeams()
-        }
-        binding.psAwayTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
-            awayTeam = mapTeam(newItem)
-
-            // Set local as Gaztelu
-            localTeam = mapTeam("Gaztelu Bira")
-            insertTeams()
-        }
         initStartersListeners()
         binding.btnInsertGame.setOnClickListener {
-            insertGoalsAssists()
+            insertGame()
+        }
+        binding.btnDeleteGame.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 
-    private fun insertTeams() {
-        binding.tvLocalTeam.text = this.getString(localTeam.name)
-        binding.ivLocalTeam.setImageResource(localTeam.img)
-
-        binding.tvAwayTeam.text = this.getString(awayTeam.name)
-        binding.ivAwayTeam.setImageResource(awayTeam.img)
-
-        binding.ivLocalTeam.visibility = View.VISIBLE
-        binding.ivAwayTeam.visibility = View.VISIBLE
-
-        binding.psLocalTeam.clearSelectedItem()
-        binding.psAwayTeam.clearSelectedItem()
+    private fun setGoals() {
+        for (i in 0 until homeGoals) {
+            val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
+                .inflate(R.layout.item_add_goal_or_assist, binding.llGoals, false)
+            itemLayout.setOnClickListener { showStatsPopUp("Goal", itemLayout) }
+            binding.llGoals.addView(itemLayout)
+        }
     }
+    private fun setAssists() {
+        val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
+            .inflate(R.layout.item_add_goal_or_assist, binding.llAssists, false)
+        itemLayout.setOnClickListener{ showStatsPopUp("Assist", itemLayout) }
+        binding.llAssists.addView(itemLayout)
+    }
+
+    private fun setPenalties() {
+        val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
+            .inflate(R.layout.item_add_goal_or_assist, binding.llPenalties, false)
+        itemLayout.setOnClickListener{ showStatsPopUp("Penalty", itemLayout) }
+        binding.llPenalties.addView(itemLayout)
+    }
+
+    private fun setCleanSheet() {
+        for (i in 0 until 4){
+            val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
+                .inflate(R.layout.item_add_goal_or_assist, binding.llCleanSheet, false)
+            itemLayout.setOnClickListener { showStatsPopUp("Clean Sheet", itemLayout) }
+            binding.llCleanSheet.addView(itemLayout)
+        }
+    }
+
+
 
     private fun initStartersListeners() {
         binding.ivGoalKeeper.root.setOnClickListener {
@@ -206,7 +258,7 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         dialogView.findViewById<TextView>(R.id.tvStarterPosition).text = popUpText(position)
         dialogView.findViewById<LinearLayout>(R.id.llStarterPlayers).apply {
             removeAllViews()
-            playerList.forEach { player ->
+            playerList.sortedBy { it.name }.forEach { player ->
                 val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
                     .inflate(R.layout.item_insert_starters, this, false)
                 itemLayout.findViewById<TextView>(R.id.tvStarterName).text = player.name
@@ -292,7 +344,6 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         binding.psBenchPlayer.setItems(viewModel.state.value)
     }
 
-
     private fun popUpText(position: String): String {
         return when (position) {
             "goal_keeper" -> "Select Goal Keeper"
@@ -310,63 +361,228 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         }
     }
 
+    private fun showStatsPopUp(stat: String, playerStat: View) {
+        val builder = AlertDialog.Builder(this)
+        val inflater = LayoutInflater.from(this)
+        val view = inflater.inflate(R.layout.item_popup_insert_starter, null)
 
-    private fun insertGoalsAssists() {
-//        if (checkTeams() && checkGoals() && checkPlayers()) {
-//            showGoalsAssistsPopUp()
-//        }
-        showGoalsAssistsPopUp()
+        // Configura la vista antes de crear el diálogo
+        view.findViewById<TextView>(R.id.tvStarterPosition).text = stat
+        view.findViewById<LinearLayout>(R.id.llStarterPlayers).apply {
+            removeAllViews()
+            playerList.sortedBy { it.name }.forEach { player ->
+                val playerName = playerStat.findViewById<TextView>(R.id.tvPlayerName)
+                val playerImage = playerStat.findViewById<ImageView>(R.id.ivGoalPlayer)
+                val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
+                    .inflate(R.layout.item_insert_starters, this, false)
+                itemLayout.findViewById<TextView>(R.id.tvStarterName).text = player.name
+                itemLayout.findViewById<ConstraintLayout>(R.id.parentAddStarter)
+                    .setOnClickListener {
+                        when (stat) {
+                            "Goal" -> {
+                                if (playerImage.visibility == View.VISIBLE) {
+                                    val index = goalList.indexOf(playerName.text.toString())
+                                    goalList.removeAt(index)
+                                    goalList.add(player.name)
+                                } else {
+                                    goalList.add(player.name)
+                                }
+                            }
+                            "Assist" -> {
+                                if (playerImage.visibility == View.VISIBLE) {
+                                    val index = assistList.indexOf(playerName.text.toString())
+                                    assistList.removeAt(index)
+                                    assistList.add(player.name)
+                                } else {
+                                    assistList.add(player.name)
+                                }
+                            }
+                            "Penalty" -> {
+                                if (playerImage.visibility == View.VISIBLE) {
+                                    val index = penaltyList.indexOf(playerName.text.toString())
+                                    penaltyList.removeAt(index)
+                                    penaltyList.add(player.name)
+                                } else {
+                                    penaltyList.add(player.name)
+                                }
+                            }
+                            "Clean Sheet" -> {
+                                if (playerImage.visibility == View.VISIBLE) {
+                                    val index = cleanSheetList.indexOf(playerName.text.toString())
+                                    cleanSheetList.removeAt(index)
+                                    cleanSheetList.add(player.name)
+                                } else {
+                                    cleanSheetList.add(player.name)
+                                }
+                            }
+                        }
+                        playerImage.setImageResource(player.img)
+                        playerImage.visibility = View.VISIBLE
+                        playerName.text = player.name
+                        playerName.visibility = View.VISIBLE
+                        playerStat.findViewById<ImageView>(R.id.ivPlus).visibility = View.INVISIBLE
+
+                        // Dismiss the dialog
+                        dialog?.dismiss()
+                        if (stat == "Assist" || stat == "Penalty" || stat == "Clean Sheet"){
+                            checkStatsLayout(stat)
+                        }
+                    }
+                addView(itemLayout)
+            }
+        }
+
+        // Crea el diálogo después de configurar la vista
+        dialog = builder.setView(view).create()
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.show()
     }
 
-
-    private fun checkTeams(): Boolean {
-        return if (binding.tvLocalTeam.text == binding.tvAwayTeam.text) {
-            Toast.makeText(this, "Please select two different teams", Toast.LENGTH_SHORT).show()
-            false
-        } else if (binding.tvLocalTeam.text != "Gaztelu Bira" && binding.tvAwayTeam.text != "Gaztelu Bira") {
-            Toast.makeText(this, "One of the teams must be Gaztelu Bira", Toast.LENGTH_SHORT).show()
-            false
-        } else if (binding.ivLocalTeam.visibility == View.INVISIBLE || binding.ivAwayTeam.visibility == View.INVISIBLE) {
-            Toast.makeText(this, "Please select both teams", Toast.LENGTH_SHORT).show()
-            false
-        } else {
-            true
+    private fun checkStatsLayout(stat: String) {
+        when (stat) {
+            "Assist" -> {
+                if (binding.llAssists.childCount < homeGoals) {
+                    addLayout(stat, binding.llAssists)
+                }
+            }
+            "Penalty" -> {
+                if (binding.llPenalties.childCount < homeGoals) {
+                    addLayout(stat, binding.llPenalties)
+                }
+            }
+            "Clean Sheet" -> {
+                if (cleanSheetList.size >= 4){
+                    addLayout(stat, binding.llCleanSheet)
+                }
+            }
         }
     }
 
-    private fun checkGoals(): Boolean {
-        return if (binding.etLocalGoals.text.toString() == "" || binding.etAwayGoals.text.toString() == "") {
-            Toast.makeText(this, "Please insert the goals", Toast.LENGTH_SHORT).show()
-            false
-        } else {
-            true
-        }
-    }
-
-    private fun checkPlayers(): Boolean {
-        return if (starterPlayers.containsValue("")) {
-            Toast.makeText(this, "Please select all the starters", Toast.LENGTH_SHORT).show()
-            false
-        } else if (starterPlayers.containsValue(binding.psBenchPlayer.text.toString())) {
-            Toast.makeText(this, "Player can't be in the bench and starter at the same time", Toast.LENGTH_SHORT).show()
-            false
-        } else {
-            true
-        }
-    }
-
-    private fun showGoalsAssistsPopUp() {
-        val popUp = PopUpGoalsAssists(
-            localTeam,
-            awayTeam,
-            goals,
-            awayGoals,
-            binding
-        )
-        popUp.show(supportFragmentManager, "GoalsAssists")
+    private fun addLayout(stat: String, view: LinearLayout) {
+        val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
+            .inflate(R.layout.item_add_goal_or_assist, binding.llCleanSheet, false)
+        itemLayout.setOnClickListener { showStatsPopUp(stat, itemLayout) }
+        view.addView(itemLayout)
     }
 
     private fun insertGame() {
-        println("Game inserted")
+        if (checkAllFields()) {
+            lifecycleScope.launch {
+                loadingState()
+                viewModel.postGame(
+                    getString(home),
+                    homeGoals,
+                    getString(away),
+                    awayGoals,
+                    match,
+                    journey,
+                    id,
+                    starterPlayers,
+                    benchPlayers.map { it.name },
+                    goalList,
+                    assistList
+                )
+
+                viewModel.stateInsertGame.collect { state ->
+                    when (state) {
+                        InsertGameInfoState.Loading -> loadingState()
+                        InsertGameInfoState.Success -> successState()
+                        is InsertGameInfoState.Error -> errorState()
+                    }
+                }
+            }
+        }
     }
+
+    private fun updatePlayerStats(players: List<PlayerStats>) {
+        for (player in players) {
+            if (player.name.toString() in goalList) { player.goals += goalList.count { it == player.name.toString() } }
+            if (player.name.toString() in assistList) { player.assists += assistList.count { it == player.name.toString() } }
+            if (player.name.toString() in penaltyList) { player.penalties += penaltyList.count { it == player.name.toString() } }
+            if (player.name.toString() in cleanSheetList) { player.cleanSheet += 1 }
+            if (player.name.toString() in starterPlayers.values) { player.gamesPlayed += 1 }
+            if (player.name.toString() in benchPlayers.map { it.name }) { player.gamesPlayed += 1 }
+            player.lastRanking = player.ranking
+            player.percentage = getPercentage(player)
+        }
+        var count = 1
+        for (player in players.sortedByDescending { it.percentage!!.toFloat() }) {
+            player.ranking = count
+            count += 1
+        }
+        if (viewModel.insertGameStats(players)){
+            finishSuccess()
+            restartApp()
+        }
+    }
+
+    private fun checkAllFields(): Boolean {
+        if (goalList.size < homeGoals) {
+            Toast.makeText(this, "Please add all the goals", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (awayGoals == 0 && cleanSheetList.size < 4) {
+            Toast.makeText(this, "Please add all the clean sheets", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (awayGoals == 0 && cleanSheetList.size != cleanSheetList.distinct().size) {
+            Toast.makeText(this, "There are two players with the same name in clean sheet list", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (starterPlayers.containsValue("")) {
+            Toast.makeText(this, "Please select all the starters", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (starterPlayers.containsValue(binding.psBenchPlayer.text.toString())) {
+            Toast.makeText(
+                this,
+                "Player can't be in the bench and starter at the same time",
+                Toast.LENGTH_SHORT
+            ).show()
+            return false
+        }
+        return true
+    }
+
+    private fun loadingState() {
+        binding.progressBarInsertGame.visibility = View.VISIBLE
+    }
+
+    private fun errorState(){
+        binding.progressBarInsertGame.visibility = View.GONE
+        Toast.makeText(this, "Ha ocurrido un error, inténtelo más tarde", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun successState(){
+        lifecycleScope.launch {
+            viewModel.getAllPlayerInfo()
+            viewModel.allPlayersState.collect{
+                when (it) {
+                    is StatsState.Loading -> {
+                        loadingState()
+                    }
+                    is StatsState.Success -> {
+                        val players = it.data
+                        updatePlayerStats(players)
+                    }
+                    is StatsState.Error -> {
+                        errorState()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun finishSuccess() {
+        binding.progressBarInsertGame.visibility = View.GONE
+        Toast.makeText(this, "Partido insertado correctamente", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun restartApp() {
+        Thread.sleep(2000)
+        val intent = Intent(applicationContext, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        applicationContext.startActivity(intent)
+        if (applicationContext is Activity) {
+            (applicationContext as Activity).finish()
+        }
+        Runtime.getRuntime().exit(0)
+    }
+
 }

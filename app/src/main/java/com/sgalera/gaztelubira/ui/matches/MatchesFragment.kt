@@ -1,8 +1,6 @@
 package com.sgalera.gaztelubira.ui.matches
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +25,8 @@ class MatchesFragment: Fragment() {
     private lateinit var matchesAdapter: MatchesAdapter
     private val matchesViewModel by viewModels<MatchesViewModel>()
     private lateinit var sharedPreferences: SharedPreferences
+    private var journey: Int = 0
+    private var id: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,6 +88,11 @@ class MatchesFragment: Fragment() {
     private fun successState(state: MatchInfoState.Success) {
         binding.progressBar.visibility = View.INVISIBLE
         matchesAdapter.updateList(state.matchesList.sortedByDescending { it.id })
+
+        val lastMatch = state.matchesList.sortedByDescending { it.id }[0]
+        id = lastMatch.id
+        // Get the journey of the last match where journey is "Jornada 21" or "Jornada 1"
+        journey = lastMatch.journey.split(" ")[1].toInt()
     }
 
     private fun errorState(error: String) {
@@ -107,8 +112,12 @@ class MatchesFragment: Fragment() {
     }
 
     private fun insertGame() {
-        findNavController().navigate(
-            MatchesFragmentDirections.actionMatchesFragmentToInsertGameDetailActivity()
-        )
+        if (id > 0 && journey > 0){
+            findNavController().navigate(
+                MatchesFragmentDirections.actionMatchesFragmentToInsertGame(journey+1, id+1)
+            )
+        } else{
+            Toast.makeText(context, "Please wait until matches are loaded", Toast.LENGTH_SHORT).show()
+        }
     }
 }

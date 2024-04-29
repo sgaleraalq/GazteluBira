@@ -6,6 +6,7 @@ import com.sgalera.gaztelubira.data.provider.PlayersProvider
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,7 +15,7 @@ import javax.inject.Inject
 class StatsViewModel @Inject constructor(private val playersProvider: PlayersProvider): ViewModel() {
 
     private var _state = MutableStateFlow<StatsState>(StatsState.Loading)
-    val state = _state
+    val state: StateFlow<StatsState> = _state
 
     init {
         viewModelScope.launch {
@@ -25,7 +26,6 @@ class StatsViewModel @Inject constructor(private val playersProvider: PlayersPro
             } else {
                 _state.value = StatsState.Error("Ha ocurrido un error, intentelo más tarde")
             }
-
         }
     }
 }
