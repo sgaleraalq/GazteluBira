@@ -41,13 +41,15 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
     }
 
     suspend fun insertPlayerStats(playerStats: PlayerStats) {
-        firebase.db.collection(PLAYER_TEST).document(playerStats.information!!.name.lowercase(Locale.ROOT))
+        firebase.db.collection(PLAYER_TEST)
+            .document(playerStats.information!!.name.lowercase(Locale.ROOT))
             .set(playerStats.toMap()).await()
     }
 
     suspend fun playerInformation(playerName: String): PlayerInformation? {
-        val document = firebase.db.collection(PLAYERS).document(playerName.lowercase(Locale.ROOT)).get()
-            .await()
+        val document =
+            firebase.db.collection(PLAYERS).document(playerName.lowercase(Locale.ROOT)).get()
+                .await()
         if (document != null) {
             try {
                 document.toObject(PlayerInfoResponse::class.java)
@@ -59,34 +61,17 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
         return null
     }
 
-    suspend fun getAllPlayers(): ArrayList<String> {
-        // TODO
-        return arrayListOf(
-            "Pedro",
-            "Jon",
-            "Asier",
-            "Manu",
-            "Xabi",
-            "Oso",
-            "Diego",
-            "Mikel",
-            "Gorka",
-            "Arrondo",
-            "Bryant",
-            "Dani",
-            "Nando",
-            "Haaland",
-            "David",
-            "Aaron",
-            "Roson",
-            "Mugueta",
-            "Fran",
-            "Iker",
-            "Larra",
-            "Unai",
-            "Madariaga",
-            "Lopez",
-            "Emilio"
-        )
+    // Gets all player information
+    suspend fun getAllPlayers(): List<PlayerInformation>? = try {
+        val collection = firebase.db.collection(PLAYERS).get().await()
+        if (collection.isEmpty) {
+            null
+        } else {
+            collection.documents.map {
+                it.toObject(PlayerInfoResponse::class.java)!!.toDomain()
+            }
+        }
+    } catch (e: Exception) {
+        null
     }
 }

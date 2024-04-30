@@ -1,4 +1,3 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -48,7 +47,7 @@ android {
         jvmTarget = "1.8"
     }
 
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
         dataBinding = true
         buildConfig = true
@@ -72,9 +71,9 @@ dependencies {
     annotationProcessor(libs.compiler)
 
     // Retrofit
-    implementation (libs.retrofit)
-    implementation (libs.converter.gson)
-    implementation (libs.logging.interceptor)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
 
     // Firebase
     implementation(platform(libs.firebase.bom))
@@ -82,7 +81,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     // Firebase auth
     implementation("com.google.firebase:firebase-auth")
-    
+
     // Progress View
     implementation(libs.progressview)
 
