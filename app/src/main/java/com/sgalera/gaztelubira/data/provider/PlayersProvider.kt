@@ -1,7 +1,6 @@
 package com.sgalera.gaztelubira.data.provider
 
 import com.sgalera.gaztelubira.data.network.services.PlayersApiService
-import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import javax.inject.Inject
 

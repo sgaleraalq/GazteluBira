@@ -3,8 +3,10 @@ package com.sgalera.gaztelubira.ui.player_compare
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.data.provider.PlayersProvider
+import com.sgalera.gaztelubira.domain.PlayerInformationList
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
+import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +20,6 @@ class PlayerComparisonViewModel @Inject constructor(
     private val playerComparisonProvider: PlayersProvider
 ) : ViewModel() {
 
-    // TODO change flow, not a good practice for this scenario
     private var _state = MutableStateFlow<PlayerComparisonState>(PlayerComparisonState.Loading)
     val state: StateFlow<PlayerComparisonState> = _state
 
@@ -32,6 +33,10 @@ class PlayerComparisonViewModel @Inject constructor(
                 _state.value = PlayerComparisonState.Error("Ha ocurrido un error, inténtelo de nuevo más tarde")
             }
         }
+    }
+
+    fun getAllPlayerList(): List<PlayerInformation>?{
+        return PlayerInformationList.players
     }
 
     fun getPlayerList(): List<PlayerInfo> {
