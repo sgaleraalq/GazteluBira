@@ -58,4 +58,35 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
         }
         return null
     }
+
+    fun getAllPlayers(): ArrayList<String> {
+        // TODO
+        return arrayListOf(
+            "Pedro",
+            "Jon",
+            "Asier",
+            "Manu",
+            "Xabi",
+            "Oso",
+            "Diego",
+            "Mikel",
+            "Gorka",
+            "Arrondo",
+            "Bryant",
+            "Dani",
+            "Nando",
+            "Haaland",
+            "David",
+            "Aaron",
+            "Roson",
+            "Mugueta",
+            "Fran",
+            "Iker",
+            "Larra",
+            "Unai",
+            "Madariaga",
+            "Lopez",
+            "Emilio"
+        )
+    }
 }
