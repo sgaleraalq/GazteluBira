@@ -11,10 +11,12 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.stats.StatsState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,7 +37,7 @@ class InsertGameViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            _state.value = playersProvider.getAllPlayers()
+            _state.value = withContext(Dispatchers.IO){ playersProvider.getAllPlayers() }
         }
     }
 

@@ -59,7 +59,7 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
         return null
     }
 
-    fun getAllPlayers(): ArrayList<String> {
+    suspend fun getAllPlayers(): ArrayList<String> {
         // TODO
         return arrayListOf(
             "Pedro",
