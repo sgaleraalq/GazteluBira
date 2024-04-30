@@ -35,6 +35,7 @@ class InsertGameViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+//            _state.value = getAllPlayers()
             val playerNames = arrayListOf(
                 "Pedro",
                 "Jon",
