@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentComparePlayersBinding
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
@@ -195,7 +196,7 @@ class PlayerCompareFragment : Fragment() {
     private fun initComponents() {
         // Main ppal components player one
         binding.tvPlayerOneName.text = playerOne.information!!.name
-//        binding.ivPlayerOne.setImageResource(playerOne.name.img)
+        Glide.with(requireContext()).load(playerOne.information!!.img).into(binding.ivPlayerOne)
         binding.tvDorsalPlayerOne.text = playerOne.information!!.dorsal.toString()
         binding.tvPositionPlayerOne.text = playerOne.position
         binding.tvParticipationPlayerOne.text = "${playerOne.percentage.toString()} %"
@@ -207,7 +208,7 @@ class PlayerCompareFragment : Fragment() {
 
         // Main ppal components player two
         binding.tvPlayerTwoName.text = playerTwo.information!!.name
-//        binding.ivPlayerTwo.setImageResource(playerTwo.name.img)
+        Glide.with(requireContext()).load(playerTwo.information!!.img).into(binding.ivPlayerTwo)
         binding.tvDorsalPlayerTwo.text = playerTwo.information!!.dorsal.toString()
         binding.tvPositionPlayerTwo.text = playerTwo.position
         binding.tvParticipationPlayerTwo.text = "${playerTwo.percentage.toString()} %"
