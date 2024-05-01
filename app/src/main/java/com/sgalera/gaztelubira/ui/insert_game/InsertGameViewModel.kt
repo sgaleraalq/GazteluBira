@@ -2,7 +2,6 @@ package com.sgalera.gaztelubira.ui.insert_game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.data.provider.MatchesProvider
 import com.sgalera.gaztelubira.data.provider.PlayersProvider
 import com.sgalera.gaztelubira.data.response.MatchResponse
@@ -237,9 +236,9 @@ class InsertGameViewModel @Inject constructor(
         assistants: List<String>
     ): MatchResponse {
         return MatchResponse(
-            homeTeam = homeTeam,
+            homeTeam = null,
             homeGoals = homeGoals,
-            awayTeam = awayTeam,
+            awayTeam = null,
             awayGoals = awayGoals,
             starters = starters,
             match = match,

@@ -13,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.navArgs
+import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityDetailMatchBinding
 import com.sgalera.gaztelubira.domain.model.matches.Match
@@ -75,15 +76,14 @@ class DetailMatchActivity : AppCompatActivity() {
         binding.clStarters.visibility = View.VISIBLE
 
 
-        // TODO change to call to the database
         // Local
-        binding.ivLocalTeam.setImageResource(match.local.img)
-        binding.tvLocalTeam.text = this.getString(match.local.name)
+        Glide.with(this).load(match.local!!.img).into(binding.ivLocalTeam)
+        binding.tvLocalTeam.text = match.local.name
         binding.tvLocalGoals.text = match.localGoals.toString()
 
         // Visitor
-        binding.ivAwayTeam.setImageResource(match.visitor.img)
-        binding.tvAwayTeam.text = this.getString(match.visitor.name)
+        Glide.with(this).load(match.visitor!!.img).into(binding.ivAwayTeam)
+        binding.tvAwayTeam.text = match.visitor.name
         binding.tvAwayGoals.text = match.visitorGoals.toString()
 
         initLinearLayouts(match.scorers, match.assistants)

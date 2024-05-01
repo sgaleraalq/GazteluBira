@@ -7,8 +7,8 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 data class Match(
     val id: Int,
     val match: String,
-    val local: TeamInformation,
-    val visitor: TeamInformation,
+    val local: TeamInformation?,
+    val visitor: TeamInformation?,
     val localGoals: Int,
     val visitorGoals: Int,
     val scorers: List<String>,

@@ -28,7 +28,7 @@ class MatchesApiService @Inject constructor(private val firebase: FirebaseClient
     suspend fun getMatch(id: Int): Match? {
         val document = firebase.db.collection(MATCHES_STATS).document(id.toString()).get().await()
         if (document != null){
-            return document.toObject(MatchResponse::class.java)!!.toDomain()
+            return document.toObject(MatchResponse::class.java)!!.toDomain(teamsApiService = teamsApiService)
         }
         return null
     }
