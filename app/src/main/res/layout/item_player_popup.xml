@@ -18,6 +18,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ProgressBar
+            android:id="@+id/pbLoading"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:indeterminateTint="@color/gold"
+            app:layout_constraintBottom_toBottomOf="@id/cvImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cvImage" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cvImage"
             android:layout_width="60dp"
@@ -34,8 +44,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:contentDescription="@string/description_football_player"
-                android:src="@drawable/img_player_david" />
+                android:background="@color/transparent"
+                android:contentDescription="@string/description_football_player" />
 
         </androidx.cardview.widget.CardView>
 
