@@ -35,10 +35,6 @@ class PlayerComparisonViewModel @Inject constructor(
         }
     }
 
-    fun getAllPlayerList(): List<PlayerInformation>?{
-        return PlayerInformationList.players
-    }
-
     fun getPlayerList(): List<PlayerInfo> {
         return listOf(
             Pedro,

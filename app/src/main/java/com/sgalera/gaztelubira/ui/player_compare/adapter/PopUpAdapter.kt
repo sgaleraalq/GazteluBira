@@ -1,6 +1,7 @@
 package com.sgalera.gaztelubira.ui.player_compare.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +11,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.sgalera.gaztelubira.R
-import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
+import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 
 class PopUpAdapter(
-    private var playerList: List<PlayerInfo> = emptyList(),
-    private var selectedPlayers: MutableList<PlayerInfo>,
+    private var playerList: List<PlayerInformation> = emptyList(),
+    private var selectedPlayers: MutableList<PlayerInformation>,
     private val showDoneButton: () -> Unit,
     private val hideDoneButton: () -> Unit
 ) : RecyclerView.Adapter<PopUpViewHolder>() {
@@ -30,6 +31,9 @@ class PopUpAdapter(
         val player = playerList[position]
         holder.render(player)
 
+        holder.itemView.layoutParams.width = 100.dpToPx(holder.itemView.context)
+        holder.itemView.layoutParams.height = 100.dpToPx(holder.itemView.context)
+
         // Marcar la vista como seleccionada si el jugador está en la lista de seleccionados
         if (selectedPlayers.contains(player)) {
             selectPlayer(holder.itemView)
@@ -41,7 +45,7 @@ class PopUpAdapter(
         }
     }
 
-    private fun dealWithSelection(holder: PopUpViewHolder, player: PlayerInfo) {
+    private fun dealWithSelection(holder: PopUpViewHolder, player: PlayerInformation) {
         if (selectedPlayers.contains(player)) {
             unSelectPlayer(holder.itemView)
             selectedPlayers.remove(player)
@@ -86,9 +90,14 @@ class PopUpAdapter(
 
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateList(list: List<PlayerInfo>) {
+    fun updateList(list: List<PlayerInformation>) {
         playerList = list
         notifyDataSetChanged()
+    }
+
+    private fun Int.dpToPx(context: Context): Int {
+        val scale = context.resources.displayMetrics.density
+        return (this * scale + 0.5f).toInt()
     }
 }
 

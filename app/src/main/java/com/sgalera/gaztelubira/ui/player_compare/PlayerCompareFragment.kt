@@ -22,6 +22,7 @@ import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentComparePlayersBinding
 import com.sgalera.gaztelubira.domain.PlayerInformationList
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
+import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.player_compare.adapter.PopUpAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,6 +37,8 @@ class PlayerCompareFragment : Fragment() {
     private val popUpList: List<PlayerInfo> by lazy {
         viewModel.getPlayerList()
     }
+
+    private val popUpPlayerList: List<PlayerInformation> = PlayerInformationList.players!!
 
     private lateinit var playerOne: PlayerStats
     private lateinit var playerTwo: PlayerStats
@@ -93,7 +96,7 @@ class PlayerCompareFragment : Fragment() {
         val popUpRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewPlayers)
         val doneButtonPopUp = view.findViewById<CardView>(R.id.cvDone)
         val popUpAdapter = PopUpAdapter(
-            playerList = popUpList,
+            playerList = popUpPlayerList,
             selectedPlayers = mutableListOf(),
             showDoneButton = {
                 doneButtonPopUp.visibility = View.VISIBLE
@@ -102,7 +105,7 @@ class PlayerCompareFragment : Fragment() {
                 doneButtonPopUp.visibility = View.GONE
             })
 
-        popUpAdapter.updateList(popUpList)
+        popUpAdapter.updateList(popUpPlayerList)
         popUpRecyclerView.apply {
             adapter = popUpAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
