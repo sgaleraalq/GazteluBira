@@ -21,7 +21,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentComparePlayersBinding
-import com.sgalera.gaztelubira.domain.PlayerInformationList
+import com.sgalera.gaztelubira.domain.InformationList
 import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.player_compare.adapter.PopUpAdapter
@@ -35,7 +35,7 @@ class PlayerCompareFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModels<PlayerComparisonViewModel>()
 
-    private val popUpPlayerList: List<PlayerInformation> = PlayerInformationList.players!!
+    private val popUpPlayerList: List<PlayerInformation> = InformationList.players!!
 
     private lateinit var playerOneReference: DocumentReference
     private lateinit var playerOne: PlayerStats

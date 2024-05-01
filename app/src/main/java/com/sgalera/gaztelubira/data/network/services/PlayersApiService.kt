@@ -74,5 +74,4 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
     } catch (e: Exception) {
         null
     }
-
 }
