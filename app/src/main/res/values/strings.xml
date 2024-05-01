@@ -57,19 +57,7 @@
     <string name="loggedAsAdmin">Logged as: Admin</string>
 
     // Teams
-    <string name="anaitasuna">Anaitasuna</string>
-    <string name="arsenal">Arsenal</string>
-    <string name="aterbea">Aterbea</string>
-    <string name="esic_gazteak">Esic Gazteak</string>
-    <string name="esmeraldeños">Esmeraldeños</string>
-    <string name="garre">Garre</string>
-    <string name="iturrama">Iturrama</string>
-    <string name="izn">Izn</string>
-    <string name="la_unica">La Unica</string>
-    <string name="pena_school">Peña School</string>
-    <string name="san_cristobal">San Cristobal</string>
-    <string name="tingla2_legends">Tingla2 Legends</string>
-    <string name="lezkairu">Lezkairu</string>
+    <string name="error">Error</string>
 
     // Image descriptions
     <string name="description_gaztelu_bira">Gaztelu Bira image</string>

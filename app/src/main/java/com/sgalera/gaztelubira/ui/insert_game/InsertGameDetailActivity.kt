@@ -17,9 +17,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameDetailBinding
-import com.sgalera.gaztelubira.domain.model.MappingUtils.mapTeam
+import com.sgalera.gaztelubira.domain.model.TeamInformation
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.home.MainActivity
@@ -126,13 +127,16 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     }
 
     private fun initResult() {
-        val homeTeam = mapTeam(getString(home))
-        val awayTeam = mapTeam(getString(away))
-        binding.ivLocalTeam.setImageResource(homeTeam.img)
-        binding.tvLocalTeam.text = getString(homeTeam.name)
+//        val homeTeam = mapTeam(getString(home))
+//        val awayTeam = mapTeam(getString(away))
+        val homeTeam = TeamInformation("Error", "Error")
+        val awayTeam = TeamInformation("Error", "Error")
+        binding.tvLocalTeam.text = homeTeam.name
+        Glide.with(this).load(homeTeam.img).into(binding.ivLocalTeam)
         binding.tvLocalGoals.text = homeGoals.toString()
-        binding.ivAwayTeam.setImageResource(awayTeam.img)
-        binding.tvAwayTeam.text = getString(awayTeam.name)
+
+        binding.tvAwayTeam.text = awayTeam.name
+        Glide.with(this).load(awayTeam.img).into(binding.ivAwayTeam)
         binding.tvAwayGoals.text = awayGoals.toString()
     }
 

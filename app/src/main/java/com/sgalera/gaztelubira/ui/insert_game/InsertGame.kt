@@ -6,16 +6,16 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameBinding
-import com.sgalera.gaztelubira.domain.model.MappingUtils
-import com.sgalera.gaztelubira.domain.model.Team
+import com.sgalera.gaztelubira.domain.model.TeamInformation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class InsertGame : AppCompatActivity() {
-    private var homeTeam: Team? = null
-    private var awayTeam: Team? = null
+    private var homeTeam: TeamInformation? = null
+    private var awayTeam: TeamInformation? = null
 
     private var teams = arrayListOf(
         "Anaitasuna",
@@ -82,17 +82,17 @@ class InsertGame : AppCompatActivity() {
 
         // Set teams with Power Spinners
         binding.psHomeTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
-            homeTeam = MappingUtils.mapTeam(newItem)
+            homeTeam = null
 
             // Set away as Gaztelu
-            awayTeam = MappingUtils.mapTeam("Gaztelu Bira")
+            awayTeam = null
             insertTeams()
         }
         binding.psAwayTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
-            awayTeam = MappingUtils.mapTeam(newItem)
+            awayTeam = null
 
             // Set local as Gaztelu
-            homeTeam = MappingUtils.mapTeam("Gaztelu Bira")
+            homeTeam = null
             insertTeams()
         }
     }
@@ -103,11 +103,11 @@ class InsertGame : AppCompatActivity() {
     }
 
     private fun insertTeams() {
-        binding.tvHomeTeam.text = this.getString(homeTeam!!.name)
-        binding.ivHomeTeam.setImageResource(homeTeam!!.img)
+        binding.tvHomeTeam.text = homeTeam!!.name
+        Glide.with(this).load(homeTeam!!.img).into(binding.ivHomeTeam)
 
-        binding.tvAwayTeam.text = this.getString(awayTeam!!.name)
-        binding.ivAwayTeam.setImageResource(awayTeam!!.img)
+        binding.tvAwayTeam.text = awayTeam!!.name
+        Glide.with(this).load(awayTeam!!.img).into(binding.ivAwayTeam)
 
         binding.ivHomeTeam.visibility = View.VISIBLE
         binding.ivAwayTeam.visibility = View.VISIBLE
