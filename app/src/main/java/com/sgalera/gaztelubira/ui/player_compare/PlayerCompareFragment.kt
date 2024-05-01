@@ -71,14 +71,6 @@ class PlayerCompareFragment : Fragment() {
         binding.btnChooseTwoPlayers.setOnClickListener {
             showPlayerComparisonPopUp(null, null)
         }
-
-        // Change only one playerStats
-        binding.tvPlayerOneName.setOnClickListener {
-            showPlayerComparisonPopUp(null, viewModel.mapPlayer(binding.tvPlayerTwoName.text))
-        }
-        binding.tvPlayerTwoName.setOnClickListener {
-            showPlayerComparisonPopUp(viewModel.mapPlayer(binding.tvPlayerOneName.text), null)
-        }
     }
 
     private fun showPlayerComparisonPopUp(playerOne: PlayerInformation?, playerTwo: PlayerInformation?) {
