@@ -1,15 +1,11 @@
 package com.sgalera.gaztelubira.data.network.services
 
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.data.network.firebase.FirebaseClient
 import com.sgalera.gaztelubira.data.response.MatchInfoResponse
 import com.sgalera.gaztelubira.data.response.MatchResponse
 import com.sgalera.gaztelubira.domain.model.matches.Match
 import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
 import kotlinx.coroutines.tasks.await
-import java.util.concurrent.CompletableFuture
 import javax.inject.Inject
 
 class MatchesApiService @Inject constructor(private val firebase: FirebaseClient, private val teamsApiService: TeamsApiService) {
@@ -23,9 +19,7 @@ class MatchesApiService @Inject constructor(private val firebase: FirebaseClient
         if (collection.isEmpty) {
             null
         } else {
-            val document = collection.documents.map { it.toObject(MatchInfoResponse::class.java)!!.toDomain( teamsApiService = teamsApiService) }
-            println(document)
-            document
+            collection.documents.map { it.toObject(MatchInfoResponse::class.java)!!.toDomain( teamsApiService = teamsApiService) }
         }
     } catch (e: Exception) {
         null

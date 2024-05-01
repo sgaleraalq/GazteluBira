@@ -1,10 +1,8 @@
 package com.sgalera.gaztelubira.data.response
 
-import com.google.firebase.Firebase
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.PropertyName
 import com.sgalera.gaztelubira.data.network.services.TeamsApiService
-import com.sgalera.gaztelubira.domain.model.TeamInformation
 import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
 
 data class MatchInfoResponse(
@@ -17,10 +15,8 @@ data class MatchInfoResponse(
     val journey: String = ""
 ) {
     suspend fun toDomain(teamsApiService: TeamsApiService): MatchInfo {
-        println(homeTeam)
         val homeTeamInfo = homeTeam?.let { teamsApiService.getTeam(it) }
         val awayTeamInfo = awayTeam?.let { teamsApiService.getTeam(it) }
-        println("home team info $homeTeamInfo")
 
         return MatchInfo(
             id = id,
