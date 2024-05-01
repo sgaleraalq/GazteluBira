@@ -31,6 +31,7 @@ class PopUpAdapter(
         val player = playerList[position]
         holder.render(player)
 
+        // TODO maybe fix width and height when recycling views
         holder.itemView.layoutParams.width = 100.dpToPx(holder.itemView.context)
         holder.itemView.layoutParams.height = 100.dpToPx(holder.itemView.context)
 

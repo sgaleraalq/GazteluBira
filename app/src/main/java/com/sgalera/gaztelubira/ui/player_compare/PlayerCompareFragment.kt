@@ -18,10 +18,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentComparePlayersBinding
 import com.sgalera.gaztelubira.domain.PlayerInformationList
-import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.player_compare.adapter.PopUpAdapter
@@ -34,16 +34,14 @@ class PlayerCompareFragment : Fragment() {
     private var _binding: FragmentComparePlayersBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModels<PlayerComparisonViewModel>()
-    private val popUpList: List<PlayerInfo> by lazy {
-        viewModel.getPlayerList()
-    }
 
     private val popUpPlayerList: List<PlayerInformation> = PlayerInformationList.players!!
 
+    private lateinit var playerOneReference: DocumentReference
     private lateinit var playerOne: PlayerStats
+
+    private lateinit var playerTwoReference: DocumentReference
     private lateinit var playerTwo: PlayerStats
-    private lateinit var playerOneName: String
-    private lateinit var playerTwoName: String
 
     private var isPlayerOneLoaded = false
     private var isPlayerTwoLoaded = false
@@ -83,7 +81,7 @@ class PlayerCompareFragment : Fragment() {
         }
     }
 
-    private fun showPlayerComparisonPopUp(playerOne: PlayerInfo?, playerTwo: PlayerInfo?) {
+    private fun showPlayerComparisonPopUp(playerOne: PlayerInformation?, playerTwo: PlayerInformation?) {
         val builder = AlertDialog.Builder(requireContext())
         val inflater = LayoutInflater.from(requireContext())
         val view = inflater.inflate(R.layout.item_popup, null)
@@ -116,8 +114,8 @@ class PlayerCompareFragment : Fragment() {
         }
     }
 
-    private fun selectPlayers(playerOne: PlayerInfo?, playerTwo: PlayerInfo?): List<PlayerInfo> {
-        popUpList.forEach { player ->
+    private fun selectPlayers(playerOne: PlayerInformation?, playerTwo: PlayerInformation?): List<PlayerInformation> {
+        popUpPlayerList.forEach { player ->
             if (player != playerOne && player != playerTwo) {
                 player.selected = false
             }
@@ -125,7 +123,7 @@ class PlayerCompareFragment : Fragment() {
                 player.selected = true
             }
         }
-        return popUpList
+        return popUpPlayerList
     }
     private fun showPlayersInfo() {
         binding.clMessiVsCristiano.visibility = View.GONE
@@ -134,64 +132,77 @@ class PlayerCompareFragment : Fragment() {
     }
 
     private fun fetchData() {
-        getPlayerInfo()
-        getAllStats()
+        playerOneReference = popUpPlayerList.find { it.selected }!!.stats!!
+        playerTwoReference = popUpPlayerList.findLast { it.selected }!!.stats!!
+
+        getPlayerOneStats()
+        getPlayerTwoStats()
     }
 
-    private fun getPlayerInfo() {
-        playerOneName = ""
-        playerTwoName = ""
-        for (element in popUpList){
-            if (element.selected){
-                if (playerOneName.isNotEmpty()){
-                    playerTwoName = element.name
-                } else {
-                    playerOneName = element.name
-                }
-            }
-        }
-    }
-
-    private fun getAllStats() {
+    private fun getPlayerOneStats() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getPlayerStats(playerOneName, 1)
-                viewModel.getPlayerStats(playerTwoName, 2)
-                viewModel.state.collect { state ->
+                viewModel.getPlayerStatsPlayerOne(playerOneReference)
+                viewModel.statePlayerOne.collect { state ->
                     when (state) {
-                        is PlayerComparisonState.Loading -> loadingState()
-                        is PlayerComparisonState.Success -> successState(state.playerStats, state.id)
-                        is PlayerComparisonState.Error -> errorState(state.error)
+                        is PlayerComparisonState.Loading -> loadingStatePlayerOne()
+                        is PlayerComparisonState.Success -> successStatePlayerOne(state.playerStats)
+                        is PlayerComparisonState.Error -> errorStatePlayerOne(state.error)
                     }
                 }
             }
         }
     }
 
-    private fun loadingState() {
+    private fun loadingStatePlayerOne() {
         binding.pbPlayerOne.visibility = View.VISIBLE
-        binding.pbPlayerTwo.visibility = View.VISIBLE
     }
 
-    private fun errorState(error: String) {
+    private fun errorStatePlayerOne(error: String) {
         binding.pbPlayerOne.visibility = View.INVISIBLE
         binding.pbPlayerTwo.visibility = View.INVISIBLE
         Toast.makeText(requireContext(), "Ha ocurrido un error $error", Toast.LENGTH_SHORT).show()
-
     }
 
-    private fun successState(playerStats: PlayerStats, id: Int) {
+    private fun successStatePlayerOne(playerStats: PlayerStats) {
+        binding.pbPlayerOne.visibility = View.INVISIBLE
+        playerOne = playerStats
+        isPlayerOneLoaded = true
+        if (isPlayerTwoLoaded){
+            initComponents()
+        }
+    }
+
+    private fun getPlayerTwoStats() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getPlayerStatsPlayerTwo(playerTwoReference)
+                viewModel.statePlayerTwo.collect { state ->
+                    when (state) {
+                        is PlayerComparisonState.Loading -> loadingStatePlayerTwo()
+                        is PlayerComparisonState.Success -> successStatePlayerTwo(state.playerStats)
+                        is PlayerComparisonState.Error -> errorStatePlayerTwo(state.error)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun loadingStatePlayerTwo() {
+        binding.pbPlayerTwo.visibility = View.VISIBLE
+    }
+
+    private fun errorStatePlayerTwo(error: String) {
         binding.pbPlayerOne.visibility = View.INVISIBLE
         binding.pbPlayerTwo.visibility = View.INVISIBLE
+        Toast.makeText(requireContext(), "Ha ocurrido un error $error", Toast.LENGTH_SHORT).show()
+    }
 
-        if (id == 1){
-            playerOne = playerStats
-            isPlayerOneLoaded = true
-        } else if (id == 2) {
-            playerTwo = playerStats
-            isPlayerTwoLoaded = true
-        }
-        if (isPlayerOneLoaded && isPlayerTwoLoaded){
+    private fun successStatePlayerTwo(playerStats: PlayerStats) {
+        binding.pbPlayerTwo.visibility = View.INVISIBLE
+        playerTwo = playerStats
+        isPlayerTwoLoaded = true
+        if (isPlayerOneLoaded){
             initComponents()
         }
     }
