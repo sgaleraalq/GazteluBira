@@ -6,9 +6,6 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import javax.inject.Inject
 
 class PlayersProvider @Inject constructor(private val playersApiService: PlayersApiService) {
-    suspend fun getPlayerStats(playerName: String): PlayerStats? {
-        return playersApiService.getPlayerStats(playerName)
-    }
 
     suspend fun getPlayerStatsByReference(playerReference: DocumentReference): PlayerStats? {
         return playersApiService.getPlayerStatsByReference(playerReference)

@@ -18,16 +18,6 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
         const val PLAYERS = "players"
     }
 
-    suspend fun getPlayerStats(playerName: String): PlayerStats? {
-        val document =
-            firebase.db.collection(PLAYER_STATS).document(playerName.lowercase(Locale.ROOT)).get()
-                .await()
-        if (document != null) {
-            return document.toObject(PlayerStatsResponse::class.java)!!.toDomain()
-        }
-        return null
-    }
-
     suspend fun getPlayerStatsByReference(playerReference: DocumentReference): PlayerStats? {
         val document = playerReference.get().await()
         return if (document != null) {
