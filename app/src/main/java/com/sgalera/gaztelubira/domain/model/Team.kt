@@ -20,6 +20,6 @@ sealed class Team(val name: Int, val img: Int) {
 }
 
 data class TeamInformation(
-    val name: Team,
-    val img: String
+    val name: String = "",
+    val img: String = ""
 )
