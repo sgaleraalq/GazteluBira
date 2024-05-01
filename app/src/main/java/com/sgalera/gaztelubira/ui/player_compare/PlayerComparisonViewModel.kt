@@ -2,11 +2,13 @@ package com.sgalera.gaztelubira.ui.player_compare
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.data.provider.PlayersProvider
 import com.sgalera.gaztelubira.domain.PlayerInformationList
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
+import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,75 +25,58 @@ class PlayerComparisonViewModel @Inject constructor(
     private var _state = MutableStateFlow<PlayerComparisonState>(PlayerComparisonState.Loading)
     val state: StateFlow<PlayerComparisonState> = _state
 
+    private var _statePlayerOne = MutableStateFlow<PlayerComparisonState>(PlayerComparisonState.Loading)
+    val statePlayerOne: StateFlow<PlayerComparisonState> = _statePlayerOne
+
+    private var _statePlayerTwo = MutableStateFlow<PlayerComparisonState>(PlayerComparisonState.Loading)
+    val statePlayerTwo: StateFlow<PlayerComparisonState> = _statePlayerTwo
+
     fun getPlayerStats(playerName: String, id: Int) {
         viewModelScope.launch {
             _state.value = PlayerComparisonState.Loading
             val result = withContext(Dispatchers.IO) { playerComparisonProvider.getPlayerStats(playerName) }
             if (result != null){
-                _state.value = PlayerComparisonState.Success(result, id)
+                _state.value = PlayerComparisonState.Success(result)
             } else {
                 _state.value = PlayerComparisonState.Error("Ha ocurrido un error, inténtelo de nuevo más tarde")
             }
         }
     }
 
-    fun getPlayerList(): List<PlayerInfo> {
-        return listOf(
-            Pedro,
-            Jon,
-            Asier,
-            Manu,
-            Xabi,
-            Oso,
-            Diego,
-            Mikel,
-            Gorka,
-            Arrondo,
-            Dani,
-            Nando,
-            Haaland,
-            David,
-            Aaron,
-            Mugueta,
-            Fran,
-            Iker,
-            Larra,
-            Unai,
-            Madariaga,
-            Bryant,
-            Roson,
-            Lopez,
-            Emilio
+    fun getPlayerStatsPlayerOne(playerReference: DocumentReference): PlayerStats? {
+        viewModelScope.launch {
+            _statePlayerOne.value = PlayerComparisonState.Loading
+            val result = withContext(Dispatchers.IO) { playerComparisonProvider.getPlayerStatsByReference(playerReference) }
+            if (result != null){
+                _statePlayerOne.value = PlayerComparisonState.Success(result)
+            } else {
+                _statePlayerOne.value = PlayerComparisonState.Error("Ha ocurrido un error, inténtelo de nuevo más tarde")
+            }
+        }
+        return null
+    }
+
+    fun getPlayerStatsPlayerTwo(playerTwoReference: DocumentReference) {
+        viewModelScope.launch {
+            _statePlayerTwo.value = PlayerComparisonState.Loading
+            val result = withContext(Dispatchers.IO) { playerComparisonProvider.getPlayerStatsByReference(playerTwoReference) }
+            if (result != null){
+                _statePlayerTwo.value = PlayerComparisonState.Success(result)
+            } else {
+                _statePlayerTwo.value = PlayerComparisonState.Error("Ha ocurrido un error, inténtelo de nuevo más tarde")
+            }
+        }
+
+    }
+
+    fun mapPlayer(playerName: CharSequence): PlayerInformation {
+        return PlayerInformation(
+            "Pedro",
+            "Pedro",
+            "Pedro",
+            1
         )
     }
 
-    fun mapPlayer(playerName: CharSequence): PlayerInfo {
-        return when (playerName) {
-            "Pedro" -> Pedro
-            "Jon" -> Jon
-            "Asier" -> Asier
-            "Manu" -> Manu
-            "Xabi" -> Xabi
-            "Oso" -> Oso
-            "Diego" -> Diego
-            "Mikel" -> Mikel
-            "Gorka" -> Gorka
-            "Arrondo" -> Arrondo
-            "Dani" -> Dani
-            "Nando" -> Nando
-            "Haaland" -> Haaland
-            "David" -> David
-            "Aaron" -> Aaron
-            "Mugueta" -> Mugueta
-            "Fran" -> Fran
-            "Iker" -> Iker
-            "Larra" -> Larra
-            "Unai" -> Unai
-            "Madariaga" -> Madariaga
-            "Bryant" -> Bryant
-            "Roson" -> Roson
-            "Lopez" -> Lopez
-            else -> Emilio
-        }
-    }
+
 }

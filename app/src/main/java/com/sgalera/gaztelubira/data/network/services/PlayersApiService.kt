@@ -1,5 +1,6 @@
 package com.sgalera.gaztelubira.data.network.services
 
+import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.data.network.firebase.FirebaseClient
 import com.sgalera.gaztelubira.data.response.PlayerInfoResponse
 import com.sgalera.gaztelubira.data.response.PlayerStatsResponse
@@ -25,6 +26,15 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
             return document.toObject(PlayerStatsResponse::class.java)!!.toDomain()
         }
         return null
+    }
+
+    suspend fun getPlayerStatsByReference(playerReference: DocumentReference): PlayerStats? {
+        val document = playerReference.get().await()
+        return if (document != null) {
+            document.toObject(PlayerStatsResponse::class.java)!!.toDomain()
+        } else{
+            null
+        }
     }
 
     suspend fun getAllStats(): List<PlayerStats>? = try {
@@ -74,4 +84,5 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
     } catch (e: Exception) {
         null
     }
+
 }
