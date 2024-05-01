@@ -2,9 +2,11 @@ package com.sgalera.gaztelubira.ui.insert_game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.data.provider.MatchesProvider
 import com.sgalera.gaztelubira.data.provider.PlayersProvider
 import com.sgalera.gaztelubira.data.response.MatchResponse
+import com.sgalera.gaztelubira.domain.model.TeamInformation
 import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
@@ -86,7 +88,7 @@ class InsertGameViewModel @Inject constructor(
         } else {
             "Copa"
         }
-        val gameData = createGameData(homeTeam, homeGoals, awayTeam, awayGoals, match, jornada, id)
+        val gameData = createGameData(null, homeGoals, null, awayGoals, match, jornada, id)
         val gameStats = starters?.let {
             createGameStats(homeTeam, homeGoals, awayTeam, awayGoals, match, id, starters, bench!!, scorers!!, assistants!!)
         }
@@ -203,9 +205,9 @@ class InsertGameViewModel @Inject constructor(
     }
 
     private fun createGameData(
-        homeTeam: String,
+        homeTeam: TeamInformation?,
         homeGoals: Int,
-        awayTeam: String,
+        awayTeam: TeamInformation?,
         awayGoals: Int,
         match: String,
         jornada: String,

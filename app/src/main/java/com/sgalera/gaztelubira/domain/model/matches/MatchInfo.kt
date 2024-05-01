@@ -1,15 +1,18 @@
 package com.sgalera.gaztelubira.domain.model.matches
 
+import com.google.firebase.firestore.DocumentReference
+import com.sgalera.gaztelubira.domain.model.TeamInformation
+
 data class MatchInfo (
     val id: Int,
     val match: String,
-    val homeTeam: String,
-    val awayTeam: String,
+    val homeTeam: TeamInformation? = null,
+    val awayTeam: TeamInformation? = null,
     val homeGoals: Int,
     val awayGoals: Int,
     val journey: String
 ) {
-    fun toDomain(): HashMap<String, Any> {
+    fun toDomain(): HashMap<String, Any?> {
         return hashMapOf(
             "id" to id,
             "match" to match,

@@ -12,7 +12,7 @@ import kotlinx.coroutines.tasks.await
 import java.util.concurrent.CompletableFuture
 import javax.inject.Inject
 
-class MatchesApiService @Inject constructor(private val firebase: FirebaseClient) {
+class MatchesApiService @Inject constructor(private val firebase: FirebaseClient, private val teamsApiService: TeamsApiService) {
     companion object {
         const val MATCHES_INFO = "matches"
         const val MATCHES_STATS = "matches_stats"
@@ -23,7 +23,9 @@ class MatchesApiService @Inject constructor(private val firebase: FirebaseClient
         if (collection.isEmpty) {
             null
         } else {
-            collection.documents.map { it.toObject(MatchInfoResponse::class.java)!!.toDomain() }
+            val document = collection.documents.map { it.toObject(MatchInfoResponse::class.java)!!.toDomain( teamsApiService = teamsApiService) }
+            println(document)
+            document
         }
     } catch (e: Exception) {
         null

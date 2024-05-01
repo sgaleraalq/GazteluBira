@@ -1,5 +1,6 @@
 package com.sgalera.gaztelubira.data.network.services
 
+import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.data.network.firebase.FirebaseClient
 import com.sgalera.gaztelubira.domain.model.TeamInformation
 import kotlinx.coroutines.tasks.await
@@ -9,6 +10,7 @@ class TeamsApiService @Inject constructor(private val firebase: FirebaseClient) 
     companion object {
         const val TEAMS = "teams"
     }
+
     suspend fun getAllTeams(): List<TeamInformation>? = try {
         val collection = firebase.db.collection(TEAMS).get().await()
         if (collection.isEmpty) {
@@ -20,5 +22,14 @@ class TeamsApiService @Inject constructor(private val firebase: FirebaseClient) 
         }
     } catch (e: Exception) {
         null
+    }
+
+    suspend fun getTeam(team: DocumentReference?): TeamInformation?{
+        return try {
+            firebase.db.document(team!!.path).get().await()
+                .toObject(TeamInformation::class.java)!!
+        } catch (e: Exception) {
+            null
+        }
     }
 }
