@@ -297,18 +297,6 @@
             app:layout_constraintTop_toBottomOf="@id/ivAwayTeam"
             tools:text="Gaztelu Bira" />
 
-        <ProgressBar
-            android:id="@+id/progressBarInsertGame"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginBottom="100dp"
-            android:indeterminateTint="@color/antique_white"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvAwayTeam" />
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnContinue"
             android:layout_width="wrap_content"
