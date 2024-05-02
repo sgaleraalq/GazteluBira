@@ -8,9 +8,6 @@ import com.sgalera.gaztelubira.data.provider.TeamsProvider
 import com.sgalera.gaztelubira.data.response.MatchResponse
 import com.sgalera.gaztelubira.domain.model.TeamInformation
 import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
-import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
-import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
-import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.stats.StatsState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,7 +30,6 @@ class InsertGameViewModel @Inject constructor(
 
     private val _statePlayers = MutableStateFlow<InsertGameState>(InsertGameState.Loading)
     val statePlayers: StateFlow<InsertGameState> = _statePlayers
-
 
     private var _stateInsertGame =
         MutableStateFlow<InsertGameInfoState>(InsertGameInfoState.Loading)

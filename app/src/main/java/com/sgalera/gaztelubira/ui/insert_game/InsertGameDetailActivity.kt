@@ -390,7 +390,9 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         view.findViewById<TextView>(R.id.tvStarterPosition).text = stat
         view.findViewById<LinearLayout>(R.id.llStarterPlayers).apply {
             removeAllViews()
-            playerList.sortedBy { it.name }.forEach { player ->
+            var statsList = playerList
+            if (stat == "Clean Sheet"){ statsList = statsList.filter { it.name !in cleanSheetList }.toMutableList() }
+            statsList.sortedBy { it.name }.forEach { player ->
                 val playerName = playerStat.findViewById<TextView>(R.id.tvPlayerName)
                 val playerImage = playerStat.findViewById<ImageView>(R.id.ivGoalPlayer)
                 val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
@@ -471,7 +473,7 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
                 }
             }
             "Clean Sheet" -> {
-                if (cleanSheetList.size >= 4){
+                if (cleanSheetList.size >= 4 && cleanSheetList.size == binding.llCleanSheet.childCount) {
                     addLayout(stat, binding.llCleanSheet)
                 }
             }
