@@ -15,12 +15,14 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameDetailBinding
-import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
+import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.home.MainActivity
 import com.sgalera.gaztelubira.ui.insert_game.adapter.InsertGameAdapter
@@ -32,8 +34,13 @@ import kotlinx.coroutines.launch
 class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     private lateinit var binding: ActivityInsertGameDetailBinding
     private lateinit var insertGameAdapter: InsertGameAdapter
-    private lateinit var playerList: MutableList<PlayerInfo>
-    private var benchPlayers = mutableListOf<PlayerInfo>()
+    private val viewModel by viewModels<InsertGameViewModel>()
+
+    private lateinit var playerList: MutableList<PlayerInformation>
+    private var goalList = mutableListOf<String>()
+    private var assistList = mutableListOf<String>()
+    private var penaltyList = mutableListOf<String>()
+    private var cleanSheetList = mutableListOf<String>()
     private var starterPlayers = mutableMapOf(
         "defensive_mid_fielder" to "",
         "goal_keeper" to "",
@@ -47,7 +54,8 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         "right_striker" to "",
         "striker" to ""
     )
-    private val viewModel by viewModels<InsertGameViewModel>()
+    private var benchPlayers = mutableListOf<PlayerInformation>()
+
 
     private var home: String = ""
     private var away: String = ""
@@ -57,14 +65,9 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     private var journey: Int = 0
     private var id: Int = 0
 
-    private var goalList = mutableListOf<String>()
-    private var assistList = mutableListOf<String>()
-    private var penaltyList = mutableListOf<String>()
-    private var cleanSheetList = mutableListOf<String>()
-
     private var dialog: AlertDialog? = null
 
-    override fun onPlayerAdded(player: PlayerInfo) {
+    override fun onPlayerAdded(player: PlayerInformation) {
         viewModel.state.value.add(player.name)
         powerSpinnerBenchList()
     }
@@ -110,8 +113,53 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             setCleanSheet()
         }
     }
+
+    // Sets layouts if necessary
+    private fun setGoals() {
+        for (i in 0 until homeGoals) {
+            val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
+                .inflate(R.layout.item_add_goal_or_assist, binding.llGoals, false)
+            itemLayout.setOnClickListener { showStatsPopUp("Goal", itemLayout) }
+            binding.llGoals.addView(itemLayout)
+        }
+    }
+
+    private fun setAssists() {
+        val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
+            .inflate(R.layout.item_add_goal_or_assist, binding.llAssists, false)
+        itemLayout.setOnClickListener{ showStatsPopUp("Assist", itemLayout) }
+        binding.llAssists.addView(itemLayout)
+    }
+
+    private fun setPenalties() {
+        val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
+            .inflate(R.layout.item_add_goal_or_assist, binding.llPenalties, false)
+        itemLayout.setOnClickListener{ showStatsPopUp("Penalty", itemLayout) }
+        binding.llPenalties.addView(itemLayout)
+    }
+
+    private fun setCleanSheet() {
+        for (i in 0 until 4){
+            val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
+                .inflate(R.layout.item_add_goal_or_assist, binding.llCleanSheet, false)
+            itemLayout.setOnClickListener { showStatsPopUp("Clean Sheet", itemLayout) }
+            binding.llCleanSheet.addView(itemLayout)
+        }
+    }
+
     private fun initComponents() {
-        playerList = viewModel.getPlayers()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.getPlayersInformation()
+                viewModel.statePlayers.collect {
+                    when (it) {
+                        is InsertGameState.Loading -> loadingStatePlayersInformation()
+                        is InsertGameState.SuccessPlayers -> successGetPlayersInformation(it.players)
+                        else -> errorStatePlayersInformation()
+                    }
+                }
+            }
+        }
         insertGameAdapter = InsertGameAdapter(benchPlayers, this)
         binding.rvBench.apply {
             adapter = insertGameAdapter
@@ -157,39 +205,6 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             onBackPressedDispatcher.onBackPressed()
         }
     }
-
-    private fun setGoals() {
-        for (i in 0 until homeGoals) {
-            val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
-                .inflate(R.layout.item_add_goal_or_assist, binding.llGoals, false)
-            itemLayout.setOnClickListener { showStatsPopUp("Goal", itemLayout) }
-            binding.llGoals.addView(itemLayout)
-        }
-    }
-    private fun setAssists() {
-        val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
-            .inflate(R.layout.item_add_goal_or_assist, binding.llAssists, false)
-        itemLayout.setOnClickListener{ showStatsPopUp("Assist", itemLayout) }
-        binding.llAssists.addView(itemLayout)
-    }
-
-    private fun setPenalties() {
-        val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
-            .inflate(R.layout.item_add_goal_or_assist, binding.llPenalties, false)
-        itemLayout.setOnClickListener{ showStatsPopUp("Penalty", itemLayout) }
-        binding.llPenalties.addView(itemLayout)
-    }
-
-    private fun setCleanSheet() {
-        for (i in 0 until 4){
-            val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
-                .inflate(R.layout.item_add_goal_or_assist, binding.llCleanSheet, false)
-            itemLayout.setOnClickListener { showStatsPopUp("Clean Sheet", itemLayout) }
-            binding.llCleanSheet.addView(itemLayout)
-        }
-    }
-
-
 
     private fun initStartersListeners() {
         binding.ivGoalKeeper.root.setOnClickListener {
@@ -242,13 +257,12 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             ).show()
         } else {
             val player = binding.psBenchPlayer.text.toString()
-            insertGameAdapter.addPlayer(viewModel.convertToPlayerInfo(player))
+            insertGameAdapter.addPlayer(playerList.find { it.name == player }!!)
             viewModel.state.value.remove(player)
-            playerList.remove(viewModel.convertToPlayerInfo(player))
+            playerList.remove(playerList.find { it.name == player }!!)
             powerSpinnerBenchList()
         }
     }
-
 
     private fun showInsertPlayerDialog(position: String) {
         val builder = AlertDialog.Builder(this)
@@ -270,7 +284,7 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
                 itemLayout.findViewById<ConstraintLayout>(R.id.parentAddStarter)
                     .setOnClickListener {
                         if (starterPlayers[position] != "") {
-                            playerList.add(viewModel.convertToPlayerInfo(starterPlayers[position]!!))
+                            playerList.add(playerList.find { it.name == starterPlayers[position] }!!)
                         }
                         playerList.remove(player)
                         setStarterPlayerInfo(position, player.name)
@@ -421,7 +435,7 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
                                 }
                             }
                         }
-                        playerImage.setImageResource(player.img)
+                        Glide.with(this@InsertGameDetailActivity).load(player.img).into(playerImage)
                         playerImage.visibility = View.VISIBLE
                         playerName.text = player.name
                         playerName.visibility = View.VISIBLE
@@ -543,6 +557,23 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             return false
         }
         return true
+    }
+
+    private fun loadingStatePlayersInformation() {
+        println("heree")
+        binding.progressBarInsertGame.visibility = View.VISIBLE
+    }
+
+    private fun errorStatePlayersInformation() {
+        binding.progressBarInsertGame.visibility = View.GONE
+        Toast.makeText(this, "Ha ocurrido un error, inténtelo más tarde", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun successGetPlayersInformation(players: MutableList<PlayerInformation>) {
+        println("HEREEE $players")
+        binding.progressBarInsertGame.visibility = View.GONE
+        binding.clMainInsertGameDetail.visibility = View.VISIBLE
+        playerList = players
     }
 
     private fun loadingState() {

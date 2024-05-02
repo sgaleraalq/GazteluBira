@@ -6,10 +6,11 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
+import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import com.sgalera.gaztelubira.ui.insert_game.PlayerAddListener
 
 class InsertGameAdapter(
-    private var benchList: MutableList<PlayerInfo> = mutableListOf(),
+    private var benchList: MutableList<PlayerInformation> = mutableListOf(),
     private val playerAddListener: PlayerAddListener
 ): RecyclerView.Adapter<InsertGameViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InsertGameViewHolder {
@@ -34,7 +35,7 @@ class InsertGameAdapter(
 
     override fun getItemCount() = benchList.size
 
-    fun addPlayer(player: PlayerInfo) {
+    fun addPlayer(player: PlayerInformation) {
         benchList.add(player)
         notifyItemInserted(benchList.size - 1)
     }

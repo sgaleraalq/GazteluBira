@@ -2,6 +2,7 @@ package com.sgalera.gaztelubira.data.provider
 
 import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.data.network.services.PlayersApiService
+import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import javax.inject.Inject
 
@@ -17,6 +18,10 @@ class PlayersProvider @Inject constructor(private val playersApiService: Players
 
     suspend fun insertPlayerStats(playerStats: PlayerStats) {
         playersApiService.insertPlayerStats(playerStats)
+    }
+
+    suspend fun getAllPlayers(): MutableList<PlayerInformation>? {
+        return playersApiService.getAllPlayers() as MutableList<PlayerInformation>?
     }
 
 }

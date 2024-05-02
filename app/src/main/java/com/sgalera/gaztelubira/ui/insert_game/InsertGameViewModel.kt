@@ -10,6 +10,7 @@ import com.sgalera.gaztelubira.domain.model.TeamInformation
 import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
+import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.stats.StatsState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,6 +30,9 @@ class InsertGameViewModel @Inject constructor(
 
     private val _stateTeams = MutableStateFlow<InsertGameState>(InsertGameState.Loading)
     val stateTeams: StateFlow<InsertGameState> = _stateTeams
+
+    private val _statePlayers = MutableStateFlow<InsertGameState>(InsertGameState.Loading)
+    val statePlayers: StateFlow<InsertGameState> = _statePlayers
 
         // TODO REMOVE THIS
     private var _state = MutableStateFlow(arrayListOf<String>())
@@ -79,7 +83,7 @@ class InsertGameViewModel @Inject constructor(
     suspend fun fetchTeams(){
         val teams = matchesProvider.getTeams()
         if (teams != null){
-            _stateTeams.value = InsertGameState.Success(teams)
+            _stateTeams.value = InsertGameState.SuccessTeams(teams)
         } else {
             _stateTeams.value = InsertGameState.Error("Ha ocurrido un error, intentelo más tarde")
         }
@@ -88,6 +92,16 @@ class InsertGameViewModel @Inject constructor(
     suspend fun getTeamInformation(home: String): TeamInformation? {
         return teamsProvider.getTeamInformation(home)
     }
+
+    suspend fun getPlayersInformation() {
+        val players = playersProvider.getAllPlayers()
+        if (players != null) {
+            _statePlayers.value = InsertGameState.SuccessPlayers(players)
+        } else {
+            _statePlayers.value = InsertGameState.Error("Ha ocurrido un error, intentelo más tarde")
+        }
+    }
+
 
     suspend fun postGame(
         homeTeam: String,
@@ -194,35 +208,6 @@ class InsertGameViewModel @Inject constructor(
         }
     }
 
-    fun getPlayers(): MutableList<PlayerInfo> {
-        return mutableListOf(
-            Pedro,
-            Jon,
-            Asier,
-            Manu,
-            Xabi,
-            Oso,
-            Diego,
-            Mikel,
-            Gorka,
-            Arrondo,
-            Bryant,
-            Dani,
-            Nando,
-            Haaland,
-            David,
-            Aaron,
-            Roson,
-            Mugueta,
-            Fran,
-            Iker,
-            Larra,
-            Unai,
-            Madariaga,
-            Lopez,
-            Emilio
-        )
-    }
 
     private fun createGameData(
         homeTeam: TeamInformation?,

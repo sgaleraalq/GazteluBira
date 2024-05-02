@@ -53,7 +53,8 @@ class InsertGame : AppCompatActivity() {
                 when (teamsState) {
                     is InsertGameState.Loading -> loadingState()
                     is InsertGameState.Error -> errorState(teamsState.message)
-                    is InsertGameState.Success -> successState(teamsState.teams)
+                    is InsertGameState.SuccessTeams -> successState(teamsState.teams)
+                    else -> loadingState()
                 }
             }
         }
