@@ -34,9 +34,6 @@ class InsertGameViewModel @Inject constructor(
     private val _statePlayers = MutableStateFlow<InsertGameState>(InsertGameState.Loading)
     val statePlayers: StateFlow<InsertGameState> = _statePlayers
 
-        // TODO REMOVE THIS
-    private var _state = MutableStateFlow(arrayListOf<String>())
-    val state: StateFlow<ArrayList<String>> = _state
 
     private var _stateInsertGame =
         MutableStateFlow<InsertGameInfoState>(InsertGameInfoState.Loading)
@@ -45,40 +42,6 @@ class InsertGameViewModel @Inject constructor(
     private var _allPlayersState = MutableStateFlow<StatsState>(StatsState.Loading)
     val allPlayersState: StateFlow<StatsState> = _allPlayersState
 
-
-    init {
-        viewModelScope.launch {
-//            _state.value = withContext(Dispatchers.IO){ playersProvider.getAllPlayers() }
-            val playerNames = arrayListOf(
-                "Pedro",
-                "Jon",
-                "Asier",
-                "Manu",
-                "Xabi",
-                "Oso",
-                "Diego",
-                "Mikel",
-                "Gorka",
-                "Arrondo",
-                "Bryant",
-                "Dani",
-                "Nando",
-                "Haaland",
-                "David",
-                "Aaron",
-                "Roson",
-                "Mugueta",
-                "Fran",
-                "Iker",
-                "Larra",
-                "Unai",
-                "Madariaga",
-                "Lopez",
-                "Emilio"
-            )
-            _state.value = playerNames
-        }
-    }
 
     suspend fun fetchTeams(){
         val teams = matchesProvider.getTeams()
@@ -174,37 +137,6 @@ class InsertGameViewModel @Inject constructor(
             true
         } catch (e: Exception) {
             false
-        }
-    }
-
-    fun convertToPlayerInfo(player: String): PlayerInfo {
-        return when (player) {
-            "Pedro" -> Pedro
-            "Jon" -> Jon
-            "Asier" -> Asier
-            "Manu" -> Manu
-            "Xabi" -> Xabi
-            "Oso" -> Oso
-            "Diego" -> Diego
-            "Mikel" -> Mikel
-            "Gorka" -> Gorka
-            "Arrondo" -> Arrondo
-            "Bryant" -> Bryant
-            "Dani" -> Dani
-            "Nando" -> Nando
-            "Haaland" -> Haaland
-            "David" -> David
-            "Aaron" -> Aaron
-            "Roson" -> Roson
-            "Mugueta" -> Mugueta
-            "Fran" -> Fran
-            "Iker" -> Iker
-            "Larra" -> Larra
-            "Unai" -> Unai
-            "Madariaga" -> Madariaga
-            "Lopez" -> Lopez
-            "Emilio" -> Emilio
-            else -> throw IllegalArgumentException("Player not found")
         }
     }
 

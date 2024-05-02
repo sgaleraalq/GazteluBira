@@ -67,8 +67,7 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
 
     private var dialog: AlertDialog? = null
 
-    override fun onPlayerAdded(player: PlayerInformation) {
-        viewModel.state.value.add(player.name)
+    override fun updateBenchPowerSpinner() {
         powerSpinnerBenchList()
     }
 
@@ -169,7 +168,6 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
                 false
             )
         }
-        powerSpinnerBenchList()
         initResult()
     }
 
@@ -258,8 +256,6 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         } else {
             val player = binding.psBenchPlayer.text.toString()
             insertGameAdapter.addPlayer(playerList.find { it.name == player }!!)
-            viewModel.state.value.remove(player)
-            playerList.remove(playerList.find { it.name == player }!!)
             powerSpinnerBenchList()
         }
     }
@@ -277,17 +273,16 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         dialogView.findViewById<TextView>(R.id.tvStarterPosition).text = popUpText(position)
         dialogView.findViewById<LinearLayout>(R.id.llStarterPlayers).apply {
             removeAllViews()
-            playerList.sortedBy { it.name }.forEach { player ->
+            playerList
+                .filter { it.name !in starterPlayers.values }
+                .filter { it -> it.name !in benchPlayers.map { it.name } }
+                .sortedBy { it.name }.forEach { player ->
                 val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
                     .inflate(R.layout.item_insert_starters, this, false)
                 itemLayout.findViewById<TextView>(R.id.tvStarterName).text = player.name
                 itemLayout.findViewById<ConstraintLayout>(R.id.parentAddStarter)
                     .setOnClickListener {
-                        if (starterPlayers[position] != "") {
-                            playerList.add(playerList.find { it.name == starterPlayers[position] }!!)
-                        }
-                        playerList.remove(player)
-                        setStarterPlayerInfo(position, player.name)
+                        setStarterPlayerInfo(position, player)
                         dialogView.dismiss()
                     }
                 addView(itemLayout)
@@ -295,72 +290,78 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         }
     }
 
-    private fun setStarterPlayerInfo(position: String, name: String) {
-        viewModel.state.value.remove(name)
-        powerSpinnerBenchList()
-        val playerInfo = viewModel.convertToPlayerInfo(name)
+    private fun setStarterPlayerInfo(position: String, player: PlayerInformation) {
         when (position) {
             "goal_keeper" -> {
-                binding.tvGoalKeeper.text = playerInfo.name
-                binding.ivGoalKeeper.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvGoalKeeper.text = player.name
+                binding.ivGoalKeeper.dorsalTextView.text = player.dorsal.toString()
             }
 
             "left_back" -> {
-                binding.tvLeftBack.text = playerInfo.name
-                binding.ivLeftBack.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvLeftBack.text = player.name
+                binding.ivLeftBack.dorsalTextView.text = player.dorsal.toString()
             }
 
             "left_centre_back" -> {
-                binding.tvLeftCentreBack.text = playerInfo.name
-                binding.ivLeftCentreBack.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvLeftCentreBack.text = player.name
+                binding.ivLeftCentreBack.dorsalTextView.text = player.dorsal.toString()
             }
 
             "right_centre_back" -> {
-                binding.tvRightCentreBack.text = playerInfo.name
-                binding.ivRightCentreBack.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvRightCentreBack.text = player.name
+                binding.ivRightCentreBack.dorsalTextView.text = player.dorsal.toString()
             }
 
             "right_back" -> {
-                binding.tvRightBack.text = playerInfo.name
-                binding.ivRightBack.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvRightBack.text = player.name
+                binding.ivRightBack.dorsalTextView.text = player.dorsal.toString()
             }
 
             "left_mid_fielder" -> {
-                binding.tvLeftMidFielder.text = playerInfo.name
-                binding.ivLeftMidFielder.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvLeftMidFielder.text = player.name
+                binding.ivLeftMidFielder.dorsalTextView.text = player.dorsal.toString()
             }
 
             "defensive_mid_fielder" -> {
-                binding.tvDefensiveMidFielder.text = playerInfo.name
-                binding.ivDefensiveMidFielder.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvDefensiveMidFielder.text = player.name
+                binding.ivDefensiveMidFielder.dorsalTextView.text = player.dorsal.toString()
             }
 
             "right_mid_fielder" -> {
-                binding.tvRightMidFielder.text = playerInfo.name
-                binding.ivRightMidFielder.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvRightMidFielder.text = player.name
+                binding.ivRightMidFielder.dorsalTextView.text = player.dorsal.toString()
             }
 
             "left_striker" -> {
-                binding.tvLeftStriker.text = playerInfo.name
-                binding.ivLeftStriker.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvLeftStriker.text = player.name
+                binding.ivLeftStriker.dorsalTextView.text = player.dorsal.toString()
             }
 
             "right_striker" -> {
-                binding.tvRightStriker.text = playerInfo.name
-                binding.ivRightStriker.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvRightStriker.text = player.name
+                binding.ivRightStriker.dorsalTextView.text = player.dorsal.toString()
             }
 
             "striker" -> {
-                binding.tvStriker.text = playerInfo.name
-                binding.ivStriker.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvStriker.text = player.name
+                binding.ivStriker.dorsalTextView.text = player.dorsal.toString()
             }
         }
-        starterPlayers[position] = name
+        starterPlayers[position] = player.name
+        powerSpinnerBenchList()
     }
 
     private fun powerSpinnerBenchList() {
         binding.psBenchPlayer.clearSelectedItem()
-        binding.psBenchPlayer.setItems(viewModel.state.value)
+        println(benchPlayers)
+        println(playerList)
+        val benchList = playerList
+            .filter { it.name !in starterPlayers.values }
+            .filter { it -> it.name !in benchPlayers.map { it.name } }
+            .sortedBy { it.name }
+            .map { it.name }
+
+        binding.psBenchPlayer.setItems(benchList)
     }
 
     private fun popUpText(position: String): String {
@@ -560,7 +561,6 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     }
 
     private fun loadingStatePlayersInformation() {
-        println("heree")
         binding.progressBarInsertGame.visibility = View.VISIBLE
     }
 
@@ -570,10 +570,10 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     }
 
     private fun successGetPlayersInformation(players: MutableList<PlayerInformation>) {
-        println("HEREEE $players")
         binding.progressBarInsertGame.visibility = View.GONE
         binding.clMainInsertGameDetail.visibility = View.VISIBLE
         playerList = players
+        powerSpinnerBenchList()
     }
 
     private fun loadingState() {

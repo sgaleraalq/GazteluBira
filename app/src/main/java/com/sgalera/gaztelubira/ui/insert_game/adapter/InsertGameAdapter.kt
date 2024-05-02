@@ -27,9 +27,9 @@ class InsertGameAdapter(
         view.layoutParams = layoutParams
 
         view.findViewById<ImageView>(R.id.ivCancel).setOnClickListener {
-            playerAddListener.onPlayerAdded(benchList[position])
             benchList.removeAt(position)
             notifyItemRemoved(position)
+            playerAddListener.updateBenchPowerSpinner()
         }
     }
 
