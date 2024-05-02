@@ -7,9 +7,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameBinding
@@ -24,6 +22,8 @@ class InsertGame : AppCompatActivity() {
 
     private val insertGameViewModel by viewModels<InsertGameViewModel>()
     private var teams: ArrayList<String> = arrayListOf()
+    private var teamsInformation: List<TeamInformation> = emptyList()
+    private var gazteluBira: TeamInformation? = null
 
     private lateinit var binding: ActivityInsertGameBinding
     private var id: Int = 0
@@ -69,11 +69,14 @@ class InsertGame : AppCompatActivity() {
     }
 
     private fun successState(teams: List<TeamInformation>) {
+        teamsInformation = teams
+        homeTeam = teams.find { it.name == "Gaztelu Bira" }
         binding.progressBar.visibility = View.GONE
         binding.mainInsert.visibility = View.VISIBLE
         teams.forEach {
             this.teams.add(it.name)
         }
+        gazteluBira = teams.find { it.name == "Gaztelu Bira" }
         initComponents()
     }
 
@@ -109,18 +112,19 @@ class InsertGame : AppCompatActivity() {
         }
 
         // Set teams with Power Spinners
-        binding.psHomeTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, _ ->
-            homeTeam = null
+        binding.psHomeTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, teamSelected ->
+            homeTeam = teamsInformation.find { it.name == teamSelected}
 
             // Set away as Gaztelu
-            awayTeam = null
+            awayTeam = gazteluBira
             insertTeams()
         }
-        binding.psAwayTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, _ ->
-            awayTeam = null
+        binding.psAwayTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, teamSelected ->
+            println("Team selected: $teamSelected")
+            awayTeam = teamsInformation.find { it.name == teamSelected}
 
             // Set local as Gaztelu
-            homeTeam = null
+            homeTeam = gazteluBira
             insertTeams()
         }
     }
