@@ -120,7 +120,6 @@ class InsertGame : AppCompatActivity() {
             insertTeams()
         }
         binding.psAwayTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, teamSelected ->
-            println("Team selected: $teamSelected")
             awayTeam = teamsInformation.find { it.name == teamSelected}
 
             // Set local as Gaztelu
@@ -162,8 +161,8 @@ class InsertGame : AppCompatActivity() {
     private fun moveToInsertDetailGameActivity() {
         val intent = Intent(this, InsertGameDetailActivity::class.java)
         intent.apply {
-            putExtra("homeTeam", homeTeam!!.name)
-            putExtra("awayTeam", awayTeam!!.name)
+            putExtra("homeTeam", homeTeam!!.reference!!.path)
+            putExtra("awayTeam", awayTeam!!.reference!!.path)
             putExtra("homeGoals", binding.etHomeGoals.text.toString().toInt())
             putExtra("awayGoals", binding.etAwayGoals.text.toString().toInt())
             putExtra("match", match)
@@ -172,8 +171,6 @@ class InsertGame : AppCompatActivity() {
         }
         startActivity(intent)
     }
-
-
 }
 
 

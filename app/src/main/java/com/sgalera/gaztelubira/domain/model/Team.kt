@@ -1,5 +1,7 @@
 package com.sgalera.gaztelubira.domain.model
 
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.PropertyName
 import com.sgalera.gaztelubira.R
 
 sealed class Team(val name: Int, val img: Int) {
@@ -9,5 +11,6 @@ sealed class Team(val name: Int, val img: Int) {
 
 data class TeamInformation(
     val name: String = "",
-    val img: String = ""
+    val img: String = "",
+    @get:PropertyName("own_reference") @set:PropertyName("own_reference") var reference: DocumentReference? = null
 )
