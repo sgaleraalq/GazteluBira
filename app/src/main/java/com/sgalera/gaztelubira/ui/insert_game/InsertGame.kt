@@ -23,8 +23,6 @@ class InsertGame : AppCompatActivity() {
     private var awayTeam: TeamInformation? = null
 
     private val insertGameViewModel by viewModels<InsertGameViewModel>()
-
-
     private var teams: ArrayList<String> = arrayListOf()
 
     private lateinit var binding: ActivityInsertGameBinding
@@ -46,19 +44,16 @@ class InsertGame : AppCompatActivity() {
 
     private fun initUI() {
         fetchTeamsInfo()
-        initComponents()
     }
 
     private fun fetchTeamsInfo() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                insertGameViewModel.fetchTeams()
-                insertGameViewModel.stateTeams.collect { teamsState ->
-                    when (teamsState) {
-                        is InsertGameState.Loading -> loadingState()
-                        is InsertGameState.Error -> errorState(teamsState.message)
-                        is InsertGameState.Success -> successState(teamsState.teams)
-                    }
+            insertGameViewModel.fetchTeams()
+            insertGameViewModel.stateTeams.collect { teamsState ->
+                when (teamsState) {
+                    is InsertGameState.Loading -> loadingState()
+                    is InsertGameState.Error -> errorState(teamsState.message)
+                    is InsertGameState.Success -> successState(teamsState.teams)
                 }
             }
         }
@@ -79,9 +74,13 @@ class InsertGame : AppCompatActivity() {
         teams.forEach {
             this.teams.add(it.name)
         }
+        initComponents()
     }
 
     private fun initListeners() {
+        binding.ivBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
         binding.btnContinue.setOnClickListener {
             if (checkFields()) {
                 moveToInsertDetailGameActivity()
