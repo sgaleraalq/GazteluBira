@@ -24,6 +24,11 @@ class InsertGameViewModel @Inject constructor(
     private val playersProvider: PlayersProvider
 ) :
     ViewModel() {
+
+    private val _stateTeams = MutableStateFlow<InsertGameState>(InsertGameState.Loading)
+    val stateTeams: StateFlow<InsertGameState> = _stateTeams
+
+        // TODO REMOVE THIS
     private var _state = MutableStateFlow(arrayListOf<String>())
     val state: StateFlow<ArrayList<String>> = _state
 
@@ -33,6 +38,7 @@ class InsertGameViewModel @Inject constructor(
 
     private var _allPlayersState = MutableStateFlow<StatsState>(StatsState.Loading)
     val allPlayersState: StateFlow<StatsState> = _allPlayersState
+
 
     init {
         viewModelScope.launch {
@@ -65,6 +71,15 @@ class InsertGameViewModel @Inject constructor(
                 "Emilio"
             )
             _state.value = playerNames
+        }
+    }
+
+    suspend fun fetchTeams(){
+        val teams = matchesProvider.getTeams()
+        if (teams != null){
+            _stateTeams.value = InsertGameState.Success(teams)
+        } else {
+            _stateTeams.value = InsertGameState.Error("Ha ocurrido un error, intentelo más tarde")
         }
     }
 
