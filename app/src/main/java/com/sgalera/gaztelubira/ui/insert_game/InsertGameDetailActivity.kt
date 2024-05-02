@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameDetailBinding
-import com.sgalera.gaztelubira.domain.model.TeamInformation
 import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.home.MainActivity
@@ -50,8 +49,8 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     )
     private val viewModel by viewModels<InsertGameViewModel>()
 
-    private var home: Int = 0
-    private var away: Int = 0
+    private var home: String = ""
+    private var away: String = ""
     private var homeGoals: Int = 0
     private var awayGoals: Int = 0
     private var match: String = ""
@@ -74,8 +73,8 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         super.onCreate(savedInstanceState)
         binding = ActivityInsertGameDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        home            = intent.getIntExtra("homeTeam", 0)
-        away            = intent.getIntExtra("awayTeam", 0)
+        home            = intent.getStringExtra("homeTeam")!!
+        away            = intent.getStringExtra("awayTeam")!!
         homeGoals       = intent.getIntExtra("homeGoals", 0)
         awayGoals       = intent.getIntExtra("awayGoals", 0)
         match           = intent.getStringExtra("match")!!
@@ -127,16 +126,18 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     }
 
     private fun initResult() {
-//        val homeTeam = mapTeam(getString(home))
-//        val awayTeam = mapTeam(getString(away))
-        val homeTeam = TeamInformation("Error", "Error")
-        val awayTeam = TeamInformation("Error", "Error")
-        binding.tvLocalTeam.text = homeTeam.name
-        Glide.with(this).load(homeTeam.img).into(binding.ivLocalTeam)
-        binding.tvLocalGoals.text = homeGoals.toString()
+        lifecycleScope.launch {
+            val homeTeam = viewModel.getTeamInformation(home)
+            val awayTeam = viewModel.getTeamInformation(away)
 
-        binding.tvAwayTeam.text = awayTeam.name
-        Glide.with(this).load(awayTeam.img).into(binding.ivAwayTeam)
+            binding.tvLocalTeam.text = homeTeam?.name
+            Glide.with(this@InsertGameDetailActivity).load(homeTeam?.img).into(binding.ivLocalTeam)
+
+            binding.tvAwayTeam.text = awayTeam?.name
+            Glide.with(this@InsertGameDetailActivity).load(awayTeam?.img).into(binding.ivAwayTeam)
+        }
+
+        binding.tvLocalGoals.text = homeGoals.toString()
         binding.tvAwayGoals.text = awayGoals.toString()
     }
 
@@ -474,9 +475,9 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             lifecycleScope.launch {
                 loadingState()
                 viewModel.postGame(
-                    getString(home),
+                    home,
                     homeGoals,
-                    getString(away),
+                    away,
                     awayGoals,
                     match,
                     journey,

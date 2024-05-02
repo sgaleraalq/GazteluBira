@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.data.provider.MatchesProvider
 import com.sgalera.gaztelubira.data.provider.PlayersProvider
+import com.sgalera.gaztelubira.data.provider.TeamsProvider
 import com.sgalera.gaztelubira.data.response.MatchResponse
 import com.sgalera.gaztelubira.domain.model.TeamInformation
 import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
@@ -21,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class InsertGameViewModel @Inject constructor(
     private val matchesProvider: MatchesProvider,
-    private val playersProvider: PlayersProvider
+    private val playersProvider: PlayersProvider,
+    private val teamsProvider: TeamsProvider
 ) :
     ViewModel() {
 
@@ -81,6 +83,10 @@ class InsertGameViewModel @Inject constructor(
         } else {
             _stateTeams.value = InsertGameState.Error("Ha ocurrido un error, intentelo más tarde")
         }
+    }
+
+    suspend fun getTeamInformation(home: String): TeamInformation? {
+        return teamsProvider.getTeamInformation(home)
     }
 
     suspend fun postGame(
@@ -263,4 +269,5 @@ class InsertGameViewModel @Inject constructor(
             assistants = assistants
         )
     }
+
 }

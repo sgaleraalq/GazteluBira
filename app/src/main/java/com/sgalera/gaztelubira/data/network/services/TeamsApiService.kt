@@ -32,4 +32,13 @@ class TeamsApiService @Inject constructor(private val firebase: FirebaseClient) 
             null
         }
     }
+
+    suspend fun getTeamInformation(teamReference: String): TeamInformation? {
+        return try {
+            firebase.db.document(teamReference).get().await()
+                .toObject(TeamInformation::class.java)!!
+        } catch (e: Exception) {
+            null
+        }
+    }
 }
