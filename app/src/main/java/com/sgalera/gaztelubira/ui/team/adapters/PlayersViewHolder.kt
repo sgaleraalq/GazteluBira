@@ -24,7 +24,6 @@ class PlayersViewHolder(view: View): RecyclerView.ViewHolder(view){
     private fun ImageView.loadImage(url: String) {
         Glide.with(this)
             .load(url)
-            .thumbnail(0.05f)
             .transition(DrawableTransitionOptions.withCrossFade())
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(this)

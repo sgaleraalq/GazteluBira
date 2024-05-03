@@ -119,6 +119,7 @@ class TeamFragment : Fragment() {
         binding.rvGoalKeepers.apply {
             adapter = goalKeeperAdapters
             layoutManager = GridLayoutManager(requireContext(), 3)
+            isNestedScrollingEnabled = false
         }
     }
 
@@ -130,6 +131,7 @@ class TeamFragment : Fragment() {
         binding.rvDefenders.apply {
             adapter = defendersAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
+            isNestedScrollingEnabled = false
         }
     }
 
@@ -141,6 +143,7 @@ class TeamFragment : Fragment() {
         binding.rvMidFielders.apply {
             adapter = midfieldersAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
+            isNestedScrollingEnabled = false
         }
     }
 
@@ -152,6 +155,7 @@ class TeamFragment : Fragment() {
         binding.rvForwards.apply {
             adapter = forwardsAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
+            isNestedScrollingEnabled = false
         }
     }
 
@@ -163,6 +167,7 @@ class TeamFragment : Fragment() {
         binding.rvTechnicalStaff.apply {
             adapter = technicalStaffAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
+            isNestedScrollingEnabled = false
         }
     }
 
