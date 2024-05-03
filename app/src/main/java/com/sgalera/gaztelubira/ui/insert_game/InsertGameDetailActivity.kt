@@ -20,7 +20,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameDetailBinding
 import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
@@ -354,8 +353,6 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
 
     private fun powerSpinnerBenchList() {
         binding.psBenchPlayer.clearSelectedItem()
-        println(benchPlayers)
-        println(playerList)
         val benchList = playerList
             .filter { it.name !in starterPlayers.values }
             .filter { it -> it.name !in benchPlayers.map { it.name } }
@@ -489,35 +486,33 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     }
 
     private fun insertGame() {
-        if (checkAllFields() || 1 == 1) {
+        if (checkAllFields()) {
             val homeReference = viewModel.getReference(home)
             val awayReference = viewModel.getReference(away)
-            println("this is the home reference: $homeReference")
-            println("this is the away reference: $awayReference")
-//            lifecycleScope.launch {
-//                loadingState()
-//                viewModel.postGame(
-//                    homeReference,
-//                    homeGoals,
-//                    awayReference,
-//                    awayGoals,
-//                    match,
-//                    journey,
-//                    id,
-//                    starterPlayers,
-//                    benchPlayers.map { it.name },
-//                    goalList,
-//                    assistList
-//                )
-//
-//                viewModel.stateInsertGame.collect { state ->
-//                    when (state) {
-//                        InsertGameInfoState.Loading -> loadingState()
-//                        InsertGameInfoState.Success -> successState()
-//                        is InsertGameInfoState.Error -> errorState()
-//                    }
-//                }
-//            }
+            lifecycleScope.launch {
+                loadingState()
+                viewModel.postGame(
+                    homeReference,
+                    homeGoals,
+                    awayReference,
+                    awayGoals,
+                    match,
+                    journey,
+                    id,
+                    starterPlayers,
+                    benchPlayers.map { it.name },
+                    goalList,
+                    assistList
+                )
+
+                viewModel.stateInsertGame.collect { state ->
+                    when (state) {
+                        InsertGameInfoState.Loading -> loadingState()
+                        InsertGameInfoState.Success -> successState()
+                        is InsertGameInfoState.Error -> errorState()
+                    }
+                }
+            }
         }
     }
 

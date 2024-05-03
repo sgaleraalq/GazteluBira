@@ -41,7 +41,7 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
     }
 
     suspend fun insertPlayerStats(playerStats: PlayerStats) {
-        firebase.db.collection(PLAYER_TEST)
+        firebase.db.collection(PLAYER_STATS)
             .document(playerStats.information!!.name.lowercase(Locale.ROOT))
             .set(playerStats.toMap()).await()
     }
@@ -54,7 +54,7 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
             try {
                 document.toObject(PlayerInfoResponse::class.java)
             } catch (e: Exception) {
-                println("Error: ${e.message}")
+                return null
             }
             return document.toObject(PlayerInfoResponse::class.java)!!.toDomain()
         }
