@@ -41,4 +41,8 @@ class TeamsApiService @Inject constructor(private val firebase: FirebaseClient) 
             null
         }
     }
+
+    fun getReference(home: String): DocumentReference {
+        return firebase.db.document(home)
+    }
 }
