@@ -2,12 +2,13 @@ package com.sgalera.gaztelubira.ui.insert_game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.data.provider.MatchesProvider
 import com.sgalera.gaztelubira.data.provider.PlayersProvider
 import com.sgalera.gaztelubira.data.provider.TeamsProvider
+import com.sgalera.gaztelubira.data.response.MatchInfoResponse
 import com.sgalera.gaztelubira.data.response.MatchResponse
 import com.sgalera.gaztelubira.domain.model.TeamInformation
-import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.stats.StatsState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -63,9 +64,9 @@ class InsertGameViewModel @Inject constructor(
 
 
     suspend fun postGame(
-        homeTeam: String,
+        homeTeam: DocumentReference,
         homeGoals: Int,
-        awayTeam: String,
+        awayTeam: DocumentReference,
         awayGoals: Int,
         match: String,
         journey: Int,
@@ -81,7 +82,7 @@ class InsertGameViewModel @Inject constructor(
         } else {
             "Copa"
         }
-        val gameData = createGameData(null, homeGoals, null, awayGoals, match, jornada, id)
+        val gameData = createGameData(homeTeam, homeGoals, awayTeam, awayGoals, match, jornada, id)
         val gameStats = starters?.let {
             createGameStats(homeTeam, homeGoals, awayTeam, awayGoals, match, id, starters, bench!!, scorers!!, assistants!!)
         }
@@ -138,15 +139,15 @@ class InsertGameViewModel @Inject constructor(
 
 
     private fun createGameData(
-        homeTeam: TeamInformation?,
+        homeTeam: DocumentReference,
         homeGoals: Int,
-        awayTeam: TeamInformation?,
+        awayTeam: DocumentReference,
         awayGoals: Int,
         match: String,
         jornada: String,
         id: Int
-    ): MatchInfo {
-        return MatchInfo(
+    ): MatchInfoResponse {
+        return MatchInfoResponse(
             homeTeam = homeTeam,
             homeGoals = homeGoals,
             awayTeam = awayTeam,
@@ -158,9 +159,9 @@ class InsertGameViewModel @Inject constructor(
     }
 
     private fun createGameStats(
-        homeTeam: String,
+        homeTeam: DocumentReference,
         homeGoals: Int,
-        awayTeam: String,
+        awayTeam: DocumentReference,
         awayGoals: Int,
         match: String,
         id: Int,
@@ -170,9 +171,9 @@ class InsertGameViewModel @Inject constructor(
         assistants: List<String>
     ): MatchResponse {
         return MatchResponse(
-            homeTeam = null,
+            homeTeam = homeTeam,
             homeGoals = homeGoals,
-            awayTeam = null,
+            awayTeam = awayTeam,
             awayGoals = awayGoals,
             starters = starters,
             match = match,
@@ -181,6 +182,10 @@ class InsertGameViewModel @Inject constructor(
             scorers = scorers,
             assistants = assistants
         )
+    }
+
+    fun getReference(home: String): DocumentReference {
+        return teamsProvider.getReference(home)
     }
 
 }
