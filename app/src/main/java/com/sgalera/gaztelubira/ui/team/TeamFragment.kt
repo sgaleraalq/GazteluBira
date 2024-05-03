@@ -112,7 +112,7 @@ class TeamFragment : Fragment() {
     }
 
     private fun initGoalKeepers() {
-        goalKeeperAdapters = GoalKeeperAdapter(goalKeeperList,
+        goalKeeperAdapters = GoalKeeperAdapter(goalKeeperList.sortedBy { it.dorsal },
             onItemSelected = { position ->
                 Toast.makeText(requireContext(), "Goal keeper $position", Toast.LENGTH_SHORT).show()
             })
@@ -123,7 +123,7 @@ class TeamFragment : Fragment() {
     }
 
     private fun initDefenders() {
-        defendersAdapter = DefendersAdapter(defendersList,
+        defendersAdapter = DefendersAdapter(defendersList.sortedBy { it.dorsal },
             onItemSelected = { position ->
                 Toast.makeText(requireContext(), "Defender $position", Toast.LENGTH_SHORT).show()
             })
@@ -134,7 +134,7 @@ class TeamFragment : Fragment() {
     }
 
     private fun initMidfielders() {
-        midfieldersAdapter = MidfieldersAdapter(midfieldersList,
+        midfieldersAdapter = MidfieldersAdapter(midfieldersList.sortedBy { it.dorsal },
             onItemSelected = { position ->
                 Toast.makeText(requireContext(), "Midfielder $position", Toast.LENGTH_SHORT).show()
             })
@@ -145,7 +145,7 @@ class TeamFragment : Fragment() {
     }
 
     private fun initForwards() {
-        forwardsAdapter = ForwardsAdapter(forwardsList,
+        forwardsAdapter = ForwardsAdapter(forwardsList.sortedBy { it.dorsal },
             onItemSelected = { position ->
                 Toast.makeText(requireContext(), "Forward $position", Toast.LENGTH_SHORT).show()
             })
