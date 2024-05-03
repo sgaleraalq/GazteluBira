@@ -56,8 +56,14 @@
     <string name="log_in">Log in</string>
     <string name="loggedAsAdmin">Logged as: Admin</string>
 
-    // Teams
+    // Teams || Team fragment
     <string name="error">Error</string>
+    <string name="goalkeepers">Goal keepers</string>
+    <string name="defenders">Defenders</string>
+    <string name="midfielders">Mid fielders</string>
+    <string name="forwards">Forwards</string>
+    <string name="technical_team">Technical team</string>
+
 
     // Image descriptions
     <string name="description_gaztelu_bira">Gaztelu Bira image</string>
