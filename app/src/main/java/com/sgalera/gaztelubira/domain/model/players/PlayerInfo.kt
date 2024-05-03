@@ -6,6 +6,7 @@ data class PlayerInformation(
     val completeName: String,
     val img: String,
     val dorsal: Int,
+    val position: String,
     val stats: DocumentReference? = null,
     var selected: Boolean = false
 )

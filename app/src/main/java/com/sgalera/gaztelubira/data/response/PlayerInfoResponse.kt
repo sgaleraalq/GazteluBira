@@ -9,6 +9,7 @@ data class PlayerInfoResponse(
     @get:PropertyName("complete_name") @set:PropertyName("complete_name") var completeName: String = "",
     val img: String = "",
     val dorsal: Int = 0,
+    var position: String = "",
     val stats: DocumentReference? = null
 ) {
     fun toDomain(): PlayerInformation {
@@ -17,6 +18,7 @@ data class PlayerInfoResponse(
             completeName = completeName,
             img = img,
             dorsal = dorsal,
+            position = position,
             stats = stats,
             selected = false,
         )
