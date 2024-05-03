@@ -3,7 +3,6 @@ package com.sgalera.gaztelubira.ui.stats
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.data.provider.PlayersProvider
-import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -1,6 +1,5 @@
 package com.sgalera.gaztelubira.domain.model.matches
 
-import com.sgalera.gaztelubira.domain.model.Team
 import com.sgalera.gaztelubira.domain.model.TeamInformation
 import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 

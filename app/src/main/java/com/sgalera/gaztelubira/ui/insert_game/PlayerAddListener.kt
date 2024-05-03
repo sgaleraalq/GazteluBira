@@ -1,7 +1,5 @@
 package com.sgalera.gaztelubira.ui.insert_game
 
-import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
-import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import java.text.DecimalFormat
 

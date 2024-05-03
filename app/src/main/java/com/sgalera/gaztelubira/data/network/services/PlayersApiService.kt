@@ -14,7 +14,7 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
 
     companion object {
         const val PLAYER_STATS = "players_stats"
-        const val PLAYER_TEST = "players_test"
+//        const val PLAYER_TEST = "players_test"
         const val PLAYERS = "players"
     }
 

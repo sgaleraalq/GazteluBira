@@ -7,8 +7,6 @@ import com.sgalera.gaztelubira.data.response.MatchResponse
 import com.sgalera.gaztelubira.domain.model.TeamInformation
 import com.sgalera.gaztelubira.domain.model.matches.Match
 import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
-import retrofit2.Response
-import java.util.concurrent.CompletableFuture
 import javax.inject.Inject
 
 class MatchesProvider @Inject constructor(private val matchesApiService: MatchesApiService, private val teamsApiService: TeamsApiService) {

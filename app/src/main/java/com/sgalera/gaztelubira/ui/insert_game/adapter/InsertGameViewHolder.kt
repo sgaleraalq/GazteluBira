@@ -4,7 +4,6 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.databinding.ItemPlayerPopupBinding
-import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
 import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 
 class InsertGameViewHolder(view: View): RecyclerView.ViewHolder(view) {

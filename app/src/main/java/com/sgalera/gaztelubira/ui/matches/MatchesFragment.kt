@@ -12,13 +12,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sgalera.gaztelubira.data.network.services.TeamsApiService
 import com.sgalera.gaztelubira.databinding.FragmentMatchesBinding
 import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import com.sgalera.gaztelubira.ui.matches.adapter.MatchesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MatchesFragment: Fragment() {
