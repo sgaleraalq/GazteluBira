@@ -28,4 +28,16 @@ data class MatchInfoResponse(
             journey = journey
         )
     }
+
+    fun toResponse(): HashMap<String, Any?> {
+        return hashMapOf(
+            "id" to id,
+            "match" to match,
+            "home_team" to homeTeam,
+            "away_team" to awayTeam,
+            "home_goals" to homeGoals,
+            "away_goals" to awayGoals,
+            "journey" to journey
+        )
+    }
 }
