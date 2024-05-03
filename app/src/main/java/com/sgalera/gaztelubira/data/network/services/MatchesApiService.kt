@@ -32,12 +32,12 @@ class MatchesApiService @Inject constructor(private val firebase: FirebaseClient
         }
         return null
     }
-    suspend fun postGame(match: MatchInfo): Boolean {
+    suspend fun postGame(match: MatchInfoResponse): Boolean {
         return try {
-            firebase.db.collection(MATCHES_INFO).document(match.id.toString()).set(match.toDomain()).await()
-            true // Success
+            firebase.db.collection(MATCHES_INFO).document(match.id.toString()).set(match.toResponse()).await()
+            true
         } catch (e: Exception) {
-            false // Error
+            false
         }
     }
 

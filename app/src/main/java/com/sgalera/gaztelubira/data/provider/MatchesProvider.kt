@@ -2,6 +2,7 @@ package com.sgalera.gaztelubira.data.provider
 
 import com.sgalera.gaztelubira.data.network.services.MatchesApiService
 import com.sgalera.gaztelubira.data.network.services.TeamsApiService
+import com.sgalera.gaztelubira.data.response.MatchInfoResponse
 import com.sgalera.gaztelubira.data.response.MatchResponse
 import com.sgalera.gaztelubira.domain.model.TeamInformation
 import com.sgalera.gaztelubira.domain.model.matches.Match
@@ -24,7 +25,7 @@ class MatchesProvider @Inject constructor(private val matchesApiService: Matches
         return matchesApiService.getMatch(id)
     }
 
-    suspend fun postGame(match: MatchInfo): Boolean {
+    suspend fun postGame(match: MatchInfoResponse): Boolean {
         return matchesApiService.postGame(match)
     }
 
