@@ -21,17 +21,9 @@ class MatchesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val awayTeam = match.awayTeam!!
 
         manageImages(localTeam, awayTeam)
-//        Glide.with(binding.root)
-//            .load(localTeam.img)
-//            .into(binding.ivLocalTeam)
 
         binding.tvLocalName.text = localTeam.name
         binding.tvGoalsLocal.text = match.homeGoals.toString()
-
-//        Glide.with(binding.root)
-//            .load(awayTeam.img)
-//            .into(binding.ivVisitorTeam)
-
         binding.tvVisitorName.text = awayTeam.name
         binding.tvGoalsVisitor.text = match.awayGoals.toString()
 
