@@ -101,14 +101,19 @@ class PlayerInformationDetail : AppCompatActivity() {
     }
 
     private fun initPlayerStats(playerStats: PlayerStats) {
-        binding.clPlayerStats.visibility = View.VISIBLE
         binding.tvPlayerDorsal.text = playerDorsal.toString()
         binding.tvGoals.text = playerStats.goals.toString()
         binding.tvAssists.text = playerStats.assists.toString()
         binding.tvGames.text = playerStats.gamesPlayed.toString()
         binding.tvPenalties.text = playerStats.penalties.toString()
         binding.tvCleanSheet.text = playerStats.cleanSheet.toString()
-        println(playerStats)
+
+        binding.clPlayerStats.visibility = View.VISIBLE
+        binding.clPlayerStats.alpha = 0f
+        binding.clPlayerStats.animate()
+            .alpha(1f)
+            .setDuration(2000)
+            .start()
     }
 
     private fun initManagerComponents() {
