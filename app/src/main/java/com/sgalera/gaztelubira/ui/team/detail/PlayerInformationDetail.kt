@@ -108,7 +108,6 @@ class PlayerInformationDetail : AppCompatActivity() {
         binding.tvPenalties.text = playerStats.penalties.toString()
         binding.tvCleanSheet.text = playerStats.cleanSheet.toString()
 
-        binding.clPlayerStats.visibility = View.VISIBLE
         binding.clPlayerStats.alpha = 0f
         binding.clPlayerStats.animate()
             .alpha(1f)
@@ -124,7 +123,6 @@ class PlayerInformationDetail : AppCompatActivity() {
         binding.tvPlayerPosition.text = getString(R.string.manager)
         Glide.with(this)
             .load(playerImage)
-            .centerCrop()
             .into(binding.ivPlayerImage)
     }
 }
