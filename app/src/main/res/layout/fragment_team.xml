@@ -111,7 +111,7 @@
                 android:id="@+id/tvTechnicalStaff"
                 style="@style/title_team_template"
                 android:layout_marginTop="8dp"
-                android:text="@string/technical_team"
+                android:text="@string/technical_staff"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rvForwards" />
@@ -124,7 +124,7 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rvTechnicalStaff" />
+                app:layout_constraintTop_toBottomOf="@id/tvTechnicalStaff" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -8,7 +8,7 @@ data class PlayerInfoResponse(
     val name: String = "",
     @get:PropertyName("complete_name") @set:PropertyName("complete_name") var completeName: String = "",
     val img: String = "",
-    val dorsal: Int = 0,
+    val dorsal: Int? = 0,
     var position: String = "",
     val stats: DocumentReference? = null
 ) {

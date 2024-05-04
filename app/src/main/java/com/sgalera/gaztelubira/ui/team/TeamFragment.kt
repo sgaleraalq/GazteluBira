@@ -160,6 +160,7 @@ class TeamFragment : Fragment() {
     }
 
     private fun initTechnicalStaff() {
+        println(technicalStaffList)
         technicalStaffAdapter = TechnicalStaffAdapter(technicalStaffList,
             onItemSelected = { position ->
                 Toast.makeText(requireContext(), "Technical Staff $position", Toast.LENGTH_SHORT).show()

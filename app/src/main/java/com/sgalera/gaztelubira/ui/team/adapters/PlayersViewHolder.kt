@@ -14,7 +14,11 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 class PlayersViewHolder(view: View): RecyclerView.ViewHolder(view){
     private val binding = ItemPlayersBinding.bind(view)
     fun render(playerInformation: PlayerInformation, onItemSelected: (Int) -> Unit) {
-        binding.tvPlayerDorsal.text = playerInformation.dorsal.toString()
+        if (playerInformation.dorsal != null) {
+            binding.tvPlayerDorsal.text = playerInformation.dorsal.toString()
+        } else {
+            binding.tvPlayerDorsal.visibility = View.GONE
+        }
         binding.tvPlayerName.text = playerInformation.name
         binding.tvPlayerPosition.text = playerInformation.position
 
