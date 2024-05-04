@@ -8,6 +8,10 @@ import javax.inject.Inject
 
 class PlayersProvider @Inject constructor(private val playersApiService: PlayersApiService) {
 
+    fun getReferenceFromString(reference: String): DocumentReference? {
+        return playersApiService.getReferenceFromString(reference)
+    }
+
     suspend fun getPlayerStatsByReference(playerReference: DocumentReference): PlayerStats? {
         return playersApiService.getPlayerStatsByReference(playerReference)
     }

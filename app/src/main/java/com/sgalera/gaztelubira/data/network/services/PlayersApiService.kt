@@ -18,6 +18,14 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
         const val PLAYERS = "players"
     }
 
+    fun getReferenceFromString(reference: String): DocumentReference? {
+        return try {
+            firebase.db.document(reference)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     suspend fun getPlayerStatsByReference(playerReference: DocumentReference): PlayerStats? {
         val document = playerReference.get().await()
         return if (document != null) {

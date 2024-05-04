@@ -58,6 +58,7 @@
 
     // Teams || Team fragment
     <string name="error">Error</string>
+    <string name="error_player_reference_not_found">Error getting stats</string>
     <string name="goalkeepers">Goal keepers</string>
     <string name="defenders">Defenders</string>
     <string name="midfielders">Mid fielders</string>
