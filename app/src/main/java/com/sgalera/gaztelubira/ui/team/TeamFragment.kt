@@ -1,5 +1,6 @@
 package com.sgalera.gaztelubira.ui.team
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,7 +12,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentTeamBinding
 import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
@@ -91,6 +94,11 @@ class TeamFragment : Fragment() {
     }
 
     private fun initLists(playerList: List<PlayerInformation>) {
+        goalKeeperList.clear()
+        defendersList.clear()
+        midfieldersList.clear()
+        forwardsList.clear()
+        technicalStaffList.clear()
         for (player in playerList){
             when(player.position){
                 "Goal keeper" -> goalKeeperList.add(player)
@@ -113,8 +121,15 @@ class TeamFragment : Fragment() {
 
     private fun initGoalKeepers() {
         goalKeeperAdapters = GoalKeeperAdapter(goalKeeperList.sortedBy { it.dorsal },
-            onItemSelected = { position ->
-                Toast.makeText(requireContext(), "Goal keeper $position", Toast.LENGTH_SHORT).show()
+            onItemSelected = {
+                findNavController().navigate(
+                    TeamFragmentDirections.actionTeamFragmentToPlayerInformationDetail(
+                        name = it.name,
+                        dorsal = it.dorsal!!,
+                        image = it.img,
+                        reference = it.stats!!.path
+                    )
+                )
             })
         binding.rvGoalKeepers.apply {
             adapter = goalKeeperAdapters
@@ -125,8 +140,15 @@ class TeamFragment : Fragment() {
 
     private fun initDefenders() {
         defendersAdapter = DefendersAdapter(defendersList.sortedBy { it.dorsal },
-            onItemSelected = { position ->
-                Toast.makeText(requireContext(), "Defender $position", Toast.LENGTH_SHORT).show()
+            onItemSelected = {
+                findNavController().navigate(
+                    TeamFragmentDirections.actionTeamFragmentToPlayerInformationDetail(
+                        name = it.name,
+                        dorsal = it.dorsal!!,
+                        image = it.img,
+                        reference = it.stats!!.path
+                    )
+                )
             })
         binding.rvDefenders.apply {
             adapter = defendersAdapter
@@ -137,8 +159,15 @@ class TeamFragment : Fragment() {
 
     private fun initMidfielders() {
         midfieldersAdapter = MidfieldersAdapter(midfieldersList.sortedBy { it.dorsal },
-            onItemSelected = { position ->
-                Toast.makeText(requireContext(), "Midfielder $position", Toast.LENGTH_SHORT).show()
+            onItemSelected = {
+                findNavController().navigate(
+                    TeamFragmentDirections.actionTeamFragmentToPlayerInformationDetail(
+                        name = it.name,
+                        dorsal = it.dorsal!!,
+                        image = it.img,
+                        reference = it.stats!!.path
+                    )
+                )
             })
         binding.rvMidFielders.apply {
             adapter = midfieldersAdapter
@@ -149,8 +178,15 @@ class TeamFragment : Fragment() {
 
     private fun initForwards() {
         forwardsAdapter = ForwardsAdapter(forwardsList.sortedBy { it.dorsal },
-            onItemSelected = { position ->
-                Toast.makeText(requireContext(), "Forward $position", Toast.LENGTH_SHORT).show()
+            onItemSelected = {
+                findNavController().navigate(
+                    TeamFragmentDirections.actionTeamFragmentToPlayerInformationDetail(
+                        name = it.name,
+                        dorsal = it.dorsal!!,
+                        image = it.img,
+                        reference = it.stats!!.path
+                    )
+                )
             })
         binding.rvForwards.apply {
             adapter = forwardsAdapter
@@ -160,11 +196,18 @@ class TeamFragment : Fragment() {
     }
 
     private fun initTechnicalStaff() {
-        println(technicalStaffList)
         technicalStaffAdapter = TechnicalStaffAdapter(technicalStaffList,
-            onItemSelected = { position ->
-                Toast.makeText(requireContext(), "Technical Staff $position", Toast.LENGTH_SHORT).show()
-            })
+            onItemSelected = {
+                findNavController().navigate(
+                    TeamFragmentDirections.actionTeamFragmentToPlayerInformationDetail(
+                        name = it.name,
+                        dorsal = 0,
+                        image = it.img,
+                        reference = null
+                    )
+                )
+            }
+        )
         binding.rvTechnicalStaff.apply {
             adapter = technicalStaffAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
