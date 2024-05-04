@@ -8,7 +8,7 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 
 class TechnicalStaffAdapter(
     private var technicalStaffList: List<PlayerInformation> = emptyList(),
-    private val onItemSelected: (Int) -> Unit
+    private val onItemSelected: (PlayerInformation) -> Unit
 ): RecyclerView.Adapter<PlayersViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayersViewHolder {
         return PlayersViewHolder(
