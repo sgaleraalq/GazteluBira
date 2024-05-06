@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/playerFragment"
-        android:icon="@drawable/ic_versus"
-        android:title="@string/oneVersusOne" />
-
-    <item
         android:id="@+id/statsFragment"
         android:icon="@drawable/ic_stats"
         android:title="@string/statsFragment" />
-
 
     <item
         android:id="@+id/matchesFragment"
         android:icon="@drawable/ic_football_field"
         android:title="@string/matchesFragment" />
+
+    <item
+        android:id="@+id/teamFragment"
+        android:icon="@drawable/ic_team"
+        android:title="@string/gaztelu_bira" />
+
+    <item
+        android:id="@+id/playerFragment"
+        android:icon="@drawable/ic_versus"
+        android:title="@string/oneVersusOne" />
+
 </menu>

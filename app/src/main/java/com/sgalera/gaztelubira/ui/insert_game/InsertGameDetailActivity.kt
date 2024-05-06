@@ -15,12 +15,14 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameDetailBinding
-import com.sgalera.gaztelubira.domain.model.MappingUtils.mapTeam
-import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
+import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.home.MainActivity
 import com.sgalera.gaztelubira.ui.insert_game.adapter.InsertGameAdapter
@@ -32,8 +34,13 @@ import kotlinx.coroutines.launch
 class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
     private lateinit var binding: ActivityInsertGameDetailBinding
     private lateinit var insertGameAdapter: InsertGameAdapter
-    private lateinit var playerList: MutableList<PlayerInfo>
-    private var benchPlayers = mutableListOf<PlayerInfo>()
+    private val viewModel by viewModels<InsertGameViewModel>()
+
+    private lateinit var playerList: MutableList<PlayerInformation>
+    private var goalList = mutableListOf<String>()
+    private var assistList = mutableListOf<String>()
+    private var penaltyList = mutableListOf<String>()
+    private var cleanSheetList = mutableListOf<String>()
     private var starterPlayers = mutableMapOf(
         "defensive_mid_fielder" to "",
         "goal_keeper" to "",
@@ -47,25 +54,20 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         "right_striker" to "",
         "striker" to ""
     )
-    private val viewModel by viewModels<InsertGameViewModel>()
+    private var benchPlayers = mutableListOf<PlayerInformation>()
 
-    private var home: Int = 0
-    private var away: Int = 0
+
+    private var home: String = ""
+    private var away: String = ""
     private var homeGoals: Int = 0
     private var awayGoals: Int = 0
     private var match: String = ""
     private var journey: Int = 0
     private var id: Int = 0
 
-    private var goalList = mutableListOf<String>()
-    private var assistList = mutableListOf<String>()
-    private var penaltyList = mutableListOf<String>()
-    private var cleanSheetList = mutableListOf<String>()
-
     private var dialog: AlertDialog? = null
 
-    override fun onPlayerAdded(player: PlayerInfo) {
-        viewModel.state.value.add(player.name)
+    override fun updateBenchPowerSpinner() {
         powerSpinnerBenchList()
     }
 
@@ -73,8 +75,8 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         super.onCreate(savedInstanceState)
         binding = ActivityInsertGameDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        home            = intent.getIntExtra("homeTeam", 0)
-        away            = intent.getIntExtra("awayTeam", 0)
+        home            = intent.getStringExtra("homeTeam")!!
+        away            = intent.getStringExtra("awayTeam")!!
         homeGoals       = intent.getIntExtra("homeGoals", 0)
         awayGoals       = intent.getIntExtra("awayGoals", 0)
         match           = intent.getStringExtra("match")!!
@@ -110,49 +112,8 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             setCleanSheet()
         }
     }
-    private fun initComponents() {
-        playerList = viewModel.getPlayers()
-        insertGameAdapter = InsertGameAdapter(benchPlayers, this)
-        binding.rvBench.apply {
-            adapter = insertGameAdapter
-            layoutManager = LinearLayoutManager(
-                this@InsertGameDetailActivity,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
-        }
-        powerSpinnerBenchList()
-        initResult()
-    }
 
-    private fun initResult() {
-        val homeTeam = mapTeam(getString(home))
-        val awayTeam = mapTeam(getString(away))
-        binding.ivLocalTeam.setImageResource(homeTeam.img)
-        binding.tvLocalTeam.text = getString(homeTeam.name)
-        binding.tvLocalGoals.text = homeGoals.toString()
-        binding.ivAwayTeam.setImageResource(awayTeam.img)
-        binding.tvAwayTeam.text = getString(awayTeam.name)
-        binding.tvAwayGoals.text = awayGoals.toString()
-    }
-
-    private fun initListeners() {
-        binding.ivBack.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
-        binding.btnAddBenchPlayer.setOnClickListener {
-            insertBenchPlayer()
-        }
-
-        initStartersListeners()
-        binding.btnInsertGame.setOnClickListener {
-            insertGame()
-        }
-        binding.btnDeleteGame.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
-    }
-
+    // Sets layouts if necessary
     private fun setGoals() {
         for (i in 0 until homeGoals) {
             val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
@@ -161,6 +122,7 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             binding.llGoals.addView(itemLayout)
         }
     }
+
     private fun setAssists() {
         val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
             .inflate(R.layout.item_add_goal_or_assist, binding.llAssists, false)
@@ -184,7 +146,63 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         }
     }
 
+    private fun initComponents() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.getPlayersInformation()
+                viewModel.statePlayers.collect {
+                    when (it) {
+                        is InsertGameState.Loading -> loadingStatePlayersInformation()
+                        is InsertGameState.SuccessPlayers -> successGetPlayersInformation(it.players)
+                        else -> errorStatePlayersInformation()
+                    }
+                }
+            }
+        }
+        insertGameAdapter = InsertGameAdapter(benchPlayers, this)
+        binding.rvBench.apply {
+            adapter = insertGameAdapter
+            layoutManager = LinearLayoutManager(
+                this@InsertGameDetailActivity,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        }
+        initResult()
+    }
 
+    private fun initResult() {
+        lifecycleScope.launch {
+            val homeTeam = viewModel.getTeamInformation(home)
+            val awayTeam = viewModel.getTeamInformation(away)
+
+            binding.tvLocalTeam.text = homeTeam?.name
+            Glide.with(this@InsertGameDetailActivity).load(homeTeam?.img).into(binding.ivLocalTeam)
+
+            binding.tvAwayTeam.text = awayTeam?.name
+            Glide.with(this@InsertGameDetailActivity).load(awayTeam?.img).into(binding.ivAwayTeam)
+        }
+
+        binding.tvLocalGoals.text = homeGoals.toString()
+        binding.tvAwayGoals.text = awayGoals.toString()
+    }
+
+    private fun initListeners() {
+        binding.ivBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+        binding.btnAddBenchPlayer.setOnClickListener {
+            insertBenchPlayer()
+        }
+
+        initStartersListeners()
+        binding.btnInsertGame.setOnClickListener {
+            insertGame()
+        }
+        binding.btnDeleteGame.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+    }
 
     private fun initStartersListeners() {
         binding.ivGoalKeeper.root.setOnClickListener {
@@ -237,13 +255,10 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             ).show()
         } else {
             val player = binding.psBenchPlayer.text.toString()
-            insertGameAdapter.addPlayer(viewModel.convertToPlayerInfo(player))
-            viewModel.state.value.remove(player)
-            playerList.remove(viewModel.convertToPlayerInfo(player))
+            insertGameAdapter.addPlayer(playerList.find { it.name == player }!!)
             powerSpinnerBenchList()
         }
     }
-
 
     private fun showInsertPlayerDialog(position: String) {
         val builder = AlertDialog.Builder(this)
@@ -258,17 +273,16 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         dialogView.findViewById<TextView>(R.id.tvStarterPosition).text = popUpText(position)
         dialogView.findViewById<LinearLayout>(R.id.llStarterPlayers).apply {
             removeAllViews()
-            playerList.sortedBy { it.name }.forEach { player ->
+            playerList
+                .filter { it.name !in starterPlayers.values }
+                .filter { it -> it.name !in benchPlayers.map { it.name } }
+                .sortedBy { it.name }.forEach { player ->
                 val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
                     .inflate(R.layout.item_insert_starters, this, false)
                 itemLayout.findViewById<TextView>(R.id.tvStarterName).text = player.name
                 itemLayout.findViewById<ConstraintLayout>(R.id.parentAddStarter)
                     .setOnClickListener {
-                        if (starterPlayers[position] != "") {
-                            playerList.add(viewModel.convertToPlayerInfo(starterPlayers[position]!!))
-                        }
-                        playerList.remove(player)
-                        setStarterPlayerInfo(position, player.name)
+                        setStarterPlayerInfo(position, player)
                         dialogView.dismiss()
                     }
                 addView(itemLayout)
@@ -276,72 +290,76 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         }
     }
 
-    private fun setStarterPlayerInfo(position: String, name: String) {
-        viewModel.state.value.remove(name)
-        powerSpinnerBenchList()
-        val playerInfo = viewModel.convertToPlayerInfo(name)
+    private fun setStarterPlayerInfo(position: String, player: PlayerInformation) {
         when (position) {
             "goal_keeper" -> {
-                binding.tvGoalKeeper.text = playerInfo.name
-                binding.ivGoalKeeper.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvGoalKeeper.text = player.name
+                binding.ivGoalKeeper.dorsalTextView.text = player.dorsal.toString()
             }
 
             "left_back" -> {
-                binding.tvLeftBack.text = playerInfo.name
-                binding.ivLeftBack.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvLeftBack.text = player.name
+                binding.ivLeftBack.dorsalTextView.text = player.dorsal.toString()
             }
 
             "left_centre_back" -> {
-                binding.tvLeftCentreBack.text = playerInfo.name
-                binding.ivLeftCentreBack.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvLeftCentreBack.text = player.name
+                binding.ivLeftCentreBack.dorsalTextView.text = player.dorsal.toString()
             }
 
             "right_centre_back" -> {
-                binding.tvRightCentreBack.text = playerInfo.name
-                binding.ivRightCentreBack.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvRightCentreBack.text = player.name
+                binding.ivRightCentreBack.dorsalTextView.text = player.dorsal.toString()
             }
 
             "right_back" -> {
-                binding.tvRightBack.text = playerInfo.name
-                binding.ivRightBack.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvRightBack.text = player.name
+                binding.ivRightBack.dorsalTextView.text = player.dorsal.toString()
             }
 
             "left_mid_fielder" -> {
-                binding.tvLeftMidFielder.text = playerInfo.name
-                binding.ivLeftMidFielder.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvLeftMidFielder.text = player.name
+                binding.ivLeftMidFielder.dorsalTextView.text = player.dorsal.toString()
             }
 
             "defensive_mid_fielder" -> {
-                binding.tvDefensiveMidFielder.text = playerInfo.name
-                binding.ivDefensiveMidFielder.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvDefensiveMidFielder.text = player.name
+                binding.ivDefensiveMidFielder.dorsalTextView.text = player.dorsal.toString()
             }
 
             "right_mid_fielder" -> {
-                binding.tvRightMidFielder.text = playerInfo.name
-                binding.ivRightMidFielder.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvRightMidFielder.text = player.name
+                binding.ivRightMidFielder.dorsalTextView.text = player.dorsal.toString()
             }
 
             "left_striker" -> {
-                binding.tvLeftStriker.text = playerInfo.name
-                binding.ivLeftStriker.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvLeftStriker.text = player.name
+                binding.ivLeftStriker.dorsalTextView.text = player.dorsal.toString()
             }
 
             "right_striker" -> {
-                binding.tvRightStriker.text = playerInfo.name
-                binding.ivRightStriker.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvRightStriker.text = player.name
+                binding.ivRightStriker.dorsalTextView.text = player.dorsal.toString()
             }
 
             "striker" -> {
-                binding.tvStriker.text = playerInfo.name
-                binding.ivStriker.dorsalTextView.text = playerInfo.dorsal.toString()
+                binding.tvStriker.text = player.name
+                binding.ivStriker.dorsalTextView.text = player.dorsal.toString()
             }
         }
-        starterPlayers[position] = name
+        starterPlayers[position] = player.name
+        powerSpinnerBenchList()
     }
 
     private fun powerSpinnerBenchList() {
         binding.psBenchPlayer.clearSelectedItem()
-        binding.psBenchPlayer.setItems(viewModel.state.value)
+        val benchList = playerList
+            .filter { it.name !in starterPlayers.values }
+            .filter { it -> it.name !in benchPlayers.map { it.name } }
+            .sortedBy { it.name }
+            .map { it.name }
+
+        binding.psBenchPlayer.setItems(benchList)
     }
 
     private fun popUpText(position: String): String {
@@ -370,7 +388,9 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         view.findViewById<TextView>(R.id.tvStarterPosition).text = stat
         view.findViewById<LinearLayout>(R.id.llStarterPlayers).apply {
             removeAllViews()
-            playerList.sortedBy { it.name }.forEach { player ->
+            var statsList = playerList
+            if (stat == "Clean Sheet"){ statsList = statsList.filter { it.name !in cleanSheetList }.toMutableList() }
+            statsList.sortedBy { it.name }.forEach { player ->
                 val playerName = playerStat.findViewById<TextView>(R.id.tvPlayerName)
                 val playerImage = playerStat.findViewById<ImageView>(R.id.ivGoalPlayer)
                 val itemLayout = LayoutInflater.from(this@InsertGameDetailActivity)
@@ -416,7 +436,7 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
                                 }
                             }
                         }
-                        playerImage.setImageResource(player.img)
+                        Glide.with(this@InsertGameDetailActivity).load(player.img).into(playerImage)
                         playerImage.visibility = View.VISIBLE
                         playerName.text = player.name
                         playerName.visibility = View.VISIBLE
@@ -451,7 +471,7 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
                 }
             }
             "Clean Sheet" -> {
-                if (cleanSheetList.size >= 4){
+                if (cleanSheetList.size >= 4 && cleanSheetList.size == binding.llCleanSheet.childCount) {
                     addLayout(stat, binding.llCleanSheet)
                 }
             }
@@ -467,12 +487,14 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
 
     private fun insertGame() {
         if (checkAllFields()) {
+            val homeReference = viewModel.getReference(home)
+            val awayReference = viewModel.getReference(away)
             lifecycleScope.launch {
                 loadingState()
                 viewModel.postGame(
-                    getString(home),
+                    homeReference,
                     homeGoals,
-                    getString(away),
+                    awayReference,
                     awayGoals,
                     match,
                     journey,
@@ -496,12 +518,12 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
 
     private fun updatePlayerStats(players: List<PlayerStats>) {
         for (player in players) {
-            if (player.name.toString() in goalList) { player.goals += goalList.count { it == player.name.toString() } }
-            if (player.name.toString() in assistList) { player.assists += assistList.count { it == player.name.toString() } }
-            if (player.name.toString() in penaltyList) { player.penalties += penaltyList.count { it == player.name.toString() } }
-            if (player.name.toString() in cleanSheetList) { player.cleanSheet += 1 }
-            if (player.name.toString() in starterPlayers.values) { player.gamesPlayed += 1 }
-            if (player.name.toString() in benchPlayers.map { it.name }) { player.gamesPlayed += 1 }
+            if (player.information!!.name in goalList) { player.goals += goalList.count { it == player.information.name } }
+            if (player.information.name in assistList) { player.assists += assistList.count { it == player.information.name } }
+            if (player.information.name in penaltyList) { player.penalties += penaltyList.count { it == player.information.name } }
+            if (player.information.name in cleanSheetList) { player.cleanSheet += 1 }
+            if (player.information.name in starterPlayers.values) { player.gamesPlayed += 1 }
+            if (player.information.name in benchPlayers.map { it.name }) { player.gamesPlayed += 1 }
             player.lastRanking = player.ranking
             player.percentage = getPercentage(player)
         }
@@ -538,6 +560,22 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
             return false
         }
         return true
+    }
+
+    private fun loadingStatePlayersInformation() {
+        binding.progressBarInsertGame.visibility = View.VISIBLE
+    }
+
+    private fun errorStatePlayersInformation() {
+        binding.progressBarInsertGame.visibility = View.GONE
+        Toast.makeText(this, "Ha ocurrido un error, inténtelo más tarde", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun successGetPlayersInformation(players: MutableList<PlayerInformation>) {
+        binding.progressBarInsertGame.visibility = View.GONE
+        binding.clMainInsertGameDetail.visibility = View.VISIBLE
+        playerList = players
+        powerSpinnerBenchList()
     }
 
     private fun loadingState() {

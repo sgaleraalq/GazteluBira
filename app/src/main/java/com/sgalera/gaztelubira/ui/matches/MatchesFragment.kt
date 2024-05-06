@@ -91,7 +91,6 @@ class MatchesFragment: Fragment() {
 
         val lastMatch = state.matchesList.sortedByDescending { it.id }[0]
         id = lastMatch.id
-        // Get the journey of the last match where journey is "Jornada 21" or "Jornada 1"
         journey = lastMatch.journey.split(" ")[1].toInt()
     }
 

@@ -54,7 +54,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginTop="8dp"
-            app:cardBackgroundColor="@color/white_80_opacity"
+            app:cardBackgroundColor="@color/transparent"
             app:cardCornerRadius="40dp"
             app:layout_constraintBottom_toTopOf="@id/llComparisonStats"
             app:layout_constraintEnd_toStartOf="@id/ivVersus"
@@ -65,7 +65,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:contentDescription="@string/description_football_player"
-                android:src="@drawable/img_player_david" />
+                android:src="@drawable/img_no_profile_picture" />
 
         </androidx.cardview.widget.CardView>
 
@@ -147,7 +147,7 @@
             android:id="@+id/cvPlayerTwo"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            app:cardBackgroundColor="@color/white_80_opacity"
+            app:cardBackgroundColor="@color/transparent"
             app:cardCornerRadius="40dp"
             app:layout_constraintStart_toEndOf="@id/ivVersus"
             app:layout_constraintTop_toTopOf="@id/cvPlayerOne">

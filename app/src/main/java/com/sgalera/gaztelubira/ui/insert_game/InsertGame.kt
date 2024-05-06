@@ -4,32 +4,26 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameBinding
-import com.sgalera.gaztelubira.domain.model.MappingUtils
-import com.sgalera.gaztelubira.domain.model.Team
+import com.sgalera.gaztelubira.domain.model.TeamInformation
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class InsertGame : AppCompatActivity() {
-    private var homeTeam: Team? = null
-    private var awayTeam: Team? = null
+    private var homeTeam: TeamInformation? = null
+    private var awayTeam: TeamInformation? = null
 
-    private var teams = arrayListOf(
-        "Anaitasuna",
-        "Arsenal",
-        "Aterbea",
-        "Esic Gazteak",
-        "Esmeraldeños",
-        "Garre",
-        "Iturrama",
-        "IZN",
-        "La Unica",
-        "Peña School",
-        "San Cristobal"
-    )
+    private val insertGameViewModel by viewModels<InsertGameViewModel>()
+    private var teams: ArrayList<String> = arrayListOf()
+    private var teamsInformation: List<TeamInformation> = emptyList()
+    private var gazteluBira: TeamInformation? = null
 
     private lateinit var binding: ActivityInsertGameBinding
     private var id: Int = 0
@@ -49,10 +43,48 @@ class InsertGame : AppCompatActivity() {
     }
 
     private fun initUI() {
+        fetchTeamsInfo()
+    }
+
+    private fun fetchTeamsInfo() {
+        lifecycleScope.launch {
+            insertGameViewModel.fetchTeams()
+            insertGameViewModel.stateTeams.collect { teamsState ->
+                when (teamsState) {
+                    is InsertGameState.Loading -> loadingState()
+                    is InsertGameState.Error -> errorState(teamsState.message)
+                    is InsertGameState.SuccessTeams -> successState(teamsState.teams)
+                    else -> loadingState()
+                }
+            }
+        }
+    }
+
+    private fun loadingState() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun errorState(message: String) {
+        binding.progressBar.visibility = View.GONE
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun successState(teams: List<TeamInformation>) {
+        teamsInformation = teams
+        homeTeam = teams.find { it.name == "Gaztelu Bira" }
+        binding.progressBar.visibility = View.GONE
+        binding.mainInsert.visibility = View.VISIBLE
+        teams.forEach {
+            this.teams.add(it.name)
+        }
+        gazteluBira = teams.find { it.name == "Gaztelu Bira" }
         initComponents()
     }
 
     private fun initListeners() {
+        binding.ivBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
         binding.btnContinue.setOnClickListener {
             if (checkFields()) {
                 moveToInsertDetailGameActivity()
@@ -81,18 +113,18 @@ class InsertGame : AppCompatActivity() {
         }
 
         // Set teams with Power Spinners
-        binding.psHomeTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
-            homeTeam = MappingUtils.mapTeam(newItem)
+        binding.psHomeTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, teamSelected ->
+            homeTeam = teamsInformation.find { it.name == teamSelected}
 
             // Set away as Gaztelu
-            awayTeam = MappingUtils.mapTeam("Gaztelu Bira")
+            awayTeam = gazteluBira
             insertTeams()
         }
-        binding.psAwayTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
-            awayTeam = MappingUtils.mapTeam(newItem)
+        binding.psAwayTeam.setOnSpinnerItemSelectedListener<String> { _, _, _, teamSelected ->
+            awayTeam = teamsInformation.find { it.name == teamSelected}
 
             // Set local as Gaztelu
-            homeTeam = MappingUtils.mapTeam("Gaztelu Bira")
+            homeTeam = gazteluBira
             insertTeams()
         }
     }
@@ -103,11 +135,11 @@ class InsertGame : AppCompatActivity() {
     }
 
     private fun insertTeams() {
-        binding.tvHomeTeam.text = this.getString(homeTeam!!.name)
-        binding.ivHomeTeam.setImageResource(homeTeam!!.img)
+        binding.tvHomeTeam.text = homeTeam!!.name
+        Glide.with(this).load(homeTeam!!.img).into(binding.ivHomeTeam)
 
-        binding.tvAwayTeam.text = this.getString(awayTeam!!.name)
-        binding.ivAwayTeam.setImageResource(awayTeam!!.img)
+        binding.tvAwayTeam.text = awayTeam!!.name
+        Glide.with(this).load(awayTeam!!.img).into(binding.ivAwayTeam)
 
         binding.ivHomeTeam.visibility = View.VISIBLE
         binding.ivAwayTeam.visibility = View.VISIBLE
@@ -130,8 +162,8 @@ class InsertGame : AppCompatActivity() {
     private fun moveToInsertDetailGameActivity() {
         val intent = Intent(this, InsertGameDetailActivity::class.java)
         intent.apply {
-            putExtra("homeTeam", homeTeam!!.name)
-            putExtra("awayTeam", awayTeam!!.name)
+            putExtra("homeTeam", homeTeam!!.reference!!.path)
+            putExtra("awayTeam", awayTeam!!.reference!!.path)
             putExtra("homeGoals", binding.etHomeGoals.text.toString().toInt())
             putExtra("awayGoals", binding.etAwayGoals.text.toString().toInt())
             putExtra("match", match)
@@ -141,3 +173,5 @@ class InsertGame : AppCompatActivity() {
         startActivity(intent)
     }
 }
+
+

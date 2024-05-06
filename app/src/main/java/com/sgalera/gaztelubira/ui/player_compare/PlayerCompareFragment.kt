@@ -17,9 +17,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentComparePlayersBinding
-import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
+import com.sgalera.gaztelubira.domain.InformationList
+import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.player_compare.adapter.PopUpAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,14 +34,14 @@ class PlayerCompareFragment : Fragment() {
     private var _binding: FragmentComparePlayersBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModels<PlayerComparisonViewModel>()
-    private val popUpList: List<PlayerInfo> by lazy {
-        viewModel.getPlayerList()
-    }
 
+    private val popUpPlayerList: List<PlayerInformation> = InformationList.players!!
+
+    private lateinit var playerOneReference: DocumentReference
     private lateinit var playerOne: PlayerStats
+
+    private lateinit var playerTwoReference: DocumentReference
     private lateinit var playerTwo: PlayerStats
-    private lateinit var playerOneName: String
-    private lateinit var playerTwoName: String
 
     private var isPlayerOneLoaded = false
     private var isPlayerTwoLoaded = false
@@ -68,17 +71,9 @@ class PlayerCompareFragment : Fragment() {
         binding.btnChooseTwoPlayers.setOnClickListener {
             showPlayerComparisonPopUp(null, null)
         }
-
-        // Change only one playerStats
-        binding.tvPlayerOneName.setOnClickListener {
-            showPlayerComparisonPopUp(null, viewModel.mapPlayer(binding.tvPlayerTwoName.text))
-        }
-        binding.tvPlayerTwoName.setOnClickListener {
-            showPlayerComparisonPopUp(viewModel.mapPlayer(binding.tvPlayerOneName.text), null)
-        }
     }
 
-    private fun showPlayerComparisonPopUp(playerOne: PlayerInfo?, playerTwo: PlayerInfo?) {
+    private fun showPlayerComparisonPopUp(playerOne: PlayerInformation?, playerTwo: PlayerInformation?) {
         val builder = AlertDialog.Builder(requireContext())
         val inflater = LayoutInflater.from(requireContext())
         val view = inflater.inflate(R.layout.item_popup, null)
@@ -91,7 +86,7 @@ class PlayerCompareFragment : Fragment() {
         val popUpRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewPlayers)
         val doneButtonPopUp = view.findViewById<CardView>(R.id.cvDone)
         val popUpAdapter = PopUpAdapter(
-            playerList = popUpList,
+            playerList = popUpPlayerList,
             selectedPlayers = mutableListOf(),
             showDoneButton = {
                 doneButtonPopUp.visibility = View.VISIBLE
@@ -100,7 +95,7 @@ class PlayerCompareFragment : Fragment() {
                 doneButtonPopUp.visibility = View.GONE
             })
 
-        popUpAdapter.updateList(popUpList)
+        popUpAdapter.updateList(popUpPlayerList)
         popUpRecyclerView.apply {
             adapter = popUpAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
@@ -111,8 +106,8 @@ class PlayerCompareFragment : Fragment() {
         }
     }
 
-    private fun selectPlayers(playerOne: PlayerInfo?, playerTwo: PlayerInfo?): List<PlayerInfo> {
-        popUpList.forEach { player ->
+    private fun selectPlayers(playerOne: PlayerInformation?, playerTwo: PlayerInformation?): List<PlayerInformation> {
+        popUpPlayerList.forEach { player ->
             if (player != playerOne && player != playerTwo) {
                 player.selected = false
             }
@@ -120,7 +115,7 @@ class PlayerCompareFragment : Fragment() {
                 player.selected = true
             }
         }
-        return popUpList
+        return popUpPlayerList
     }
     private fun showPlayersInfo() {
         binding.clMessiVsCristiano.visibility = View.GONE
@@ -129,64 +124,77 @@ class PlayerCompareFragment : Fragment() {
     }
 
     private fun fetchData() {
-        getPlayerInfo()
-        getAllStats()
+        playerOneReference = popUpPlayerList.find { it.selected }!!.stats!!
+        playerTwoReference = popUpPlayerList.findLast { it.selected }!!.stats!!
+
+        getPlayerOneStats()
+        getPlayerTwoStats()
     }
 
-    private fun getPlayerInfo() {
-        playerOneName = ""
-        playerTwoName = ""
-        for (element in popUpList){
-            if (element.selected){
-                if (playerOneName.isNotEmpty()){
-                    playerTwoName = element.name
-                } else {
-                    playerOneName = element.name
-                }
-            }
-        }
-    }
-
-    private fun getAllStats() {
+    private fun getPlayerOneStats() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getPlayerStats(playerOneName, 1)
-                viewModel.getPlayerStats(playerTwoName, 2)
-                viewModel.state.collect { state ->
+                viewModel.getPlayerStatsPlayerOne(playerOneReference)
+                viewModel.statePlayerOne.collect { state ->
                     when (state) {
-                        is PlayerComparisonState.Loading -> loadingState()
-                        is PlayerComparisonState.Success -> successState(state.playerStats, state.id)
-                        is PlayerComparisonState.Error -> errorState(state.error)
+                        is PlayerComparisonState.Loading -> loadingStatePlayerOne()
+                        is PlayerComparisonState.Success -> successStatePlayerOne(state.playerStats)
+                        is PlayerComparisonState.Error -> errorStatePlayerOne(state.error)
                     }
                 }
             }
         }
     }
 
-    private fun loadingState() {
+    private fun loadingStatePlayerOne() {
         binding.pbPlayerOne.visibility = View.VISIBLE
-        binding.pbPlayerTwo.visibility = View.VISIBLE
     }
 
-    private fun errorState(error: String) {
+    private fun errorStatePlayerOne(error: String) {
         binding.pbPlayerOne.visibility = View.INVISIBLE
         binding.pbPlayerTwo.visibility = View.INVISIBLE
         Toast.makeText(requireContext(), "Ha ocurrido un error $error", Toast.LENGTH_SHORT).show()
-
     }
 
-    private fun successState(playerStats: PlayerStats, id: Int) {
+    private fun successStatePlayerOne(playerStats: PlayerStats) {
+        binding.pbPlayerOne.visibility = View.INVISIBLE
+        playerOne = playerStats
+        isPlayerOneLoaded = true
+        if (isPlayerTwoLoaded){
+            initComponents()
+        }
+    }
+
+    private fun getPlayerTwoStats() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getPlayerStatsPlayerTwo(playerTwoReference)
+                viewModel.statePlayerTwo.collect { state ->
+                    when (state) {
+                        is PlayerComparisonState.Loading -> loadingStatePlayerTwo()
+                        is PlayerComparisonState.Success -> successStatePlayerTwo(state.playerStats)
+                        is PlayerComparisonState.Error -> errorStatePlayerTwo(state.error)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun loadingStatePlayerTwo() {
+        binding.pbPlayerTwo.visibility = View.VISIBLE
+    }
+
+    private fun errorStatePlayerTwo(error: String) {
         binding.pbPlayerOne.visibility = View.INVISIBLE
         binding.pbPlayerTwo.visibility = View.INVISIBLE
+        Toast.makeText(requireContext(), "Ha ocurrido un error $error", Toast.LENGTH_SHORT).show()
+    }
 
-        if (id == 1){
-            playerOne = playerStats
-            isPlayerOneLoaded = true
-        } else if (id == 2) {
-            playerTwo = playerStats
-            isPlayerTwoLoaded = true
-        }
-        if (isPlayerOneLoaded && isPlayerTwoLoaded){
+    private fun successStatePlayerTwo(playerStats: PlayerStats) {
+        binding.pbPlayerTwo.visibility = View.INVISIBLE
+        playerTwo = playerStats
+        isPlayerTwoLoaded = true
+        if (isPlayerOneLoaded){
             initComponents()
         }
     }
@@ -194,9 +202,9 @@ class PlayerCompareFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun initComponents() {
         // Main ppal components player one
-        binding.tvPlayerOneName.text = playerOne.name.name
-        binding.ivPlayerOne.setImageResource(playerOne.name.img)
-        binding.tvDorsalPlayerOne.text = playerOne.name.dorsal.toString()
+        binding.tvPlayerOneName.text = playerOne.information!!.name
+        Glide.with(requireContext()).load(playerOne.information!!.img).into(binding.ivPlayerOne)
+        binding.tvDorsalPlayerOne.text = playerOne.information!!.dorsal.toString()
         binding.tvPositionPlayerOne.text = playerOne.position
         binding.tvParticipationPlayerOne.text = "${playerOne.percentage.toString()} %"
         binding.tvGoalsPlayerOne.text = playerOne.goals.toString()
@@ -206,9 +214,9 @@ class PlayerCompareFragment : Fragment() {
         binding.tvGamesPlayedPlayerOne.text = playerOne.gamesPlayed.toString()
 
         // Main ppal components player two
-        binding.tvPlayerTwoName.text = playerTwo.name.name
-        binding.ivPlayerTwo.setImageResource(playerTwo.name.img)
-        binding.tvDorsalPlayerTwo.text = playerTwo.name.dorsal.toString()
+        binding.tvPlayerTwoName.text = playerTwo.information!!.name
+        Glide.with(requireContext()).load(playerTwo.information!!.img).into(binding.ivPlayerTwo)
+        binding.tvDorsalPlayerTwo.text = playerTwo.information!!.dorsal.toString()
         binding.tvPositionPlayerTwo.text = playerTwo.position
         binding.tvParticipationPlayerTwo.text = "${playerTwo.percentage.toString()} %"
         binding.tvGoalsPlayerTwo.text = playerTwo.goals.toString()

@@ -16,11 +16,4 @@ class SharedPreferences(context: Context) {
     fun getAdminToken(): String? {
         return sharedPreferences.getString("admin_token", null)
     }
-
-    fun clearAdminToken() {
-        with(sharedPreferences.edit()) {
-            remove("admin_token")
-            apply()
-        }
-    }
 }

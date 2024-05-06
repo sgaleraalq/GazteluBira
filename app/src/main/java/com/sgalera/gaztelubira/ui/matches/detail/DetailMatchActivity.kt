@@ -13,10 +13,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.navArgs
+import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityDetailMatchBinding
 import com.sgalera.gaztelubira.domain.model.matches.Match
-import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
+import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -74,14 +75,15 @@ class DetailMatchActivity : AppCompatActivity() {
         binding.tvSlash.visibility = View.VISIBLE
         binding.clStarters.visibility = View.VISIBLE
 
+
         // Local
-        binding.ivLocalTeam.setImageResource(match.local.img)
-        binding.tvLocalTeam.text = this.getString(match.local.name)
+        Glide.with(this).load(match.local!!.img).into(binding.ivLocalTeam)
+        binding.tvLocalTeam.text = match.local.name
         binding.tvLocalGoals.text = match.localGoals.toString()
 
         // Visitor
-        binding.ivAwayTeam.setImageResource(match.visitor.img)
-        binding.tvAwayTeam.text = this.getString(match.visitor.name)
+        Glide.with(this).load(match.visitor!!.img).into(binding.ivAwayTeam)
+        binding.tvAwayTeam.text = match.visitor.name
         binding.tvAwayGoals.text = match.visitorGoals.toString()
 
         initLinearLayouts(match.scorers, match.assistants)
@@ -116,12 +118,12 @@ class DetailMatchActivity : AppCompatActivity() {
         }
     }
     @SuppressLint("InflateParams")
-    private fun initBenchPlayers(bench: List<PlayerInfo>) {
-        val benchList = bench.sortedBy { it.dorsal }
+    private fun initBenchPlayers(bench: List<PlayerInformation?>) {
+        val benchList = bench.sortedBy { it!!.dorsal }
         for ((index, player) in benchList.withIndex()) {
             val inflater = LayoutInflater.from(this)
             val itemLayout = inflater.inflate(R.layout.item_bench, null) as View
-            itemLayout.findViewById<TextView>(R.id.tvBenchPlayer).text = player.name
+            itemLayout.findViewById<TextView>(R.id.tvBenchPlayer).text = player!!.name
             itemLayout.findViewById<TextView>(R.id.tvDorsal).text = player.dorsal.toString()
 
             // Decidir en qué LinearLayout colocar el elemento según el índice
@@ -146,7 +148,7 @@ class DetailMatchActivity : AppCompatActivity() {
         }
     }
 
-    private fun initStarters(starters: Map<String, PlayerInfo>) {
+    private fun initStarters(starters: Map<String, PlayerInformation?>) {
         includeGoalKeeper(starters["goal_keeper"])
         includeBacks(starters["left_back"], starters["right_back"])
         includeCentreBacks(starters["left_centre_back"], starters["right_centre_back"])
@@ -154,12 +156,12 @@ class DetailMatchActivity : AppCompatActivity() {
         includeStrikers(starters["left_striker"], starters["right_striker"], starters["striker"])
     }
 
-    private fun includeGoalKeeper(playerInfo: PlayerInfo?) {
+    private fun includeGoalKeeper(playerInfo: PlayerInformation?) {
         binding.ivGoalKeeper.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
         binding.tvGoalKeeper.text = playerInfo?.name
     }
 
-    private fun includeBacks(playerInfo: PlayerInfo?, playerInfo1: PlayerInfo?) {
+    private fun includeBacks(playerInfo: PlayerInformation?, playerInfo1: PlayerInformation?) {
         binding.ivLeftBack.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
         binding.tvLeftBack.text = playerInfo?.name
 
@@ -167,7 +169,7 @@ class DetailMatchActivity : AppCompatActivity() {
         binding.tvRightBack.text = playerInfo1?.name
     }
 
-    private fun includeCentreBacks(playerInfo: PlayerInfo?, playerInfo1: PlayerInfo?) {
+    private fun includeCentreBacks(playerInfo: PlayerInformation?, playerInfo1: PlayerInformation?) {
         binding.ivLeftCentreBack.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
         binding.tvLeftCentreBack.text = playerInfo?.name
 
@@ -175,7 +177,7 @@ class DetailMatchActivity : AppCompatActivity() {
         binding.tvRightCentreBack.text = playerInfo1?.name
     }
 
-    private fun includeMidFielders(playerInfo: PlayerInfo?, playerInfo1: PlayerInfo?, playerInfo2: PlayerInfo?) {
+    private fun includeMidFielders(playerInfo: PlayerInformation?, playerInfo1: PlayerInformation?, playerInfo2: PlayerInformation?) {
         binding.ivDefensiveMidFielder.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
         binding.tvDefensiveMidFielder.text = playerInfo?.name
 
@@ -186,7 +188,7 @@ class DetailMatchActivity : AppCompatActivity() {
         binding.tvRightMidFielder.text = playerInfo2?.name
     }
 
-    private fun includeStrikers(playerInfo: PlayerInfo?, playerInfo1: PlayerInfo?, playerInfo2: PlayerInfo?) {
+    private fun includeStrikers(playerInfo: PlayerInformation?, playerInfo1: PlayerInformation?, playerInfo2: PlayerInformation?) {
         binding.ivLeftStriker.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
         binding.tvLeftStriker.text = playerInfo?.name
 

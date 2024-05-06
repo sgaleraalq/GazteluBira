@@ -2,12 +2,13 @@ package com.sgalera.gaztelubira.ui.insert_game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.data.provider.MatchesProvider
 import com.sgalera.gaztelubira.data.provider.PlayersProvider
+import com.sgalera.gaztelubira.data.provider.TeamsProvider
+import com.sgalera.gaztelubira.data.response.MatchInfoResponse
 import com.sgalera.gaztelubira.data.response.MatchResponse
-import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
-import com.sgalera.gaztelubira.domain.model.players.PlayerInfo
-import com.sgalera.gaztelubira.domain.model.players.PlayerInfo.*
+import com.sgalera.gaztelubira.domain.model.TeamInformation
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.stats.StatsState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,11 +21,16 @@ import javax.inject.Inject
 @HiltViewModel
 class InsertGameViewModel @Inject constructor(
     private val matchesProvider: MatchesProvider,
-    private val playersProvider: PlayersProvider
+    private val playersProvider: PlayersProvider,
+    private val teamsProvider: TeamsProvider
 ) :
     ViewModel() {
-    private var _state = MutableStateFlow(arrayListOf<String>())
-    val state: StateFlow<ArrayList<String>> = _state
+
+    private val _stateTeams = MutableStateFlow<InsertGameState>(InsertGameState.Loading)
+    val stateTeams: StateFlow<InsertGameState> = _stateTeams
+
+    private val _statePlayers = MutableStateFlow<InsertGameState>(InsertGameState.Loading)
+    val statePlayers: StateFlow<InsertGameState> = _statePlayers
 
     private var _stateInsertGame =
         MutableStateFlow<InsertGameInfoState>(InsertGameInfoState.Loading)
@@ -33,43 +39,34 @@ class InsertGameViewModel @Inject constructor(
     private var _allPlayersState = MutableStateFlow<StatsState>(StatsState.Loading)
     val allPlayersState: StateFlow<StatsState> = _allPlayersState
 
-    init {
-        viewModelScope.launch {
-            val playerNames = arrayListOf(
-                "Pedro",
-                "Jon",
-                "Asier",
-                "Manu",
-                "Xabi",
-                "Oso",
-                "Diego",
-                "Mikel",
-                "Gorka",
-                "Arrondo",
-                "Bryant",
-                "Dani",
-                "Nando",
-                "Haaland",
-                "David",
-                "Aaron",
-                "Roson",
-                "Mugueta",
-                "Fran",
-                "Iker",
-                "Larra",
-                "Unai",
-                "Madariaga",
-                "Lopez",
-                "Emilio"
-            )
-            _state.value = playerNames
+
+    suspend fun fetchTeams(){
+        val teams = matchesProvider.getTeams()
+        if (teams != null){
+            _stateTeams.value = InsertGameState.SuccessTeams(teams)
+        } else {
+            _stateTeams.value = InsertGameState.Error("Ha ocurrido un error, intentelo más tarde")
         }
     }
 
+    suspend fun getTeamInformation(home: String): TeamInformation? {
+        return teamsProvider.getTeamInformation(home)
+    }
+
+    suspend fun getPlayersInformation() {
+        val players = playersProvider.getAllPlayers()
+        if (players != null) {
+            _statePlayers.value = InsertGameState.SuccessPlayers(players)
+        } else {
+            _statePlayers.value = InsertGameState.Error("Ha ocurrido un error, intentelo más tarde")
+        }
+    }
+
+
     suspend fun postGame(
-        homeTeam: String,
+        homeTeam: DocumentReference,
         homeGoals: Int,
-        awayTeam: String,
+        awayTeam: DocumentReference,
         awayGoals: Int,
         match: String,
         journey: Int,
@@ -140,77 +137,17 @@ class InsertGameViewModel @Inject constructor(
         }
     }
 
-    fun convertToPlayerInfo(player: String): PlayerInfo {
-        return when (player) {
-            "Pedro" -> Pedro
-            "Jon" -> Jon
-            "Asier" -> Asier
-            "Manu" -> Manu
-            "Xabi" -> Xabi
-            "Oso" -> Oso
-            "Diego" -> Diego
-            "Mikel" -> Mikel
-            "Gorka" -> Gorka
-            "Arrondo" -> Arrondo
-            "Bryant" -> Bryant
-            "Dani" -> Dani
-            "Nando" -> Nando
-            "Haaland" -> Haaland
-            "David" -> David
-            "Aaron" -> Aaron
-            "Roson" -> Roson
-            "Mugueta" -> Mugueta
-            "Fran" -> Fran
-            "Iker" -> Iker
-            "Larra" -> Larra
-            "Unai" -> Unai
-            "Madariaga" -> Madariaga
-            "Lopez" -> Lopez
-            "Emilio" -> Emilio
-            else -> throw IllegalArgumentException("Player not found")
-        }
-    }
-
-    fun getPlayers(): MutableList<PlayerInfo> {
-        return mutableListOf(
-            Pedro,
-            Jon,
-            Asier,
-            Manu,
-            Xabi,
-            Oso,
-            Diego,
-            Mikel,
-            Gorka,
-            Arrondo,
-            Bryant,
-            Dani,
-            Nando,
-            Haaland,
-            David,
-            Aaron,
-            Roson,
-            Mugueta,
-            Fran,
-            Iker,
-            Larra,
-            Unai,
-            Madariaga,
-            Lopez,
-            Emilio
-        )
-    }
 
     private fun createGameData(
-        homeTeam: String,
+        homeTeam: DocumentReference,
         homeGoals: Int,
-        awayTeam: String,
+        awayTeam: DocumentReference,
         awayGoals: Int,
         match: String,
         jornada: String,
         id: Int
-    ): MatchInfo {
-        return MatchInfo(
+    ): MatchInfoResponse {
+        return MatchInfoResponse(
             homeTeam = homeTeam,
             homeGoals = homeGoals,
             awayTeam = awayTeam,
@@ -222,9 +159,9 @@ class InsertGameViewModel @Inject constructor(
     }
 
     private fun createGameStats(
-        homeTeam: String,
+        homeTeam: DocumentReference,
         homeGoals: Int,
-        awayTeam: String,
+        awayTeam: DocumentReference,
         awayGoals: Int,
         match: String,
         id: Int,
@@ -246,4 +183,9 @@ class InsertGameViewModel @Inject constructor(
             assistants = assistants
         )
     }
+
+    fun getReference(home: String): DocumentReference {
+        return teamsProvider.getReference(home)
+    }
+
 }

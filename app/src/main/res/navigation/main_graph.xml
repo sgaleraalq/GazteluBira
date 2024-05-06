@@ -45,4 +45,32 @@
             android:name="id"
             app:argType="integer" />
     </activity>
+    <fragment
+        android:id="@+id/teamFragment"
+        android:name="com.sgalera.gaztelubira.ui.team.TeamFragment"
+        android:label="fragment_team"
+        tools:layout="@layout/fragment_team" >
+        <action
+            android:id="@+id/action_teamFragment_to_playerInformationDetail"
+            app:destination="@id/playerInformationDetail" />
+    </fragment>
+    <activity
+        android:id="@+id/playerInformationDetail"
+        android:name="com.sgalera.gaztelubira.ui.team.detail.PlayerInformationDetail"
+        android:label="activity_player_information_detail"
+        tools:layout="@layout/activity_player_information_detail" >
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="reference"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="dorsal"
+            app:argType="integer" />
+        <argument
+            android:name="image"
+            app:argType="string" />
+    </activity>
 </navigation>
