@@ -13,14 +13,23 @@ The main purpose of the app is to gain experience using Android Studio in the Ko
 ## Download
 Go to the [Releases](https://github.com/sgaleraalq/GazteluBira/releases) to download the latest APK.
 
+
+# Tech stack & Open-source libraries
+- Minimum SDK level 21
+- [Kotlin](https://kotlinlang.org/) based, [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) + [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/) for asynchronous.
+- ViewModel: Manages UI-related data holder and lifecycle aware. Allows data to survive configuration changes such as screen rotations.
+- DataBinding: Binds UI components in your layouts to data sources in your app using a declarative format rather than programmatically.
+- Architecture
+  - MVVM Architecture (View - DataBinding - ViewModel - Model)
+- [Glide](https://github.com/bumptech/glide), [GlidePalette](https://github.com/florent37/GlidePalette): Loading images from network.
+// Missing firebase
+- Custom Views
+  - [ProgressView](https://github.com/skydoves/progressview): A polished and flexible ProgressView, fully customizable with animations.
+
  It is MVVM designed with the use of some dependecies such as:
 
-    - Dagger Hilt
     - Navigation Component
-    - Glide
-    - Retrofit
     - Google firebase
-    - Progress View (@skydoves)
 
 Main screen consists of: 
 - Picture of current leader of the board (FIFA like)
