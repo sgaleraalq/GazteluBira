@@ -15,22 +15,19 @@ Go to the [Releases](https://github.com/sgaleraalq/GazteluBira/releases) to down
 
 
 # Tech stack & Open-source libraries
-- Minimum SDK level 21
+- Minimum SDK level 24
 - [Kotlin](https://kotlinlang.org/) based, [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) + [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/) for asynchronous.
 - ViewModel: Manages UI-related data holder and lifecycle aware. Allows data to survive configuration changes such as screen rotations.
 - DataBinding: Binds UI components in your layouts to data sources in your app using a declarative format rather than programmatically.
 - Architecture
   - MVVM Architecture (View - DataBinding - ViewModel - Model)
 - [Glide](https://github.com/bumptech/glide), [GlidePalette](https://github.com/florent37/GlidePalette): Loading images from network.
-// Missing firebase
+- [Firebase](https://firebase.google.com/): Firebase is a platform developed by Google for creating mobile and web applications.
+- [Navigation Component](https://developer.android.com/guide/navigation): Component that helps to implement navigation, from simple button clicks to more complex patterns, such as app bars and the navigation drawer.
 - Custom Views
   - [ProgressView](https://github.com/skydoves/progressview): A polished and flexible ProgressView, fully customizable with animations.
 
- It is MVVM designed with the use of some dependecies such as:
+## Features
+The app contains 4 different screens based upon the player's stats and matches played by the team.
 
-    - Navigation Component
-    - Google firebase
-
-Main screen consists of: 
-- Picture of current leader of the board (FIFA like)
-- Individual stats for every player with arrows ups and downs
+Data is added manually to Firebase Firestore, and the app retrieves it from there following MVVM architecture.
