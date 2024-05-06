@@ -1,8 +1,12 @@
-## Gaztelu Bira App
+<h1 align="center">Gaztelu Bira App</h1>
 
-This is just an app that measure stats and matches played by a local team in Pamplona, Navarra (Spain).
+<p align="center">
+  <a href="https://www.github.com/sgaleraalq"><img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"/></a> 
+</p>
+<p align="center">This is just an app that measures stats and matches played by a local team in Pamplona, Navarra (Spain).<br>
+The main purpose of the app is to gain experience using Android Studio in the Kotlin programming language.</p>
 
-The main purpose of the app is to get experience using Android Studio in Kotlin programming language. It is MVVM designed with the use of some dependecies such as:
+ It is MVVM designed with the use of some dependecies such as:
 
     - Dagger Hilt
     - Graph Navigation
