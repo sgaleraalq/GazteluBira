@@ -7,7 +7,7 @@
 The main purpose of the app is to gain experience using Android Studio in the Kotlin programming language.</p>
 
 <p align="center">
-    <img src="assets/main_image.png" width="800" heigth="400"/>
+    <img src="assets/main_image.png" width="600" heigth="300"/>
 </p>
 
 ## Download
