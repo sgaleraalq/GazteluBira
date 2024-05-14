@@ -14,7 +14,7 @@ The app contains 4 main screens, each one with a different purpose.
 
 Main screen of the app. Shows player stats with each stat:
 
-  - Goals [football ball icon] (https://github.com/sgaleraalq/GazteluBira/blob/master/app/src/main/res/drawable/ic_football_ball.xml)
+  - Goals ![Goals](/assets/football-ball-svgrepo-com.svg)
   - Assists
   - Penalties produced
   - Clean sheet when playing as a defender/goal keeper
