@@ -38,9 +38,6 @@ It also shows a card fifa-like of the highest percentage rated player. The perce
 Finally contains an admin button that makes you admin if you insert the correct password -> Useful to insert games if needed.
 
 
-
-
-
 ## Screen 2
 
 <img src="/assets/gaztelu_screen_2.gif" align="right" width="180">
@@ -53,6 +50,33 @@ When you press in any of the matches, it redirects you to another activity which
   - Goals and assists of each player
   - Starter team
   - Bench team
+
+
+It also contains a button if you are logged as an admin to insert new games from mobile so you dont need to connect to firebase database.
+
+
+## Screen 3
+
+<img src="/assets/gaztelu_screen_3.gif" align="right" width="180">
+
+Contains a Recycler View of all the players with their images. When you press in any of the players, it redirects you to another activity which shows the specific information of that player. It contains the following information:
+  
+  - Name
+  - Position
+  - Goals of the player
+  - Assists of the player
+  - Penalties produced by the player
+  - Clean sheets of the player
+  - Games played by the player
+
+
+## Screen 4
+
+<img src="/assets/gaztelu_screen_4.gif" align="right" width="180">
+
+In this last screen, it contains a way of comparing one player to another. When you press compare players, you will get a pop up (dialog) that shows all players in the team. You can select two players and compare them. It will show a card with the stats of both players and the difference between them.
+
+It uses power spinners to represent each individual stat.
 
 # Tech stack & Open-source libraries
 - Minimum SDK level 24
