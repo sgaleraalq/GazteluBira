@@ -14,7 +14,7 @@ The app contains 4 main screens, each one with a different purpose.
 
 Main screen of the app. Shows player stats with each stat:
 
-  - Goals ![Goals](/assets/football-ball-svgrepo-com.svg)
+  - Goals <img src="/assets/football-ball-svgrepo-com.svg" alt="Goals" style="width: 16px; height: 16px;">
   - Assists
   - Penalties produced
   - Clean sheet when playing as a defender/goal keeper
