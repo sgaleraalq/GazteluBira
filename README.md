@@ -35,4 +35,4 @@ Data is added manually to Firebase Firestore, and the app retrieves it from ther
 ### Screen 1
 - Shows the player's stats.
 - 
-<img src="/assets/gaztelu_screen_1.gif" align="right" width="320"/>
+<img src="/assets/gaztelu_screen_1.gif" align="right" width="240"/>
