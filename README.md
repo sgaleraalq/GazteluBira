@@ -11,11 +11,11 @@ Go to the [Releases](https://github.com/sgaleraalq/GazteluBira/releases) to down
 
 <h2 align="center">Screens</h2>
 
-<img src="/assets/gaztelu_screen_1.gif" align="right" width="100">
-
 The app contains 4 main screens, each one with a different purpose.
 
 ## Screen 1
+
+<img src="/assets/gaztelu_screen_1.gif" align="right" width="180">
 
 Main screen of the app. Shows a table containing each player with their respective stat:
 
@@ -43,7 +43,7 @@ Finally contains an admin button that makes you admin if you insert the correct 
 
 ## Screen 2
 
-<img src="/assets/gaztelu_screen_2.gif" align="right" width="100">
+<img src="/assets/gaztelu_screen_2.gif" align="right" width="180">
 
 Contains a Recycler View of all the games played by our team. If the match was won, it is shown in a green background color, if it was lost, it is shown in a red background color, and if it was a draw, it is shown in a yellow background color.
 
