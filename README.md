@@ -35,7 +35,7 @@ It also shows a card fifa-like of the highest percentage rated player. The perce
 
 <p align="center">% = <sup><img src="/assets/ic_football_ball.svg" alt="Goals" style="width: 16px; height: 16px;"> + <img src="/assets/ic_football_shoe.svg" alt="Assists" style="width: 16px; height: 16px;"> + <img src="/assets/ic_penalty.svg" alt="Penalty" style="width: 16px; height: 16px;"> + <img src="/assets/ic_clean_sheet.svg" alt="Clean sheet" style="width: 16px; height: 16px;"></sup>/<sub><img src="/assets/ic_color_football_field.svg" alt="Games played" style="width: 16px; height: 16px;"></sub></p>
 
-Finally contains an admin button that makes you admin if you insert the correct password -> Useful to insert games if needed.
+Finally contains an admin button that makes you admin if you insert the correct password. Useful to insert games if needed.
 
 
 ## Screen 2
@@ -84,6 +84,8 @@ Contains a Recycler View of all the players with their images. When you press in
 In this last screen, it contains a way of comparing one player to another. When you press compare players, you will get a pop up (dialog) that shows all players in the team. You can select two players and compare them. It will show a card with the stats of both players and the difference between them.
 
 It uses power spinners to represent each individual stat.
+
+--
 
 --
 
