@@ -15,6 +15,7 @@ The app contains 4 main screens, each one with a different purpose.
 Main screen of the app. Shows player stats with each stat:
 
 <div style="overflow: auto;">
+  <img src="/assets/gaztelu_screen_1.gif" align="right" width="240">
   <ul style="float: left; margin-right: 20px;">
     <li><img src="/assets/ic_football_ball.svg" alt="Goals" style="width: 16px; height: 16px;"> Goals</li>
     <li><img src="/assets/ic_football_shoe.svg" alt="Assists" style="width: 16px; height: 16px;"> Assists</li>
@@ -22,10 +23,6 @@ Main screen of the app. Shows player stats with each stat:
     <li><img src="/assets/ic_clean_sheet.svg" alt="Clean sheet" style="width: 16px; height: 16px;"> Clean sheet when playing as a defender/goal keeper</li>
     <li><img src="/assets/ic_color_football_field.svg" alt="Games played" style="width: 16px; height: 16px;"> Games played</li>
   </ul>
-
-  <div style="float: right; margin-left: 20px;">
-    <img src="/assets/gaztelu_screen_1.gif" width="240">
-  </div>
 </div>
 
 ## Download
