@@ -6,6 +6,9 @@
 <p align="center">This is just an app that measures stats and matches played by a local team in Pamplona, Navarra (Spain).<br>
 The main purpose of the app is to gain experience using Android Studio in the Kotlin programming language.</p>
 
+## Download
+Go to the [Releases](https://github.com/sgaleraalq/GazteluBira/releases) to download the latest APK.
+
 <h2 align="center">Screens</h2>
 
 <img src="/assets/gaztelu_screen_1.gif" align="right" width="240">
@@ -14,7 +17,7 @@ The app contains 4 main screens, each one with a different purpose.
 
 ### Screen 1
 
-Main screen of the app. Shows player stats with each stat:
+Main screen of the app. Shows a table containing each player with their respective stat:
 
 <div style="overflow: auto;">
   <ul style="float: left; margin-right: 20px;">
@@ -26,9 +29,11 @@ Main screen of the app. Shows player stats with each stat:
   </ul>
 </div>
 
-## Download
-Go to the [Releases](https://github.com/sgaleraalq/GazteluBira/releases) to download the latest APK.
+If you press in any of the stats, it gets sorted from highest to lowest for that specific stat.
 
+It also shows a card fifa-like of the highest percentage rated player. The percentage is just a sum of all the stats divided by the maximum possible value.
+
+<p align="center">% = <sup><img src="/assets/ic_football_ball.svg" alt="Goals" style="width: 16px; height: 16px;">+<img src="/assets/ic_football_ball.svg" alt="Goals" style="width: 16px; height: 16px;"></sup>/<sub><img src="/assets/ic_football_ball.svg" alt="Goals" style="width: 16px; height: 16px;"></sub></p>
 
 # Tech stack & Open-source libraries
 - Minimum SDK level 24
