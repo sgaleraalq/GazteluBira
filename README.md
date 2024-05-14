@@ -20,7 +20,7 @@ Main screen of the app. Shows player stats with each stat:
   -  <img src="/assets/ic_clean_sheet.svg" alt="Goals" style="width: 16px; height: 16px;"> Clean sheet when playing as a defender/goal keeper
   -  <img src="/assets/ic_color_football_field.svg" alt="Goals" style="width: 16px; height: 16px;"> Games played
 
-
+<img src="/assets/gaztelu_screen_1.gif" align="right" width="240">
 
 
 ## Download
