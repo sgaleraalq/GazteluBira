@@ -6,10 +6,6 @@
 <p align="center">This is just an app that measures stats and matches played by a local team in Pamplona, Navarra (Spain).<br>
 The main purpose of the app is to gain experience using Android Studio in the Kotlin programming language.</p>
 
-<p align="center">
-    <img src="assets/main_image.png" width="600" heigth="300"/>
-</p>
-
 ## Download
 Go to the [Releases](https://github.com/sgaleraalq/GazteluBira/releases) to download the latest APK.
 
