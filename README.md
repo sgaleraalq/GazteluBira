@@ -9,9 +9,9 @@ The main purpose of the app is to gain experience using Android Studio in the Ko
 ## Download
 Go to the [Releases](https://github.com/sgaleraalq/GazteluBira/releases) to download the latest APK.
 
-<h2 align="center">Screens</h2>
+<h2 align="center"><b>SCREENS</b></h2>
 
-The app contains 4 main screens, each one with a different purpose.
+<p align="center">The app contains 4 main screens, each one with a different purpose</p>
 
 ## Screen 1
 
@@ -94,6 +94,9 @@ It uses power spinners to represent each individual stat.
 --
 
 --
+
+# Architecture
+<img src="/assets/app_architecture.png">
 
 # Tech stack & Open-source libraries
 - Minimum SDK level 24
