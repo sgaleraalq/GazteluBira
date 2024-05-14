@@ -56,7 +56,6 @@ It also contains a button if you are logged as an admin to insert new games from
 
 --
 
---
 
 ## Screen 3
 
@@ -76,7 +75,6 @@ Contains a Recycler View of all the players with their images. When you press in
 
 --
 
---
 
 
 ## Screen 4
@@ -86,6 +84,14 @@ Contains a Recycler View of all the players with their images. When you press in
 In this last screen, it contains a way of comparing one player to another. When you press compare players, you will get a pop up (dialog) that shows all players in the team. You can select two players and compare them. It will show a card with the stats of both players and the difference between them.
 
 It uses power spinners to represent each individual stat.
+
+--
+
+--
+
+--
+
+--
 
 # Tech stack & Open-source libraries
 - Minimum SDK level 24
