@@ -14,17 +14,19 @@ The app contains 4 main screens, each one with a different purpose.
 
 Main screen of the app. Shows player stats with each stat:
 
-<div style="float:right; margin-left:20px;">
-  <img src="/assets/gaztelu_screen_1.gif" width="240" height="360">
+<div style="overflow: auto;">
+  <ul style="float: left; margin-right: 20px;">
+    <li><img src="/assets/ic_football_ball.svg" alt="Goals" style="width: 16px; height: 16px;"> Goals</li>
+    <li><img src="/assets/ic_football_shoe.svg" alt="Assists" style="width: 16px; height: 16px;"> Assists</li>
+    <li><img src="/assets/ic_penalty.svg" alt="Penalties" style="width: 16px; height: 16px;"> Penalties produced</li>
+    <li><img src="/assets/ic_clean_sheet.svg" alt="Clean sheet" style="width: 16px; height: 16px;"> Clean sheet when playing as a defender/goal keeper</li>
+    <li><img src="/assets/ic_color_football_field.svg" alt="Games played" style="width: 16px; height: 16px;"> Games played</li>
+  </ul>
+
+  <div style="float: right; margin-left: 20px;">
+    <img src="/assets/gaztelu_screen_1.gif" width="240">
+  </div>
 </div>
-
-- <img src="/assets/ic_football_ball.svg" alt="Goals" style="width: 16px; height: 16px;"> Goals
-- <img src="/assets/ic_football_shoe.svg" alt="Assists" style="width: 16px; height: 16px;"> Assists
-- <img src="/assets/ic_penalty.svg" alt="Goals" style="width: 16px; height: 16px;"> Penalties produced
-- <img src="/assets/ic_clean_sheet.svg" alt="Goals" style="width: 16px; height: 16px;"> Clean sheet when playing as a defender/goal keeper
-- <img src="/assets/ic_color_football_field.svg" alt="Goals" style="width: 16px; height: 16px;"> Games played
-
-
 
 ## Download
 Go to the [Releases](https://github.com/sgaleraalq/GazteluBira/releases) to download the latest APK.
