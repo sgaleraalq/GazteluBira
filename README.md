@@ -14,7 +14,7 @@ The app contains 4 main screens, each one with a different purpose.
 
 Main screen of the app. Shows player stats with each stat:
 
-  -  <img src="/assets/ic_football_ball.svg" alt="Goals" style="width: 16px; height: 16px;"> Goals
+  -  <img src="/GazteluBira/assets/ic_football_ball.svg" alt="Goals" style="width: 16px; height: 16px;"> Goals
   -  <img src="/assets/ic_football_shoe.svg" alt="Assists" style="width: 16px; height: 16px;"> Assists
   -  <img src="/assets/ic_penalty.svg" alt="Goals" style="width: 16px; height: 16px;"> Penalties produced
   -  <img src="/assets/ic_clean_sheet.svg" alt="Goals" style="width: 16px; height: 16px;"> Clean sheet when playing as a defender/goal keeper
