@@ -33,7 +33,7 @@ If you press in any of the stats, it gets sorted from highest to lowest for that
 
 It also shows a card fifa-like of the highest percentage rated player. The percentage is just a sum of all the stats divided by the maximum possible value.
 
-<p align="center">% = <sup><img src="/assets/ic_football_ball.svg" alt="Goals" style="width: 16px; height: 16px;">+<img src="/assets/ic_football_ball.svg" alt="Goals" style="width: 16px; height: 16px;"></sup>/<sub><img src="/assets/ic_football_ball.svg" alt="Goals" style="width: 16px; height: 16px;"></sub></p>
+<p align="center">% = <sup><img src="/assets/ic_football_ball.svg" alt="Goals" style="width: 16px; height: 16px;"> + <img src="/assets/ic_football_shoe.svg" alt="Assists" style="width: 16px; height: 16px;"> + <img src="/assets/ic_penalty.svg" alt="Penalty" style="width: 16px; height: 16px;"> + <img src="/assets/ic_clean_sheet.svg" alt="Clean sheet" style="width: 16px; height: 16px;"></sup>/<sub><img src="/assets/ic_color_football_field.svg" alt="Games played" style="width: 16px; height: 16px;"></sub></p>
 
 # Tech stack & Open-source libraries
 - Minimum SDK level 24
