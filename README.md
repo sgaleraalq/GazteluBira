@@ -6,6 +6,23 @@
 <p align="center">This is just an app that measures stats and matches played by a local team in Pamplona, Navarra (Spain).<br>
 The main purpose of the app is to gain experience using Android Studio in the Kotlin programming language.</p>
 
+<h2 align="center">Screens</h2>
+
+The app contains 4 main screens, each one with a different purpose.
+
+### Screen 1
+
+Main screen of the app. Shows player stats with each stat:
+
+  - Goals [football ball icon] (https://github.com/sgaleraalq/GazteluBira/blob/master/app/src/main/res/drawable/ic_football_ball.xml)
+  - Assists
+  - Penalties produced
+  - Clean sheet when playing as a defender/goal keeper
+  - Games played
+
+
+
+
 ## Download
 Go to the [Releases](https://github.com/sgaleraalq/GazteluBira/releases) to download the latest APK.
 
@@ -27,21 +44,3 @@ Go to the [Releases](https://github.com/sgaleraalq/GazteluBira/releases) to down
 The app contains 4 different screens based upon the player's stats and matches played by the team.
 
 Data is added manually to Firebase Firestore, and the app retrieves it from there following MVVM architecture.
-
-### Screen 1
-- Shows the player's stats.
-- 
-<img src="/assets/gaztelu_screen_1.gif" align="right" width="240"/>
-
-### Screen 2
-- Shows the matches played by the team.
-<img src="/assets/gaztelu_screen_2.gif" align="right" width="240"/>
-
-### Screen 3
-- Shows the player's stats.
-<img src="/assets/gaztelu_screen_3.gif" align="right" width="240"/>
-
-
-### Screen 4
-- Shows the player's stats.
-<img src="/assets/gaztelu_screen_4.gif" align="right" width="240"/>
