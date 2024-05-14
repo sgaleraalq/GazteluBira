@@ -96,7 +96,9 @@ It uses power spinners to represent each individual stat.
 --
 
 # Architecture
-<img src="/assets/app_architecture.png" align="center">
+<div style="text-align: center;">
+    <img src="/assets/app_architecture.png">
+</div>
 
 # Tech stack & Open-source libraries
 - Minimum SDK level 24
