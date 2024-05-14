@@ -38,11 +38,14 @@ Data is added manually to Firebase Firestore, and the app retrieves it from ther
 <img src="/assets/gaztelu_screen_1.gif" align="right" width="240"/>
 
 ### Screen 2
+- Shows the matches played by the team.
 <img src="/assets/gaztelu_screen_2.gif" align="right" width="240"/>
 
 ### Screen 3
+- Shows the player's stats.
 <img src="/assets/gaztelu_screen_3.gif" align="right" width="240"/>
 
 
 ### Screen 4
+- Shows the player's stats.
 <img src="/assets/gaztelu_screen_4.gif" align="right" width="240"/>
