@@ -31,3 +31,8 @@ Go to the [Releases](https://github.com/sgaleraalq/GazteluBira/releases) to down
 The app contains 4 different screens based upon the player's stats and matches played by the team.
 
 Data is added manually to Firebase Firestore, and the app retrieves it from there following MVVM architecture.
+
+### Screen 1
+- Shows the player's stats.
+- 
+<img src="/assets/gaztelu_screen_1.mp4" align="right" width="320"/>
