@@ -8,6 +8,8 @@ The main purpose of the app is to gain experience using Android Studio in the Ko
 
 <h2 align="center">Screens</h2>
 
+<img src="/assets/gaztelu_screen_1.gif" align="right" width="240">
+
 The app contains 4 main screens, each one with a different purpose.
 
 ### Screen 1
@@ -15,7 +17,6 @@ The app contains 4 main screens, each one with a different purpose.
 Main screen of the app. Shows player stats with each stat:
 
 <div style="overflow: auto;">
-  <img src="/assets/gaztelu_screen_1.gif" align="right" width="240">
   <ul style="float: left; margin-right: 20px;">
     <li><img src="/assets/ic_football_ball.svg" alt="Goals" style="width: 16px; height: 16px;"> Goals</li>
     <li><img src="/assets/ic_football_shoe.svg" alt="Assists" style="width: 16px; height: 16px;"> Assists</li>
