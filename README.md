@@ -54,6 +54,9 @@ When you press in any of the matches, it redirects you to another activity which
 
 It also contains a button if you are logged as an admin to insert new games from mobile so you dont need to connect to firebase database.
 
+--
+
+--
 
 ## Screen 3
 
@@ -68,6 +71,12 @@ Contains a Recycler View of all the players with their images. When you press in
   - Penalties produced by the player
   - Clean sheets of the player
   - Games played by the player
+
+--
+
+--
+
+--
 
 
 ## Screen 4
