@@ -2,6 +2,7 @@ package com.sgalera.gaztelubira.ui.manager
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.sgalera.gaztelubira.ui.home.Credentials
 
 class SharedPreferences(context: Context) {
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("token", Context.MODE_PRIVATE)
@@ -13,7 +14,31 @@ class SharedPreferences(context: Context) {
         }
     }
 
-    fun getAdminToken(): String? {
-        return sharedPreferences.getString("admin_token", null)
+    fun savePlayer(player: String){
+        with(sharedPreferences.edit()){
+            putString("player", player)
+            apply()
+        }
+    }
+
+    fun saveYear(year: Int){
+        with(sharedPreferences.edit()){
+            putInt("year", year)
+            apply()
+        }
+    }
+
+
+    fun getCredentials(): Credentials {
+        return Credentials(
+            token = sharedPreferences.getString("admin_token", "") ?: "",
+            player = sharedPreferences.getString("player", "") ?: "",
+            year = sharedPreferences.getInt("year", 0)
+        )
+    }
+
+
+    fun getAdminToken(): String {
+        return sharedPreferences.getString("admin_token", "") ?: ""
     }
 }
