@@ -1,8 +1,8 @@
 package com.sgalera.gaztelubira.ui.home
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sgalera.gaztelubira.domain.model.Credentials
 import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -26,25 +26,18 @@ class MainViewModel @Inject constructor(
                 sharedPreferences.getCredentials()
             }
 
-            if (credentials.token.isNullOrEmpty() || credentials.year == 0){
+            if (credentials.token.isNullOrEmpty()){
                 _state.value = MainState.Error("Error fetching credentials")
             } else {
                 // TODO player
-                _state.value = MainState.Success(credentials.token, credentials.player ?: "", credentials.year)
+                _state.value = MainState.Success(credentials)
             }
         }
     }
-
 }
-
-data class Credentials(
-    val token: String?,
-    val player: String?,
-    val year: Int
-)
 
 sealed class MainState{
     data object Loading: MainState()
-    data class Success(val token: String, val player: String, val year: Int): MainState()
+    data class Success(val credentials: Credentials): MainState()
     data class Error(val error: String): MainState()
 }

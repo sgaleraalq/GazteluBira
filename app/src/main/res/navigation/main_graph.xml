@@ -25,7 +25,17 @@
         android:id="@+id/statsFragment"
         android:name="com.sgalera.gaztelubira.ui.stats.StatsFragment"
         android:label="fragment_stats"
-        tools:layout="@layout/fragment_stats" />
+        tools:layout="@layout/fragment_stats" >
+        <argument
+            android:name="token"
+            app:argType="string" />
+        <argument
+            android:name="player"
+            app:argType="string" />
+        <argument
+            android:name="year"
+            app:argType="integer" />
+    </fragment>
     <activity
         android:id="@+id/detailMatchActivity"
         android:name="com.sgalera.gaztelubira.ui.matches.detail.DetailMatchActivity"

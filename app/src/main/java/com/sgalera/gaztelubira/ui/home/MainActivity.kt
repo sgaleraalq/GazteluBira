@@ -9,10 +9,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavGraphNavigator
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityMainBinding
+import com.sgalera.gaztelubira.domain.model.Credentials
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -41,16 +46,16 @@ class MainActivity: AppCompatActivity() {
                     when (state) {
                         MainState.Loading -> { onLoading() }
                         is MainState.Error -> { onStateError() }
-                        is MainState.Success -> { onStateSuccess() }
+                        is MainState.Success -> { onStateSuccess(state) }
                     }
                 }
             }
         }
     }
 
-    private fun onStateSuccess() {
+    private fun onStateSuccess(state: MainState.Success) {
         binding.pbLoading.visibility = View.GONE
-        initNavigation()
+        initNavigation(state.credentials)
     }
 
     private fun onStateError() {
@@ -62,9 +67,17 @@ class MainActivity: AppCompatActivity() {
         mainViewModel.getCredentials()
     }
 
-    private fun initNavigation() {
+    private fun initNavigation(credentials: Credentials) {
         val navHost = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHost.navController
         binding.bottomNavView.setupWithNavController(navController)
+
+        val bundle = Bundle().apply {
+            putString("token", credentials.token ?: "")
+            putString("username", credentials.player ?: "")
+            putInt("year", credentials.year)
+        }
+
+        navController.navigate(R.id.statsFragment, bundle)
     }
 }

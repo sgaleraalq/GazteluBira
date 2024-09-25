@@ -2,7 +2,7 @@ package com.sgalera.gaztelubira.ui.manager
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.sgalera.gaztelubira.ui.home.Credentials
+import com.sgalera.gaztelubira.domain.model.Credentials
 
 class SharedPreferences(context: Context) {
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("token", Context.MODE_PRIVATE)

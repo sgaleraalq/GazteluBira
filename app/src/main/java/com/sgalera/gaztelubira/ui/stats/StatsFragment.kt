@@ -1,11 +1,10 @@
 package com.sgalera.gaztelubira.ui.stats
 
-import com.sgalera.gaztelubira.ui.manager.PasswordManager
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.text.InputType
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,15 +14,19 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.BuildConfig
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentStatsBinding
+import com.sgalera.gaztelubira.domain.model.Credentials
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
+import com.sgalera.gaztelubira.ui.manager.PasswordManager
 import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -36,6 +39,9 @@ class StatsFragment : Fragment() {
     private lateinit var playerStats: List<PlayerStats>
     private lateinit var sharedPreferences: SharedPreferences
 
+    private val args: StatsFragmentArgs by navArgs()
+    private lateinit var credentials: Credentials
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,10 +52,19 @@ class StatsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        arguments?.let {
+            credentials =
+                Credentials(
+                    token = it.getString("token"),
+                    player = it.getString("player"),
+                    year = it.getInt("year")
+                )
+        }
         initUI()
     }
 
     private fun initUI() {
+        Log.i("StatsFragment", credentials.toString())
         initToken()
         initComponents()
         initListeners()
@@ -182,8 +197,9 @@ class StatsFragment : Fragment() {
                             playerStats = it.data.sortedByDescending { it.percentage }
                             startLateListeners()
                             successState(playerStats)
-                            showImage( playerStats[0] )
+                            showImage(playerStats[0])
                         }
+
                         is StatsState.Error -> errorState(it.message)
                     }
                 }
@@ -258,7 +274,8 @@ class StatsFragment : Fragment() {
                 password.inputType = InputType.TYPE_CLASS_TEXT
                 eye.setImageResource(R.drawable.ic_eye_open)
             } else {
-                password.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                password.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                 eye.setImageResource(R.drawable.ic_eye_closed)
             }
             // Mueve el cursor al final del texto
