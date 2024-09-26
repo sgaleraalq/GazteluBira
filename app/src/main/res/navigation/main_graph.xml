@@ -27,14 +27,14 @@
         android:label="fragment_stats"
         tools:layout="@layout/fragment_stats" >
         <argument
-            android:name="token"
-            app:argType="string" />
-        <argument
             android:name="player"
             app:argType="string" />
         <argument
             android:name="year"
             app:argType="integer" />
+        <argument
+            android:name="isAdmin"
+            app:argType="boolean" />
     </fragment>
     <activity
         android:id="@+id/detailMatchActivity"

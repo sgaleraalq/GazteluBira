@@ -9,10 +9,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavGraphNavigator
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.sgalera.gaztelubira.R
@@ -73,7 +69,7 @@ class MainActivity: AppCompatActivity() {
         binding.bottomNavView.setupWithNavController(navController)
 
         val bundle = Bundle().apply {
-            putString("token", credentials.token ?: "")
+            putBoolean("isAdmin", credentials.isAdmin)
             putString("username", credentials.player ?: "")
             putInt("year", credentials.year)
         }

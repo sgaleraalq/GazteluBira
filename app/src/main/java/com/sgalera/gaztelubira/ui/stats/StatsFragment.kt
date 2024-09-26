@@ -19,7 +19,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.BuildConfig
 import com.sgalera.gaztelubira.R
@@ -35,12 +34,10 @@ import kotlinx.coroutines.launch
 class StatsFragment : Fragment() {
     private var _binding: FragmentStatsBinding? = null
     private val binding get() = _binding!!
-    private val statsViewModel by viewModels<StatsViewModel>()
     private lateinit var playerStats: List<PlayerStats>
-    private lateinit var sharedPreferences: SharedPreferences
 
-    private val args: StatsFragmentArgs by navArgs()
     private lateinit var credentials: Credentials
+    private val statsViewModel by viewModels<StatsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,36 +49,52 @@ class StatsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getCredentials()
+        initUI()
+    }
+
+    private fun getCredentials(){
         arguments?.let {
             credentials =
                 Credentials(
-                    token = it.getString("token"),
+                    isAdmin = it.getBoolean("isAdmin"),
                     player = it.getString("player"),
                     year = it.getInt("year")
                 )
         }
-        initUI()
     }
 
     private fun initUI() {
-        Log.i("StatsFragment", credentials.toString())
-        initToken()
         initComponents()
         initListeners()
     }
 
-    private fun initToken() {
-        sharedPreferences = SharedPreferences(requireContext())
-        val token = sharedPreferences.getAdminToken()
-        if (token != null) {
-            binding.tvLoggedAsAdmin.visibility = View.VISIBLE
-            binding.cvAdmin.visibility = View.INVISIBLE
+    private fun initComponents() {
+        lifecycleScope.launch {
+
         }
+//        lifecycleScope.launch {
+//            repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                statsViewModel.state.collect { it ->
+//                    when (it) {
+//                        StatsState.Loading -> loadingState()
+//                        is StatsState.Success -> {
+//                            playerStats = it.data.sortedByDescending { it.percentage }
+//                            startLateListeners()
+//                            successState(playerStats)
+//                            showImage(playerStats[0])
+//                        }
+//
+//                        is StatsState.Error -> errorState(it.message)
+//                    }
+//                }
+//            }
+//        }
     }
 
     private fun initListeners() {
         binding.cvAdmin.setOnClickListener {
-            showAdminPopUp()
+//            showAdminPopUp()
         }
     }
 
@@ -187,25 +200,7 @@ class StatsFragment : Fragment() {
         )
     }
 
-    private fun initComponents() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                statsViewModel.state.collect { it ->
-                    when (it) {
-                        StatsState.Loading -> loadingState()
-                        is StatsState.Success -> {
-                            playerStats = it.data.sortedByDescending { it.percentage }
-                            startLateListeners()
-                            successState(playerStats)
-                            showImage(playerStats[0])
-                        }
 
-                        is StatsState.Error -> errorState(it.message)
-                    }
-                }
-            }
-        }
-    }
 
     private fun showImage(player: PlayerStats) {
         binding.ivIconGoals.visibility = View.VISIBLE
@@ -240,33 +235,33 @@ class StatsFragment : Fragment() {
         }
     }
 
-    private fun showAdminPopUp() {
-        val builder = AlertDialog.Builder(requireContext())
-        val inflater = LayoutInflater.from(requireContext())
-        val view = inflater.inflate(R.layout.item_admin_popup, null)
-        builder.setView(view)
-        val dialog = builder.create()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.show()
-
-        val logInBtn = view.findViewById<AppCompatButton>(R.id.btnLogInAdmin)
-        val password = view.findViewById<EditText>(R.id.etAdminPassword)
-        val eyeIcon = view.findViewById<ImageView>(R.id.ivEye)
-        initEyeIcon(eyeIcon, password)
-        val passwordManager = PasswordManager()
-        logInBtn.setOnClickListener {
-            val enteredPassword = password.text.toString()
-            if (passwordManager.checkPassword(enteredPassword)) {
-                sharedPreferences = SharedPreferences(requireContext())
-                sharedPreferences.saveAdminToken(BuildConfig.AUTH_TOKEN)
-                Toast.makeText(context, "Contraseña correcta", Toast.LENGTH_SHORT).show()
-                dialog.dismiss()
-                initToken()
-            } else {
-                Toast.makeText(context, "Contraseña incorrecta", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
+//    private fun showAdminPopUp() {
+//        val builder = AlertDialog.Builder(requireContext())
+//        val inflater = LayoutInflater.from(requireContext())
+//        val view = inflater.inflate(R.layout.item_admin_popup, null)
+//        builder.setView(view)
+//        val dialog = builder.create()
+//        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+//        dialog.show()
+//
+//        val logInBtn = view.findViewById<AppCompatButton>(R.id.btnLogInAdmin)
+//        val password = view.findViewById<EditText>(R.id.etAdminPassword)
+//        val eyeIcon = view.findViewById<ImageView>(R.id.ivEye)
+//        initEyeIcon(eyeIcon, password)
+//        val passwordManager = PasswordManager()
+//        logInBtn.setOnClickListener {
+//            val enteredPassword = password.text.toString()
+//            if (passwordManager.checkPassword(enteredPassword)) {
+//                sharedPreferences = SharedPreferences(requireContext())
+//                sharedPreferences.saveAdminToken(BuildConfig.AUTH_TOKEN)
+//                Toast.makeText(context, "Contraseña correcta", Toast.LENGTH_SHORT).show()
+//                dialog.dismiss()
+//                initToken()
+//            } else {
+//                Toast.makeText(context, "Contraseña incorrecta", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//    }
 
     private fun initEyeIcon(eye: ImageView, password: EditText) {
         eye.setOnClickListener {

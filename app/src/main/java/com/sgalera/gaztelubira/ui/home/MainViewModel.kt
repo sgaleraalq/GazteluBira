@@ -26,7 +26,7 @@ class MainViewModel @Inject constructor(
                 sharedPreferences.getCredentials()
             }
 
-            if (credentials.token.isNullOrEmpty()){
+            if (!credentials.isAdmin){
                 _state.value = MainState.Error("Error fetching credentials")
             } else {
                 // TODO player
