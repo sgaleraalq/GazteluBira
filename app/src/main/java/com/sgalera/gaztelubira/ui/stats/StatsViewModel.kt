@@ -24,10 +24,11 @@ class StatsViewModel @Inject constructor(
     private var _state = MutableStateFlow<StatsState>(StatsState.Loading)
     val state: StateFlow<StatsState> = _state
 
-    private var _playersStats = MutableStateFlow<List<PlayerStatsModel>>(emptyList())
-    val playersStats: StateFlow<List<PlayerStatsModel>> = _playersStats
+    private val _uiState = MutableStateFlow<StatsUiState>(StatsUiState.Loading)
+    val uiState: StateFlow<StatsUiState> = _uiState
 
     init {
+        _uiState.value = StatsUiState.Loading
         viewModelScope.launch {
             _state.value = StatsState.Loading
             val result = playersProvider.getAllStats()
@@ -41,12 +42,22 @@ class StatsViewModel @Inject constructor(
 
     fun getPlayersStats(year: Int) {
         viewModelScope.launch {
+            _uiState.value = StatsUiState.Loading
             val result = withContext(Dispatchers.IO){
                 getPlayersStatsUseCase(year.toString())
             }
             if (result != null) {
-                _playersStats.value = result
+                _uiState.value = StatsUiState.Success(result.sortedByDescending { it.percentage })
+            } else {
+                _uiState.value = StatsUiState.Error
             }
         }
     }
+}
+
+
+sealed class StatsUiState {
+    data object Loading: StatsUiState()
+    data object Error: StatsUiState()
+    data class Success(val playersStats: List<PlayerStatsModel>): StatsUiState()
 }

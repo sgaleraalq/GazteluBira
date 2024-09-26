@@ -3,7 +3,6 @@ package com.sgalera.gaztelubira.ui.stats
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentStatsBinding
+import com.sgalera.gaztelubira.databinding.ItemTableRowBinding
 import com.sgalera.gaztelubira.domain.model.Credentials
+import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -69,28 +70,48 @@ class StatsFragment : Fragment() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
-                statsViewModel.playersStats.collect { playerListStats ->
-                    Log.i("StatsFragment", "playerListStats: $playerListStats")
+                statsViewModel.uiState.collect { uiState ->
+                    when (uiState) {
+                        StatsUiState.Loading -> {  }
+                        is StatsUiState.Error -> { onError() }
+                        is StatsUiState.Success -> { onSuccess(uiState.playersStats) }
+                    }
                 }
             }
         }
-//        lifecycleScope.launch {
-//            repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                statsViewModel.state.collect { it ->
-//                    when (it) {
-//                        StatsState.Loading -> loadingState()
-//                        is StatsState.Success -> {
-//                            playerStats = it.data.sortedByDescending { it.percentage }
-//                            startLateListeners()
-//                            successState(playerStats)
-//                            showImage(playerStats[0])
-//                        }
-//
-//                        is StatsState.Error -> errorState(it.message)
-//                    }
-//                }
-//            }
-//        }
+    }
+
+    private fun onError() {
+        binding.pbLoading.visibility = View.GONE
+        Toast.makeText(context, getString(R.string.main_error), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onSuccess(playersListStats: List<PlayerStatsModel>) {
+        binding.pbLoading.visibility = View.GONE
+        binding.tlClassification.removeAllViews()
+
+        playersListStats.forEachIndexed { index, player ->
+            binding.tlClassification.addView(insertRow(player, index))
+        }
+    }
+
+    private fun insertRow(player: PlayerStatsModel, index: Int): View {
+        val binding = ItemTableRowBinding.inflate(layoutInflater)
+        val arrow = getArrow(player)
+
+        with(binding) {
+            ivArrow.setImageResource(arrow)
+            tvRanking.text = getString(R.string.player_ranking, index + 1)
+            tvPlayerName.text = ""
+            tvPlayerProportion.text = player.percentage
+            tvPlayerGoals.text = player.goals.toString()
+            tvPlayerAssists.text = player.assists.toString()
+            tvPlayerPenalties.text = player.penalties.toString()
+            tvPlayerCleanSheet.text = player.cleanSheet.toString()
+            tvPlayerGames.text = player.gamesPlayed.toString()
+        }
+
+        return binding.root
     }
 
     private fun initListeners() {
@@ -99,68 +120,68 @@ class StatsFragment : Fragment() {
         }
     }
 
-    private fun startLateListeners() {
-        binding.percentageIcon.setOnClickListener {
-            clearAllBackgrounds()
-            binding.percentageIcon.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.grey_80_opacity
-                )
-            )
-            successState(playerStats.sortedByDescending { it.percentage })
-        }
-        binding.goalsIcon.setOnClickListener {
-            clearAllBackgrounds()
-            binding.goalsIcon.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.grey_80_opacity
-                )
-            )
-            successState(playerStats.sortedByDescending { it.goals })
-        }
-        binding.assistsIcon.setOnClickListener {
-            clearAllBackgrounds()
-            binding.assistsIcon.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.grey_80_opacity
-                )
-            )
-            successState(playerStats.sortedByDescending { it.assists })
-        }
-        binding.penaltiesIcon.setOnClickListener {
-            clearAllBackgrounds()
-            binding.penaltiesIcon.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.grey_80_opacity
-                )
-            )
-            successState(playerStats.sortedByDescending { it.penalties })
-        }
-        binding.cleanSheetIcon.setOnClickListener {
-            clearAllBackgrounds()
-            binding.cleanSheetIcon.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.grey_80_opacity
-                )
-            )
-            successState(playerStats.sortedByDescending { it.cleanSheet })
-        }
-        binding.gamesIcon.setOnClickListener {
-            clearAllBackgrounds()
-            binding.gamesIcon.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.grey_80_opacity
-                )
-            )
-            successState(playerStats.sortedByDescending { it.gamesPlayed })
-        }
-    }
+//    private fun startLateListeners() {
+//        binding.percentageIcon.setOnClickListener {
+//            clearAllBackgrounds()
+//            binding.percentageIcon.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.grey_80_opacity
+//                )
+//            )
+//            successState(playerStats.sortedByDescending { it.percentage })
+//        }
+//        binding.goalsIcon.setOnClickListener {
+//            clearAllBackgrounds()
+//            binding.goalsIcon.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.grey_80_opacity
+//                )
+//            )
+//            successState(playerStats.sortedByDescending { it.goals })
+//        }
+//        binding.assistsIcon.setOnClickListener {
+//            clearAllBackgrounds()
+//            binding.assistsIcon.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.grey_80_opacity
+//                )
+//            )
+//            successState(playerStats.sortedByDescending { it.assists })
+//        }
+//        binding.penaltiesIcon.setOnClickListener {
+//            clearAllBackgrounds()
+//            binding.penaltiesIcon.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.grey_80_opacity
+//                )
+//            )
+//            successState(playerStats.sortedByDescending { it.penalties })
+//        }
+//        binding.cleanSheetIcon.setOnClickListener {
+//            clearAllBackgrounds()
+//            binding.cleanSheetIcon.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.grey_80_opacity
+//                )
+//            )
+//            successState(playerStats.sortedByDescending { it.cleanSheet })
+//        }
+//        binding.gamesIcon.setOnClickListener {
+//            clearAllBackgrounds()
+//            binding.gamesIcon.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.grey_80_opacity
+//                )
+//            )
+//            successState(playerStats.sortedByDescending { it.gamesPlayed })
+//        }
+//    }
 
     private fun clearAllBackgrounds() {
         binding.percentageIcon.setBackgroundColor(
@@ -226,15 +247,15 @@ class StatsFragment : Fragment() {
         Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
     }
 
-    private fun successState(stats: List<PlayerStats>) {
-        binding.tlClassification.removeAllViews()
-        var index = 0
-        for (player in stats) {
-            val view = setRowPlayerView(player, index)
-            binding.tlClassification.addView(view)
-            index += 1
-        }
-    }
+//    private fun successState(stats: List<PlayerStats>) {
+//        binding.tlClassification.removeAllViews()
+//        var index = 0
+//        for (player in stats) {
+//            val view = setRowPlayerView(player, index)
+//            binding.tlClassification.addView(view)
+//            index += 1
+//        }
+//    }
 
 //    private fun showAdminPopUp() {
 //        val builder = AlertDialog.Builder(requireContext())
@@ -279,24 +300,24 @@ class StatsFragment : Fragment() {
         }
     }
 
-    @SuppressLint("SetTextI18n", "InflateParams")
-    private fun setRowPlayerView(player: PlayerStats, index: Int): View {
-        val view = layoutInflater.inflate(R.layout.item_table_row, null)
-        val arrow = getArrow(player)
-        view.findViewById<ImageView>(R.id.ivArrow).setImageResource(arrow)
-        view.findViewById<TextView>(R.id.tvRanking).text = (index + 1).toString()
-        view.findViewById<TextView>(R.id.tvPlayerName).text = player.information!!.name
-        view.findViewById<TextView>(R.id.tvPlayerProportion).text = player.percentage
-        view.findViewById<TextView>(R.id.tvPlayerGoals).text = player.goals.toString()
-        view.findViewById<TextView>(R.id.tvPlayerAssists).text = player.assists.toString()
-        view.findViewById<TextView>(R.id.tvPlayerPenalties).text = player.penalties.toString()
-        view.findViewById<TextView>(R.id.tvPlayerCleanSheet).text = player.cleanSheet.toString()
-        view.findViewById<TextView>(R.id.tvPlayerGames).text = player.gamesPlayed.toString()
+//    @SuppressLint("SetTextI18n", "InflateParams")
+//    private fun setRowPlayerView(player: PlayerStats, index: Int): View {
+//        val view = layoutInflater.inflate(R.layout.item_table_row, null)
+//        val arrow = getArrow(player)
+//        view.findViewById<ImageView>(R.id.ivArrow).setImageResource(arrow)
+//        view.findViewById<TextView>(R.id.tvRanking).text = (index + 1).toString()
+//        view.findViewById<TextView>(R.id.tvPlayerName).text = player.information!!.name
+//        view.findViewById<TextView>(R.id.tvPlayerProportion).text = player.percentage
+//        view.findViewById<TextView>(R.id.tvPlayerGoals).text = player.goals.toString()
+//        view.findViewById<TextView>(R.id.tvPlayerAssists).text = player.assists.toString()
+//        view.findViewById<TextView>(R.id.tvPlayerPenalties).text = player.penalties.toString()
+//        view.findViewById<TextView>(R.id.tvPlayerCleanSheet).text = player.cleanSheet.toString()
+//        view.findViewById<TextView>(R.id.tvPlayerGames).text = player.gamesPlayed.toString()
+//
+//        return view
+//    }
 
-        return view
-    }
-
-    private fun getArrow(player: PlayerStats): Int {
+    private fun getArrow(player: PlayerStatsModel): Int {
         return if (player.lastRanking < player.ranking) {
             R.drawable.ic_arrow_down
         } else if (player.lastRanking > player.ranking) {

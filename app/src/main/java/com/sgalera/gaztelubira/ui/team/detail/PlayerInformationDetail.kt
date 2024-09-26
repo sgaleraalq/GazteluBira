@@ -12,6 +12,7 @@ import androidx.navigation.navArgs
 import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityPlayerInformationDetailBinding
+import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -88,7 +89,7 @@ class PlayerInformationDetail : AppCompatActivity() {
         Toast.makeText(this@PlayerInformationDetail, error, Toast.LENGTH_SHORT).show()
     }
 
-    private fun successState(playerStats: PlayerStats) {
+    private fun successState(playerStats: PlayerStatsModel) {
         binding.pbLoadingPlayerInformation.visibility = View.GONE
         binding.parentView.visibility = View.VISIBLE
         binding.tvPlayerName.text = playerName
@@ -100,7 +101,7 @@ class PlayerInformationDetail : AppCompatActivity() {
         initPlayerStats(playerStats)
     }
 
-    private fun initPlayerStats(playerStats: PlayerStats) {
+    private fun initPlayerStats(playerStats: PlayerStatsModel) {
         binding.tvPlayerDorsal.text = playerDorsal.toString()
         binding.tvGoals.text = playerStats.goals.toString()
         binding.tvAssists.text = playerStats.assists.toString()

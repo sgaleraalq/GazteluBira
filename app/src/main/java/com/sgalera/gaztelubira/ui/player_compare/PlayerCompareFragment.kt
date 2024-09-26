@@ -22,6 +22,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentComparePlayersBinding
 import com.sgalera.gaztelubira.domain.InformationList
+import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.player_compare.adapter.PopUpAdapter
@@ -156,9 +157,9 @@ class PlayerCompareFragment : Fragment() {
         Toast.makeText(requireContext(), "Ha ocurrido un error $error", Toast.LENGTH_SHORT).show()
     }
 
-    private fun successStatePlayerOne(playerStats: PlayerStats) {
+    private fun successStatePlayerOne(playerStats: PlayerStatsModel) {
         binding.pbPlayerOne.visibility = View.INVISIBLE
-        playerOne = playerStats
+//        playerOne = playerStats
         isPlayerOneLoaded = true
         if (isPlayerTwoLoaded){
             initComponents()
@@ -190,9 +191,9 @@ class PlayerCompareFragment : Fragment() {
         Toast.makeText(requireContext(), "Ha ocurrido un error $error", Toast.LENGTH_SHORT).show()
     }
 
-    private fun successStatePlayerTwo(playerStats: PlayerStats) {
+    private fun successStatePlayerTwo(playerStats: PlayerStatsModel) {
         binding.pbPlayerTwo.visibility = View.INVISIBLE
-        playerTwo = playerStats
+//        playerTwo = playerStats
         isPlayerTwoLoaded = true
         if (isPlayerOneLoaded){
             initComponents()

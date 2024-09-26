@@ -1,8 +1,8 @@
 package com.sgalera.gaztelubira.data.response
 
-import com.sgalera.gaztelubira.domain.model.players.PlayerMapper.mapPlayerInformation
 import com.google.firebase.firestore.PropertyName
-import com.sgalera.gaztelubira.domain.model.players.PlayerStats
+import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerMapper.mapPlayerInformation
 import kotlinx.coroutines.runBlocking
 import java.text.DecimalFormat
 
@@ -17,9 +17,10 @@ data class PlayerStatsResponse(
     @get: PropertyName("clean_sheet") @set: PropertyName("clean_sheet") var cleanSheet: Int = 0,
     @get: PropertyName("games_played") @set:PropertyName("games_played") var gamesPlayed: Int = 0,
 ) {
-    fun toDomain(): PlayerStats {
-        return PlayerStats(
+    fun toDomain(): PlayerStatsModel {
+        return PlayerStatsModel(
             information = runBlocking { mapPlayerInformation(name) },
+//            name = name,
             goals = goals,
             assists = assists,
             gamesPlayed = gamesPlayed,

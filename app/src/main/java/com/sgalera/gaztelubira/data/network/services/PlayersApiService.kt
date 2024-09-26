@@ -4,6 +4,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.data.network.firebase.FirebaseClient
 import com.sgalera.gaztelubira.data.response.PlayerInfoResponse
 import com.sgalera.gaztelubira.data.response.PlayerStatsResponse
+import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import kotlinx.coroutines.tasks.await
@@ -26,7 +27,7 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
         }
     }
 
-    suspend fun getPlayerStatsByReference(playerReference: DocumentReference): PlayerStats? {
+    suspend fun getPlayerStatsByReference(playerReference: DocumentReference): PlayerStatsModel? {
         val document = playerReference.get().await()
         return if (document != null) {
             document.toObject(PlayerStatsResponse::class.java)!!.toDomain()
@@ -35,7 +36,7 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
         }
     }
 
-    suspend fun getAllStats(): List<PlayerStats>? = try {
+    suspend fun getAllStats(): List<PlayerStatsModel>? = try {
         val collection = firebase.db.collection(PLAYER_STATS).get().await()
         if (collection.isEmpty) {
             null

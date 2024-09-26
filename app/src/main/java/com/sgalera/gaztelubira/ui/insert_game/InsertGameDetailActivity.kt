@@ -22,8 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameDetailBinding
+import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
-import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.home.MainActivity
 import com.sgalera.gaztelubira.ui.insert_game.adapter.InsertGameAdapter
 import com.sgalera.gaztelubira.ui.stats.StatsState
@@ -516,26 +516,26 @@ class InsertGameDetailActivity : AppCompatActivity(), PlayerAddListener {
         }
     }
 
-    private fun updatePlayerStats(players: List<PlayerStats>) {
-        for (player in players) {
-            if (player.information!!.name in goalList) { player.goals += goalList.count { it == player.information.name } }
-            if (player.information.name in assistList) { player.assists += assistList.count { it == player.information.name } }
-            if (player.information.name in penaltyList) { player.penalties += penaltyList.count { it == player.information.name } }
-            if (player.information.name in cleanSheetList) { player.cleanSheet += 1 }
-            if (player.information.name in starterPlayers.values) { player.gamesPlayed += 1 }
-            if (player.information.name in benchPlayers.map { it.name }) { player.gamesPlayed += 1 }
-            player.lastRanking = player.ranking
-            player.percentage = getPercentage(player)
-        }
-        var count = 1
-        for (player in players.sortedByDescending { it.percentage!!.toFloat() }) {
-            player.ranking = count
-            count += 1
-        }
-        if (viewModel.insertGameStats(players)){
-            finishSuccess()
-            restartApp()
-        }
+    private fun updatePlayerStats(players: List<PlayerStatsModel>) {
+//        for (player in players) {
+//            if (player.information!!.name in goalList) { player.goals += goalList.count { it == player.information.name } }
+//            if (player.information.name in assistList) { player.assists += assistList.count { it == player.information.name } }
+//            if (player.information.name in penaltyList) { player.penalties += penaltyList.count { it == player.information.name } }
+//            if (player.information.name in cleanSheetList) { player.cleanSheet += 1 }
+//            if (player.information.name in starterPlayers.values) { player.gamesPlayed += 1 }
+//            if (player.information.name in benchPlayers.map { it.name }) { player.gamesPlayed += 1 }
+//            player.lastRanking = player.ranking
+//            player.percentage = getPercentage(player)
+//        }
+//        var count = 1
+//        for (player in players.sortedByDescending { it.percentage!!.toFloat() }) {
+//            player.ranking = count
+//            count += 1
+//        }
+//        if (viewModel.insertGameStats(players)){
+//            finishSuccess()
+//            restartApp()
+//        }
     }
 
     private fun checkAllFields(): Boolean {

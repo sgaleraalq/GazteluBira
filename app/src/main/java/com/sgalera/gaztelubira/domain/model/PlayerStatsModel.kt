@@ -1,7 +1,9 @@
 package com.sgalera.gaztelubira.domain.model
 
+import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
+
 data class PlayerStatsModel(
-    val name: String,
+    val information: PlayerInformation?, // TODO
     val position: String,
     val goals: Int,
     val assists: Int,
@@ -10,5 +12,5 @@ data class PlayerStatsModel(
     val gamesPlayed: Int,
     val ranking: Int,
     val lastRanking: Int,
-    val proportion: Float = 0.0f
+    val percentage: String
 )

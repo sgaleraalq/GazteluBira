@@ -93,5 +93,7 @@
     <string name="description_away_team">Away team</string>
 
     // Error messages
+    <string name="main_error" translatable="false">An error has occurred loading players</string>
     <string name="error_fetching_credentials" translatable="false">Error fetching credentials</string>
+    <string name="player_ranking" translatable="false">%1$d</string>
 </resources>

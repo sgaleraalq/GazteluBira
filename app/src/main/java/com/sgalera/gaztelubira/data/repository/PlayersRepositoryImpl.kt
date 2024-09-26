@@ -4,7 +4,7 @@ import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sgalera.gaztelubira.core.Constants.PLAYERS
 import com.sgalera.gaztelubira.core.Constants.STATS
-import com.sgalera.gaztelubira.data.response.PStatsResponse
+import com.sgalera.gaztelubira.data.response.PlayerStatsResponse
 import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.repository.PlayersRepository
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -22,9 +22,8 @@ class PlayersRepositoryImpl @Inject constructor(
         return suspendCancellableCoroutine { cancellableContinuation ->
             firestore.collection(PLAYERS).document(year).collection(STATS).get()
                 .addOnSuccessListener { querySnapshot ->
-                    Log.i("StatsFragment", "getPlayersStats: ${querySnapshot.documents}")
-                    Log.i("StatsFragment", "year: $year")
-                    val playerStatsList = querySnapshot.toObjects(PStatsResponse::class.java).map { it.toDomain() }
+
+                    val playerStatsList = querySnapshot.toObjects(PlayerStatsResponse::class.java).map { it.toDomain() }
                     cancellableContinuation.resume(playerStatsList)
                 }
                 .addOnFailureListener {
