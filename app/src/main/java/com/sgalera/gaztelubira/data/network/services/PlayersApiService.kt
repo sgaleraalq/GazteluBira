@@ -27,27 +27,27 @@ class PlayersApiService @Inject constructor(private val firebase: FirebaseClient
         }
     }
 
-    suspend fun getPlayerStatsByReference(playerReference: DocumentReference): PlayerStatsModel? {
-        val document = playerReference.get().await()
-        return if (document != null) {
-            document.toObject(PlayerStatsResponse::class.java)!!.toDomain()
-        } else{
-            null
-        }
-    }
+//    suspend fun getPlayerStatsByReference(playerReference: DocumentReference): PlayerStatsModel? {
+//        val document = playerReference.get().await()
+//        return if (document != null) {
+//            document.toObject(PlayerStatsResponse::class.java)!!.toDomain()
+//        } else{
+//            null
+//        }
+//    }
 
-    suspend fun getAllStats(): List<PlayerStatsModel>? = try {
-        val collection = firebase.db.collection(PLAYER_STATS).get().await()
-        if (collection.isEmpty) {
-            null
-        } else {
-            collection.documents.map {
-                it.toObject(PlayerStatsResponse::class.java)!!.toDomain()
-            }
-        }
-    } catch (e: Exception) {
-        null
-    }
+//    suspend fun getAllStats(): List<PlayerStatsModel>? = try {
+//        val collection = firebase.db.collection(PLAYER_STATS).get().await()
+//        if (collection.isEmpty) {
+//            null
+//        } else {
+//            collection.documents.map {
+//                it.toObject(PlayerStatsResponse::class.java)!!.toDomain()
+//            }
+//        }
+//    } catch (e: Exception) {
+//        null
+//    }
 
     suspend fun insertPlayerStats(playerStats: PlayerStats) {
         firebase.db.collection(PLAYER_STATS)

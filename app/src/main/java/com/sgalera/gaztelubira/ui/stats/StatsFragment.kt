@@ -1,14 +1,13 @@
 package com.sgalera.gaztelubira.ui.stats
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -89,7 +88,7 @@ class StatsFragment : Fragment() {
     private fun onSuccess(playersListStats: List<PlayerStatsModel>) {
         binding.pbLoading.visibility = View.GONE
         binding.tlClassification.removeAllViews()
-
+        Log.i("StatsFragment", "onSuccess: $playersListStats")
         playersListStats.forEachIndexed { index, player ->
             binding.tlClassification.addView(insertRow(player, index))
         }

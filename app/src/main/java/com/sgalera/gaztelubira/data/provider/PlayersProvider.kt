@@ -13,13 +13,13 @@ class PlayersProvider @Inject constructor(private val playersApiService: Players
         return playersApiService.getReferenceFromString(reference)
     }
 
-    suspend fun getPlayerStatsByReference(playerReference: DocumentReference): PlayerStatsModel? {
-        return playersApiService.getPlayerStatsByReference(playerReference)
-    }
-
-    suspend fun getAllStats(): List<PlayerStatsModel>? {
-        return playersApiService.getAllStats()
-    }
+//    suspend fun getPlayerStatsByReference(playerReference: DocumentReference): PlayerStatsModel? {
+//        return playersApiService.getPlayerStatsByReference(playerReference)
+//    }
+//
+//    suspend fun getAllStats(): List<PlayerStatsModel>? {
+//        return playersApiService.getAllStats()
+//    }
 
     suspend fun insertPlayerStats(playerStats: PlayerStats) {
         playersApiService.insertPlayerStats(playerStats)

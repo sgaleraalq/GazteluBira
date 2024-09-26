@@ -114,13 +114,13 @@ class InsertGameViewModel @Inject constructor(
     suspend fun getAllPlayerInfo() {
         viewModelScope.launch {
             _allPlayersState.value = StatsState.Loading
-            val result = playersProvider.getAllStats()
-            if (result != null) {
-                _allPlayersState.value = StatsState.Success(result)
-            } else {
-                _allPlayersState.value =
-                    StatsState.Error("Ha ocurrido un error, intentelo más tarde")
-            }
+//            val result = playersProvider.getAllStats()
+//            if (result != null) {
+//                _allPlayersState.value = StatsState.Success(result)
+//            } else {
+//                _allPlayersState.value =
+//                    StatsState.Error("Ha ocurrido un error, intentelo más tarde")
+//            }
         }
     }
 

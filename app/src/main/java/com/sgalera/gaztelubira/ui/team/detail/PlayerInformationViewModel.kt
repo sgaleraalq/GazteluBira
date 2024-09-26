@@ -24,15 +24,14 @@ class PlayerInformationViewModel @Inject constructor(private val playersProvider
     suspend fun getPlayerStatsByReference(reference: DocumentReference) {
         viewModelScope.launch {
             _statePlayerInformation.value = PlayerInformationDetailState.Loading
-            withContext(Dispatchers.IO) {
-                val playerStats = playersProvider.getPlayerStatsByReference(reference)
-                if (playerStats != null) {
-                    _statePlayerInformation.value = PlayerInformationDetailState.Success(playerStats)
-                } else {
-                    _statePlayerInformation.value = PlayerInformationDetailState.Error("Ha ocurrido un error al cargar los datos del jugador.")
-                }
-            }
+//            withContext(Dispatchers.IO) {
+//                val playerStats = playersProvider.getPlayerStatsByReference(reference)
+//                if (playerStats != null) {
+//                    _statePlayerInformation.value = PlayerInformationDetailState.Success(playerStats)
+//                } else {
+//                    _statePlayerInformation.value = PlayerInformationDetailState.Error("Ha ocurrido un error al cargar los datos del jugador.")
+//                }
+//            }
         }
     }
-
 }

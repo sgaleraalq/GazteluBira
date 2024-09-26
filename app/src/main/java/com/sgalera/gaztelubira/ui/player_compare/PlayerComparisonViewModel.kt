@@ -26,26 +26,26 @@ class PlayerComparisonViewModel @Inject constructor(
 
     fun getPlayerStatsPlayerOne(playerReference: DocumentReference): PlayerStats? {
         viewModelScope.launch {
-            _statePlayerOne.value = PlayerComparisonState.Loading
-            val result = withContext(Dispatchers.IO) { playerComparisonProvider.getPlayerStatsByReference(playerReference) }
-            if (result != null){
-                _statePlayerOne.value = PlayerComparisonState.Success(result)
-            } else {
-                _statePlayerOne.value = PlayerComparisonState.Error("Ha ocurrido un error, inténtelo de nuevo más tarde")
-            }
+//            _statePlayerOne.value = PlayerComparisonState.Loading
+//            val result = withContext(Dispatchers.IO) { playerComparisonProvider.getPlayerStatsByReference(playerReference) }
+//            if (result != null){
+//                _statePlayerOne.value = PlayerComparisonState.Success(result)
+//            } else {
+//                _statePlayerOne.value = PlayerComparisonState.Error("Ha ocurrido un error, inténtelo de nuevo más tarde")
+//            }
         }
         return null
     }
 
     fun getPlayerStatsPlayerTwo(playerTwoReference: DocumentReference) {
         viewModelScope.launch {
-            _statePlayerTwo.value = PlayerComparisonState.Loading
-            val result = withContext(Dispatchers.IO) { playerComparisonProvider.getPlayerStatsByReference(playerTwoReference) }
-            if (result != null){
-                _statePlayerTwo.value = PlayerComparisonState.Success(result)
-            } else {
-                _statePlayerTwo.value = PlayerComparisonState.Error("Ha ocurrido un error, inténtelo de nuevo más tarde")
-            }
+//            _statePlayerTwo.value = PlayerComparisonState.Loading
+//            val result = withContext(Dispatchers.IO) { playerComparisonProvider.getPlayerStatsByReference(playerTwoReference) }
+//            if (result != null){
+//                _statePlayerTwo.value = PlayerComparisonState.Success(result)
+//            } else {
+//                _statePlayerTwo.value = PlayerComparisonState.Error("Ha ocurrido un error, inténtelo de nuevo más tarde")
+//            }
         }
     }
 }

@@ -1,13 +1,13 @@
 package com.sgalera.gaztelubira.data.response
 
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.PropertyName
 import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
-import com.sgalera.gaztelubira.domain.model.players.PlayerMapper.mapPlayerInformation
-import kotlinx.coroutines.runBlocking
+import com.sgalera.gaztelubira.domain.usecases.players.GetPlayerModelUseCase
 import java.text.DecimalFormat
 
 data class PlayerStatsResponse(
-    val name: String = "",
+    val reference: DocumentReference? = null,
     val goals: Int = 0,
     val assists: Int = 0,
     val position: String = "",
@@ -17,10 +17,10 @@ data class PlayerStatsResponse(
     @get: PropertyName("clean_sheet") @set: PropertyName("clean_sheet") var cleanSheet: Int = 0,
     @get: PropertyName("games_played") @set:PropertyName("games_played") var gamesPlayed: Int = 0,
 ) {
-    fun toDomain(): PlayerStatsModel {
+    suspend fun toDomain(getPlayerModelUseCase: GetPlayerModelUseCase): PlayerStatsModel {
+        val playerModel = getPlayerModelUseCase(reference)
         return PlayerStatsModel(
-            information = runBlocking { mapPlayerInformation(name) },
-//            name = name,
+            information = playerModel,
             goals = goals,
             assists = assists,
             gamesPlayed = gamesPlayed,
