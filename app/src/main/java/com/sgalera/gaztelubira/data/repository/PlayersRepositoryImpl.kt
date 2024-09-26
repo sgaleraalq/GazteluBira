@@ -9,11 +9,8 @@ import com.sgalera.gaztelubira.data.response.PlayerStatsResponse
 import com.sgalera.gaztelubira.domain.model.PlayerModel
 import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.repository.PlayersRepository
-import com.sgalera.gaztelubira.domain.usecases.players.GetPlayerModelUseCase
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
-import kotlin.*
 import kotlin.coroutines.resume
 
 class PlayersRepositoryImpl @Inject constructor(
@@ -24,41 +21,21 @@ class PlayersRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun getPlayerModel(reference: DocumentReference?): PlayerModel? {
-        return if (reference != null) {
-            suspendCancellableCoroutine { cancellableContinuation ->
-                firestore.document(reference.path).get()
-                    .addOnSuccessListener {
-                        cancellableContinuation.resume(
-                            it.toObject(
-                                PlayerResponse::class.java
-                            )?.toDomain()
-                        )
-                    }
-                    .addOnFailureListener { cancellableContinuation.resume(null) }
-            }
-        } else {
-            null
+    override suspend fun getPlayerModel(reference: DocumentReference): PlayerModel? {
+        return suspendCancellableCoroutine { cancellableContinuation ->
+            reference
+                .get()
+                .addOnSuccessListener { cancellableContinuation.resume(it.toObject(PlayerResponse::class.java)?.toDomain()) }
+                .addOnFailureListener { cancellableContinuation.resume(null) }
         }
     }
 
-    // Maps Player Stats List Response from Firebase to its Domain Model and also the Player Model inside every Player Stat
-    override suspend fun getPlayersStats(
-        year: String,
-        getPlayerModelUseCase: GetPlayerModelUseCase
-    ): List<PlayerStatsModel>? {
+    override suspend fun getPlayersStats(year: String): List<PlayerStatsModel>? {
         return suspendCancellableCoroutine { cancellableContinuation ->
             firestore.collection(PLAYERS).document(year).collection(STATS).get()
                 .addOnSuccessListener { querySnapshot ->
-                    cancellableContinuation.resumeWith(
-                        Result.runCatching {
-                            runBlocking {
-                                querySnapshot.toObjects(PlayerStatsResponse::class.java)
-                                    .map { playerStatsResponse ->
-                                        playerStatsResponse.toDomain(getPlayerModelUseCase)
-                                    }
-                            }
-                        })
+                    val playerStatsList = querySnapshot.toObjects(PlayerStatsResponse::class.java).map { it.toDomain() }
+                    cancellableContinuation.resume(playerStatsList)
                 }
                 .addOnFailureListener {
                     cancellableContinuation.resume(null)

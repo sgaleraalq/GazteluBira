@@ -3,7 +3,6 @@ package com.sgalera.gaztelubira.data.response
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.PropertyName
 import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
-import com.sgalera.gaztelubira.domain.usecases.players.GetPlayerModelUseCase
 import java.text.DecimalFormat
 
 data class PlayerStatsResponse(
@@ -17,10 +16,9 @@ data class PlayerStatsResponse(
     @get: PropertyName("clean_sheet") @set: PropertyName("clean_sheet") var cleanSheet: Int = 0,
     @get: PropertyName("games_played") @set:PropertyName("games_played") var gamesPlayed: Int = 0,
 ) {
-    suspend fun toDomain(getPlayerModelUseCase: GetPlayerModelUseCase): PlayerStatsModel {
-        val playerModel = getPlayerModelUseCase(reference)
+    fun toDomain(): PlayerStatsModel {
         return PlayerStatsModel(
-            information = playerModel,
+            reference = reference,
             goals = goals,
             assists = assists,
             gamesPlayed = gamesPlayed,
@@ -43,5 +41,4 @@ data class PlayerStatsResponse(
             "0"
         }
     }
-
 }

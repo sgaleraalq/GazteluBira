@@ -7,5 +7,5 @@ import javax.inject.Inject
 class GetPlayerModelUseCase @Inject constructor(
     private val playersRepository: PlayersRepository
 ) {
-    suspend operator fun invoke(reference: DocumentReference?) = playersRepository.getPlayerModel(reference)
+    suspend operator fun invoke(reference: DocumentReference) = playersRepository.getPlayerModel(reference)
 }

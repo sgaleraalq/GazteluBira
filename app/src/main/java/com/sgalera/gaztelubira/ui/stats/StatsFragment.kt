@@ -88,7 +88,6 @@ class StatsFragment : Fragment() {
     private fun onSuccess(playersListStats: List<PlayerStatsModel>) {
         binding.pbLoading.visibility = View.GONE
         binding.tlClassification.removeAllViews()
-        Log.i("StatsFragment", "onSuccess: $playersListStats")
         playersListStats.forEachIndexed { index, player ->
             binding.tlClassification.addView(insertRow(player, index))
         }
@@ -101,7 +100,7 @@ class StatsFragment : Fragment() {
         with(binding) {
             ivArrow.setImageResource(arrow)
             tvRanking.text = getString(R.string.player_ranking, index + 1)
-            tvPlayerName.text = ""
+            tvPlayerName.text = player.information?.name ?: getString(R.string.could_not_retrieve)
             tvPlayerProportion.text = player.percentage
             tvPlayerGoals.text = player.goals.toString()
             tvPlayerAssists.text = player.assists.toString()
