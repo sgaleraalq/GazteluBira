@@ -1,7 +1,6 @@
 package com.sgalera.gaztelubira.ui.stats
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -12,7 +11,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,13 +18,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
-import com.sgalera.gaztelubira.BuildConfig
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentStatsBinding
 import com.sgalera.gaztelubira.domain.model.Credentials
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
-import com.sgalera.gaztelubira.ui.manager.PasswordManager
-import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -70,8 +65,14 @@ class StatsFragment : Fragment() {
     }
 
     private fun initComponents() {
-        lifecycleScope.launch {
+        statsViewModel.getPlayersStats(credentials.year)
 
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                statsViewModel.playersStats.collect { playerListStats ->
+                    Log.i("StatsFragment", "playerListStats: $playerListStats")
+                }
+            }
         }
 //        lifecycleScope.launch {
 //            repeatOnLifecycle(Lifecycle.State.STARTED) {

@@ -9,5 +9,6 @@ data class PlayerStatsModel(
     val cleanSheet: Int,
     val gamesPlayed: Int,
     val ranking: Int,
-    val lastRanking: Int
+    val lastRanking: Int,
+    val proportion: Float = 0.0f
 )

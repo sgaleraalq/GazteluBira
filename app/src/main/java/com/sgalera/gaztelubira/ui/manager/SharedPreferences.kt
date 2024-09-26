@@ -33,7 +33,7 @@ class SharedPreferences(context: Context) {
         return Credentials(
             isAdmin = sharedPreferences.getBoolean("isAdmin", true),
             player = sharedPreferences.getString("player", "") ?: "",
-            year = sharedPreferences.getInt("year", 0)
+            year = sharedPreferences.getInt("year", 2023)
         )
     }
 
