@@ -34,6 +34,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/ibAdminLogOut"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:contentDescription="@string/description_log_out"
+        android:layout_marginEnd="32dp"
+        android:src="@drawable/ic_log_out_admin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvLoggedAsAdmin"
+        android:visibility="visible"
+        app:tint="@color/main_red"
+        android:background="@color/primary_soft" />
+
     <ProgressBar
         android:id="@+id/pbLoadingChampion"
         android:layout_width="50dp"

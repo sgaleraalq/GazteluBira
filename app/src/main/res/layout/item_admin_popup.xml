@@ -40,22 +40,9 @@
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@id/ivEye"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvAdminPopUp" />
-
-        <ImageView
-            android:id="@+id/ivEye"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="16dp"
-            android:contentDescription="@string/description_icon_eye"
-            android:src="@drawable/ic_eye_closed"
-            app:layout_constraintBottom_toBottomOf="@id/etAdminPassword"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/etAdminPassword"
-            app:layout_constraintTop_toTopOf="@id/etAdminPassword"
-            app:tint="@color/white" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnLogInAdmin"

@@ -26,8 +26,8 @@ class MainViewModel @Inject constructor(
                 sharedPreferences.getCredentials()
             }
 
-            if (!credentials.isAdmin){
-                _state.value = MainState.Error("Error fetching credentials")
+            if (credentials.year == 0){
+                _state.value = MainState.Error
             } else {
                 // TODO player
                 _state.value = MainState.Success(credentials)
@@ -38,6 +38,6 @@ class MainViewModel @Inject constructor(
 
 sealed class MainState{
     data object Loading: MainState()
+    data object Error: MainState()
     data class Success(val credentials: Credentials): MainState()
-    data class Error(val error: String): MainState()
 }

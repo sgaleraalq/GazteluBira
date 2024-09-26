@@ -6,6 +6,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.sgalera.gaztelubira.data.repository.PlayersRepositoryImpl
 import com.sgalera.gaztelubira.domain.repository.PlayersRepository
+import com.sgalera.gaztelubira.ui.manager.PasswordManager
 import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import dagger.Module
 import dagger.Provides
@@ -25,6 +26,10 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideSharedPreferences(@ApplicationContext context: Context) = SharedPreferences(context)
+
+    @Provides
+    @Singleton
+    fun providePasswordManager() = PasswordManager()
 
     @Provides
     fun providePlayersRepository(firestore: FirebaseFirestore): PlayersRepository = PlayersRepositoryImpl(firestore)

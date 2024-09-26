@@ -5,24 +5,39 @@ import android.content.SharedPreferences
 import com.sgalera.gaztelubira.domain.model.Credentials
 
 class SharedPreferences(context: Context) {
-    private val sharedPreferences: SharedPreferences = context.getSharedPreferences("token", Context.MODE_PRIVATE)
+    private val sharedPreferences: SharedPreferences =
+        context.getSharedPreferences("token", Context.MODE_PRIVATE)
 
-    fun saveAdminToken(token: String){
-        with(sharedPreferences.edit()){
+    fun adminLogIn() {
+        with(sharedPreferences.edit()) {
+            putBoolean("isAdmin", true)
+            apply()
+        }
+    }
+
+    fun adminLogOut() {
+        with(sharedPreferences.edit()) {
+            putBoolean("isAdmin", false)
+            apply()
+        }
+    }
+
+    fun saveAdminToken(token: String) {
+        with(sharedPreferences.edit()) {
             putString("admin_token", token)
             apply()
         }
     }
 
-    fun savePlayer(player: String){
-        with(sharedPreferences.edit()){
+    fun savePlayer(player: String) {
+        with(sharedPreferences.edit()) {
             putString("player", player)
             apply()
         }
     }
 
-    fun saveYear(year: Int){
-        with(sharedPreferences.edit()){
+    fun saveYear(year: Int) {
+        with(sharedPreferences.edit()) {
             putInt("year", year)
             apply()
         }
@@ -31,7 +46,7 @@ class SharedPreferences(context: Context) {
 
     fun getCredentials(): Credentials {
         return Credentials(
-            isAdmin = sharedPreferences.getBoolean("isAdmin", true),
+            isAdmin = sharedPreferences.getBoolean("isAdmin", false),
             player = sharedPreferences.getString("player", "") ?: "",
             year = sharedPreferences.getInt("year", 2023)
         )
@@ -41,4 +56,5 @@ class SharedPreferences(context: Context) {
     fun getAdminToken(): String {
         return sharedPreferences.getString("admin_token", "") ?: ""
     }
+
 }
