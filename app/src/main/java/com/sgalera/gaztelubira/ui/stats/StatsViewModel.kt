@@ -59,6 +59,24 @@ class StatsViewModel @Inject constructor(
             }
         }
     }
+
+    fun sortPlayersBy(stat: StatType, changeButtonColor: (StatType) -> Unit) {
+        _uiState.value = when (val currentState = _uiState.value) {
+            is StatsUiState.Success -> {
+                val sortedList = when (stat) {
+                    StatType.PERCENTAGE -> currentState.playersStats.sortedByDescending { it.percentage }
+                    StatType.GOALS -> currentState.playersStats.sortedByDescending { it.goals }
+                    StatType.ASSISTS -> currentState.playersStats.sortedByDescending { it.assists }
+                    StatType.PENALTIES -> currentState.playersStats.sortedByDescending { it.penalties }
+                    StatType.CLEAN_SHEET -> currentState.playersStats.sortedByDescending { it.cleanSheet }
+                    StatType.GAMES_PLAYED -> currentState.playersStats.sortedByDescending { it.gamesPlayed }
+                }
+                StatsUiState.Success(sortedList)
+            }
+            else -> currentState
+        }
+        changeButtonColor(stat)
+    }
 }
 
 
@@ -66,4 +84,13 @@ sealed class StatsUiState {
     data object Loading : StatsUiState()
     data object Error : StatsUiState()
     data class Success(val playersStats: List<PlayerStatsModel>) : StatsUiState()
+}
+
+enum class StatType{
+    PERCENTAGE,
+    GOALS,
+    ASSISTS,
+    PENALTIES,
+    CLEAN_SHEET,
+    GAMES_PLAYED
 }

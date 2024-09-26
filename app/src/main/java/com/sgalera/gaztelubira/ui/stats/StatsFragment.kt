@@ -2,7 +2,6 @@ package com.sgalera.gaztelubira.ui.stats
 
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +21,7 @@ import com.sgalera.gaztelubira.databinding.ItemTableRowBinding
 import com.sgalera.gaztelubira.domain.model.Credentials
 import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerStats
+import com.sgalera.gaztelubira.ui.stats.StatType.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -91,7 +91,9 @@ class StatsFragment : Fragment() {
         playersListStats.forEachIndexed { index, player ->
             binding.tlClassification.addView(insertRow(player, index))
         }
+        initButtonListeners()
     }
+
 
     private fun insertRow(player: PlayerStatsModel, index: Int): View {
         val binding = ItemTableRowBinding.inflate(layoutInflater)
@@ -117,6 +119,31 @@ class StatsFragment : Fragment() {
 //            showAdminPopUp()
         }
     }
+
+    private fun initButtonListeners() {
+        binding.percentageIcon.setOnClickListener { statsViewModel.sortPlayersBy(PERCENTAGE) { changeButtonColor(it) } }
+        binding.goalsIcon.setOnClickListener { statsViewModel.sortPlayersBy(GOALS) { changeButtonColor(it) } }
+        binding.assistsIcon.setOnClickListener { statsViewModel.sortPlayersBy(ASSISTS) { changeButtonColor(it) } }
+        binding.penaltiesIcon.setOnClickListener { statsViewModel.sortPlayersBy(PENALTIES) { changeButtonColor(it) } }
+        binding.cleanSheetIcon.setOnClickListener { statsViewModel.sortPlayersBy(CLEAN_SHEET) { changeButtonColor(it) } }
+        binding.gamesIcon.setOnClickListener { statsViewModel.sortPlayersBy(GAMES_PLAYED) { changeButtonColor(it) } }
+    }
+
+    private fun changeButtonColor(stat: StatType){
+        val buttonMap = mapOf(
+            PERCENTAGE to binding.percentageIcon,
+            GOALS to binding.goalsIcon,
+            ASSISTS to binding.assistsIcon,
+            PENALTIES to binding.penaltiesIcon,
+            CLEAN_SHEET to binding.cleanSheetIcon,
+            GAMES_PLAYED to binding.gamesIcon
+        )
+        buttonMap[stat]?.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.grey_80_opacity))
+        buttonMap.filterKeys { it != stat }.forEach { (_, button) ->
+            button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.primary))
+        }
+    }
+
 
 //    private fun startLateListeners() {
 //        binding.percentageIcon.setOnClickListener {
