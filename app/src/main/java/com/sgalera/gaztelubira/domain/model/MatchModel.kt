@@ -8,6 +8,8 @@ data class MatchModel (
     val match: String,
     val homeGoals: Int,
     val awayGoals: Int,
-    val homeTeam: DocumentReference,
-    val awayTeam: DocumentReference
+    val homeTeam: DocumentReference?,
+    val awayTeam: DocumentReference?,
+    var localTeam: TeamModel? = null,
+    var visitorTeam: TeamModel? = null
 )

@@ -43,11 +43,25 @@ class MatchesFragment: Fragment() {
     }
 
     private fun initUI() {
-        matchesViewModel.init()
+        initRecyclerView()
         initMatchesList()
 //        initListeners()
 //        initUIState()
 //        initRecyclerView()
+    }
+
+    private fun initRecyclerView() {
+        matchesAdapter = MatchesAdapter(
+            onItemSelected = { id ->
+                findNavController().navigate(
+                    MatchesFragmentDirections.actionMatchesFragmentToDetailMatchActivity(id)
+                )
+            }
+        )
+        binding.recyclerViewMatches.apply {
+            adapter = matchesAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        }
     }
 
     private fun initMatchesList() {
@@ -67,13 +81,7 @@ class MatchesFragment: Fragment() {
     }
 
     private fun initComponents() {
-        matchesAdapter = MatchesAdapter(
-            onItemSelected = { id ->
-                findNavController().navigate(
-                    MatchesFragmentDirections.actionMatchesFragmentToDetailMatchActivity(id)
-                )
-            }
-        )
+
         checkToken()
     }
 
@@ -117,12 +125,7 @@ class MatchesFragment: Fragment() {
         binding.progressBar.visibility = View.VISIBLE
     }
 
-    private fun initRecyclerView() {
-        binding.recyclerViewMatches.apply {
-            adapter = matchesAdapter
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        }
-    }
+
 
     private fun insertGame() {
         if (id > 0 && journey > 0){

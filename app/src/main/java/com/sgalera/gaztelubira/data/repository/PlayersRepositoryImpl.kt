@@ -23,8 +23,7 @@ class PlayersRepositoryImpl @Inject constructor(
 
     override suspend fun getPlayerModel(reference: DocumentReference): PlayerModel? {
         return suspendCancellableCoroutine { cancellableContinuation ->
-            reference
-                .get()
+            reference.get()
                 .addOnSuccessListener { cancellableContinuation.resume(it.toObject(PlayerResponse::class.java)?.toDomain()) }
                 .addOnFailureListener { cancellableContinuation.resume(null) }
         }

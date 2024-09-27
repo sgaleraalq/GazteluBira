@@ -4,6 +4,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.domain.model.players.PlayerMapper.mapPlayerInformation
 import com.google.firebase.firestore.PropertyName
 import com.sgalera.gaztelubira.data.network.services.TeamsApiService
+import com.sgalera.gaztelubira.domain.model.MatchModel
 import com.sgalera.gaztelubira.domain.model.matches.Match
 import kotlinx.coroutines.runBlocking
 
@@ -37,4 +38,3 @@ data class MatchResponse(
         )
     }
 }
-
