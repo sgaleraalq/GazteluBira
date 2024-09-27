@@ -96,8 +96,9 @@
     <string name="main_error" translatable="false">An error has occurred loading players</string>
     <string name="error_fetching_credentials" translatable="false">Error fetching credentials</string>
     <string name="player_ranking" translatable="false">%1$d</string>
-    <string name="could_not_retrieve" translatable="false">Couldn\'t get information</string>
+    <string name="could_not_retrieve" translatable="false">Could not get information</string>
     <string name="correct_password" translatable="false">Correct password</string>
     <string name="incorrect_password" translatable="false">Incorrect password</string>
     <string name="description_log_out" translatable="false">Admin log out button</string>
+    <string name="an_error_has_occurred" translatable="false">An error has occurred</string>
 </resources>

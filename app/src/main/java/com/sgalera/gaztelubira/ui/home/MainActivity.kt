@@ -13,7 +13,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityMainBinding
-import com.sgalera.gaztelubira.domain.model.Credentials
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -42,16 +41,20 @@ class MainActivity: AppCompatActivity() {
                     when (state) {
                         MainState.Loading -> { onLoading() }
                         is MainState.Error -> { onStateError() }
-                        is MainState.Success -> { onStateSuccess(state) }
+                        is MainState.Success -> { onStateSuccess() }
                     }
                 }
             }
         }
     }
 
-    private fun onStateSuccess(state: MainState.Success) {
+    private fun onLoading() {
+        mainViewModel.getCredentials()
+    }
+
+    private fun onStateSuccess() {
         binding.pbLoading.visibility = View.GONE
-        initNavigation(state.credentials)
+        initNavigation()
     }
 
     private fun onStateError() {
@@ -59,21 +62,9 @@ class MainActivity: AppCompatActivity() {
         Toast.makeText(this, getString(R.string.error_fetching_credentials), Toast.LENGTH_SHORT).show()
     }
 
-    private fun onLoading() {
-        mainViewModel.getCredentials()
-    }
-
-    private fun initNavigation(credentials: Credentials) {
+    private fun initNavigation() {
         val navHost = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHost.navController
         binding.bottomNavView.setupWithNavController(navController)
-
-        val bundle = Bundle().apply {
-            putBoolean("isAdmin", credentials.isAdmin)
-            putString("username", credentials.player ?: "")
-            putInt("year", credentials.year)
-        }
-
-        navController.navigate(R.id.statsFragment, bundle)
     }
 }

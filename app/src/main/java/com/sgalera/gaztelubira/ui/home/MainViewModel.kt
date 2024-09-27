@@ -22,14 +22,12 @@ class MainViewModel @Inject constructor(
     fun getCredentials(){
         viewModelScope.launch {
             _state.value = MainState.Loading
-            withContext(Dispatchers.IO){ sharedPreferences.getCredentials() }
-
-//            if (credentials.year == 0){
-//                _state.value = MainState.Error
-//            } else {
-//                // TODO player
-//                _state.value = MainState.Success(credentials)
-//            }
+            val result = withContext(Dispatchers.IO){ sharedPreferences.getCredentials() }
+            if (result) {
+                _state.value = MainState.Success
+            } else {
+                _state.value = MainState.Error
+            }
         }
     }
 }
@@ -37,5 +35,5 @@ class MainViewModel @Inject constructor(
 sealed class MainState{
     data object Loading: MainState()
     data object Error: MainState()
-    data class Success(val credentials: Credentials): MainState()
+    data object Success: MainState()
 }

@@ -19,7 +19,6 @@ import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentStatsBinding
 import com.sgalera.gaztelubira.databinding.ItemTableRowBinding
-import com.sgalera.gaztelubira.domain.model.Credentials
 import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
 import com.sgalera.gaztelubira.ui.stats.StatType.ASSISTS
 import com.sgalera.gaztelubira.ui.stats.StatType.CLEAN_SHEET
@@ -35,7 +34,6 @@ class StatsFragment : Fragment() {
     private var _binding: FragmentStatsBinding? = null
     private val binding get() = _binding!!
 
-//    private lateinit var credentials: Credentials
     private val statsViewModel by viewModels<StatsViewModel>()
 
     override fun onCreateView(
@@ -48,20 +46,8 @@ class StatsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        getCredentials()
         initUI()
     }
-
-//    private fun getCredentials(){
-//        arguments?.let {
-//            credentials =
-//                Credentials(
-//                    isAdmin = it.getBoolean("isAdmin"),
-//                    player = it.getString("player"),
-//                    year = it.getInt("year")
-//                )
-//        }
-//    }
 
     private fun initUI() {
         initComponents()
@@ -69,14 +55,11 @@ class StatsFragment : Fragment() {
     }
 
     private fun initComponents() {
-//        statsViewModel.getPlayersStats(credentials.year)
-//        statsViewModel.initAdmin(credentials.isAdmin)
-
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 statsViewModel.uiState.collect { uiState ->
                     when (uiState) {
-                        StatsUiState.Loading -> {  }
+                        StatsUiState.Loading -> { onLoading() }
                         is StatsUiState.Error -> { onError() }
                         is StatsUiState.Success -> { onSuccess(uiState.playersStats, uiState.champion) }
                     }
@@ -101,9 +84,16 @@ class StatsFragment : Fragment() {
         }
     }
 
+    private fun onLoading() {
+        binding.pbLoading.visibility = View.VISIBLE
+        binding.pbLoadingChampion.visibility = View.VISIBLE
+    }
+
     private fun onError() {
         binding.pbLoading.visibility = View.GONE
         binding.pbLoadingChampion.visibility = View.GONE
+        binding.ivError.visibility = View.VISIBLE
+        binding.tvError.visibility = View.VISIBLE
         Toast.makeText(context, getString(R.string.main_error), Toast.LENGTH_SHORT).show()
     }
 
@@ -139,7 +129,6 @@ class StatsFragment : Fragment() {
             tvPlayerCleanSheet.text = player.cleanSheet.toString()
             tvPlayerGames.text = player.gamesPlayed.toString()
         }
-
         return binding.root
     }
 

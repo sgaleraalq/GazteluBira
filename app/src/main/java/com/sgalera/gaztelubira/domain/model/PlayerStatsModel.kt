@@ -5,7 +5,6 @@ import com.google.firebase.firestore.DocumentReference
 data class PlayerStatsModel(
     val information: PlayerModel? = null,
     val reference: DocumentReference?,
-    val position: String,
     val goals: Int,
     val assists: Int,
     val penalties: Int,

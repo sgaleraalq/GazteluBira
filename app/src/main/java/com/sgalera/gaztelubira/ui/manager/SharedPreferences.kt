@@ -2,6 +2,7 @@ package com.sgalera.gaztelubira.ui.manager
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.sgalera.gaztelubira.domain.model.Credentials
 
 class SharedPreferences(context: Context) {
@@ -11,16 +12,9 @@ class SharedPreferences(context: Context) {
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences("token", Context.MODE_PRIVATE)
 
-    fun adminLogIn() {
+    fun manageAdminLogIn(logged: Boolean) {
         with(sharedPreferences.edit()) {
-            putBoolean("isAdmin", true)
-            apply()
-        }
-    }
-
-    fun adminLogOut() {
-        with(sharedPreferences.edit()) {
-            putBoolean("isAdmin", false)
+            putBoolean("isAdmin", logged)
             apply()
         }
     }
@@ -47,17 +41,21 @@ class SharedPreferences(context: Context) {
     }
 
 
-    fun getCredentials() {
-        credentials = Credentials(
-            isAdmin = sharedPreferences.getBoolean("isAdmin", false),
-            player = sharedPreferences.getString("player", "") ?: "",
-            year = sharedPreferences.getInt("year", 2023)
-        )
+    fun getCredentials(): Boolean {
+        return try {
+            credentials = Credentials(
+                isAdmin = sharedPreferences.getBoolean("isAdmin", false),
+                player = sharedPreferences.getString("player", "") ?: "",
+                year = sharedPreferences.getInt("year", 2024)
+            )
+            true
+        } catch (e: Exception) {
+            Log.i("SharedPreferences", "Error fetching credentials")
+            false
+        }
     }
-
 
     fun getAdminToken(): String {
         return sharedPreferences.getString("admin_token", "") ?: ""
     }
-
 }

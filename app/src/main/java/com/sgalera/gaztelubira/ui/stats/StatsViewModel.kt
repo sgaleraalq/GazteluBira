@@ -1,5 +1,6 @@
 package com.sgalera.gaztelubira.ui.stats
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
@@ -32,15 +33,15 @@ class StatsViewModel @Inject constructor(
     private val _isAdmin = MutableStateFlow(false)
     val isAdmin: StateFlow<Boolean> = _isAdmin
 
-    fun initAdmin(admin: Boolean) {
-        _isAdmin.value = admin
-    }
-
     init {
         viewModelScope.launch {
             _uiState.value = StatsUiState.Loading
             try {
+                withContext(Dispatchers.IO){
+                    sharedPreferences.getCredentials()
+                }
                 val result = withContext(Dispatchers.IO) {
+                    _isAdmin.value = sharedPreferences.credentials.isAdmin
                     getPlayersStatsUseCase(sharedPreferences.credentials.year.toString())
                 }
 
@@ -56,8 +57,10 @@ class StatsViewModel @Inject constructor(
                         }
                     }.awaitAll()
 
-                    updatedPlayers = updatedPlayers.sortedByDescending { it.percentage }
+                    updatedPlayers = updatedPlayers.sortedWith(compareByDescending<PlayerStatsModel> { it.percentage }
+                        .thenBy { it.information?.name })
                     _uiState.value = StatsUiState.Success(updatedPlayers, updatedPlayers.firstOrNull())
+                    Log.i("StatsViewModel", updatedPlayers.toString())
 
                 } ?: run {
                     _uiState.value = StatsUiState.Error
@@ -90,14 +93,14 @@ class StatsViewModel @Inject constructor(
         val result = passwordManager.checkPassword(password)
         if (result) {
             _isAdmin.value = true
-            sharedPreferences.adminLogIn()
+            sharedPreferences.manageAdminLogIn(true)
         }
         return result
     }
 
     fun adminLogOut() {
         _isAdmin.value = false
-        sharedPreferences.adminLogOut()
+        sharedPreferences.manageAdminLogIn(false)
     }
 }
 

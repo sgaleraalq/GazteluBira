@@ -9,7 +9,6 @@ data class PlayerStatsResponse(
     val reference: DocumentReference? = null,
     val goals: Int = 0,
     val assists: Int = 0,
-    val position: String = "",
     val ranking: Int = 0,
     @get:PropertyName("last_ranking") @set:PropertyName("last_ranking") var lastRanking: Int = 0,
     @get:PropertyName("penalties") @set: PropertyName("penalties") var penalties: Int = 0,
@@ -24,7 +23,6 @@ data class PlayerStatsResponse(
             gamesPlayed = gamesPlayed,
             penalties = penalties,
             cleanSheet = cleanSheet,
-            position = position,
             lastRanking = lastRanking,
             ranking = ranking,
             percentage = getPercentage(this)
