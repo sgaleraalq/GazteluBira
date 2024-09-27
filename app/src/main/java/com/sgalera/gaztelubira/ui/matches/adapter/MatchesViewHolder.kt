@@ -10,36 +10,37 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ItemMatchesBinding
+import com.sgalera.gaztelubira.domain.model.MatchModel
 import com.sgalera.gaztelubira.domain.model.TeamInformation
 import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
 
 class MatchesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val binding = ItemMatchesBinding.bind(view)
 
-    fun render(match: MatchInfo, onItemSelected: (Int) -> Unit) {
-        val localTeam = match.homeTeam!!
-        val awayTeam = match.awayTeam!!
+    fun render(match: MatchModel, onItemSelected: (Int) -> Unit) {
+        val localTeam = match.homeTeam
+        val awayTeam = match.awayTeam
 
-        manageImages(localTeam, awayTeam)
-
-        binding.tvLocalName.text = localTeam.name
-        binding.tvGoalsLocal.text = match.homeGoals.toString()
-        binding.tvVisitorName.text = awayTeam.name
-        binding.tvGoalsVisitor.text = match.awayGoals.toString()
-
-        binding.tvJourney.text = match.journey
-
-        setCardBackgroundColor(match, localTeam, awayTeam)
-
-        if (match.match == "copa") {
-            binding.ivMatchType.setImageResource(R.drawable.ic_cup)
-        } else {
-            binding.ivMatchType.setImageResource(0)
-        }
-
-        binding.parent.setOnClickListener {
-            onItemSelected(match.id)
-        }
+//        manageImages(localTeam, awayTeam)
+//
+//        binding.tvLocalName.text = localTeam.name
+//        binding.tvGoalsLocal.text = match.homeGoals.toString()
+//        binding.tvVisitorName.text = awayTeam.name
+//        binding.tvGoalsVisitor.text = match.awayGoals.toString()
+//
+//        binding.tvJourney.text = match.journey
+//
+//        setCardBackgroundColor(match, localTeam, awayTeam)
+//
+//        if (match.match == "copa") {
+//            binding.ivMatchType.setImageResource(R.drawable.ic_cup)
+//        } else {
+//            binding.ivMatchType.setImageResource(0)
+//        }
+//
+//        binding.parent.setOnClickListener {
+//            onItemSelected(match.id)
+//        }
     }
 
     private fun manageImages(localTeam: TeamInformation, awayTeam: TeamInformation) {

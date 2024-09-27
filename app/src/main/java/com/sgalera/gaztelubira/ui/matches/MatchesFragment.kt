@@ -1,11 +1,11 @@
 package com.sgalera.gaztelubira.ui.matches
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -22,11 +22,12 @@ import kotlinx.coroutines.launch
 class MatchesFragment: Fragment() {
     private var _binding: FragmentMatchesBinding? = null
     private val binding get() = _binding!!
-    private lateinit var matchesAdapter: MatchesAdapter
-    private val matchesViewModel by viewModels<MatchesViewModel>()
     private lateinit var sharedPreferences: SharedPreferences
     private var journey: Int = 0
     private var id: Int = 0
+
+    private val matchesViewModel by viewModels<MatchesViewModel>()
+    private lateinit var matchesAdapter: MatchesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,10 +43,21 @@ class MatchesFragment: Fragment() {
     }
 
     private fun initUI() {
-        initComponents()
-        initListeners()
-        initUIState()
-        initRecyclerView()
+        matchesViewModel.init()
+        initMatchesList()
+//        initListeners()
+//        initUIState()
+//        initRecyclerView()
+    }
+
+    private fun initMatchesList() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                matchesViewModel.matchesList.collect { matchesList ->
+                    matchesAdapter.updateList(matchesList)
+                }
+            }
+        }
     }
 
     private fun initListeners() {
@@ -55,11 +67,13 @@ class MatchesFragment: Fragment() {
     }
 
     private fun initComponents() {
-        matchesAdapter = MatchesAdapter(onItemSelected = {
-            findNavController().navigate(
-                MatchesFragmentDirections.actionMatchesFragmentToDetailMatchActivity(it)
-            )
-        })
+        matchesAdapter = MatchesAdapter(
+            onItemSelected = { id ->
+                findNavController().navigate(
+                    MatchesFragmentDirections.actionMatchesFragmentToDetailMatchActivity(id)
+                )
+            }
+        )
         checkToken()
     }
 
@@ -87,7 +101,7 @@ class MatchesFragment: Fragment() {
 
     private fun successState(state: MatchInfoState.Success) {
         binding.progressBar.visibility = View.INVISIBLE
-        matchesAdapter.updateList(state.matchesList.sortedByDescending { it.id })
+//        matchesAdapter.updateList(state.matchesList.sortedByDescending { it.id })
 
         val lastMatch = state.matchesList.sortedByDescending { it.id }[0]
         id = lastMatch.id

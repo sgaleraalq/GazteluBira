@@ -20,10 +20,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StatsViewModel @Inject constructor(
+    private val sharedPreferences: SharedPreferences,
+    private val passwordManager: PasswordManager,
     private val getPlayersStatsUseCase: GetPlayersStatsUseCase,
     private val getPlayerModelUseCase: GetPlayerModelUseCase,
-    private val sharedPreferences: SharedPreferences,
-    private val passwordManager: PasswordManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<StatsUiState>(StatsUiState.Loading)
@@ -36,12 +36,12 @@ class StatsViewModel @Inject constructor(
         _isAdmin.value = admin
     }
 
-    fun getPlayersStats(year: Int) {
+    init {
         viewModelScope.launch {
             _uiState.value = StatsUiState.Loading
             try {
                 val result = withContext(Dispatchers.IO) {
-                    getPlayersStatsUseCase(year.toString())
+                    getPlayersStatsUseCase(sharedPreferences.credentials.year.toString())
                 }
 
                 result?.let { playersList ->

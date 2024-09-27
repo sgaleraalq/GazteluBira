@@ -5,6 +5,9 @@ import android.content.SharedPreferences
 import com.sgalera.gaztelubira.domain.model.Credentials
 
 class SharedPreferences(context: Context) {
+
+    lateinit var credentials: Credentials
+
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences("token", Context.MODE_PRIVATE)
 
@@ -44,8 +47,8 @@ class SharedPreferences(context: Context) {
     }
 
 
-    fun getCredentials(): Credentials {
-        return Credentials(
+    fun getCredentials() {
+        credentials = Credentials(
             isAdmin = sharedPreferences.getBoolean("isAdmin", false),
             player = sharedPreferences.getString("player", "") ?: "",
             year = sharedPreferences.getInt("year", 2023)

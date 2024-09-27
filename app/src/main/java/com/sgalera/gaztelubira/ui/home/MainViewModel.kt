@@ -22,16 +22,14 @@ class MainViewModel @Inject constructor(
     fun getCredentials(){
         viewModelScope.launch {
             _state.value = MainState.Loading
-            val credentials = withContext(Dispatchers.IO){
-                sharedPreferences.getCredentials()
-            }
+            withContext(Dispatchers.IO){ sharedPreferences.getCredentials() }
 
-            if (credentials.year == 0){
-                _state.value = MainState.Error
-            } else {
-                // TODO player
-                _state.value = MainState.Success(credentials)
-            }
+//            if (credentials.year == 0){
+//                _state.value = MainState.Error
+//            } else {
+//                // TODO player
+//                _state.value = MainState.Success(credentials)
+//            }
         }
     }
 }

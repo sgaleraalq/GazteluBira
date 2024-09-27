@@ -35,7 +35,7 @@ class StatsFragment : Fragment() {
     private var _binding: FragmentStatsBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var credentials: Credentials
+//    private lateinit var credentials: Credentials
     private val statsViewModel by viewModels<StatsViewModel>()
 
     override fun onCreateView(
@@ -48,20 +48,20 @@ class StatsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getCredentials()
+//        getCredentials()
         initUI()
     }
 
-    private fun getCredentials(){
-        arguments?.let {
-            credentials =
-                Credentials(
-                    isAdmin = it.getBoolean("isAdmin"),
-                    player = it.getString("player"),
-                    year = it.getInt("year")
-                )
-        }
-    }
+//    private fun getCredentials(){
+//        arguments?.let {
+//            credentials =
+//                Credentials(
+//                    isAdmin = it.getBoolean("isAdmin"),
+//                    player = it.getString("player"),
+//                    year = it.getInt("year")
+//                )
+//        }
+//    }
 
     private fun initUI() {
         initComponents()
@@ -69,8 +69,8 @@ class StatsFragment : Fragment() {
     }
 
     private fun initComponents() {
-        statsViewModel.getPlayersStats(credentials.year)
-        statsViewModel.initAdmin(credentials.isAdmin)
+//        statsViewModel.getPlayersStats(credentials.year)
+//        statsViewModel.initAdmin(credentials.isAdmin)
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
@@ -103,6 +103,7 @@ class StatsFragment : Fragment() {
 
     private fun onError() {
         binding.pbLoading.visibility = View.GONE
+        binding.pbLoadingChampion.visibility = View.GONE
         Toast.makeText(context, getString(R.string.main_error), Toast.LENGTH_SHORT).show()
     }
 
