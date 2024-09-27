@@ -10,7 +10,6 @@ import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -38,11 +37,10 @@ class MatchesViewModel @Inject constructor(
             val result = withContext(Dispatchers.IO) { getMatchesUseCase(sharedPreferences.credentials.year.toString())}
             if (result != null) {
                 result.forEach {
-                    val homeTeam = async { getTeamUseCase(it.homeTeam) }
-                    val awayTeam = async { getTeamUseCase(it.awayTeam) }
-                    val teams = awaitAll(homeTeam, awayTeam)
-                    it.localTeam = teams[0]
-                    it.visitorTeam = teams[1]
+                    val homeTeam = async { getTeamUseCase(it.homeTeam) }.await()
+                    val awayTeam = async { getTeamUseCase(it.awayTeam) }.await()
+                    it.localTeam = homeTeam
+                    it.visitorTeam = awayTeam
                 }
                 _matchesList.value = result
                 Log.d("MatchesViewModel", result.toString())

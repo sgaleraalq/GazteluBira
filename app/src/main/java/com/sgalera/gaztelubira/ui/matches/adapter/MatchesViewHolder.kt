@@ -12,31 +12,29 @@ import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ItemMatchesBinding
 import com.sgalera.gaztelubira.domain.model.MatchModel
 import com.sgalera.gaztelubira.domain.model.TeamInformation
+import com.sgalera.gaztelubira.domain.model.TeamModel
 import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
 
 class MatchesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val binding = ItemMatchesBinding.bind(view)
 
     fun render(match: MatchModel, onItemSelected: (Int) -> Unit) {
-        val localTeam = match.homeTeam
-        val awayTeam = match.awayTeam
+        binding.tvLocalName.text = match.localTeam?.teamName ?: ""
+        binding.tvVisitorName.text = match.visitorTeam?.teamName ?: ""
+        binding.tvGoalsLocal.text = match.homeGoals.toString()
+        binding.tvGoalsVisitor.text = match.awayGoals.toString()
+        binding.tvJourney.text = match.journey
 
+        binding.ivMatchType.setImageResource(if (match.match == "copa") R.drawable.ic_cup else 0)
+        setCardBackgroundColor(match, match.localTeam, match.visitorTeam)
 //        manageImages(localTeam, awayTeam)
 //
-//        binding.tvLocalName.text = localTeam.name
-//        binding.tvGoalsLocal.text = match.homeGoals.toString()
-//        binding.tvVisitorName.text = awayTeam.name
-//        binding.tvGoalsVisitor.text = match.awayGoals.toString()
+
 //
 //        binding.tvJourney.text = match.journey
 //
 //        setCardBackgroundColor(match, localTeam, awayTeam)
 //
-//        if (match.match == "copa") {
-//            binding.ivMatchType.setImageResource(R.drawable.ic_cup)
-//        } else {
-//            binding.ivMatchType.setImageResource(0)
-//        }
 //
 //        binding.parent.setOnClickListener {
 //            onItemSelected(match.id)
@@ -101,12 +99,12 @@ class MatchesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             .into(binding.ivVisitorTeam)
     }
 
-    private fun setCardBackgroundColor(match: MatchInfo, localTeam: TeamInformation, awayTeam: TeamInformation) {
+    private fun setCardBackgroundColor(match: MatchModel, localTeam: TeamModel?, awayTeam: TeamModel?) {
         if (match.homeGoals == match.awayGoals) {
             binding.parent.setCardBackgroundColor(binding.parent.context.getColor(R.color.lemon_chiffon))
-        } else if (localTeam.name == "Gaztelu Bira" && match.homeGoals > match.awayGoals) {
+        } else if (localTeam?.teamName == "Gaztelu Bira" && match.homeGoals > match.awayGoals) {
             binding.parent.setCardBackgroundColor(binding.parent.context.getColor(R.color.green))
-        } else if (awayTeam.name == "Gaztelu Bira" && match.awayGoals > match.homeGoals) {
+        } else if (awayTeam?.teamName == "Gaztelu Bira" && match.awayGoals > match.homeGoals) {
             binding.parent.setCardBackgroundColor(binding.parent.context.getColor(R.color.green))
         } else {
             binding.parent.setCardBackgroundColor(binding.parent.context.getColor(R.color.indian_red))

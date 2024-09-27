@@ -81,7 +81,6 @@ class MatchesFragment: Fragment() {
     }
 
     private fun initComponents() {
-
         checkToken()
     }
 
