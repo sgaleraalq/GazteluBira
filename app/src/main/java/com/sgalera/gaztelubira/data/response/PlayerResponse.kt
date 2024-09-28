@@ -7,7 +7,7 @@ import com.sgalera.gaztelubira.domain.model.PlayerModel
 data class PlayerResponse(
     @get:PropertyName("complete_name") @set:PropertyName("complete_name") var completeName: String = "",
     val name: String = "",
-    val dorsal: Int = 0,
+    val dorsal: Int? = 0,
     val img: String = "",
     val position: String = "",
     val stats: DocumentReference? = null,

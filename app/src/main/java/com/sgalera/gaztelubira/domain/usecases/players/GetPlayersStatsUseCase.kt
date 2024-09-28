@@ -1,4 +1,4 @@
-package com.sgalera.gaztelubira.domain.usecases
+package com.sgalera.gaztelubira.domain.usecases.players
 
 import com.sgalera.gaztelubira.domain.repository.PlayersRepository
 import javax.inject.Inject

@@ -4,7 +4,7 @@ import com.google.firebase.firestore.DocumentReference
 
 data class PlayerModel(
     val completeName: String,
-    val dorsal: Int,
+    val dorsal: Int?,
     val img: String,
     val name: String,
     val position: String,

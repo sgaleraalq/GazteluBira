@@ -1,7 +1,10 @@
 package com.sgalera.gaztelubira.data.repository
 
+import android.util.Log
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.sgalera.gaztelubira.core.Constants.INFO
 import com.sgalera.gaztelubira.core.Constants.PLAYERS
 import com.sgalera.gaztelubira.core.Constants.STATS
 import com.sgalera.gaztelubira.data.response.PlayerResponse
@@ -17,13 +20,19 @@ class PlayersRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : PlayersRepository {
 
-    override var players: List<PlayerModel?> = emptyList()
+    private var _players: List<PlayerModel?> = emptyList()
+    override val players: List<PlayerModel?> get() = _players
 
-    override suspend fun getPlayers() {
-        firestore.collection(PLAYERS).get()
-            .addOnSuccessListener { querySnapshot ->
-                players = querySnapshot.toObjects(PlayerResponse::class.java).map { it.toDomain() }
-            }
+    override suspend fun getPlayers(year: String):  List<PlayerModel?> {
+        return try {
+            val querySnapshot = Tasks.await(firestore.collection(PLAYERS).document(year).collection(INFO).get())
+            _players = querySnapshot.toObjects(PlayerResponse::class.java).map { it.toDomain() }
+            Log.i("StatsViewModel", "Players: $players")
+            _players
+        } catch (e: Exception) {
+            Log.e("PlayersRepository", "Error getting players", e)
+            emptyList()
+        }
     }
 
     override suspend fun getPlayerModel(reference: DocumentReference): PlayerModel? {

@@ -16,6 +16,9 @@
         android:theme="@style/Theme.GazteluBira"
         tools:targetApi="31">
         <activity
+            android:name=".ui.splash.SplashActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.team.detail.PlayerInformationDetail"
             android:exported="false" />
         <activity

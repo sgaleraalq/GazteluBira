@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.domain.model.Credentials
 import com.sgalera.gaztelubira.domain.model.PlayerModel
+import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersUseCase
 import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val sharedPreferences: SharedPreferences,
+    private val sharedPreferences: SharedPreferences
 ): ViewModel() {
 
     private val _state = MutableStateFlow<MainState>(MainState.Loading)
@@ -23,8 +24,9 @@ class MainViewModel @Inject constructor(
     fun getCredentials(){
         viewModelScope.launch {
             _state.value = MainState.Loading
-            val result = withContext(Dispatchers.IO){ sharedPreferences.getCredentials() }
-
+            val result = withContext(Dispatchers.IO){
+                sharedPreferences.getCredentials()
+            }
             if (result) {
                 _state.value = MainState.Success
             } else {

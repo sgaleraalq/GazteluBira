@@ -4,15 +4,15 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
-import com.sgalera.gaztelubira.domain.usecases.GetPlayersStatsUseCase
+import com.sgalera.gaztelubira.domain.repository.PlayersRepository
+import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersStatsUseCase
 import com.sgalera.gaztelubira.domain.usecases.players.GetPlayerModelUseCase
+import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersUseCase
 import com.sgalera.gaztelubira.ui.manager.PasswordManager
 import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import com.sgalera.gaztelubira.ui.stats.StatType.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -22,8 +22,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StatsViewModel @Inject constructor(
+    private val playersRepository: PlayersRepository,
     private val sharedPreferences: SharedPreferences,
     private val passwordManager: PasswordManager,
+    private val getPlayersUseCase: GetPlayersUseCase,
     private val getPlayersStatsUseCase: GetPlayersStatsUseCase,
     private val getPlayerModelUseCase: GetPlayerModelUseCase,
 ) : ViewModel() {
@@ -37,39 +39,21 @@ class StatsViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             _uiState.value = StatsUiState.Loading
-            try {
-                withContext(Dispatchers.IO){
-                    sharedPreferences.getCredentials()
-                }
-                val result = withContext(Dispatchers.IO) {
-                    _isAdmin.value = sharedPreferences.credentials.isAdmin
-                    getPlayersStatsUseCase(sharedPreferences.credentials.year.toString())
-                }
+            sharedPreferences.getCredentials()
 
-                result?.let { playersList ->
-                    var updatedPlayers = playersList.map { player ->
-                        async {
-                            if (player.reference != null) {
-                                val playerModel = getPlayerModelUseCase(player.reference)
-                                player.copy(information = playerModel)
-                            } else {
-                                player
-                            }
-                        }
-                    }.awaitAll()
+            val players = withContext(Dispatchers.IO) {
+                playersRepository.getPlayers(sharedPreferences.credentials.year.toString())
+            }
 
-                    updatedPlayers = updatedPlayers.sortedWith(compareByDescending<PlayerStatsModel> { it.percentage }
-                        .thenBy { it.information?.name })
-                    _uiState.value = StatsUiState.Success(updatedPlayers, updatedPlayers.firstOrNull())
-                    Log.i("StatsViewModel", updatedPlayers.toString())
-
-                } ?: run {
-                    _uiState.value = StatsUiState.Error
-                }
-            } catch (e: Exception) {
-                _uiState.value = StatsUiState.Error
+            if (players.isNotEmpty()) {
+                initStats()
+                Log.i("StatsViewModel", "Loaded Players: $players")
             }
         }
+    }
+
+    private fun initStats() {
+//        TODO
     }
 
     fun sortPlayersBy(stat: StatType, changeButtonColor: (StatType) -> Unit) {

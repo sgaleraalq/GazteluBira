@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.domain.model.MatchModel
+import com.sgalera.gaztelubira.domain.repository.PlayersRepository
 import com.sgalera.gaztelubira.domain.usecases.matches.GetMatchesUseCase
 import com.sgalera.gaztelubira.domain.usecases.matches.GetTeamUseCase
 import com.sgalera.gaztelubira.ui.manager.SharedPreferences
@@ -18,6 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MatchesViewModel @Inject constructor(
+    private val playersRepository: PlayersRepository,
     private val sharedPreferences: SharedPreferences,
     private val getMatchesUseCase: GetMatchesUseCase,
     private val getTeamUseCase: GetTeamUseCase
@@ -38,6 +40,7 @@ class MatchesViewModel @Inject constructor(
             val result =
                 withContext(Dispatchers.IO) { getMatchesUseCase(sharedPreferences.credentials.year.toString()) }
             if (result != null) {
+                Log.i("StatsViewModel in next", playersRepository.providePlayers().toString())
                 result.forEach {
                     val homeTeam = async { getTeamUseCase(it.homeTeam) }.await()
                     val awayTeam = async { getTeamUseCase(it.awayTeam) }.await()
