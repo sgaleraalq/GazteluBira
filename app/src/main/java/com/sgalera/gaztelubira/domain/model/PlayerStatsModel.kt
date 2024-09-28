@@ -3,7 +3,7 @@ package com.sgalera.gaztelubira.domain.model
 import com.google.firebase.firestore.DocumentReference
 
 data class PlayerStatsModel(
-    val information: PlayerModel? = null,
+    var information: PlayerModel? = null,
     val reference: DocumentReference?,
     val goals: Int,
     val assists: Int,

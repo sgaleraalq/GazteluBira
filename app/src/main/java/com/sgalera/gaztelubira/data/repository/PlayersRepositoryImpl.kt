@@ -23,11 +23,11 @@ class PlayersRepositoryImpl @Inject constructor(
     private var _players: List<PlayerModel?> = emptyList()
     override val players: List<PlayerModel?> get() = _players
 
+    // TODO enorme
     override suspend fun getPlayers(year: String):  List<PlayerModel?> {
         return try {
             val querySnapshot = Tasks.await(firestore.collection(PLAYERS).document(year).collection(INFO).get())
             _players = querySnapshot.toObjects(PlayerResponse::class.java).map { it.toDomain() }
-            Log.i("StatsViewModel", "Players: $players")
             _players
         } catch (e: Exception) {
             Log.e("PlayersRepository", "Error getting players", e)

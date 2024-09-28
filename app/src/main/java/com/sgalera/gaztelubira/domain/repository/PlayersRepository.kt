@@ -8,11 +8,7 @@ interface PlayersRepository {
 
     val players: List<PlayerModel?>
 
-    suspend fun getPlayers(year: String): List<PlayerModel?>
-
-    fun providePlayers(): List<PlayerModel?> {
-        return players
-    }
+    suspend fun getPlayers(year: String): List<PlayerModel?> // TODO
 
     suspend fun getPlayerModel(reference: DocumentReference): PlayerModel?
 

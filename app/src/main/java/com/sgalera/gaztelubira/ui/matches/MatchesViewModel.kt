@@ -40,7 +40,6 @@ class MatchesViewModel @Inject constructor(
             val result =
                 withContext(Dispatchers.IO) { getMatchesUseCase(sharedPreferences.credentials.year.toString()) }
             if (result != null) {
-                Log.i("StatsViewModel in next", playersRepository.providePlayers().toString())
                 result.forEach {
                     val homeTeam = async { getTeamUseCase(it.homeTeam) }.await()
                     val awayTeam = async { getTeamUseCase(it.awayTeam) }.await()

@@ -1,16 +1,19 @@
 package com.sgalera.gaztelubira.ui.stats
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sgalera.gaztelubira.domain.model.PlayerModel
 import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
-import com.sgalera.gaztelubira.domain.repository.PlayersRepository
 import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersStatsUseCase
-import com.sgalera.gaztelubira.domain.usecases.players.GetPlayerModelUseCase
 import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersUseCase
 import com.sgalera.gaztelubira.ui.manager.PasswordManager
 import com.sgalera.gaztelubira.ui.manager.SharedPreferences
-import com.sgalera.gaztelubira.ui.stats.StatType.*
+import com.sgalera.gaztelubira.ui.stats.StatType.ASSISTS
+import com.sgalera.gaztelubira.ui.stats.StatType.CLEAN_SHEET
+import com.sgalera.gaztelubira.ui.stats.StatType.GAMES_PLAYED
+import com.sgalera.gaztelubira.ui.stats.StatType.GOALS
+import com.sgalera.gaztelubira.ui.stats.StatType.PENALTIES
+import com.sgalera.gaztelubira.ui.stats.StatType.PERCENTAGE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,16 +25,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StatsViewModel @Inject constructor(
-    private val playersRepository: PlayersRepository,
     private val sharedPreferences: SharedPreferences,
     private val passwordManager: PasswordManager,
     private val getPlayersUseCase: GetPlayersUseCase,
     private val getPlayersStatsUseCase: GetPlayersStatsUseCase,
-    private val getPlayerModelUseCase: GetPlayerModelUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<StatsUiState>(StatsUiState.Loading)
     val uiState: StateFlow<StatsUiState> = _uiState
+
+    private val _playersStats = MutableStateFlow<List<PlayerStatsModel>>(emptyList())
+    val playersStats: StateFlow<List<PlayerStatsModel>> = _playersStats
 
     private val _isAdmin = MutableStateFlow(false)
     val isAdmin: StateFlow<Boolean> = _isAdmin
@@ -42,39 +46,48 @@ class StatsViewModel @Inject constructor(
             sharedPreferences.getCredentials()
 
             val players = withContext(Dispatchers.IO) {
-                playersRepository.getPlayers(sharedPreferences.credentials.year.toString())
+                getPlayersUseCase(sharedPreferences.credentials.year.toString())
             }
 
             if (players.isNotEmpty()) {
-                initStats()
-                Log.i("StatsViewModel", "Loaded Players: $players")
+                initStats(players)
             }
         }
     }
 
-    private fun initStats() {
-//        TODO
+    private fun initStats(players: List<PlayerModel?>) {
+        viewModelScope.launch {
+
+            val playersStats = withContext(Dispatchers.IO) {
+                getPlayersStatsUseCase(sharedPreferences.credentials.year.toString())
+            }
+
+            if (playersStats != null) {
+                _playersStats.value = playersStats.map { stat ->
+                        val player = players.find { player -> player?.ownReference == stat.reference }
+                        stat.information = player
+                        stat
+                    }.sortedByDescending { it.percentage }
+            } else {
+                _uiState.value = StatsUiState.Error
+            }
+        }
     }
 
     fun sortPlayersBy(stat: StatType, changeButtonColor: (StatType) -> Unit) {
-        _uiState.value = when (val currentState = _uiState.value) {
-            is StatsUiState.Success -> {
-                val sortedList = currentState.playersStats.sortedWith(
-                    compareByDescending<PlayerStatsModel> {
-                        when (stat) {
-                            PERCENTAGE -> it.percentage
-                            GOALS -> it.goals
-                            ASSISTS -> it.assists
-                            PENALTIES -> it.penalties
-                            CLEAN_SHEET -> it.cleanSheet
-                            GAMES_PLAYED -> it.gamesPlayed
-                        }
-                    }.thenBy { it.information?.name }
-                )
-                StatsUiState.Success(sortedList, sortedList.firstOrNull())
-            }
-            else -> currentState
-        }
+        val sortedList = _playersStats.value.sortedWith(
+            compareByDescending<PlayerStatsModel> {
+                when (stat) {
+                    PERCENTAGE -> it.percentage
+                    GOALS -> it.goals
+                    ASSISTS -> it.assists
+                    PENALTIES -> it.penalties
+                    CLEAN_SHEET -> it.cleanSheet
+                    GAMES_PLAYED -> it.gamesPlayed
+                }
+            }.thenBy { it.information?.name }
+        )
+        _playersStats.value = sortedList
         changeButtonColor(stat)
     }
 
@@ -98,10 +111,9 @@ class StatsViewModel @Inject constructor(
 sealed class StatsUiState {
     data object Loading : StatsUiState()
     data object Error : StatsUiState()
-    data class Success(val playersStats: List<PlayerStatsModel>, val champion: PlayerStatsModel?) : StatsUiState()
 }
 
-enum class StatType{
+enum class StatType {
     PERCENTAGE,
     GOALS,
     ASSISTS,

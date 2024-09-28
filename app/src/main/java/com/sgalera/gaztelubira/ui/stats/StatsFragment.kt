@@ -3,7 +3,6 @@ package com.sgalera.gaztelubira.ui.stats
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,8 +61,15 @@ class StatsFragment : Fragment() {
                     when (uiState) {
                         StatsUiState.Loading -> { onLoading() }
                         is StatsUiState.Error -> { onError() }
-                        is StatsUiState.Success -> { onSuccess(uiState.playersStats, uiState.champion) }
                     }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                statsViewModel.playersStats.collect { playersStats ->
+                    onSuccess(playersStats, playersStats.firstOrNull())
                 }
             }
         }
@@ -168,7 +174,7 @@ class StatsFragment : Fragment() {
         binding.tvChampionGoals.text = player.goals.toString()
         binding.tvChampionAssists.text = player.assists.toString()
         Glide.with(requireContext())
-            .load(player.information.img)
+            .load(player.information?.img ?: R.drawable.ic_profile)
             .into(binding.ivChampion)
     }
 
