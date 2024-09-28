@@ -10,7 +10,8 @@ data class PlayerResponse(
     val dorsal: Int = 0,
     val img: String = "",
     val position: String = "",
-    val stats: DocumentReference? = null
+    val stats: DocumentReference? = null,
+    val ownReference: DocumentReference? = null
 ) {
     fun toDomain(): PlayerModel {
         return PlayerModel(
@@ -19,7 +20,8 @@ data class PlayerResponse(
             dorsal = dorsal,
             img = img,
             position = position,
-            stats = stats
+            stats = stats,
+            ownReference = ownReference
         )
     }
 }

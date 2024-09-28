@@ -8,5 +8,6 @@ data class PlayerModel(
     val img: String,
     val name: String,
     val position: String,
-    val stats: DocumentReference?
+    val stats: DocumentReference?,
+    val ownReference: DocumentReference?
 )

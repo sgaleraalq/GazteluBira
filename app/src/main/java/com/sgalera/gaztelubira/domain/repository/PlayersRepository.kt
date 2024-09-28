@@ -6,6 +6,8 @@ import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
 
 interface PlayersRepository {
 
+    var players: List<PlayerModel?>
+
     suspend fun getPlayers()
 
     suspend fun getPlayerModel(reference: DocumentReference): PlayerModel?

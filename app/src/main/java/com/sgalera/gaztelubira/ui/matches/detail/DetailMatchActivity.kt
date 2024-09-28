@@ -2,6 +2,7 @@ package com.sgalera.gaztelubira.ui.matches.detail
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -87,11 +88,11 @@ class DetailMatchActivity : AppCompatActivity() {
     }
 
     private fun initScorers(scorers: List<String>) {
-        scorers.forEach { inflateView(it) }
+        scorers.forEach { inflateView(it, binding.llGoals) }
     }
 
     private fun initAssistants(assistants: List<String>) {
-        assistants.forEach { inflateView(it, false) }
+        assistants.forEach { inflateView(it, binding.llAssists,false) }
     }
 
     private fun initStarters(starters: Map<String, PlayerModel?>) {
@@ -99,18 +100,18 @@ class DetailMatchActivity : AppCompatActivity() {
     }
 
     private fun initBench(bench: List<PlayerModel?>) {
-        bench.forEachIndexed { index, benchPlayer -> inflateBenchView(benchPlayer, index) }
+        bench.forEachIndexed { index, benchPlayer -> inflateBenchView(benchPlayer, index, binding.glBench) }
     }
 
-    private fun inflateView(scorer: String, isGoal: Boolean = true) {
-        val itemLayout = layoutInflater.inflate(R.layout.item_detail_match, null) as View
+    private fun inflateView(scorer: String, parent: ViewGroup, isGoal: Boolean = true) {
+        val itemLayout = layoutInflater.inflate(R.layout.item_detail_match, parent, false) as View
         itemLayout.findViewById<TextView>(R.id.tvPlayer).text = scorer
         if (isGoal) itemLayout.findViewById<ImageView>(R.id.ivGoal).setImageResource(R.drawable.ic_football_ball)
-        if (isGoal) binding.llGoals.addView(itemLayout) else binding.llAssists.addView(itemLayout)
+        parent.addView(itemLayout)
     }
 
-    private fun inflateBenchView(benchPlayer: PlayerModel?, index: Int) {
-        val itemLayout = layoutInflater.inflate(R.layout.item_bench, null) as View
+    private fun inflateBenchView(benchPlayer: PlayerModel?, index: Int, parent: ViewGroup) {
+        val itemLayout = layoutInflater.inflate(R.layout.item_bench, parent, false) as View
         itemLayout.findViewById<TextView>(R.id.tvBenchPlayer).text = benchPlayer?.name
         itemLayout.findViewById<TextView>(R.id.tvDorsal).text = benchPlayer?.dorsal.toString()
 
@@ -119,7 +120,7 @@ class DetailMatchActivity : AppCompatActivity() {
             rowSpec = GridLayout.spec(index / 2)
         }
 
-        binding.llBench.addView(itemLayout, params)
+        parent.addView(itemLayout, params)
     }
 }
 

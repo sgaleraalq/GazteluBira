@@ -17,8 +17,13 @@ class PlayersRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : PlayersRepository {
 
-    override suspend fun getPlayers() {
+    override var players: List<PlayerModel?> = emptyList()
 
+    override suspend fun getPlayers() {
+        firestore.collection(PLAYERS).get()
+            .addOnSuccessListener { querySnapshot ->
+                players = querySnapshot.toObjects(PlayerResponse::class.java).map { it.toDomain() }
+            }
     }
 
     override suspend fun getPlayerModel(reference: DocumentReference): PlayerModel? {

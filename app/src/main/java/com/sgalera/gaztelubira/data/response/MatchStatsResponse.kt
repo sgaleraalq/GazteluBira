@@ -26,7 +26,7 @@ data class MatchStatsResponse (
         "right_striker" to null,
         "striker" to null
     ),
-    val bench: List<String> = emptyList()
+    val bench: List<DocumentReference?> = emptyList()
 ) {
     fun toDomain(): MatchStatsModel {
         return MatchStatsModel(
