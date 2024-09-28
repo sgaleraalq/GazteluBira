@@ -5,6 +5,7 @@ object Constants {
     const val PLAYERS = "players"
     const val TEAMS = "teams"
 
+    const val GAMES = "games"
     const val STATS = "stats"
 
     const val TEAM_NO_IMAGE =

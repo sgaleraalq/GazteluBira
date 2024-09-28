@@ -44,9 +44,8 @@ class MatchesViewModel @Inject constructor(
                     it.localTeam = homeTeam
                     it.visitorTeam = awayTeam
                 }
-                _matchesList.value = result
+                _matchesList.value = result.sortedBy { it.id }
                 _uiState.value = UIState.Success
-
             } else {
                 _uiState.value = UIState.Error
             }

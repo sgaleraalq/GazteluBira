@@ -2,6 +2,7 @@ package com.sgalera.gaztelubira.data.repository
 
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.sgalera.gaztelubira.core.Constants.GAMES
 import com.sgalera.gaztelubira.core.Constants.MATCHES
 import com.sgalera.gaztelubira.core.Constants.STATS
 import com.sgalera.gaztelubira.core.Constants.TEAMS
@@ -27,7 +28,7 @@ class MatchesRepositoryImpl @Inject constructor(
 
     override suspend fun getMatches(year: String): List<MatchModel>? {
         return suspendCancellableCoroutine { cancellableContinuation ->
-            firestore.collection(MATCHES).document(year).collection(STATS).get()
+            firestore.collection(MATCHES).document(year).collection(GAMES).get()
                 .addOnSuccessListener { snapshot ->
                     cancellableContinuation.resume(
                         snapshot.toObjects(MatchR::class.java).map { it.toDomain() }

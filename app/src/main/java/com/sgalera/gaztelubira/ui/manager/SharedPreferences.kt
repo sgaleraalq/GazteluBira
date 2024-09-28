@@ -31,7 +31,7 @@ class SharedPreferences(context: Context) {
             credentials = Credentials(
                 isAdmin = sharedPreferences.getBoolean("isAdmin", false),
                 player = sharedPreferences.getString("player", "") ?: "",
-                year = sharedPreferences.getInt("year", 2024)
+                year = sharedPreferences.getInt("year", 2023) // TODO
             )
             true
         } catch (e: Exception) {

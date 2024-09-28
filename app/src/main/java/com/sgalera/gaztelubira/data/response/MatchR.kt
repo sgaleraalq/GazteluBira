@@ -1,5 +1,6 @@
 package com.sgalera.gaztelubira.data.response
 
+import android.util.Log
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.PropertyName
 import com.sgalera.gaztelubira.domain.model.MatchModel
