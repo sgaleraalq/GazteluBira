@@ -23,7 +23,7 @@ class MatchesAdapter(
     override fun getItemCount() = matchesList.size
 
     override fun onBindViewHolder(holder: MatchesViewHolder, position: Int) {
-        holder.render(matchesList[position], onItemSelected)
+        holder.render(matchesList[position]) { onItemSelected(matchesList[position].id) }
     }
 
     @SuppressLint("NotifyDataSetChanged")

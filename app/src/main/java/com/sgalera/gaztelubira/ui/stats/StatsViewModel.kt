@@ -8,6 +8,7 @@ import com.sgalera.gaztelubira.domain.usecases.GetPlayersStatsUseCase
 import com.sgalera.gaztelubira.domain.usecases.players.GetPlayerModelUseCase
 import com.sgalera.gaztelubira.ui.manager.PasswordManager
 import com.sgalera.gaztelubira.ui.manager.SharedPreferences
+import com.sgalera.gaztelubira.ui.stats.StatType.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -74,20 +75,25 @@ class StatsViewModel @Inject constructor(
     fun sortPlayersBy(stat: StatType, changeButtonColor: (StatType) -> Unit) {
         _uiState.value = when (val currentState = _uiState.value) {
             is StatsUiState.Success -> {
-                val sortedList = when (stat) {
-                    StatType.PERCENTAGE -> currentState.playersStats.sortedByDescending { it.percentage }
-                    StatType.GOALS -> currentState.playersStats.sortedByDescending { it.goals }
-                    StatType.ASSISTS -> currentState.playersStats.sortedByDescending { it.assists }
-                    StatType.PENALTIES -> currentState.playersStats.sortedByDescending { it.penalties }
-                    StatType.CLEAN_SHEET -> currentState.playersStats.sortedByDescending { it.cleanSheet }
-                    StatType.GAMES_PLAYED -> currentState.playersStats.sortedByDescending { it.gamesPlayed }
-                }
+                val sortedList = currentState.playersStats.sortedWith(
+                    compareByDescending<PlayerStatsModel> {
+                        when (stat) {
+                            PERCENTAGE -> it.percentage
+                            GOALS -> it.goals
+                            ASSISTS -> it.assists
+                            PENALTIES -> it.penalties
+                            CLEAN_SHEET -> it.cleanSheet
+                            GAMES_PLAYED -> it.gamesPlayed
+                        }
+                    }.thenBy { it.information?.name }
+                )
                 StatsUiState.Success(sortedList, sortedList.firstOrNull())
             }
             else -> currentState
         }
         changeButtonColor(stat)
     }
+
 
     fun adminLogIn(password: String): Boolean {
         val result = passwordManager.checkPassword(password)

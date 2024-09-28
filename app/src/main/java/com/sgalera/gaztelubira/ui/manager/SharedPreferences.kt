@@ -10,36 +10,21 @@ class SharedPreferences(context: Context) {
     lateinit var credentials: Credentials
 
     private val sharedPreferences: SharedPreferences =
-        context.getSharedPreferences("token", Context.MODE_PRIVATE)
+        context.getSharedPreferences("credentials", Context.MODE_PRIVATE)
+
+    private fun saveCredentials(credentials: Credentials) {
+        with(sharedPreferences.edit()) {
+            putBoolean("isAdmin", credentials.isAdmin)
+            putString("player", credentials.player)
+            putInt("year", credentials.year)
+            apply()
+        }
+    }
 
     fun manageAdminLogIn(logged: Boolean) {
-        with(sharedPreferences.edit()) {
-            putBoolean("isAdmin", logged)
-            apply()
-        }
+        credentials.isAdmin = logged
+        saveCredentials(credentials)
     }
-
-    fun saveAdminToken(token: String) {
-        with(sharedPreferences.edit()) {
-            putString("admin_token", token)
-            apply()
-        }
-    }
-
-    fun savePlayer(player: String) {
-        with(sharedPreferences.edit()) {
-            putString("player", player)
-            apply()
-        }
-    }
-
-    fun saveYear(year: Int) {
-        with(sharedPreferences.edit()) {
-            putInt("year", year)
-            apply()
-        }
-    }
-
 
     fun getCredentials(): Boolean {
         return try {
@@ -53,9 +38,5 @@ class SharedPreferences(context: Context) {
             Log.i("SharedPreferences", "Error fetching credentials")
             false
         }
-    }
-
-    fun getAdminToken(): String {
-        return sharedPreferences.getString("admin_token", "") ?: ""
     }
 }

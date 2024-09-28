@@ -1,6 +1,7 @@
 package com.sgalera.gaztelubira.ui.matches
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,9 +23,6 @@ import kotlinx.coroutines.launch
 class MatchesFragment: Fragment() {
     private var _binding: FragmentMatchesBinding? = null
     private val binding get() = _binding!!
-    private lateinit var sharedPreferences: SharedPreferences
-    private var journey: Int = 0
-    private var id: Int = 0
 
     private val matchesViewModel by viewModels<MatchesViewModel>()
     private lateinit var matchesAdapter: MatchesAdapter
@@ -45,9 +43,7 @@ class MatchesFragment: Fragment() {
     private fun initUI() {
         initRecyclerView()
         initMatchesList()
-//        initListeners()
-//        initUIState()
-//        initRecyclerView()
+        initListeners()
     }
 
     private fun initRecyclerView() {
@@ -72,67 +68,58 @@ class MatchesFragment: Fragment() {
                 }
             }
         }
-    }
 
-    private fun initListeners() {
-        binding.btnInsertGame.setOnClickListener {
-            insertGame()
-        }
-    }
-
-    private fun initComponents() {
-        checkToken()
-    }
-
-    private fun checkToken() {
-        sharedPreferences = SharedPreferences(requireContext())
-        val token = sharedPreferences.getAdminToken()
-        if (token != null){
-            binding.btnInsertGame.visibility = View.VISIBLE
-        }
-    }
-
-    private fun initUIState() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                matchesViewModel.state.collect {
+                matchesViewModel.uiState.collect {
                     when (it) {
-                        MatchInfoState.Loading -> loadingState()
-                        is MatchInfoState.Error -> errorState(it.error)
-                        is MatchInfoState.Success -> successState(it)
+                        UIState.Loading -> loadingState()
+                        UIState.Error -> errorState()
+                        UIState.Success -> successState()
+                    }
+                }
+            }
+        }
+
+        matchesViewModel.checkAdminStatus()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                matchesViewModel.isAdmin.collect{
+                    when (it) {
+                        true -> binding.btnInsertGame.visibility = View.VISIBLE
+                        false -> binding.btnInsertGame.visibility = View.INVISIBLE
                     }
                 }
             }
         }
     }
 
-    private fun successState(state: MatchInfoState.Success) {
-        binding.progressBar.visibility = View.INVISIBLE
-//        matchesAdapter.updateList(state.matchesList.sortedByDescending { it.id })
-
-        val lastMatch = state.matchesList.sortedByDescending { it.id }[0]
-        id = lastMatch.id
-        journey = lastMatch.journey.split(" ")[1].toInt()
-    }
-
-    private fun errorState(error: String) {
-        binding.progressBar.visibility = View.INVISIBLE
-        Toast.makeText(context, "Error $error", Toast.LENGTH_SHORT).show()
-    }
-
     private fun loadingState() {
-        binding.progressBar.visibility = View.VISIBLE
+        binding.pbLoadingGames.visibility = View.VISIBLE
     }
 
+    private fun errorState() {
+        binding.pbLoadingGames.visibility = View.INVISIBLE
+        Toast.makeText(context, "Error loading games", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun successState() {
+        binding.pbLoadingGames.visibility = View.INVISIBLE
+    }
+
+    private fun initListeners() {
+        binding.btnInsertGame.setOnClickListener { insertGame() }
+    }
 
 
     private fun insertGame() {
-        if (id > 0 && journey > 0){
-            findNavController().navigate(
-                MatchesFragmentDirections.actionMatchesFragmentToInsertGame(journey+1, id+1)
-            )
-        } else{
-            Toast.makeText(context, "Please wait until matches are loaded", Toast.LENGTH_SHORT).show()
-        }
+        // TODO
+//        if (id > 0 && journey > 0){
+//            findNavController().navigate(
+//                MatchesFragmentDirections.actionMatchesFragmentToInsertGame(journey+1, id+1)
+//            )
+//        } else{
+//            Toast.makeText(context, "Please wait until matches are loaded", Toast.LENGTH_SHORT).show()
+//        }
     }
 }

@@ -23,18 +23,20 @@ class MatchesViewModel @Inject constructor(
     private val getTeamUseCase: GetTeamUseCase
 ) : ViewModel() {
 
-    private var _state = MutableStateFlow<MatchInfoState>(MatchInfoState.Loading)
-    val state: StateFlow<MatchInfoState> = _state
-
     private val _uiState = MutableStateFlow<UIState>(UIState.Loading)
     val uiState: StateFlow<UIState> = _uiState
 
     private val _matchesList = MutableStateFlow<List<MatchModel>>(emptyList())
     val matchesList: StateFlow<List<MatchModel>> = _matchesList
 
+    private val _isAdmin = MutableStateFlow(false)
+    val isAdmin: StateFlow<Boolean> = _isAdmin
+
     init {
         viewModelScope.launch {
-            val result = withContext(Dispatchers.IO) { getMatchesUseCase(sharedPreferences.credentials.year.toString())}
+            _uiState.value = UIState.Loading
+            val result =
+                withContext(Dispatchers.IO) { getMatchesUseCase(sharedPreferences.credentials.year.toString()) }
             if (result != null) {
                 result.forEach {
                     val homeTeam = async { getTeamUseCase(it.homeTeam) }.await()
@@ -43,11 +45,16 @@ class MatchesViewModel @Inject constructor(
                     it.visitorTeam = awayTeam
                 }
                 _matchesList.value = result
-                Log.d("MatchesViewModel", result.toString())
+                _uiState.value = UIState.Success
+
             } else {
                 _uiState.value = UIState.Error
             }
         }
+    }
+
+    fun checkAdminStatus() {
+        _isAdmin.value = sharedPreferences.credentials.isAdmin
     }
 }
 
