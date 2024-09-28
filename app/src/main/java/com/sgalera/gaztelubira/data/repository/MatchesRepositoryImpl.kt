@@ -5,12 +5,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.sgalera.gaztelubira.core.Constants.GAMES
 import com.sgalera.gaztelubira.core.Constants.MATCHES
 import com.sgalera.gaztelubira.core.Constants.STATS
-import com.sgalera.gaztelubira.core.Constants.TEAMS
 import com.sgalera.gaztelubira.data.response.MatchR
+import com.sgalera.gaztelubira.data.response.MatchStatsResponse
 import com.sgalera.gaztelubira.data.response.TeamResponse
 import com.sgalera.gaztelubira.domain.model.MatchModel
+import com.sgalera.gaztelubira.domain.model.MatchStatsModel
 import com.sgalera.gaztelubira.domain.model.TeamModel
 import com.sgalera.gaztelubira.domain.repository.MatchesRepository
+import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -36,6 +38,13 @@ class MatchesRepositoryImpl @Inject constructor(
                 }
                 .addOnFailureListener { cancellableContinuation.resume(null) }
         }
+    }
+
+    override suspend fun getMatchStats(id: String, year: String): MatchStatsModel? {
+        return firestore.collection(MATCHES)
+            .document(year).collection(STATS)
+            .document(id).get().await()
+            .toObject(MatchStatsResponse::class.java)?.toDomain()
     }
 
 }
