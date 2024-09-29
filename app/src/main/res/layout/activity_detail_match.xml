@@ -439,19 +439,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/clStarters" />
 
-
-        <GridLayout
-            android:id="@+id/glBench"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:id="@+id/llBench1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="16dp"
             android:orientation="vertical"
-            android:paddingStart="16dp"
-            android:columnCount="2"
-            app:layout_constraintStart_toStartOf="@id/tvLocalTeam"
-            app:layout_constraintEnd_toEndOf="@id/tvAwayTeam"
-            app:layout_constraintTop_toBottomOf="@id/tvBench"
-            tools:ignore="RtlSymmetry" />
+            android:gravity="start"
+            app:layout_constraintEnd_toStartOf="@id/tvSlash"
+            app:layout_constraintTop_toBottomOf="@id/tvBench" />
+
+        <LinearLayout
+            android:id="@+id/llBench2"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:gravity="start"
+            app:layout_constraintStart_toEndOf="@id/tvSlash"
+            app:layout_constraintTop_toTopOf="@id/llBench1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

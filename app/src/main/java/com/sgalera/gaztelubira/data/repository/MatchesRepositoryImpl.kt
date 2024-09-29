@@ -10,6 +10,7 @@ import com.sgalera.gaztelubira.data.response.MatchStatsResponse
 import com.sgalera.gaztelubira.data.response.TeamResponse
 import com.sgalera.gaztelubira.domain.model.MatchModel
 import com.sgalera.gaztelubira.domain.model.MatchStatsModel
+import com.sgalera.gaztelubira.domain.model.PlayerModel
 import com.sgalera.gaztelubira.domain.model.TeamModel
 import com.sgalera.gaztelubira.domain.repository.MatchesRepository
 import com.sgalera.gaztelubira.ui.manager.SharedPreferences
@@ -40,11 +41,16 @@ class MatchesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getMatchStats(id: String, year: String): MatchStatsModel? {
+    override suspend fun getMatchStats(
+        id: String,
+        year: String,
+        playersRef: List<PlayerModel?>,
+        teamsRef: List<TeamModel?>
+    ): MatchStatsModel? {
         return firestore.collection(MATCHES)
             .document(year).collection(STATS)
             .document(id).get().await()
-            .toObject(MatchStatsResponse::class.java)?.toDomain()
+            .toObject(MatchStatsResponse::class.java)?.toDomain(playersRef, teamsRef)
     }
 
 }

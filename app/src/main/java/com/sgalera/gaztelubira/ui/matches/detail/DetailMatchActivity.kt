@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.core.Constants.TEAM_NO_IMAGE
 import com.sgalera.gaztelubira.databinding.ActivityDetailMatchBinding
+import com.sgalera.gaztelubira.databinding.StartersDorsalImageViewBinding
 import com.sgalera.gaztelubira.domain.model.MatchStatsModel
 import com.sgalera.gaztelubira.domain.model.PlayerModel
 import com.sgalera.gaztelubira.domain.model.TeamModel
@@ -45,7 +46,7 @@ class DetailMatchActivity : AppCompatActivity() {
     }
 
     private fun initMatchStats(){
-        matchViewModel.initMatch(args.id)
+        matchViewModel.init(args.id)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 matchViewModel.matchStats.collect { matchStats ->
@@ -72,8 +73,8 @@ class DetailMatchActivity : AppCompatActivity() {
 
     private fun initMatchComponents(match: MatchStatsModel) {
         initMatchTeams(match.homeTeam, match.homeGoals, match.awayTeam, match.awayGoals)
-//        initScorers(match.scorers)
-//        initAssistants(match.assistants)
+        initScorers(match.scorers)
+        initAssistants(match.assistants)
         initStarters(match.starters)
         initBench(match.bench)
     }
@@ -87,127 +88,53 @@ class DetailMatchActivity : AppCompatActivity() {
         binding.tvAwayGoals.text = awayGoals.toString()
     }
 
-    private fun initScorers(scorers: List<String>) {
+    private fun initScorers(scorers: List<PlayerModel?>) {
         scorers.forEach { inflateView(it, binding.llGoals) }
     }
 
-    private fun initAssistants(assistants: List<String>) {
+    private fun initAssistants(assistants: List<PlayerModel?>) {
         assistants.forEach { inflateView(it, binding.llAssists,false) }
     }
 
     private fun initStarters(starters: Map<String, PlayerModel?>) {
-
+        starters.forEach { (position, player) ->
+            when (position) {
+                "goal_keeper" -> inflateStarterView(player, binding.ivGoalKeeper, binding.tvGoalKeeper)
+                "left_back" -> inflateStarterView(player, binding.ivLeftBack, binding.tvLeftBack)
+                "right_back" -> inflateStarterView(player, binding.ivRightBack, binding.tvRightBack)
+                "left_centre_back" -> inflateStarterView(player, binding.ivLeftCentreBack, binding.tvLeftCentreBack)
+                "right_centre_back" -> inflateStarterView(player, binding.ivRightCentreBack, binding.tvRightCentreBack)
+                "defensive_mid_fielder" -> inflateStarterView(player, binding.ivDefensiveMidFielder, binding.tvDefensiveMidFielder)
+                "left_mid_fielder" -> inflateStarterView(player, binding.ivLeftMidFielder, binding.tvLeftMidFielder)
+                "right_mid_fielder" -> inflateStarterView(player, binding.ivRightMidFielder, binding.tvRightMidFielder)
+                "left_striker" -> inflateStarterView(player, binding.ivLeftStriker, binding.tvLeftStriker)
+                "right_striker" -> inflateStarterView(player, binding.ivRightStriker, binding.tvRightStriker)
+                "striker" -> inflateStarterView(player, binding.ivStriker, binding.tvStriker)
+            }
+        }
     }
 
     private fun initBench(bench: List<PlayerModel?>) {
-        bench.forEachIndexed { index, benchPlayer -> inflateBenchView(benchPlayer, index, binding.glBench) }
+        bench.forEachIndexed { index, benchPlayer -> inflateBenchView(benchPlayer, index, binding.llBench1, binding.llBench2) }
     }
 
-    private fun inflateView(scorer: String, parent: ViewGroup, isGoal: Boolean = true) {
+    private fun inflateView(player: PlayerModel?, parent: ViewGroup, isGoal: Boolean = true) {
         val itemLayout = layoutInflater.inflate(R.layout.item_detail_match, parent, false) as View
-        itemLayout.findViewById<TextView>(R.id.tvPlayer).text = scorer
+        itemLayout.findViewById<TextView>(R.id.tvPlayer).text = player?.name ?: getString(R.string.could_not_retrieve)
         if (isGoal) itemLayout.findViewById<ImageView>(R.id.ivGoal).setImageResource(R.drawable.ic_football_ball)
         parent.addView(itemLayout)
     }
 
-    private fun inflateBenchView(benchPlayer: PlayerModel?, index: Int, parent: ViewGroup) {
+    private fun inflateBenchView(benchPlayer: PlayerModel?, index: Int, parent: ViewGroup, parent2: ViewGroup) {
         val itemLayout = layoutInflater.inflate(R.layout.item_bench, parent, false) as View
         itemLayout.findViewById<TextView>(R.id.tvBenchPlayer).text = benchPlayer?.name
         itemLayout.findViewById<TextView>(R.id.tvDorsal).text = benchPlayer?.dorsal.toString()
 
-        val params = GridLayout.LayoutParams().apply {
-            columnSpec = GridLayout.spec(index % 2)
-            rowSpec = GridLayout.spec(index / 2)
-        }
+        if (index % 2 == 0) { parent.addView(itemLayout) } else { parent2.addView(itemLayout) }
+    }
 
-        parent.addView(itemLayout, params)
+    private fun inflateStarterView(player: PlayerModel?, ivPlayer: StartersDorsalImageViewBinding, tvPlayer: TextView) {
+        ivPlayer.root.findViewById<TextView>(R.id.dorsalTextView).text = player?.dorsal.toString()
+        tvPlayer.text = player?.name ?: getString(R.string.could_not_retrieve)
     }
 }
-
-//    private fun initUIState() {
-//        lifecycleScope.launch {
-//            repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                matchViewModel.getMatch(args.id)
-//                matchViewModel.state.collect {
-//                    when (it) {
-//                        DetailMatchState.Loading -> loadingState()
-//                        is DetailMatchState.Error -> errorState(it.error)
-//                        is DetailMatchState.Success -> successState(it)
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//    private fun loadingState() {
-//        binding.progressBar.visibility = View.VISIBLE
-//    }
-//
-//    private fun errorState(error: String) {
-//        binding.progressBar.visibility = View.INVISIBLE
-//        Toast.makeText(this, "Error: $error", Toast.LENGTH_LONG).show()
-//    }
-//
-//    private fun successState(state: DetailMatchState.Success) {
-//        binding.progressBar.visibility = View.INVISIBLE
-//        if (!matchViewModel.hasDataLoaded) {
-//            initComponents(state.match)
-//        }
-//    }
-//    private fun initListeners() {
-//        binding.ivBack.setOnClickListener {
-//            onBackPressedDispatcher.onBackPressed()
-//        }
-//    }
-//
-//    private fun initStarters(starters: Map<String, PlayerInformation?>) {
-//        includeGoalKeeper(starters["goal_keeper"])
-//        includeBacks(starters["left_back"], starters["right_back"])
-//        includeCentreBacks(starters["left_centre_back"], starters["right_centre_back"])
-//        includeMidFielders(starters["defensive_mid_fielder"], starters["left_mid_fielder"], starters["right_mid_fielder"])
-//        includeStrikers(starters["left_striker"], starters["right_striker"], starters["striker"])
-//    }
-//
-//    private fun includeGoalKeeper(playerInfo: PlayerInformation?) {
-//        binding.ivGoalKeeper.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
-//        binding.tvGoalKeeper.text = playerInfo?.name
-//    }
-//
-//    private fun includeBacks(playerInfo: PlayerInformation?, playerInfo1: PlayerInformation?) {
-//        binding.ivLeftBack.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
-//        binding.tvLeftBack.text = playerInfo?.name
-//
-//        binding.ivRightBack.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo1?.dorsal.toString()
-//        binding.tvRightBack.text = playerInfo1?.name
-//    }
-//
-//    private fun includeCentreBacks(playerInfo: PlayerInformation?, playerInfo1: PlayerInformation?) {
-//        binding.ivLeftCentreBack.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
-//        binding.tvLeftCentreBack.text = playerInfo?.name
-//
-//        binding.ivRightCentreBack.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo1?.dorsal.toString()
-//        binding.tvRightCentreBack.text = playerInfo1?.name
-//    }
-//
-//    private fun includeMidFielders(playerInfo: PlayerInformation?, playerInfo1: PlayerInformation?, playerInfo2: PlayerInformation?) {
-//        binding.ivDefensiveMidFielder.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
-//        binding.tvDefensiveMidFielder.text = playerInfo?.name
-//
-//        binding.ivLeftMidFielder.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo1?.dorsal.toString()
-//        binding.tvLeftMidFielder.text = playerInfo1?.name
-//
-//        binding.ivRightMidFielder.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo2?.dorsal.toString()
-//        binding.tvRightMidFielder.text = playerInfo2?.name
-//    }
-//
-//    private fun includeStrikers(playerInfo: PlayerInformation?, playerInfo1: PlayerInformation?, playerInfo2: PlayerInformation?) {
-//        binding.ivLeftStriker.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo?.dorsal.toString()
-//        binding.tvLeftStriker.text = playerInfo?.name
-//
-//        binding.ivRightStriker.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo1?.dorsal.toString()
-//        binding.tvRightStriker.text = playerInfo1?.name
-//
-//        binding.ivStriker.root.findViewById<TextView>(R.id.dorsalTextView).text = playerInfo2?.dorsal.toString()
-//        binding.tvStriker.text = playerInfo2?.name
-//    }
-//}

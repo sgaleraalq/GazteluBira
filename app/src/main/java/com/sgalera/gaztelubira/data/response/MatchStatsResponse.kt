@@ -1,8 +1,11 @@
 package com.sgalera.gaztelubira.data.response
 
+import android.util.Log
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.PropertyName
 import com.sgalera.gaztelubira.domain.model.MatchStatsModel
+import com.sgalera.gaztelubira.domain.model.PlayerModel
+import com.sgalera.gaztelubira.domain.model.TeamModel
 
 data class MatchStatsResponse (
     val match: String = "",
@@ -27,17 +30,17 @@ data class MatchStatsResponse (
     ),
     val bench: List<DocumentReference?> = emptyList()
 ) {
-    fun toDomain(): MatchStatsModel {
+    fun toDomain(playersRef: List<PlayerModel?>, teamsRef: List<TeamModel?>): MatchStatsModel {
         return MatchStatsModel(
             match = match,
-            homeTeamRef = homeTeamRef, // TODO
-            awayTeamRef = awayTeamRef, // TODO
+            homeTeam = teamsRef.find { it?.ownReference == homeTeamRef },
+            awayTeam = teamsRef.find { it?.ownReference == awayTeamRef },
             homeGoals = homeGoals,
             awayGoals = awayGoals,
-            scorers = scorers,
-            assistants = assistants,
-            starters = emptyMap(),
-            bench = emptyList()
+            scorers = scorers.map { playersRef.find { player -> player?.ownReference == it } },
+            assistants = assistants.map { playersRef.find { player -> player?.ownReference == it } },
+            starters = starters.mapValues { playersRef.find { player -> player?.ownReference == it.value } },
+            bench = bench.map { playersRef.find { player -> player?.ownReference == it } }
         )
     }
 }
