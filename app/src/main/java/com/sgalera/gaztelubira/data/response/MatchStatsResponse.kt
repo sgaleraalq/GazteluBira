@@ -7,8 +7,8 @@ import com.sgalera.gaztelubira.domain.model.TeamModel
 
 data class MatchStatsResponse (
     val match: String = "",
-    @get:PropertyName("home_team") @set:PropertyName("home_team") var homeTeam: DocumentReference? = null,
-    @get:PropertyName("away_team") @set:PropertyName("away_team") var awayTeam: DocumentReference? = null,
+    @get:PropertyName("home_team") @set:PropertyName("home_team") var homeTeamRef: DocumentReference? = null,
+    @get:PropertyName("away_team") @set:PropertyName("away_team") var awayTeamRef: DocumentReference? = null,
     @get:PropertyName("home_goals") @set:PropertyName("home_goals") var homeGoals: Int = 0,
     @get:PropertyName("away_goals") @set:PropertyName("away_goals") var awayGoals: Int = 0,
     val scorers: List<String> = emptyList(),
@@ -31,8 +31,8 @@ data class MatchStatsResponse (
     fun toDomain(): MatchStatsModel {
         return MatchStatsModel(
             match = match,
-            homeTeam = TeamModel("", "", null), // TODO
-            awayTeam = TeamModel("", "", null), // TODO
+            homeTeamRef = homeTeamRef, // TODO
+            awayTeamRef = awayTeamRef, // TODO
             homeGoals = homeGoals,
             awayGoals = awayGoals,
             scorers = scorers,

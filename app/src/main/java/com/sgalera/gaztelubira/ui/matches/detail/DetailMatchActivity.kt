@@ -45,7 +45,7 @@ class DetailMatchActivity : AppCompatActivity() {
     }
 
     private fun initMatchStats(){
-        matchViewModel.getMatch(args.id)
+        matchViewModel.initMatch(args.id)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 matchViewModel.matchStats.collect { matchStats ->

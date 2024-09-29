@@ -1,9 +1,13 @@
 package com.sgalera.gaztelubira.domain.model
 
+import com.google.firebase.firestore.DocumentReference
+
 data class MatchStatsModel(
     val match: String,
-    val homeTeam: TeamModel,
-    val awayTeam: TeamModel,
+    val homeTeam: TeamModel? = null,
+    val awayTeam: TeamModel? = null,
+    val homeTeamRef: DocumentReference?,
+    val awayTeamRef: DocumentReference?,
     val homeGoals: Int,
     val awayGoals: Int,
     val scorers: List<String>,
