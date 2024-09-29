@@ -6,9 +6,11 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.sgalera.gaztelubira.data.repository.MatchesRepositoryImpl
 import com.sgalera.gaztelubira.data.repository.PlayersRepositoryImpl
+import com.sgalera.gaztelubira.data.repository.TeamsRepositoryImpl
 import com.sgalera.gaztelubira.domain.model.PlayerModel
 import com.sgalera.gaztelubira.domain.repository.MatchesRepository
 import com.sgalera.gaztelubira.domain.repository.PlayersRepository
+import com.sgalera.gaztelubira.domain.repository.TeamsRepository
 import com.sgalera.gaztelubira.ui.manager.PasswordManager
 import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import dagger.Module
@@ -40,4 +42,7 @@ object NetworkModule {
 
     @Provides
     fun provideMatchesRepository(firestore: FirebaseFirestore): MatchesRepository = MatchesRepositoryImpl(firestore)
+
+    @Provides
+    fun provideTeamsRepository(firestore: FirebaseFirestore): TeamsRepository = TeamsRepositoryImpl(firestore)
 }

@@ -31,8 +31,8 @@ data class MatchStatsResponse (
     fun toDomain(): MatchStatsModel {
         return MatchStatsModel(
             match = match,
-            homeTeam = TeamModel("", ""),
-            awayTeam = TeamModel("", ""),
+            homeTeam = TeamModel("", "", null), // TODO
+            awayTeam = TeamModel("", "", null), // TODO
             homeGoals = homeGoals,
             awayGoals = awayGoals,
             scorers = scorers,
