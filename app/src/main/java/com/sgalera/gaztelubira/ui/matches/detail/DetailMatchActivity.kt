@@ -72,8 +72,8 @@ class DetailMatchActivity : AppCompatActivity() {
 
     private fun initMatchComponents(match: MatchStatsModel) {
         initMatchTeams(match.homeTeam, match.homeGoals, match.awayTeam, match.awayGoals)
-        initScorers(match.scorers)
-        initAssistants(match.assistants)
+//        initScorers(match.scorers)
+//        initAssistants(match.assistants)
         initStarters(match.starters)
         initBench(match.bench)
     }

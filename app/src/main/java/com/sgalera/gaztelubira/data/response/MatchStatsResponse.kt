@@ -3,7 +3,6 @@ package com.sgalera.gaztelubira.data.response
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.PropertyName
 import com.sgalera.gaztelubira.domain.model.MatchStatsModel
-import com.sgalera.gaztelubira.domain.model.TeamModel
 
 data class MatchStatsResponse (
     val match: String = "",
@@ -11,8 +10,8 @@ data class MatchStatsResponse (
     @get:PropertyName("away_team") @set:PropertyName("away_team") var awayTeamRef: DocumentReference? = null,
     @get:PropertyName("home_goals") @set:PropertyName("home_goals") var homeGoals: Int = 0,
     @get:PropertyName("away_goals") @set:PropertyName("away_goals") var awayGoals: Int = 0,
-    val scorers: List<String> = emptyList(),
-    val assistants: List<String> = emptyList(),
+    val scorers: List<DocumentReference> = emptyList(),
+    val assistants: List<DocumentReference> = emptyList(),
     val starters: Map<String, DocumentReference?> = mapOf(
         "goal_keeper" to null,
         "left_back" to null,

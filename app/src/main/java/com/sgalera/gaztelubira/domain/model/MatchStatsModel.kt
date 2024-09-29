@@ -10,8 +10,8 @@ data class MatchStatsModel(
     val awayTeamRef: DocumentReference?,
     val homeGoals: Int,
     val awayGoals: Int,
-    val scorers: List<String>,
-    val assistants: List<String>,
+    val scorers: List<DocumentReference>,
+    val assistants: List<DocumentReference>,
     val starters: Map<String, PlayerModel?> = mapOf(
         "goal_keeper" to null,
         "left_back" to null,
