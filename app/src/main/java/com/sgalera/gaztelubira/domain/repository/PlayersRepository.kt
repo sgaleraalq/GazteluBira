@@ -10,6 +10,8 @@ interface PlayersRepository {
 
     suspend fun getPlayers(year: String): List<PlayerModel?> // TODO
 
+    suspend fun getPlayerStats(playerName: String, year: String): PlayerStatsModel?
+
     suspend fun getPlayerModel(reference: DocumentReference): PlayerModel?
 
     suspend fun getPlayersStats(year: String): List<PlayerStatsModel>?

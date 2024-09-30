@@ -2,8 +2,9 @@ package com.sgalera.gaztelubira.ui.team.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.firestore.DocumentReference
-import com.sgalera.gaztelubira.data.provider.PlayersProvider
+import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
+import com.sgalera.gaztelubira.domain.usecases.players.GetPlayerStatsUseCase
+import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,25 +14,40 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class PlayerInformationViewModel @Inject constructor(private val playersProvider: PlayersProvider) : ViewModel() {
-    private var _statePlayerInformation = MutableStateFlow<PlayerInformationDetailState>(PlayerInformationDetailState.Loading)
-    val statePlayerInformation: StateFlow<PlayerInformationDetailState> = _statePlayerInformation
+class PlayerInformationViewModel @Inject constructor(
+    private val sharedPreferences: SharedPreferences,
+    private val getPlayerStatsUseCase: GetPlayerStatsUseCase
+) : ViewModel() {
 
-    fun getReference(reference: String): DocumentReference? {
-        return playersProvider.getReferenceFromString(reference)
-    }
+    private val _uiState = MutableStateFlow<PlayerInformationState>(PlayerInformationState.Loading)
+    val uiState: StateFlow<PlayerInformationState> = _uiState
 
-    suspend fun getPlayerStatsByReference(reference: DocumentReference) {
+    private val _player = MutableStateFlow<PlayerStatsModel?>(null)
+    val player: StateFlow<PlayerStatsModel?> = _player
+
+    fun getPlayerStats(playerPath: String){
         viewModelScope.launch {
-            _statePlayerInformation.value = PlayerInformationDetailState.Loading
-//            withContext(Dispatchers.IO) {
-//                val playerStats = playersProvider.getPlayerStatsByReference(reference)
-//                if (playerStats != null) {
-//                    _statePlayerInformation.value = PlayerInformationDetailState.Success(playerStats)
-//                } else {
-//                    _statePlayerInformation.value = PlayerInformationDetailState.Error("Ha ocurrido un error al cargar los datos del jugador.")
-//                }
-//            }
+            _uiState.value = PlayerInformationState.Loading
+            val player = withContext(Dispatchers.IO){
+                getPlayerStatsUseCase(playerPath, sharedPreferences.credentials.year.toString())
+            }
+            if (player != null){
+                _uiState.value = PlayerInformationState.Success
+                _player.value = player
+            } else{
+                _uiState.value = PlayerInformationState.Error
+            }
         }
     }
+
+    fun initManagers() {
+        _uiState.value = PlayerInformationState.Success
+    }
+}
+
+
+sealed class PlayerInformationState {
+    data object Loading : PlayerInformationState()
+    data object Error: PlayerInformationState()
+    data object Success: PlayerInformationState()
 }

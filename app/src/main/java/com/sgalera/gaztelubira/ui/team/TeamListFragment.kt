@@ -64,7 +64,7 @@ class TeamListFragment : Fragment() {
                     name = player.name,
                     dorsal = player.dorsal ?: 0,
                     image = player.img,
-                    reference = player.ownReference?.path ?: ""
+                    position = player.position.name
                 )
             )
         }

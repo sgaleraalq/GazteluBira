@@ -21,109 +21,79 @@ import kotlinx.coroutines.launch
 class PlayerInformationDetail : AppCompatActivity() {
 
     private lateinit var binding: ActivityPlayerInformationDetailBinding
+
     private val playerInformationViewModel: PlayerInformationViewModel by viewModels()
     private val args: PlayerInformationDetailArgs by navArgs()
-
-    private lateinit var playerName: String
-    private lateinit var playerImage: String
-    private var playerReference: String? = null
-    private var playerDorsal = 0
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerInformationDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initComponents()
-        initUI()
+        initStats()
         initListeners()
     }
 
-    private fun initComponents() {
-        playerName = args.name
-        playerImage = args.image
-        playerReference = args.reference
-        playerDorsal = args.dorsal
-    }
-
-    private fun initUI() {
-        if (playerReference != null) {
-            initPlayerComponents()
-        } else {
-            initManagerComponents()
-        }
-    }
-
     private fun initListeners() {
-        binding.ivBack.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
+        binding.ivBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
     }
 
-    private fun initPlayerComponents() {
+    private fun initStats() {
+        if (args.position != "TECHNICAL_STAFF") {
+            playerInformationViewModel.getPlayerStats(args.name)
+        } else {
+            playerInformationViewModel.initManagers()
+        }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                val reference = playerInformationViewModel.getReference(playerReference!!)
-                if (reference == null) {
-                    errorState(getString(R.string.error_player_reference_not_found))
-                    return@repeatOnLifecycle
+                playerInformationViewModel.player.collect {
+                    initUI(it)
                 }
-                playerInformationViewModel.getPlayerStatsByReference(reference)
-                playerInformationViewModel.statePlayerInformation.collect { state ->
-                    when (state) {
-                        PlayerInformationDetailState.Loading -> loadingState()
-                        is PlayerInformationDetailState.Error -> errorState(state.error)
-                        is PlayerInformationDetailState.Success -> successState(state.playerStats)
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                playerInformationViewModel.uiState.collect { uiState ->
+                    when (uiState) {
+                        PlayerInformationState.Loading -> {}
+                        PlayerInformationState.Error -> onError()
+                        PlayerInformationState.Success -> onSuccess()
                     }
                 }
             }
         }
     }
 
-    private fun loadingState() {
-        binding.pbLoadingPlayerInformation.visibility = View.VISIBLE
-    }
-
-    private fun errorState(error: String) {
+    private fun onError() {
         binding.pbLoadingPlayerInformation.visibility = View.GONE
-        Toast.makeText(this@PlayerInformationDetail, error, Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            this@PlayerInformationDetail,
+            getString(R.string.error_player_reference_not_found),
+            Toast.LENGTH_SHORT).show()
     }
 
-    private fun successState(playerStats: PlayerStatsModel) {
+    private fun onSuccess() {
+        if (args.position == "TECHNICAL_STAFF") {
+            binding.clPlayerStats.visibility = View.GONE
+            binding.tvPlayerPosition.text = getString(R.string.manager)
+            binding.ivPlayerDorsal.visibility = View.GONE
+            binding.tvPlayerDorsal.visibility = View.GONE
+        } else {
+            binding.tvPlayerPosition.text = args.position
+        }
         binding.pbLoadingPlayerInformation.visibility = View.GONE
-        binding.parentView.visibility = View.VISIBLE
-        binding.tvPlayerName.text = playerName
-//        binding.tvPlayerPosition.text = playerStats.information?.position ?: ""
-        Glide.with(this)
-            .load(playerImage)
-            .into(binding.ivPlayerImage)
-
-        initPlayerStats(playerStats)
-    }
-
-    private fun initPlayerStats(playerStats: PlayerStatsModel) {
-        binding.tvPlayerDorsal.text = playerDorsal.toString()
-        binding.tvGoals.text = playerStats.goals.toString()
-        binding.tvAssists.text = playerStats.assists.toString()
-        binding.tvGames.text = playerStats.gamesPlayed.toString()
-        binding.tvPenalties.text = playerStats.penalties.toString()
-        binding.tvCleanSheet.text = playerStats.cleanSheet.toString()
-
+        binding.tvPlayerName.text = args.name
+        binding.tvPlayerDorsal.text = args.dorsal.toString()
         binding.clPlayerStats.alpha = 0f
-        binding.clPlayerStats.animate()
-            .alpha(1f)
-            .setDuration(2000)
-            .start()
+        binding.clPlayerStats.animate().alpha(1f).setDuration(2000).start()
+        Glide.with(this).load(args.image).into(binding.ivPlayerImage)
     }
 
-    private fun initManagerComponents() {
-        binding.pbLoadingPlayerInformation.visibility = View.GONE
-        binding.clPlayerStats.visibility = View.GONE
-        binding.parentView.visibility = View.VISIBLE
-        binding.tvPlayerName.text = playerName
-        binding.tvPlayerPosition.text = getString(R.string.manager)
-        Glide.with(this)
-            .load(playerImage)
-            .into(binding.ivPlayerImage)
+    private fun initUI(player: PlayerStatsModel?) {
+        binding.tvGoals.text = player?.goals.toString()
+        binding.tvAssists.text = player?.assists.toString()
+        binding.tvGames.text = player?.gamesPlayed.toString()
+        binding.tvPenalties.text = player?.penalties.toString()
+        binding.tvCleanSheet.text = player?.cleanSheet.toString()
     }
 }

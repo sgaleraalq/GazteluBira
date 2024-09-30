@@ -63,14 +63,13 @@
             android:name="name"
             app:argType="string" />
         <argument
-            android:name="reference"
-            app:argType="string"
-            app:nullable="true" />
-        <argument
             android:name="dorsal"
             app:argType="integer" />
         <argument
             android:name="image"
+            app:argType="string" />
+        <argument
+            android:name="position"
             app:argType="string" />
     </activity>
 </navigation>
