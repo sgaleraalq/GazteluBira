@@ -3,6 +3,8 @@ package com.sgalera.gaztelubira.ui.team
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.domain.model.PlayerModel
+import com.sgalera.gaztelubira.domain.model.PlayerPosition
+import com.sgalera.gaztelubira.domain.model.PlayerPosition.*
 import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersUseCase
 import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +21,7 @@ class TeamListViewModel @Inject constructor(
     private val getPlayersUseCase: GetPlayersUseCase
 ): ViewModel(){
 
-    private val _uiState = MutableStateFlow<TeamInfoState>(TeamInfoState.Loading(true))
+    private val _uiState = MutableStateFlow<TeamInfoState>(TeamInfoState.Loading)
     val uiState: StateFlow<TeamInfoState> = _uiState
 
     private val _playersList = MutableStateFlow<List<PlayerModel?>>(emptyList())
@@ -27,19 +29,21 @@ class TeamListViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            _uiState.value = TeamInfoState.Loading(true)
+            _uiState.value = TeamInfoState.Loading
             _playersList.value = withContext(Dispatchers.IO){
-                getPlayersUseCase(sharedPreferences.credentials.year.toString())
+                getPlayersUseCase(sharedPreferences.credentials.year.toString()).sortedBy { it?.dorsal }
             }
             if (_playersList.value.isEmpty()){
                 _uiState.value = TeamInfoState.Error
+            } else {
+                _uiState.value = TeamInfoState.Success
             }
-            _uiState.value = TeamInfoState.Loading(false)
         }
     }
 }
 
 sealed class TeamInfoState {
-    data class Loading(val isLoading: Boolean): TeamInfoState()
+    data object Loading: TeamInfoState()
     data object Error: TeamInfoState()
+    data object Success: TeamInfoState()
 }

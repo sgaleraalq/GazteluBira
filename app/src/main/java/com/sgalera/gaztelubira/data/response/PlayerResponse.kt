@@ -29,7 +29,11 @@ data class PlayerResponse(
 
     private fun mapPositions(position: String): PlayerPosition {
         return when {
-            position.contains("goalkeeper", ignoreCase = true) -> GOALKEEPER
+            position.contains("goalkeeper", ignoreCase = true) || position.contains(
+                "goal keeper",
+                ignoreCase = true
+            ) -> GOALKEEPER
+
             position.contains("defender", ignoreCase = true) -> DEFENDER
             position.contains("midfielder", ignoreCase = true) -> MIDFIELDER
             position.contains("forward", ignoreCase = true) -> FORWARD

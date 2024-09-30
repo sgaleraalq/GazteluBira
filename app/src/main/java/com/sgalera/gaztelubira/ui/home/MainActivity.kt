@@ -53,12 +53,10 @@ class MainActivity: AppCompatActivity() {
     }
 
     private fun onStateSuccess() {
-        binding.pbLoading.visibility = View.GONE
         initNavigation()
     }
 
     private fun onStateError() {
-        binding.pbLoading.visibility = View.GONE
         Toast.makeText(this, getString(R.string.error_fetching_credentials), Toast.LENGTH_SHORT).show()
     }
 

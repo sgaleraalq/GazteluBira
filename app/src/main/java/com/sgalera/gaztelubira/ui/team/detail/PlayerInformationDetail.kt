@@ -93,7 +93,7 @@ class PlayerInformationDetail : AppCompatActivity() {
         binding.pbLoadingPlayerInformation.visibility = View.GONE
         binding.parentView.visibility = View.VISIBLE
         binding.tvPlayerName.text = playerName
-        binding.tvPlayerPosition.text = playerStats.information?.position ?: ""
+//        binding.tvPlayerPosition.text = playerStats.information?.position ?: ""
         Glide.with(this)
             .load(playerImage)
             .into(binding.ivPlayerImage)

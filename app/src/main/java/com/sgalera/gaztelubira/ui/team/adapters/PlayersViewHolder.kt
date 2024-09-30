@@ -10,20 +10,21 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ItemPlayersBinding
+import com.sgalera.gaztelubira.domain.model.PlayerModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 
 class PlayersViewHolder(view: View): RecyclerView.ViewHolder(view){
     private val binding = ItemPlayersBinding.bind(view)
-    fun render(playerInformation: PlayerInformation, onPlayerSelected: (PlayerInformation) -> Unit) {
-        if (playerInformation.dorsal != null) {
-            binding.tvPlayerDorsal.text = playerInformation.dorsal.toString()
-        } else {
-            binding.tvPlayerDorsal.visibility = View.GONE
+    fun render(playerInformation: PlayerModel, onPlayerSelected: (PlayerModel) -> Unit) {
+        binding.apply {
+            tvPlayerDorsal.text = playerInformation.dorsal?.toString() ?: run {
+                tvPlayerDorsal.visibility = View.GONE
+                ""
+            }
+            tvPlayerName.text = playerInformation.name
+            tvPlayerPosition.text = playerInformation.position.name
+            ivPlayer.loadImage(playerInformation.img)
         }
-        binding.tvPlayerName.text = playerInformation.name
-        binding.tvPlayerPosition.text = playerInformation.position
-
-        binding.ivPlayer.loadImage(playerInformation.img)
 
         itemView.setOnClickListener{
             onPlayerSelected(playerInformation)

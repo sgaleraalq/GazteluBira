@@ -4,18 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentTeamBinding
 import com.sgalera.gaztelubira.domain.model.PlayerModel
-import com.sgalera.gaztelubira.domain.model.PlayerPosition
-import com.sgalera.gaztelubira.domain.model.PlayerPosition.*
-import com.sgalera.gaztelubira.ui.team.adapters.GoalKeeperAdapter
+import com.sgalera.gaztelubira.domain.model.PlayerPosition.DEFENDER
+import com.sgalera.gaztelubira.domain.model.PlayerPosition.FORWARD
+import com.sgalera.gaztelubira.domain.model.PlayerPosition.GOALKEEPER
+import com.sgalera.gaztelubira.domain.model.PlayerPosition.MIDFIELDER
+import com.sgalera.gaztelubira.domain.model.PlayerPosition.TECHNICAL_STAFF
+import com.sgalera.gaztelubira.domain.model.PlayerPosition.UNKNOWN
+import com.sgalera.gaztelubira.ui.team.adapters.PlayersAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -25,18 +33,11 @@ class TeamListFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val teamListViewModel by viewModels<TeamListViewModel>()
-
-//    private var goalKeeperList = mutableListOf<PlayerInformation>()
-//    private var defendersList = mutableListOf<PlayerInformation>()
-//    private var midfieldersList = mutableListOf<PlayerInformation>()
-//    private var forwardsList = mutableListOf<PlayerInformation>()
-//    private var technicalStaffList = mutableListOf<PlayerInformation>()
-//
-//    private lateinit var goalKeeperAdapters: GoalKeeperAdapter
-//    private lateinit var defendersAdapter: DefendersAdapter
-//    private lateinit var midfieldersAdapter: MidfieldersAdapter
-//    private lateinit var forwardsAdapter: ForwardsAdapter
-//    private lateinit var technicalStaffAdapter: TechnicalStaffAdapter
+    private var goalKeeperList = mutableListOf<PlayerModel>()
+    private var defendersList = mutableListOf<PlayerModel>()
+    private var midfieldersList = mutableListOf<PlayerModel>()
+    private var forwardsList = mutableListOf<PlayerModel>()
+    private var technicalStaffList = mutableListOf<PlayerModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,20 +50,95 @@ class TeamListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
+        initAdapters()
     }
 
     private fun initUI() {
         fetchInformation()
     }
 
-    private fun fetchInformation(){
+    private fun initAdapters() {
+        val navigateToPlayerDetail: (PlayerModel) -> Unit = { player ->
+            findNavController().navigate(
+                TeamListFragmentDirections.actionTeamFragmentToPlayerInformationDetail(
+                    name = player.name,
+                    dorsal = player.dorsal ?: 0,
+                    image = player.img,
+                    reference = player.ownReference?.path ?: ""
+                )
+            )
+        }
+        bindAdapters(
+            recyclerView = binding.rvGoalKeepers,
+            adapter = PlayersAdapter(
+                playersList = goalKeeperList,
+                onPlayerSelected = { navigateToPlayerDetail(it) }
+            )
+        )
+        bindAdapters(
+            recyclerView = binding.rvDefenders,
+            adapter = PlayersAdapter(
+                playersList = defendersList,
+                onPlayerSelected = { navigateToPlayerDetail(it) }
+            )
+        )
+        bindAdapters(
+            recyclerView = binding.rvMidFielders,
+            adapter = PlayersAdapter(
+                playersList = midfieldersList,
+                onPlayerSelected = { navigateToPlayerDetail(it) }
+            )
+        )
+        bindAdapters(
+            recyclerView = binding.rvForwards,
+            adapter = PlayersAdapter(
+                playersList = forwardsList,
+                onPlayerSelected = { navigateToPlayerDetail(it) }
+            )
+        )
+        bindAdapters(
+            recyclerView = binding.rvTechnicalStaff,
+            adapter = PlayersAdapter(
+                playersList = technicalStaffList,
+                onPlayerSelected = { navigateToPlayerDetail(it) }
+            )
+        )
+    }
+
+    private fun fetchInformation() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 teamListViewModel.playersList.collect { teamList ->
                     initPlayersList(teamList)
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                teamListViewModel.uiState.collect { uiState ->
+                    when (uiState) {
+                        TeamInfoState.Error -> onError()
+                        TeamInfoState.Loading -> {}
+                        TeamInfoState.Success -> onSuccess()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun onSuccess() {
+        binding.progressBarLoadingTeamTemplate.visibility = View.GONE
+        binding.scrollViewTeamTemplate.visibility = View.VISIBLE
+    }
+
+    private fun onError() {
+        binding.progressBarLoadingTeamTemplate.visibility = View.GONE
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.an_error_has_occurred),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun initPlayersList(teamList: List<PlayerModel?>) {
@@ -71,166 +147,21 @@ class TeamListFragment : Fragment() {
 
     private fun inflateRecyclerView(player: PlayerModel?) {
         when (player?.position) {
-            GOALKEEPER -> {}
-            DEFENDER -> {}
-            MIDFIELDER -> {}
-            FORWARD -> {}
-            TECHNICAL_STAFF -> {}
+            GOALKEEPER -> goalKeeperList.add(player)
+            DEFENDER -> defendersList.add(player)
+            MIDFIELDER -> midfieldersList.add(player)
+            FORWARD -> forwardsList.add(player)
+            TECHNICAL_STAFF -> technicalStaffList.add(player)
             UNKNOWN -> {}
             null -> {}
         }
     }
-//
-//    private fun fetchPlayerInformation() {
-//        lifecycleScope.launch {
-//            repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                teamViewModel.players.collect{teamState ->
-//                    when(teamState) {
-//                        is TeamInfoState.Loading -> loadingState()
-//                        is TeamInfoState.Error -> errorState(teamState.error)
-//                        is TeamInfoState.Success -> successState(teamState.playerList)
-//                    }
-//                }
-//
-//            }
-//        }
-//    }
-//
-//    private fun loadingState() {
-//        binding.progressBarLoadingTeamTemplate.visibility = View.VISIBLE
-//    }
-//
-//    private fun errorState(error: String) {
-//        binding.progressBarLoadingTeamTemplate.visibility = View.GONE
-//        Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
-//    }
-//
-//    private fun successState(playerList: List<PlayerInformation>){
-//        binding.progressBarLoadingTeamTemplate.visibility = View.GONE
-//        binding.scrollViewTeamTemplate.visibility = View.VISIBLE
-//        initLists(playerList)
-//    }
-//
-//    private fun initLists(playerList: List<PlayerInformation>) {
-//        goalKeeperList.clear()
-//        defendersList.clear()
-//        midfieldersList.clear()
-//        forwardsList.clear()
-//        technicalStaffList.clear()
-//        for (player in playerList){
-//            when(player.position){
-//                "Goal keeper" -> goalKeeperList.add(player)
-//                "Defender" -> defendersList.add(player)
-//                "Midfielder" -> midfieldersList.add(player)
-//                "Forward" -> forwardsList.add(player)
-//                "Technical Staff" -> technicalStaffList.add(player)
-//            }
-//        }
-//        initRecyclerViews()
-//    }
-//
-//    private fun initRecyclerViews() {
-//        initGoalKeepers()
-//        initDefenders()
-//        initMidfielders()
-//        initForwards()
-//        initTechnicalStaff()
-//    }
-//
-//    private fun initGoalKeepers() {
-//        goalKeeperAdapters = GoalKeeperAdapter(goalKeeperList.sortedBy { it.dorsal },
-//            onItemSelected = {
-//                findNavController().navigate(
-//                    TeamFragmentDirections.actionTeamFragmentToPlayerInformationDetail(
-//                        name = it.name,
-//                        dorsal = it.dorsal!!,
-//                        image = it.img,
-//                        reference = it.stats!!.path
-//                    )
-//                )
-//            })
-//        binding.rvGoalKeepers.apply {
-//            adapter = goalKeeperAdapters
-//            layoutManager = GridLayoutManager(requireContext(), 3)
-//            isNestedScrollingEnabled = false
-//        }
-//    }
-//
-//    private fun initDefenders() {
-//        defendersAdapter = DefendersAdapter(defendersList.sortedBy { it.dorsal },
-//            onItemSelected = {
-//                findNavController().navigate(
-//                    TeamFragmentDirections.actionTeamFragmentToPlayerInformationDetail(
-//                        name = it.name,
-//                        dorsal = it.dorsal!!,
-//                        image = it.img,
-//                        reference = it.stats!!.path
-//                    )
-//                )
-//            })
-//        binding.rvDefenders.apply {
-//            adapter = defendersAdapter
-//            layoutManager = GridLayoutManager(requireContext(), 3)
-//            isNestedScrollingEnabled = false
-//        }
-//    }
-//
-//    private fun initMidfielders() {
-//        midfieldersAdapter = MidfieldersAdapter(midfieldersList.sortedBy { it.dorsal },
-//            onItemSelected = {
-//                findNavController().navigate(
-//                    TeamFragmentDirections.actionTeamFragmentToPlayerInformationDetail(
-//                        name = it.name,
-//                        dorsal = it.dorsal!!,
-//                        image = it.img,
-//                        reference = it.stats!!.path
-//                    )
-//                )
-//            })
-//        binding.rvMidFielders.apply {
-//            adapter = midfieldersAdapter
-//            layoutManager = GridLayoutManager(requireContext(), 3)
-//            isNestedScrollingEnabled = false
-//        }
-//    }
-//
-//    private fun initForwards() {
-//        forwardsAdapter = ForwardsAdapter(forwardsList.sortedBy { it.dorsal },
-//            onItemSelected = {
-//                findNavController().navigate(
-//                    TeamFragmentDirections.actionTeamFragmentToPlayerInformationDetail(
-//                        name = it.name,
-//                        dorsal = it.dorsal!!,
-//                        image = it.img,
-//                        reference = it.stats!!.path
-//                    )
-//                )
-//            })
-//        binding.rvForwards.apply {
-//            adapter = forwardsAdapter
-//            layoutManager = GridLayoutManager(requireContext(), 3)
-//            isNestedScrollingEnabled = false
-//        }
-//    }
-//
-//    private fun initTechnicalStaff() {
-//        technicalStaffAdapter = TechnicalStaffAdapter(technicalStaffList,
-//            onItemSelected = {
-//                findNavController().navigate(
-//                    TeamFragmentDirections.actionTeamFragmentToPlayerInformationDetail(
-//                        name = it.name,
-//                        dorsal = 0,
-//                        image = it.img,
-//                        reference = null
-//                    )
-//                )
-//            }
-//        )
-//        binding.rvTechnicalStaff.apply {
-//            adapter = technicalStaffAdapter
-//            layoutManager = GridLayoutManager(requireContext(), 3)
-//            isNestedScrollingEnabled = false
-//        }
-//    }
 
+    private fun bindAdapters(recyclerView: RecyclerView, adapter: PlayersAdapter) {
+        recyclerView.apply {
+            this.adapter = adapter
+            layoutManager = GridLayoutManager(requireContext(), 3)
+            isNestedScrollingEnabled = false
+        }
+    }
 }
