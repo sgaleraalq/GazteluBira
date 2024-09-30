@@ -12,5 +12,14 @@ class PlayerComparisonViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun render(playerModel: PlayerModel?, onPlayerSelected: (PlayerModel) -> Unit) {
         binding.tvPlayerName.text = playerModel?.name
         Glide.with(itemView).load(playerModel?.img).into(binding.ivPlayerImage)
+        if (playerModel?.selected == true){
+            binding.ivCheck.visibility = View.VISIBLE
+        } else {
+            binding.ivCheck.visibility = View.GONE
+        }
+
+        itemView.setOnClickListener {
+            playerModel?.let { onPlayerSelected(it) }
+        }
     }
 }

@@ -12,6 +12,5 @@ class InsertGameViewHolder(view: View): RecyclerView.ViewHolder(view) {
         binding.tvPlayerName.text = player.name
         Glide.with(itemView.context).load(player.img).into(binding.ivPlayerImage)
         binding.ivCancel.visibility = View.VISIBLE
-        binding.pbLoading.visibility = View.GONE
     }
 }

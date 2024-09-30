@@ -1,5 +1,6 @@
 package com.sgalera.gaztelubira.ui.player_compare.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,7 +8,7 @@ import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.domain.model.PlayerModel
 
 class PlayerComparisonAdapter(
-    private var playersList: List<PlayerModel?> = emptyList(),
+    private var playersList: MutableList<PlayerModel?> = mutableListOf(),
     private val onPlayerSelected: (PlayerModel) -> Unit
 ): RecyclerView.Adapter<PlayerComparisonViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerComparisonViewHolder {
@@ -22,9 +23,18 @@ class PlayerComparisonAdapter(
         holder.render(playersList[position]) { player -> onPlayerSelected(player) }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList(playersList: MutableList<PlayerModel?>) {
         this.playersList = playersList
         notifyDataSetChanged()
+    }
+
+    fun updatePlayer(indexOne: Int, indexTwo: Int) {
+        playersList.forEach { it?.selected = false }
+        playersList[indexOne]?.selected = true
+        playersList[indexTwo]?.selected = true
+        notifyItemChanged(indexOne)
+        notifyItemChanged(indexTwo)
     }
 
 }

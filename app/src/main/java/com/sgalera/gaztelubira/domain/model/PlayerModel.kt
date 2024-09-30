@@ -9,7 +9,8 @@ data class PlayerModel(
     val name: String,
     val position: PlayerPosition,
     val stats: DocumentReference?,
-    val ownReference: DocumentReference?
+    val ownReference: DocumentReference?,
+    var selected: Boolean = false
 )
 
 enum class PlayerPosition {

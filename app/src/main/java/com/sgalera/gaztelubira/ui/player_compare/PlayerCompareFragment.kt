@@ -1,7 +1,7 @@
 package com.sgalera.gaztelubira.ui.player_compare
 
 import android.app.AlertDialog
-import android.graphics.Color.*
+import android.graphics.Color.TRANSPARENT
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
@@ -69,17 +69,15 @@ class PlayerCompareFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 playerComparisonViewModel.playersList.collect { players ->
-                    playersList = players.toMutableList()
-                    playerComparisonAdapter.updateList(playersList)
-                    Log.i("PlayerCompareFragment", playersList.toString())
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                playerComparisonViewModel.playerOne.collect {
-                    // TODO
+                    if (playersList.isEmpty()){
+                        playersList = players.toMutableList()
+                        playerComparisonAdapter.updateList(playersList)
+                    } else {
+                        playersList = players.toMutableList()
+                        val indexOne = playersList.indexOfFirst { it?.selected == true }
+                        val indexTwo = playersList.indexOfLast { it?.selected == true }
+                        playerComparisonAdapter.updatePlayer(indexOne, indexTwo)
+                    }
                 }
             }
         }
@@ -88,12 +86,12 @@ class PlayerCompareFragment : Fragment() {
     private fun initAdapter() {
         playerComparisonAdapter = PlayerComparisonAdapter(
             playersList = playersList,
-            onPlayerSelected = {  }
+            onPlayerSelected = { playerComparisonViewModel.selectPlayer(it) }
         )
     }
 
     private fun initListeners() {
-        binding.tvChooseTwoPlayers.setOnClickListener{ showPlayerComparison() }
+        binding.tvChooseTwoPlayers.setOnClickListener { showPlayerComparison() }
     }
 
     private fun showPlayerComparison() {
@@ -110,8 +108,6 @@ class PlayerCompareFragment : Fragment() {
     }
 
     private fun createPlayersDialog() {
-
-
 //        selectPlayers(playerOne, playerTwo)
 //        val popUpRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewPlayers)
 //        val doneButtonPopUp = view.findViewById<CardView>(R.id.cvDone)
@@ -135,7 +131,6 @@ class PlayerCompareFragment : Fragment() {
 //            showPlayersInfo()
 //        }
     }
-
 
 
 //
