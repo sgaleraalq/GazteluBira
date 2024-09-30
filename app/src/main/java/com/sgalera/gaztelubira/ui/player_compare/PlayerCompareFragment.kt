@@ -69,14 +69,15 @@ class PlayerCompareFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 playerComparisonViewModel.playersList.collect { players ->
-                    if (playersList.isEmpty()){
-                        playersList = players.toMutableList()
-                        playerComparisonAdapter.updateList(playersList)
+                    if (playerComparisonAdapter.playersList.isEmpty()){
+                        playerComparisonAdapter.updateList(players.toMutableList())
                     } else {
-                        playersList = players.toMutableList()
-                        val indexOne = playersList.indexOfFirst { it?.selected == true }
-                        val indexTwo = playersList.indexOfLast { it?.selected == true }
-                        playerComparisonAdapter.updatePlayer(indexOne, indexTwo)
+                        val indexOne = players.indexOfFirst { it?.selected == true }
+                        val indexTwo = players.indexOfLast { it?.selected == true }
+                        playerComparisonAdapter.updatePlayer(
+                            indexOne = indexOne,
+                            indexTwo = indexTwo
+                        )
                     }
                 }
             }
@@ -85,7 +86,6 @@ class PlayerCompareFragment : Fragment() {
 
     private fun initAdapter() {
         playerComparisonAdapter = PlayerComparisonAdapter(
-            playersList = playersList,
             onPlayerSelected = { playerComparisonViewModel.selectPlayer(it) }
         )
     }

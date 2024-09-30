@@ -8,7 +8,7 @@ import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.domain.model.PlayerModel
 
 class PlayerComparisonAdapter(
-    private var playersList: MutableList<PlayerModel?> = mutableListOf(),
+    var playersList: MutableList<PlayerModel?> = mutableListOf(),
     private val onPlayerSelected: (PlayerModel) -> Unit
 ): RecyclerView.Adapter<PlayerComparisonViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerComparisonViewHolder {
@@ -24,17 +24,22 @@ class PlayerComparisonAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateList(playersList: MutableList<PlayerModel?>) {
-        this.playersList = playersList
+    fun updateList(newList: MutableList<PlayerModel?>) {
+        playersList = newList
         notifyDataSetChanged()
     }
 
     fun updatePlayer(indexOne: Int, indexTwo: Int) {
-        playersList.forEach { it?.selected = false }
+        playersList.forEach {
+            if (it?.selected == true) {
+                it.selected = false
+                notifyItemChanged(playersList.indexOf(it))
+            }
+        }
+        if (indexOne == -1 && indexTwo == -1) return
         playersList[indexOne]?.selected = true
         playersList[indexTwo]?.selected = true
         notifyItemChanged(indexOne)
         notifyItemChanged(indexTwo)
     }
-
 }

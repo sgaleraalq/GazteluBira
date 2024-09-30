@@ -48,31 +48,42 @@ class PlayerComparisonViewModel @Inject constructor(
     }
 
     fun selectPlayer(player: PlayerModel) {
-        if (_playerOne.value?.ownReference == player.ownReference) {
-            _playerOne.value = null
-        } else if (_playerTwo.value?.ownReference == player.ownReference) {
-            _playerTwo.value = null
-        } else {
-            when (_selectPlayer) {
-                PlayerSelection.PLAYER_ONE -> {
-                    _playerOne.value = player
-                    _selectPlayer = PlayerSelection.PLAYER_TWO
-                }
-                PlayerSelection.PLAYER_TWO -> {
-                    _playerTwo.value = player
-                    _selectPlayer = PlayerSelection.PLAYER_ONE
+        when {
+            // Si el jugador está seleccionado como playerOne, lo deseleccionamos
+            _playerOne.value?.ownReference == player.ownReference -> {
+                _playerOne.value = null
+            }
+            // Si el jugador está seleccionado como playerTwo, lo deseleccionamos
+            _playerTwo.value?.ownReference == player.ownReference -> {
+                _playerTwo.value = null
+            }
+            // Si ninguno de los dos jugadores está seleccionado
+            else -> {
+                when {
+                    // Si playerOne está vacío, seleccionamos aquí
+                    _playerOne.value == null -> _playerOne.value = player
+                    // Si playerTwo está vacío, seleccionamos aquí
+                    _playerTwo.value == null -> _playerTwo.value = player
+                    // Si ambos están seleccionados, deseleccionamos playerOne y seleccionamos el nuevo jugador en playerTwo
+                    else -> {
+                        _playerOne.value = _playerTwo.value
+                        _playerTwo.value = player
+                    }
                 }
             }
         }
 
+        // Comprobamos si ambos jugadores están deseleccionados y actualizamos la lista
+        updatePlayerSelection()
+    }
+
+    private fun updatePlayerSelection() {
         _playersList.value = _playersList.value.map { currentPlayer ->
-            if (currentPlayer?.ownReference == player.ownReference) {
-                currentPlayer?.copy(selected = !currentPlayer.selected)
-            } else {
-                currentPlayer
-            }
+            currentPlayer?.copy(
+                selected = currentPlayer.ownReference == _playerOne.value?.ownReference ||
+                        currentPlayer.ownReference == _playerTwo.value?.ownReference
+            )
         }
-        Log.i("PlayerComparisonViewModel", _playersList.value.toString())
     }
 }
 
