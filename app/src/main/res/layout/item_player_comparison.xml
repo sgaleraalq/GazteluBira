@@ -18,16 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ProgressBar
-            android:id="@+id/pbLoading"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:indeterminateTint="@color/gold"
-            app:layout_constraintBottom_toBottomOf="@id/cvImage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/cvImage" />
-
         <androidx.cardview.widget.CardView
             android:id="@+id/cvImage"
             android:layout_width="60dp"

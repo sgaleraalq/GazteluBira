@@ -14,7 +14,7 @@ class InsertGameAdapter(
 ): RecyclerView.Adapter<InsertGameViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InsertGameViewHolder {
         return InsertGameViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_player_popup, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_player_comparison, parent, false)
         )
     }
 

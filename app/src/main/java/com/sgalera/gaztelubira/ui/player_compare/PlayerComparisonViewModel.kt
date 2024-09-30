@@ -2,9 +2,9 @@ package com.sgalera.gaztelubira.ui.player_compare
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.firestore.DocumentReference
-import com.sgalera.gaztelubira.data.provider.PlayersProvider
-import com.sgalera.gaztelubira.domain.model.players.PlayerStats
+import com.sgalera.gaztelubira.domain.model.PlayerModel
+import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersUseCase
+import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,37 +15,34 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PlayerComparisonViewModel @Inject constructor(
-    private val playerComparisonProvider: PlayersProvider
+    private val sharedPreferences: SharedPreferences,
+    private val getPlayersUseCase: GetPlayersUseCase
 ) : ViewModel() {
 
-    private var _statePlayerOne = MutableStateFlow<PlayerComparisonState>(PlayerComparisonState.Loading)
-    val statePlayerOne: StateFlow<PlayerComparisonState> = _statePlayerOne
+    private val _uiState = MutableStateFlow<PlayerComparisonUiState>(PlayerComparisonUiState.Loading)
+    val uiState: StateFlow<PlayerComparisonUiState> = _uiState
 
-    private var _statePlayerTwo = MutableStateFlow<PlayerComparisonState>(PlayerComparisonState.Loading)
-    val statePlayerTwo: StateFlow<PlayerComparisonState> = _statePlayerTwo
+    private val _playersList = MutableStateFlow<List<PlayerModel?>>(emptyList())
+    val playersList: StateFlow<List<PlayerModel?>> = _playersList
 
-    fun getPlayerStatsPlayerOne(playerReference: DocumentReference): PlayerStats? {
+    private val _playerOne = MutableStateFlow<PlayerModel?>(null)
+    val playerOne: StateFlow<PlayerModel?> = _playerOne
+
+    init {
         viewModelScope.launch {
-//            _statePlayerOne.value = PlayerComparisonState.Loading
-//            val result = withContext(Dispatchers.IO) { playerComparisonProvider.getPlayerStatsByReference(playerReference) }
-//            if (result != null){
-//                _statePlayerOne.value = PlayerComparisonState.Success(result)
-//            } else {
-//                _statePlayerOne.value = PlayerComparisonState.Error("Ha ocurrido un error, inténtelo de nuevo más tarde")
-//            }
-        }
-        return null
-    }
-
-    fun getPlayerStatsPlayerTwo(playerTwoReference: DocumentReference) {
-        viewModelScope.launch {
-//            _statePlayerTwo.value = PlayerComparisonState.Loading
-//            val result = withContext(Dispatchers.IO) { playerComparisonProvider.getPlayerStatsByReference(playerTwoReference) }
-//            if (result != null){
-//                _statePlayerTwo.value = PlayerComparisonState.Success(result)
-//            } else {
-//                _statePlayerTwo.value = PlayerComparisonState.Error("Ha ocurrido un error, inténtelo de nuevo más tarde")
-//            }
+            _playersList.value = withContext(Dispatchers.IO){
+                getPlayersUseCase(sharedPreferences.credentials.year.toString())
+            }
+            if (_playersList.value.isNotEmpty()) {
+                _uiState.value = PlayerComparisonUiState.Success
+            }
         }
     }
+}
+
+
+sealed class PlayerComparisonUiState{
+    data object Success : PlayerComparisonUiState()
+    data object Loading : PlayerComparisonUiState()
+    data object Error : PlayerComparisonUiState()
 }
