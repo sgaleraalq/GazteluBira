@@ -4,7 +4,6 @@ import android.util.Log
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.toObject
 import com.sgalera.gaztelubira.core.Constants.INFO
 import com.sgalera.gaztelubira.core.Constants.PLAYERS
 import com.sgalera.gaztelubira.core.Constants.STATS

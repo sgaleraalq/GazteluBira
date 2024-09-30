@@ -1,5 +1,6 @@
 package com.sgalera.gaztelubira.ui.matches
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.domain.model.MatchModel

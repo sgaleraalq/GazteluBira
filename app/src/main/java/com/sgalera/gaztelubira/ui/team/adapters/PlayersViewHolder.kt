@@ -6,12 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
-import com.google.firebase.firestore.DocumentReference
-import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ItemPlayersBinding
 import com.sgalera.gaztelubira.domain.model.PlayerModel
-import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 
 class PlayersViewHolder(view: View): RecyclerView.ViewHolder(view){
     private val binding = ItemPlayersBinding.bind(view)

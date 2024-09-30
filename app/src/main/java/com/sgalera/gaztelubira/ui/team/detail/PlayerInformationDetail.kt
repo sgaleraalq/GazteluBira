@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityPlayerInformationDetailBinding
 import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
-import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
