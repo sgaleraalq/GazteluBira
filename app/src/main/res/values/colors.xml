@@ -27,5 +27,6 @@
     <color name="sandy_brown">#f4a460</color>
     <color name="grey_80_opacity">#CC9C9B9B</color>
     <color name="transparent">#00F44336</color>
+    <color name="almost_transparent">#33FFFFFF</color>
 
 </resources>

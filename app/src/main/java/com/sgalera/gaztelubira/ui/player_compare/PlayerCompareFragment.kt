@@ -91,7 +91,7 @@ class PlayerCompareFragment : Fragment() {
     }
 
     private fun initListeners() {
-        binding.tvChooseTwoPlayers.setOnClickListener { showPlayerComparison() }
+//        binding.tvChooseTwoPlayers.setOnClickListener { showPlayerComparison() }
     }
 
     private fun showPlayerComparison() {
@@ -104,6 +104,11 @@ class PlayerCompareFragment : Fragment() {
         playersRecyclerView.apply {
             adapter = playerComparisonAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
+        }
+
+        val doneButton = view.findViewById<View>(R.id.cvDone)
+        doneButton.setOnClickListener {
+            dialog.dismiss()
         }
     }
 

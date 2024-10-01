@@ -90,4 +90,5 @@
     <string name="description_league">League icon</string>
     <string name="description_local_team">Local team image</string>
     <string name="description_away_team">Away team</string>
+    <string name="description_compare_players">Image compare players</string>
 </resources>
