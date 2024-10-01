@@ -6,20 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/primary">
 
-    <TextView
-        android:id="@+id/tvComparePlayers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/compare_players"
-        android:textAllCaps="true"
-        android:textColor="@color/antique_white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/ivVersusLogo"
         android:layout_width="75dp"
@@ -43,7 +29,7 @@
         app:cardElevation="12dp"
         app:layout_constraintEnd_toStartOf="@id/ivVersusLogo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvComparePlayers">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
@@ -53,10 +39,8 @@
             <ImageView
                 android:id="@+id/ivPlayerOne"
                 android:layout_width="75dp"
-                android:layout_height="125dp"
+                android:layout_height="100dp"
                 android:contentDescription="@string/description_compare_players"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/img_player_xabi" />
@@ -65,13 +49,14 @@
                 android:id="@+id/tvPlayerOneName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:textAlignment="center"
                 android:textColor="@color/antique_white"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivPlayerOne"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="Madariaga" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -97,10 +82,8 @@
             <ImageView
                 android:id="@+id/ivPlayerTwo"
                 android:layout_width="75dp"
-                android:layout_height="125dp"
+                android:layout_height="100dp"
                 android:contentDescription="@string/description_compare_players"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/img_player_xabi" />
@@ -109,10 +92,10 @@
                 android:id="@+id/tvPlayerTwoName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:textAlignment="center"
                 android:textColor="@color/antique_white"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivPlayerTwo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="Madariaga" />
@@ -138,7 +121,6 @@
         android:id="@+id/rvPlayers"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
         android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

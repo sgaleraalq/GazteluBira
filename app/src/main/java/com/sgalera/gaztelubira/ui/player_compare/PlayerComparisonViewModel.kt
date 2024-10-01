@@ -49,22 +49,16 @@ class PlayerComparisonViewModel @Inject constructor(
 
     fun selectPlayer(player: PlayerModel) {
         when {
-            // Si el jugador está seleccionado como playerOne, lo deseleccionamos
             _playerOne.value?.ownReference == player.ownReference -> {
                 _playerOne.value = null
             }
-            // Si el jugador está seleccionado como playerTwo, lo deseleccionamos
             _playerTwo.value?.ownReference == player.ownReference -> {
                 _playerTwo.value = null
             }
-            // Si ninguno de los dos jugadores está seleccionado
             else -> {
                 when {
-                    // Si playerOne está vacío, seleccionamos aquí
                     _playerOne.value == null -> _playerOne.value = player
-                    // Si playerTwo está vacío, seleccionamos aquí
                     _playerTwo.value == null -> _playerTwo.value = player
-                    // Si ambos están seleccionados, deseleccionamos playerOne y seleccionamos el nuevo jugador en playerTwo
                     else -> {
                         _playerOne.value = _playerTwo.value
                         _playerTwo.value = player
@@ -73,7 +67,6 @@ class PlayerComparisonViewModel @Inject constructor(
             }
         }
 
-        // Comprobamos si ambos jugadores están deseleccionados y actualizamos la lista
         updatePlayerSelection()
     }
 
