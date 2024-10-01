@@ -102,5 +102,6 @@
     <string name="description_log_out" translatable="false">Admin log out button</string>
     <string name="an_error_has_occurred" translatable="false">An error has occurred</string>
     <string name="description_compare_players">Image compare players</string>
-    <string name="compare_players" translatable="false">Compare players!</string>
+    <string name="compare_players" translatable="false">Compare players</string>
+    <string name="select_players">Select players</string>
 </resources>

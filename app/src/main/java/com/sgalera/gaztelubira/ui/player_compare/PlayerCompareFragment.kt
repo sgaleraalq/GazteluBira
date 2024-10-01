@@ -71,14 +71,14 @@ class PlayerCompareFragment : Fragment() {
                 playerComparisonViewModel.playersList.collect { players ->
                     if (playerComparisonAdapter.playersList.isEmpty()){
                         playerComparisonAdapter.updateList(players.toMutableList())
-                    } else {
-                        val indexOne = players.indexOfFirst { it?.selected == true }
-                        val indexTwo = players.indexOfLast { it?.selected == true }
-                        playerComparisonAdapter.updatePlayer(
-                            indexOne = indexOne,
-                            indexTwo = indexTwo
-                        )
-                    }
+                    } // else {
+//                        val indexOne = players.indexOfFirst { it?.selected == true }
+//                        val indexTwo = players.indexOfLast { it?.selected == true }
+//                        playerComparisonAdapter.updatePlayer(
+//                            indexOne = indexOne,
+//                            indexTwo = indexTwo
+//                        )
+//                    }
                 }
             }
         }
@@ -88,6 +88,10 @@ class PlayerCompareFragment : Fragment() {
         playerComparisonAdapter = PlayerComparisonAdapter(
             onPlayerSelected = { playerComparisonViewModel.selectPlayer(it) }
         )
+        binding.rvPlayers.apply {
+            adapter = playerComparisonAdapter
+            layoutManager = GridLayoutManager(requireContext(), 4)
+        }
     }
 
     private fun initListeners() {

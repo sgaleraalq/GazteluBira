@@ -13,7 +13,7 @@ class PlayerComparisonAdapter(
 ): RecyclerView.Adapter<PlayerComparisonViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerComparisonViewHolder {
         return PlayerComparisonViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_player_comparison, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_player_selection, parent, false)
         )
     }
 
