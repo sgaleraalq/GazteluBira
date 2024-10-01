@@ -1,26 +1,21 @@
 package com.sgalera.gaztelubira.ui.player_compare
 
-import android.app.AlertDialog
-import android.graphics.Color.TRANSPARENT
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.firebase.firestore.DocumentReference
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentComparePlayersBinding
 import com.sgalera.gaztelubira.domain.model.PlayerModel
-import com.sgalera.gaztelubira.domain.model.players.PlayerStats
 import com.sgalera.gaztelubira.ui.player_compare.adapter.PlayerComparisonAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -34,18 +29,6 @@ class PlayerCompareFragment : Fragment() {
     private val playerComparisonViewModel by viewModels<PlayerComparisonViewModel>()
 
     private lateinit var playerComparisonAdapter: PlayerComparisonAdapter
-    private var playersList = mutableListOf<PlayerModel?>()
-
-//    private val dialogPlayerList: List<PlayerInformation> = InformationList.players!!
-
-    private lateinit var playerOneReference: DocumentReference
-    private lateinit var playerOne: PlayerStats
-
-    private lateinit var playerTwoReference: DocumentReference
-    private lateinit var playerTwo: PlayerStats
-
-    private var isPlayerOneLoaded = false
-    private var isPlayerTwoLoaded = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,13 +55,6 @@ class PlayerCompareFragment : Fragment() {
                 playerComparisonViewModel.playersList.collect { players ->
                     if (playerComparisonAdapter.playersList.isEmpty()){
                         playerComparisonAdapter.updateList(players.toMutableList())
-                    } else {
-                        val indexOne = players.indexOfFirst { it?.selected == true }
-                        val indexTwo = players.indexOfLast { it?.selected == true }
-                        playerComparisonAdapter.updatePlayer(
-                            indexOne = indexOne,
-                            indexTwo = indexTwo
-                        )
                     }
                 }
             }
@@ -99,6 +75,43 @@ class PlayerCompareFragment : Fragment() {
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                playerComparisonViewModel.updatedPlayers.collect { updatedPlayers ->
+                    playerComparisonAdapter.updatePlayer(updatedPlayers)
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                playerComparisonViewModel.uiState.collect {
+                    when (it) {
+                        PlayerComparisonUiState.Error -> { onError() }
+                        PlayerComparisonUiState.Loading -> { }
+                        PlayerComparisonUiState.Success -> { binding.pbLoading.visibility = View.GONE }
+                        PlayerComparisonUiState.HideButton -> { hideCompareButton() }
+                        PlayerComparisonUiState.ShowButton -> { showCompareButton() }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun onError() {
+        binding.pbLoading.visibility = View.GONE
+        Toast.makeText(requireContext(), getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun hideCompareButton() {
+        binding.pbLoading.visibility = View.GONE
+        binding.btnCompare.visibility = View.GONE
+    }
+
+    private fun showCompareButton() {
+        binding.pbLoading.visibility = View.GONE
+        binding.btnCompare.visibility = View.VISIBLE
     }
 
     private fun initAdapter() {
@@ -112,7 +125,10 @@ class PlayerCompareFragment : Fragment() {
     }
 
     private fun initListeners() {
-//        binding.tvChooseTwoPlayers.setOnClickListener { showPlayerComparison() }
+        binding.btnCompare.setOnClickListener{
+            Log.i("PlayerCompareFragment", "Compare button clicked")
+            // TODO
+        }
     }
 
     private fun initPlayer(player: PlayerModel?, playerIdx: Int) {

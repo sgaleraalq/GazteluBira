@@ -52,9 +52,9 @@
                 android:textAlignment="center"
                 android:textColor="@color/antique_white"
                 android:textSize="12sp"
-                app:layout_constraintTop_toBottomOf="@id/ivPlayerOne"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivPlayerOne"
                 tools:text="Madariaga" />
 
 
@@ -95,9 +95,9 @@
                 android:textAlignment="center"
                 android:textColor="@color/antique_white"
                 android:textSize="12sp"
-                app:layout_constraintTop_toBottomOf="@id/ivPlayerTwo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivPlayerTwo"
                 tools:text="Madariaga" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -108,7 +108,7 @@
         android:id="@+id/tvSelectPlayers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:paddingHorizontal="32dp"
         android:text="@string/select_players"
         android:textColor="@color/white"
@@ -121,10 +121,38 @@
         android:id="@+id/rvPlayers"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:padding="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnCompare"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvSelectPlayers" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCompare"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:layout_marginHorizontal="16dp"
+        android:backgroundTint="@color/grey_forward_arrow"
+        android:text="@string/compare_players"
+        android:textColor="@color/primary_soft"
+        app:icon="@drawable/ic_forward_ios"
+        app:iconGravity="end"
+        app:iconTint="@color/primary_soft"
+        app:cornerRadius="12dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:indeterminateTint="@color/antique_white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

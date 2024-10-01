@@ -18,12 +18,15 @@ class PlayerComparisonViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun render(playerModel: PlayerModel?, onPlayerSelected: (PlayerModel) -> Unit) {
         binding.tvPlayerName.text = playerModel?.name
         Glide.with(itemView).load(playerModel?.img).into(binding.ivPlayer)
+        binding.tvDorsal.text = playerModel?.dorsal.toString()
         if (playerModel?.selected == true){
             binding.parent.setBackgroundResource(R.color.antique_white)
             binding.tvPlayerName.setTextColor(itemView.resources.getColor(R.color.black, null))
+            binding.tvDorsal.setTextColor(itemView.resources.getColor(R.color.black, null))
         } else {
             binding.parent.setBackgroundResource(R.color.primary_soft)
             binding.tvPlayerName.setTextColor(itemView.resources.getColor(R.color.antique_white, null))
+            binding.tvDorsal.setTextColor(itemView.resources.getColor(R.color.antique_white, null))
         }
         loadImage(playerModel?.img)
         itemView.setOnClickListener {

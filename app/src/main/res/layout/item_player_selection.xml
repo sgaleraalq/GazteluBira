@@ -15,6 +15,16 @@
         android:layout_height="wrap_content"
         android:padding="8dp">
 
+        <TextView
+            android:id="@+id/tvDorsal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/antique_white"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="10" />
+
         <ImageView
             android:id="@+id/ivPlayer"
             android:layout_width="60dp"

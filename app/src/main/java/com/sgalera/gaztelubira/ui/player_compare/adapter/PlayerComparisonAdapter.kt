@@ -29,17 +29,14 @@ class PlayerComparisonAdapter(
         notifyDataSetChanged()
     }
 
-    fun updatePlayer(indexOne: Int, indexTwo: Int) {
-        playersList.forEach {
-            if (it?.selected == true) {
-                it.selected = false
-                notifyItemChanged(playersList.indexOf(it))
-            }
+    fun updatePlayer(players: Pair<Int?, Int?>) {
+        players.first?.let { index ->
+            playersList[index]?.selected = true
+            notifyItemChanged(index)
         }
-        if (indexOne == -1 && indexTwo == -1) return
-        playersList[indexOne]?.selected = true
-        playersList[indexTwo]?.selected = true
-        notifyItemChanged(indexOne)
-        notifyItemChanged(indexTwo)
+        players.second?.let { index ->
+            playersList[index]?.selected = false
+            notifyItemChanged(index)
+        }
     }
 }
