@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@color/primary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary"
     tools:context=".ui.player_compare.detail.ComparePlayersActivity">
 
     <ImageView
@@ -15,8 +15,30 @@
         android:contentDescription="@string/description_ic_back"
         android:padding="24dp"
         android:src="@drawable/ic_back"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/antique_white" />
 
+    <ImageView
+        android:id="@+id/ivPlayerOne"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_circle_profile"
+        android:contentDescription="@string/description_compare_players"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivBack"
+        tools:src="@drawable/img_player_xabi" />
+
+    <com.sgalera.gaztelubira.ui.core.DiagonalLineView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/diagonalLine"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    
 </androidx.constraintlayout.widget.ConstraintLayout>
