@@ -17,6 +17,7 @@ import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentComparePlayersBinding
 import com.sgalera.gaztelubira.domain.model.PlayerModel
 import com.sgalera.gaztelubira.ui.player_compare.adapter.PlayerComparisonAdapter
+import com.sgalera.gaztelubira.ui.player_compare.detail.ComparePlayersActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -126,8 +127,13 @@ class PlayerCompareFragment : Fragment() {
 
     private fun initListeners() {
         binding.btnCompare.setOnClickListener{
-            Log.i("PlayerCompareFragment", "Compare button clicked")
-            // TODO
+            startActivity(ComparePlayersActivity.create(
+                requireContext(),
+                playerComparisonViewModel.playerOne.value?.name.orEmpty(),
+                playerComparisonViewModel.playerTwo.value?.name.orEmpty(),
+                playerComparisonViewModel.playerOne.value?.img.orEmpty(),
+                playerComparisonViewModel.playerTwo.value?.img.orEmpty()
+            ))
         }
     }
 
