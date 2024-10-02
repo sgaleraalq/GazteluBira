@@ -11,4 +11,7 @@ object Constants {
 
     const val TEAM_NO_IMAGE =
         "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_no_football_shield.webp?alt=media&token=ef576784-eada-4fad-a2fd-683f8bfe0347"
+    const val PLAYER_NO_IMAGE =
+        "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/players%2Fimg_no_profile_picture.png?alt=media&token=e1e8f70e-dc35-48ea-94ad-a83a64d46391"
+
 }

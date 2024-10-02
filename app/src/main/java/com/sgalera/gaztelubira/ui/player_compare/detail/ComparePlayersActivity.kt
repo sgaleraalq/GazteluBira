@@ -4,13 +4,23 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.sgalera.gaztelubira.R
+import com.sgalera.gaztelubira.core.Constants.PLAYER_NO_IMAGE
 import com.sgalera.gaztelubira.databinding.ActivityComparePlayersBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ComparePlayersActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityComparePlayersBinding
+    private val comparePlayersViewModel by viewModels<ComparePlayersViewModel>()
+
     private lateinit var playerOne: Pair<String, String>
     private lateinit var playerTwo: Pair<String, String>
 
@@ -40,11 +50,11 @@ class ComparePlayersActivity : AppCompatActivity() {
         setContentView(binding.root)
         playerOne = Pair(
             intent.getStringExtra(EXTRA_PLAYER_ONE) ?: "",
-            intent.getStringExtra(EXTRA_PLAYER_ONE_IMG) ?: ""
+            intent.getStringExtra(EXTRA_PLAYER_ONE_IMG) ?: PLAYER_NO_IMAGE
         )
         playerTwo = Pair(
             intent.getStringExtra(EXTRA_PLAYER_TWO) ?: "",
-            intent.getStringExtra(EXTRA_PLAYER_TWO_IMG) ?: ""
+            intent.getStringExtra(EXTRA_PLAYER_TWO_IMG) ?: PLAYER_NO_IMAGE
         )
         initUI()
         initListeners()
@@ -58,6 +68,18 @@ class ComparePlayersActivity : AppCompatActivity() {
 
     private fun initUI() {
         checkReferences()
+        initPlayers()
+    }
+
+    private fun initPlayers() {
+        comparePlayersViewModel.getPlayerStats(playerOne.first)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                comparePlayersViewModel.playerOneStats.collect {
+
+                }
+            }
+        }
     }
 
     private fun checkReferences() {
