@@ -1,6 +1,5 @@
 package com.sgalera.gaztelubira.ui.player_compare.detail
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
@@ -17,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ComparePlayersViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
-    private val getPlayerStatsUseCase: GetPlayerStatsUseCase
+    private val getPlayerStatsUseCase: GetPlayerStatsUseCase,
 ): ViewModel() {
 
     private val _playerOneStats = MutableStateFlow<PlayerStatsModel?>(null)
@@ -29,8 +28,6 @@ class ComparePlayersViewModel @Inject constructor(
             _playerOneStats.value = withContext(Dispatchers.IO){
                 getPlayerStatsUseCase(playerName, sharedPreferences.credentials.year.toString())
             }
-
-            Log.i("ComparePlayersViewModel", "getPlayerStats: ${_playerOneStats.value}")
         }
     }
 }

@@ -3,15 +3,20 @@ package com.sgalera.gaztelubira.ui.player_compare.detail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.core.Constants.PLAYER_NO_IMAGE
 import com.sgalera.gaztelubira.databinding.ActivityComparePlayersBinding
+import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -68,18 +73,8 @@ class ComparePlayersActivity : AppCompatActivity() {
 
     private fun initUI() {
         checkReferences()
-        initPlayers()
-    }
-
-    private fun initPlayers() {
-        comparePlayersViewModel.getPlayerStats(playerOne.first)
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                comparePlayersViewModel.playerOneStats.collect {
-
-                }
-            }
-        }
+        initPlayerImages()
+        initPlayersStats()
     }
 
     private fun checkReferences() {
@@ -87,5 +82,28 @@ class ComparePlayersActivity : AppCompatActivity() {
             Toast.makeText(this, getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT).show()
             onBackPressedDispatcher.onBackPressed()
         }
+    }
+
+    private fun initPlayerImages() {
+        Glide.with(this).load(playerOne.second).into(binding.ivPlayerOne)
+        Glide.with(this).load(playerTwo.second).into(binding.ivPlayerTwo)
+        binding.tvPlayerOneName.text = playerOne.first
+        binding.tvPlayerTwoName.text = playerTwo.first
+    }
+
+
+    private fun initPlayersStats() {
+        comparePlayersViewModel.getPlayerStats(playerOne.first)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                comparePlayersViewModel.playerOneStats.collect { playerOne ->
+                    initPlayer(playerOne, binding.ivPlayerOne)
+                }
+            }
+        }
+    }
+
+    private fun initPlayer(player: PlayerStatsModel?, itemView: ImageView) {
+        // TODO
     }
 }

@@ -8,6 +8,17 @@
     android:background="@color/primary"
     tools:context=".ui.player_compare.detail.ComparePlayersActivity">
 
+    <com.sgalera.gaztelubira.ui.core.DiagonalLineView
+        android:id="@+id/diagonalLine"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="24dp"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/ivBack"
         android:layout_width="wrap_content"
@@ -21,24 +32,86 @@
 
     <ImageView
         android:id="@+id/ivPlayerOne"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/bg_circle_profile"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="48dp"
         android:contentDescription="@string/description_compare_players"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivBack"
+        app:layout_constraintStart_toStartOf="@id/diagonalLine"
+        app:layout_constraintTop_toTopOf="@id/diagonalLine"
         tools:src="@drawable/img_player_xabi" />
 
-    <com.sgalera.gaztelubira.ui.core.DiagonalLineView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/diagonalLine"
-        android:background="@color/transparent"
+    <TextView
+        android:id="@+id/tvPlayerOneName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/antique_white"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/ivPlayerOne"
+        app:layout_constraintStart_toStartOf="@id/ivPlayerOne"
+        app:layout_constraintTop_toBottomOf="@id/ivPlayerOne"
+        tools:text="Madariaga" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvPlayerOneGamesPlayed"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="48dp"
+        app:cardCornerRadius="50dp"
+        app:cardElevation="12dp"
+        app:layout_constraintStart_toStartOf="@id/diagonalLine"
+        app:layout_constraintTop_toBottomOf="@id/tvPlayerOneName">
+
+        <TextView
+            android:id="@+id/tvPlayerOneGamesPlayed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="14" />
+
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/ivVersus"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@color/primary"
+        android:contentDescription="@string/description_versus"
+        android:src="@drawable/img_versus"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-    
+
+    <ImageView
+        android:id="@+id/ivPlayerTwo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="64dp"
+        android:contentDescription="@string/description_compare_players"
+        app:layout_constraintBottom_toBottomOf="@id/diagonalLine"
+        app:layout_constraintEnd_toEndOf="@id/diagonalLine"
+        tools:src="@drawable/img_player_xabi" />
+
+    <TextView
+        android:id="@+id/tvPlayerTwoName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/antique_white"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/ivPlayerTwo"
+        app:layout_constraintStart_toStartOf="@id/ivPlayerTwo"
+        app:layout_constraintTop_toBottomOf="@id/ivPlayerTwo"
+        tools:text="Madariaga" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
