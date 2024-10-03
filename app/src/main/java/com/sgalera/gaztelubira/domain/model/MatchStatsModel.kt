@@ -2,6 +2,7 @@ package com.sgalera.gaztelubira.domain.model
 
 data class MatchStatsModel(
     val match: String,
+    val journey: Int,
     val homeTeam: TeamModel?,
     val awayTeam: TeamModel?,
     val homeGoals: Int,

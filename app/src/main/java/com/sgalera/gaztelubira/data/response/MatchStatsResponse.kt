@@ -1,6 +1,5 @@
 package com.sgalera.gaztelubira.data.response
 
-import android.util.Log
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.PropertyName
 import com.sgalera.gaztelubira.domain.model.MatchStatsModel
@@ -9,6 +8,7 @@ import com.sgalera.gaztelubira.domain.model.TeamModel
 
 data class MatchStatsResponse (
     val match: String = "",
+    val journey: Int = 0,
     @get:PropertyName("home_team") @set:PropertyName("home_team") var homeTeamRef: DocumentReference? = null,
     @get:PropertyName("away_team") @set:PropertyName("away_team") var awayTeamRef: DocumentReference? = null,
     @get:PropertyName("home_goals") @set:PropertyName("home_goals") var homeGoals: Int = 0,
@@ -33,6 +33,7 @@ data class MatchStatsResponse (
     fun toDomain(playersRef: List<PlayerModel?>, teamsRef: List<TeamModel?>): MatchStatsModel {
         return MatchStatsModel(
             match = match,
+            journey = journey,
             homeTeam = teamsRef.find { it?.ownReference == homeTeamRef },
             awayTeam = teamsRef.find { it?.ownReference == awayTeamRef },
             homeGoals = homeGoals,

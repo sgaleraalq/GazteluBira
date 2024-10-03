@@ -32,6 +32,12 @@ class MatchesViewModel @Inject constructor(
     private val _isAdmin = MutableStateFlow(false)
     val isAdmin: StateFlow<Boolean> = _isAdmin
 
+    private val _leagueJourney = MutableStateFlow(0)
+    val leagueJourney: StateFlow<Int> = _leagueJourney
+
+    private val _id = MutableStateFlow(0)
+    val id: StateFlow<Int> = _id
+
     init {
         viewModelScope.launch {
             val teamsList = withContext(Dispatchers.IO) {
@@ -56,10 +62,16 @@ class MatchesViewModel @Inject constructor(
                     match
                 }.sortedByDescending { it.id }
                 _uiState.value = UIState.Success
+                _id.value = _matchesList.value.first().id + 1
+                setJourneyLeague()
             } else {
                 _uiState.value = UIState.Error
             }
         }
+    }
+
+    private fun setJourneyLeague() {
+        _leagueJourney.value = _matchesList.value.maxByOrNull { it.journey }?.journey ?: 0
     }
 
     fun checkAdminStatus() {

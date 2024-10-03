@@ -12,9 +12,6 @@
         <action
             android:id="@+id/action_matchesFragment_to_detailMatchActivity"
             app:destination="@id/detailMatchActivity" />
-        <action
-            android:id="@+id/action_matchesFragment_to_insertGame"
-            app:destination="@id/insertGame" />
     </fragment>
     <fragment
         android:id="@+id/playerFragment"
@@ -32,17 +29,6 @@
         android:label="activity_detail_match"
         tools:layout="@layout/activity_detail_match" >
         <argument android:name="id"
-            app:argType="integer" />
-    </activity>
-    <activity
-        android:id="@+id/insertGame"
-        android:name="com.sgalera.gaztelubira.ui.insert_game.InsertGame"
-        android:label="InsertGame" >
-        <argument
-            android:name="journey"
-            app:argType="integer" />
-        <argument
-            android:name="id"
             app:argType="integer" />
     </activity>
     <fragment

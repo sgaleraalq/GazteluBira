@@ -4,7 +4,7 @@ import com.google.firebase.firestore.DocumentReference
 
 data class MatchModel (
     val id: Int,
-    val journey: String,
+    val journey: Int,
     val match: String,
     val homeGoals: Int,
     val awayGoals: Int,

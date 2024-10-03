@@ -1,13 +1,12 @@
 package com.sgalera.gaztelubira.data.response
 
-import android.util.Log
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.PropertyName
 import com.sgalera.gaztelubira.domain.model.MatchModel
 
 data class MatchR (
     val id: Int = 0,
-    val journey: String = "",
+    val journey: Int = 0,
     val match: String = "",
     @get:PropertyName("home_goals") @set:PropertyName("home_goals") var homeGoals: Int = 0,
     @get:PropertyName("away_goals") @set:PropertyName("away_goals") var awayGoals: Int = 0,
