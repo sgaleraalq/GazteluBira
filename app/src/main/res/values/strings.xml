@@ -105,4 +105,9 @@
     <string name="compare_players" translatable="false">Compare players</string>
     <string name="select_players" translatable="false">Select players</string>
     <string name="journey" translatable="false">Journey %1$s</string>
+    <string name="match_type">Match type</string>
+    <string name="description_icon_arrow">Arrow icon</string>
+    <string name="match_local">Home / Away</string>
+    <string name="local">Local</string>
+    <string name="visitor">Visitor</string>
 </resources>

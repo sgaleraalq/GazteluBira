@@ -8,24 +8,15 @@
     android:background="@color/primary"
     tools:context=".ui.insert_game.InsertGameDetailActivity">
 
+
     <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="0dp"
+        android:id="@+id/flHeader"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/antique_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="16dp"
-            android:text="@string/insert_game"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/ivBack"
@@ -34,283 +25,205 @@
             android:contentDescription="@string/description_ic_back"
             android:padding="24dp"
             android:src="@drawable/ic_back"
-            app:tint="@color/black" />
+            app:tint="@color/primary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/insert_game"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
     </FrameLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:indeterminateTint="@color/gold"
+
+    <ScrollView
+        android:id="@+id/svContent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/flHeader">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mainInsert"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <View
-            android:id="@+id/mid"
-            android:layout_width="0.1dp"
-            android:layout_height="0.1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvMatchType"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                app:cardBackgroundColor="@color/primary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvLeague"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="30dp"
-            app:cardBackgroundColor="@color/green"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="8dp"
-            app:layout_constraintBottom_toTopOf="@id/psHomeTeam"
-            app:layout_constraintEnd_toStartOf="@id/mid">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="16dp">
+                <TextView
+                    android:id="@+id/tvMatchType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="16dp"
+                    android:text="@string/match_type"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
 
                 <ImageView
-                    android:id="@+id/ivLeague"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginBottom="4dp"
-                    android:contentDescription="@string/description_league"
-                    android:src="@drawable/ic_league"
-                    app:layout_constraintBottom_toTopOf="@id/tvLeague"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/ivArrowMatchType"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:contentDescription="@string/description_icon_arrow"
+                    android:padding="24dp"
+                    android:src="@drawable/ic_forward_ios"
                     app:tint="@color/white" />
 
-                <TextView
-                    android:id="@+id/tvLeague"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:id="@+id/firstDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/antique_white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cvMatchType" />
+
+            <LinearLayout
+                android:id="@+id/llMatchType"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:padding="4dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/firstDivider">
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="8dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/grey_forward_arrow"
+                    android:paddingHorizontal="32dp"
                     android:text="@string/league"
-                    android:textColor="@color/antique_white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    android:textColor="@color/black"
+                    app:icon="@drawable/img_trofeo_boscos"
+                    app:iconTint="@null" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvCup"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="30dp"
-            app:cardBackgroundColor="@color/dark_grey"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="8dp"
-            app:layout_constraintBottom_toTopOf="@id/psAwayTeam"
-            app:layout_constraintStart_toEndOf="@id/mid">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="16dp">
-
-                <ImageView
-                    android:id="@+id/ivCup"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginBottom="4dp"
-                    android:contentDescription="@string/description_league"
-                    android:src="@drawable/ic_cup"
-                    app:layout_constraintBottom_toTopOf="@id/tvCup"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:tint="@color/black" />
-
-                <TextView
-                    android:id="@+id/tvCup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="8dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/grey_forward_arrow"
+                    android:paddingHorizontal="32dp"
                     android:text="@string/cup"
                     android:textColor="@color/black"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:icon="@drawable/ic_cup"
+                    app:iconTint="@null" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
-        <com.skydoves.powerspinner.PowerSpinnerView
-            android:id="@+id/psHomeTeam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:hint="@string/select_local_team"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            app:drawableTint="@color/white"
-            app:layout_constraintBottom_toTopOf="@id/ivHomeTeam"
-            app:layout_constraintEnd_toStartOf="@id/mid"
-            app:layout_constraintStart_toStartOf="parent"
-            app:spinner_arrow_gravity="end"
-            app:spinner_arrow_padding="8dp"
-            app:spinner_arrow_show="true"
-            app:spinner_divider_color="@color/primary"
-            app:spinner_divider_show="true"
-            app:spinner_popup_animation="dropdown"
-            app:spinner_popup_background="@color/primary" />
+            <View
+                android:id="@+id/secondDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/antique_white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llMatchType" />
 
-        <com.skydoves.powerspinner.PowerSpinnerView
-            android:id="@+id/psAwayTeam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:gravity="center"
-            android:hint="@string/select_away_team"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            app:drawableTint="@color/white"
-            app:layout_constraintBottom_toBottomOf="@id/psHomeTeam"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/mid"
-            app:layout_constraintTop_toTopOf="@id/psHomeTeam"
-            app:spinner_arrow_gravity="end"
-            app:spinner_arrow_padding="8dp"
-            app:spinner_arrow_show="true"
-            app:spinner_arrow_tint="@color/primary"
-            app:spinner_divider_color="@color/primary"
-            app:spinner_divider_show="true"
-            app:spinner_popup_animation="dropdown"
-            app:spinner_popup_background="@color/primary" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvMatchLocal"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                app:cardBackgroundColor="@color/primary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/secondDivider">
 
-        <ImageView
-            android:id="@+id/ivHomeTeam"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="80dp"
-            android:contentDescription="@string/description_team"
-            android:src="@drawable/img_gaztelu_bira"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/etHomeGoals"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/tvMatchLocal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="16dp"
+                    android:text="@string/match_local"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/tvHomeTeam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="@string/gaztelu_bira"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@id/ivHomeTeam"
-            app:layout_constraintStart_toStartOf="@id/ivHomeTeam"
-            app:layout_constraintTop_toBottomOf="@id/ivHomeTeam" />
+                <ImageView
+                    android:id="@+id/ivArrowMatchLocal"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:contentDescription="@string/description_icon_arrow"
+                    android:padding="24dp"
+                    android:src="@drawable/ic_forward_ios"
+                    app:tint="@color/white" />
 
-        <EditText
-            android:id="@+id/etHomeGoals"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:background="@color/white_80_opacity"
-            android:gravity="center"
-            android:inputType="number"
-            android:maxLength="1"
-            android:padding="8dp"
-            android:textColor="@color/primary_dark"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="@id/ivHomeTeam"
-            app:layout_constraintEnd_toStartOf="@id/mid"
-            app:layout_constraintStart_toEndOf="@id/ivHomeTeam"
-            app:layout_constraintTop_toTopOf="@id/ivHomeTeam"
-            tools:ignore="Autofill,DuplicateSpeakableTextCheck,LabelFor"
-            tools:text="3" />
+            </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/tvSlash"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/slash"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="@id/etHomeGoals"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/etHomeGoals" />
+            <View
+                android:id="@+id/thirdDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/antique_white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cvMatchLocal" />
 
-        <EditText
-            android:id="@+id/etAwayGoals"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:background="@color/white_80_opacity"
-            android:gravity="center"
-            android:inputType="number"
-            android:maxLength="1"
-            android:padding="8dp"
-            android:textColor="@color/primary_dark"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="@id/ivHomeTeam"
-            app:layout_constraintEnd_toStartOf="@id/ivAwayTeam"
-            app:layout_constraintStart_toEndOf="@id/mid"
-            app:layout_constraintTop_toTopOf="@id/ivHomeTeam"
-            tools:ignore="Autofill,LabelFor"
-            tools:text="3" />
+            <LinearLayout
+                android:id="@+id/llMatchLocal"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:orientation="horizontal"
+                android:padding="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/thirdDivider">
 
-        <ImageView
-            android:id="@+id/ivAwayTeam"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:contentDescription="@string/description_team"
-            android:src="@drawable/img_gaztelu_bira"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/ivHomeTeam"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/etAwayGoals"
-            app:layout_constraintTop_toTopOf="@id/ivHomeTeam" />
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="8dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/grey_forward_arrow"
+                    android:paddingHorizontal="32dp"
+                    android:text="@string/local"
+                    android:textColor="@color/black"
+                    app:icon="@drawable/ic_local"
+                    app:iconTint="@null" />
 
-        <TextView
-            android:id="@+id/tvAwayTeam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@id/ivAwayTeam"
-            app:layout_constraintStart_toStartOf="@id/ivAwayTeam"
-            app:layout_constraintTop_toBottomOf="@id/ivAwayTeam"
-            tools:text="Gaztelu Bira" />
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="8dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/grey_forward_arrow"
+                    android:paddingHorizontal="32dp"
+                    android:text="@string/visitor"
+                    android:textColor="@color/black"
+                    app:icon="@drawable/ic_away"
+                    app:iconTint="@null" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnContinue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@color/grey_80_opacity"
-            android:paddingHorizontal="30dp"
-            android:text="@string/next"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <View
+                android:id="@+id/fourthDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/antique_white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llMatchLocal" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

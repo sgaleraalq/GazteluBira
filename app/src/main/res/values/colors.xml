@@ -10,6 +10,8 @@
     // My colors
     <color name="black">#FF000000</color>
     <color name="dark_grey">#BAB9B9</color>
+    <color name="grey_selected">#e0e0e0</color>
+    <color name="grey_selected_soft">#878787</color>
     <color name="white">#FFFFFFFF</color>
     <color name="white_80_opacity">#CCFFFFFF</color>
 
