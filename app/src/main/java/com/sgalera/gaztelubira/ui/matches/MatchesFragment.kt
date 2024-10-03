@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MatchesFragment: Fragment() {
+class MatchesFragment : Fragment() {
     private var _binding: FragmentMatchesBinding? = null
     private val binding get() = _binding!!
 
@@ -43,7 +43,7 @@ class MatchesFragment: Fragment() {
     private fun initUI() {
         initRecyclerView()
         initMatchesList()
-        initListeners()
+        insertGameListener()
     }
 
     private fun initRecyclerView() {
@@ -84,7 +84,7 @@ class MatchesFragment: Fragment() {
         matchesViewModel.checkAdminStatus()
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                matchesViewModel.isAdmin.collect{
+                matchesViewModel.isAdmin.collect {
                     when (it) {
                         true -> binding.btnInsertGame.visibility = View.VISIBLE
                         false -> binding.btnInsertGame.visibility = View.INVISIBLE
@@ -107,17 +107,14 @@ class MatchesFragment: Fragment() {
         binding.pbLoadingGames.visibility = View.INVISIBLE
     }
 
-    private fun initListeners() {
-        binding.btnInsertGame.setOnClickListener { insertGame() }
-    }
-
-
-    private fun insertGame() {
-        binding.btnInsertGame.setOnClickListener{
-            InsertGameActivity.create(
-                context = requireContext(),
-                id = matchesViewModel.id.value,
-                leagueJourney = matchesViewModel.leagueJourney.value
+    private fun insertGameListener() {
+        binding.btnInsertGame.setOnClickListener {
+            startActivity(
+                InsertGameActivity.create(
+                    context = requireContext(),
+                    id = matchesViewModel.id.value,
+                    leagueJourney = matchesViewModel.leagueJourney.value
+                )
             )
         }
     }

@@ -33,29 +33,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvMatches" />
 
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnInsertGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:layout_marginHorizontal="16dp"
+        android:backgroundTint="@color/grey_forward_arrow"
+        android:text="@string/insert_game"
+        android:textColor="@color/primary_soft"
+        app:icon="@drawable/ic_forward_ios"
+        app:iconGravity="end"
+        app:iconTint="@color/primary_soft"
+        app:cornerRadius="12dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ProgressBar
         android:id="@+id/pbLoadingGames"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:indeterminateTint="@color/main_red"
         android:paddingBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnInsertGame"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@color/white"
-        android:text="@string/insert_game"
-        android:visibility="gone"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

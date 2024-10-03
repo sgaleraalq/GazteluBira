@@ -26,7 +26,7 @@ class MatchesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         binding.tvVisitorName.text = match.visitorTeam?.teamName ?: ""
         binding.tvGoalsLocal.text = match.homeGoals.toString()
         binding.tvGoalsVisitor.text = match.awayGoals.toString()
-        binding.tvJourney.text = match.journey
+        binding.tvJourney.text = itemView.context.getString(R.string.journey, match.journey.toString())
 
         // Colors
         binding.ivMatchType.setImageResource(if (match.match == "copa") R.drawable.ic_cup else 0)

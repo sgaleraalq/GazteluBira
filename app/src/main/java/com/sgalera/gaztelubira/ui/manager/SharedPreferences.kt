@@ -29,7 +29,7 @@ class SharedPreferences(context: Context) {
     fun getCredentials(): Boolean {
         return try {
             credentials = Credentials(
-                isAdmin = sharedPreferences.getBoolean("isAdmin", false),
+                isAdmin = sharedPreferences.getBoolean("isAdmin", false), //TODO
                 player = sharedPreferences.getString("player", "") ?: "",
                 year = sharedPreferences.getInt("year", 2024) // TODO
             )

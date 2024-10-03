@@ -71,7 +71,7 @@ class MatchesViewModel @Inject constructor(
     }
 
     private fun setJourneyLeague() {
-        _leagueJourney.value = _matchesList.value.maxByOrNull { it.journey }?.journey ?: 0
+        _leagueJourney.value = (_matchesList.value.maxByOrNull { it.journey }?.journey?.plus(1)) ?: 0
     }
 
     fun checkAdminStatus() {

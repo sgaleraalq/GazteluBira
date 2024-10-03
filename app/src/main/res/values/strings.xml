@@ -103,5 +103,6 @@
     <string name="an_error_has_occurred" translatable="false">An error has occurred</string>
     <string name="description_compare_players">Image compare players</string>
     <string name="compare_players" translatable="false">Compare players</string>
-    <string name="select_players">Select players</string>
+    <string name="select_players" translatable="false">Select players</string>
+    <string name="journey" translatable="false">Journey %1$s</string>
 </resources>
