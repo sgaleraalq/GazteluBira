@@ -110,4 +110,8 @@
     <string name="match_local">Home / Away</string>
     <string name="local">Local</string>
     <string name="visitor">Visitor</string>
+    <string name="starters">Starters</string>
+    <string name="result">Result</string>
+    <string name="zero">0</string>
+    <string name="insert_local">Set local to insert result</string>
 </resources>

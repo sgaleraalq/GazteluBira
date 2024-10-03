@@ -1,5 +1,6 @@
 package com.sgalera.gaztelubira.ui.insert_game
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.DocumentReference
@@ -28,16 +29,38 @@ class InsertGameViewModel @Inject constructor(
     private val _expandable = MutableStateFlow<InsertGameExpandable?>(null)
     val expandable: StateFlow<InsertGameExpandable?> = _expandable
 
+    private val _matchType = MutableStateFlow<MatchType?>(null)
+    val matchType: StateFlow<MatchType?> = _matchType
+
+    private val _matchLocal = MutableStateFlow<MatchLocal?>(null)
+    val matchLocal: StateFlow<MatchLocal?> = _matchLocal
+
     fun onExpandableChanged(expandable: InsertGameExpandable) {
         if (_expandable.value == expandable) _expandable.value = null else _expandable.value = expandable
+    }
+
+    fun onMatchTypeSelected(matchType: MatchType) {
+        if (_matchType.value == matchType) _matchType.value = null else _matchType.value = matchType
+        Log.i("InsertGameViewModel", "matchType: ${_matchType.value}")
+    }
+
+    fun onMatchLocalSelected(matchLocal: MatchLocal) {
+        if (_matchLocal.value == matchLocal) _matchLocal.value = null else _matchLocal.value = matchLocal
     }
 
 }
 
 enum class InsertGameExpandable{
-    MATCH_TYPE, MATCH_LOCAL, MATCH_CONTENT
+    MATCH_TYPE, MATCH_LOCAL, RESULT, PLAYERS
 }
 
+enum class MatchType{
+    LEAGUE, CUP
+}
+
+enum class MatchLocal{
+    HOME, AWAY
+}
 
 
 
