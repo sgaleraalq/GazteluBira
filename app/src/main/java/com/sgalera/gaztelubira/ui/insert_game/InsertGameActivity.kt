@@ -1,18 +1,25 @@
 package com.sgalera.gaztelubira.ui.insert_game
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameBinding
@@ -31,6 +38,34 @@ class InsertGameActivity : AppCompatActivity() {
     private val insertGameViewModel by viewModels<InsertGameViewModel>()
     private var id: Int = 0
     private var journey: Int = 0
+
+    private var inventedList = listOf(
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+        Pair("Gaztelu Bira", "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/teams%2Fimg_gaztelu_bira.webp?alt=media&token=6bb7082e-3dea-414b-831c-c60857a155c6"),
+    ) // TODO
 
     companion object {
         private const val ID = "id"
@@ -129,7 +164,6 @@ class InsertGameActivity : AppCompatActivity() {
             childConstraint!!.visibility = if (childConstraint.visibility == ConstraintLayout.VISIBLE) ConstraintLayout.GONE else ConstraintLayout.VISIBLE
             childConstraint.setBackgroundColor(resources.getColor(R.color.primary, null))
         }
-
     }
 
 
@@ -152,20 +186,39 @@ class InsertGameActivity : AppCompatActivity() {
                 binding.tvLocalTeam.text = resources.getString(R.string.gaztelu_bira)
                 binding.ivVisitor.setImageResource(R.drawable.img_no_football_shield)
                 binding.tvVisitorTeam.text = resources.getString(R.string.select_team)
-                binding.ivVisitor.setOnClickListener { showTeams() }
+                binding.ivVisitor.setOnClickListener { showDialog(inventedList, getString(R.string.select_team)) }
             }
             AWAY -> {
                 binding.ivVisitor.setImageResource(R.drawable.img_gaztelu_bira)
                 binding.tvVisitorTeam.text = resources.getString(R.string.gaztelu_bira)
                 binding.ivLocal.setImageResource(R.drawable.img_no_football_shield)
                 binding.tvLocalTeam.text = resources.getString(R.string.select_team)
-                binding.ivLocal.setOnClickListener { showTeams() }
+                binding.ivLocal.setOnClickListener { showDialog(inventedList, getString(R.string.select_team)) }
             }
         }
     }
 
-    private fun showTeams() {
-        // TODO
+    private fun showDialog(dialogList: List<Pair<String, String>>, dialogTitle: String) {
+        val builder = AlertDialog.Builder(this)
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_layout, null)
+        with(builder){
+            setView(view)
+            create().apply {
+                window?.setBackgroundDrawableResource(android.R.color.transparent)
+                show()
+                view.findViewById<TextView>(R.id.tvDialogTitle).text = dialogTitle
+                setDialogGridLayout(view.findViewById(R.id.glDialog), dialogList)
+            }
+        }
+    }
+
+    private fun setDialogGridLayout(view: GridLayout, dialogList: List<Pair<String, String>>) {
+        dialogList.forEach {
+            val item = LayoutInflater.from(this).inflate(R.layout.item_dialog, null)
+            item.findViewById<TextView>(R.id.tvDialog).text = it.first
+            Glide.with(this).load(it.second).into(item.findViewById(R.id.ivDialog))
+            view.addView(item)
+        }
     }
 
     private fun deselectMatchType() {
