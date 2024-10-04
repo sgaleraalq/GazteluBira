@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.activity.viewModels
@@ -63,8 +64,8 @@ class InsertGameActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 insertGameViewModel.matchType.collect { matchType ->
                     when (matchType) {
-                        LEAGUE -> { setMatchType(binding.btnLeague, matchType) }
-                        CUP -> { setMatchType(binding.btnCup, matchType) }
+                        LEAGUE -> { setMatchType(binding.btnLeague) }
+                        CUP -> { setMatchType(binding.btnCup) }
                         null -> { deselectMatchType() }
                     }
                 }
@@ -72,15 +73,16 @@ class InsertGameActivity : AppCompatActivity() {
         }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
-                insertGameViewModel.matchLocal.collect { matchType ->
-                    when (matchType) {
-                        HOME -> { setMatchType(binding.btnLocal) }
-                        AWAY -> { setMatchType(binding.btnVisitor) }
+                insertGameViewModel.matchLocal.collect { matchLocal ->
+                    when (matchLocal) {
+                        HOME -> { setMatchType(binding.btnLocal, matchLocal) }
+                        AWAY -> { setMatchType(binding.btnVisitor, matchLocal) }
                         null -> { deselectMatchLocal() }
                     }
                 }
             }
         }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 insertGameViewModel.expandable.collect { expandable ->
@@ -88,7 +90,9 @@ class InsertGameActivity : AppCompatActivity() {
                         MATCH_TYPE -> { showItem(binding.ivArrowMatchType, binding.llMatchType) }
                         MATCH_LOCAL -> { showItem(binding.ivArrowMatchLocal, binding.llMatchLocal) }
                         RESULT -> { showItem(binding.ivArrowResult, null, binding.clResult) }
-                        PLAYERS -> { showItem(binding.ivArrowPlayers, null, binding.clPlayers) }
+                        STARTERS -> { showItem(binding.ivArrowPlayers, null, binding.clStarters) }
+                        BENCH -> { showItem(binding.ivArrowBench, binding.llBench) }
+                        STATS -> { showItem(binding.ivArrowStats, binding.llStats) }
                         null -> { deselectAll() }
                     }
                 }
@@ -109,7 +113,9 @@ class InsertGameActivity : AppCompatActivity() {
         binding.cvMatchType.setOnClickListener{ insertGameViewModel.onExpandableChanged(MATCH_TYPE) }
         binding.cvMatchLocal.setOnClickListener{ insertGameViewModel.onExpandableChanged(MATCH_LOCAL) }
         binding.cvResult.setOnClickListener{ insertGameViewModel.onExpandableChanged(RESULT) }
-        binding.cvPlayers.setOnClickListener{ insertGameViewModel.onExpandableChanged(PLAYERS) }
+        binding.cvStarters.setOnClickListener{ insertGameViewModel.onExpandableChanged(STARTERS) }
+        binding.cvBench.setOnClickListener{ insertGameViewModel.onExpandableChanged(BENCH) }
+        binding.cvStats.setOnClickListener{ insertGameViewModel.onExpandableChanged(STATS) }
     }
 
     private fun showItem(arrow: ImageView, childView: LinearLayout?, childConstraint: ConstraintLayout? = null) {
@@ -127,9 +133,39 @@ class InsertGameActivity : AppCompatActivity() {
     }
 
 
-    private fun setMatchType(btn: MaterialButton, type: MatchType? = null) {
-        if (type != null) deselectMatchType() else deselectMatchLocal()
+    private fun setMatchType(btn: MaterialButton, local: MatchLocal? = null) {
+        if (local != null){
+            // Local / Visitor team inserted
+            deselectMatchLocal()
+            setLocalVisitor(local)
+        } else{
+            deselectMatchType()
+        }
         btn.setBackgroundColor(resources.getColor(R.color.green, null))
+    }
+
+    private fun setLocalVisitor(local: MatchLocal) {
+        binding.tvSetLocal.visibility = View.GONE
+        when (local) {
+            HOME -> {
+                binding.ivLocal.setImageResource(R.drawable.img_gaztelu_bira)
+                binding.tvLocalTeam.text = resources.getString(R.string.gaztelu_bira)
+                binding.ivVisitor.setImageResource(R.drawable.img_no_football_shield)
+                binding.tvVisitorTeam.text = resources.getString(R.string.select_team)
+                binding.ivVisitor.setOnClickListener { showTeams() }
+            }
+            AWAY -> {
+                binding.ivVisitor.setImageResource(R.drawable.img_gaztelu_bira)
+                binding.tvVisitorTeam.text = resources.getString(R.string.gaztelu_bira)
+                binding.ivLocal.setImageResource(R.drawable.img_no_football_shield)
+                binding.tvLocalTeam.text = resources.getString(R.string.select_team)
+                binding.ivLocal.setOnClickListener { showTeams() }
+            }
+        }
+    }
+
+    private fun showTeams() {
+        // TODO
     }
 
     private fun deselectMatchType() {
@@ -138,6 +174,9 @@ class InsertGameActivity : AppCompatActivity() {
     }
 
     private fun deselectMatchLocal(){
+        binding.tvSetLocal.visibility = View.VISIBLE
+        binding.tvLocalTeam.text = ""
+        binding.tvVisitorTeam.text = ""
         binding.btnLocal.setBackgroundColor(resources.getColor(R.color.grey_selected, null))
         binding.btnVisitor.setBackgroundColor(resources.getColor(R.color.grey_selected, null))
     }
@@ -146,11 +185,14 @@ class InsertGameActivity : AppCompatActivity() {
         binding.ivArrowMatchType.rotation = 0f
         binding.ivArrowMatchLocal.rotation = 0f
         binding.ivArrowResult.rotation = 0f
+        binding.ivArrowPlayers.rotation = 0f
+        binding.ivArrowBench.rotation = 0f
+        binding.ivArrowStats.rotation = 0f
         binding.llMatchType.visibility = LinearLayout.GONE
         binding.llMatchLocal.visibility = LinearLayout.GONE
         binding.clResult.visibility = LinearLayout.GONE
-        binding.clPlayers.visibility = LinearLayout.GONE
+        binding.clStarters.visibility = LinearLayout.GONE
+        binding.llBench.visibility = LinearLayout.GONE
+        binding.llStats.visibility = LinearLayout.GONE
     }
 }
-
-

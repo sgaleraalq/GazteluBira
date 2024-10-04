@@ -87,7 +87,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
                     android:contentDescription="@string/description_icon_arrow"
-                    android:padding="16dp"
+                    android:padding="20dp"
                     android:src="@drawable/ic_forward_ios"
                     app:tint="@color/black" />
 
@@ -165,7 +165,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
                     android:contentDescription="@string/description_icon_arrow"
-                    android:padding="16dp"
+                    android:padding="20dp"
                     android:src="@drawable/ic_forward_ios"
                     app:tint="@color/black" />
 
@@ -243,7 +243,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
                     android:contentDescription="@string/description_icon_arrow"
-                    android:padding="16dp"
+                    android:padding="20dp"
                     android:src="@drawable/ic_forward_ios"
                     app:tint="@color/black" />
 
@@ -257,11 +257,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvResult" />
 
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clResult"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/thirdDivider">
 
@@ -289,15 +289,29 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:src="@drawable/img_gaztelu_bira" />
 
+                <TextView
+                    android:id="@+id/tvLocalTeam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@id/ivLocal"
+                    app:layout_constraintStart_toStartOf="@id/ivLocal"
+                    app:layout_constraintTop_toBottomOf="@id/ivLocal"
+                    tools:text="Gaztelu Bira" />
+
                 <EditText
                     android:id="@+id/etLocalGoals"
-                    android:layout_width="wrap_content"
+                    android:layout_width="37dp"
                     android:layout_height="wrap_content"
                     android:autofillHints="number"
                     android:background="@color/white"
+                    android:gravity="center"
                     android:inputType="number"
+                    android:maxLength="2"
                     android:padding="8dp"
                     android:text="@string/zero"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/tvSlash"
@@ -315,16 +329,29 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:src="@drawable/img_gaztelu_bira" />
 
+                <TextView
+                    android:id="@+id/tvVisitorTeam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@id/ivVisitor"
+                    app:layout_constraintStart_toStartOf="@id/ivVisitor"
+                    app:layout_constraintTop_toBottomOf="@id/ivVisitor"
+                    tools:text="Gaztelu Bira" />
 
                 <EditText
                     android:id="@+id/etVisitorGoals"
-                    android:layout_width="wrap_content"
+                    android:layout_width="37dp"
                     android:layout_height="wrap_content"
                     android:autofillHints="number"
                     android:background="@color/white"
+                    android:gravity="center"
                     android:inputType="number"
+                    android:maxLength="2"
                     android:padding="8dp"
                     android:text="@string/zero"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/ivVisitor"
@@ -343,21 +370,22 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
+                        android:id="@+id/tvSetLocal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="8dp"
                         android:text="@string/insert_local"
                         android:textColor="@color/main_red"
-                        android:textSize="22sp" />
+                        android:textSize="22sp"
+                        android:visibility="gone" />
 
                 </androidx.cardview.widget.CardView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
             <androidx.cardview.widget.CardView
-                android:id="@+id/cvPlayers"
+                android:id="@+id/cvStarters"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 app:cardBackgroundColor="@color/grey_selected"
@@ -381,7 +409,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
                     android:contentDescription="@string/description_icon_arrow"
-                    android:padding="16dp"
+                    android:padding="20dp"
                     android:src="@drawable/ic_forward_ios"
                     app:tint="@color/black" />
 
@@ -393,14 +421,14 @@
                 android:layout_height="1dp"
                 android:background="@color/primary"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cvPlayers" />
+                app:layout_constraintTop_toBottomOf="@id/cvStarters" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clPlayers"
+                android:id="@+id/clStarters"
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cvPlayers">
+                app:layout_constraintTop_toBottomOf="@id/fourthDivider">
 
                 <View
                     android:id="@+id/middlePoint"
@@ -511,11 +539,11 @@
                     layout="@layout/starters_dorsal_image_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
                     android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ivRightMidFielder"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    app:layout_constraintStart_toEndOf="@id/ivRightMidFielder" />
 
                 <include
                     android:id="@+id/ivLeftStriker"
@@ -534,14 +562,242 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    app:layout_constraintStart_toEndOf="@id/ivRightStriker"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintStart_toEndOf="@id/ivRightStriker"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvBench"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                app:cardBackgroundColor="@color/grey_selected"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/clStarters">
+
+                <TextView
+                    android:id="@+id/tvBench"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="16dp"
+                    android:text="@string/bench"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivArrowBench"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:contentDescription="@string/description_icon_arrow"
+                    android:padding="20dp"
+                    android:src="@drawable/ic_forward_ios"
+                    app:tint="@color/black" />
+
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:id="@+id/fifthDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/primary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cvBench" />
+
+            <LinearLayout
+                android:id="@+id/llBench"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fifthDivider">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvBench"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:orientation="horizontal" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnInsertBenchPlayer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/grey_forward_arrow"
+                    android:text="@string/insert_bench_player"
+                    android:textColor="@color/primary_soft"
+                    app:cornerRadius="12dp"
+                    app:icon="@drawable/img_no_profile_picture"
+                    app:iconTint="@color/primary_soft" />
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvStats"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                app:cardBackgroundColor="@color/grey_selected"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llBench">
+
+                <TextView
+                    android:id="@+id/tvStats"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="16dp"
+                    android:text="@string/stats"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivArrowStats"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:contentDescription="@string/description_icon_arrow"
+                    android:padding="20dp"
+                    android:src="@drawable/ic_forward_ios"
+                    app:tint="@color/black" />
+
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:id="@+id/sixthDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/primary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cvStats" />
+
+            <LinearLayout
+                android:id="@+id/llStats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sixthDivider">
+
+                <LinearLayout
+                    android:id="@+id/llGoals"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/description_goal_icon"
+                        android:src="@drawable/ic_football_goal" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/goals"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/main_red"
+                        android:orientation="vertical" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llAssists"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/description_assist_icon"
+                        android:src="@drawable/ic_football_shoe"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/assists"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/indian_red"
+                        android:orientation="vertical" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llCleanSheet"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/description_clean_sheet_icon"
+                        android:src="@drawable/ic_clean_sheet" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/clean_sheet"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/teal_200"
+                        android:orientation="vertical" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnInsertGame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="8dp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/green"
+                android:text="@string/insert_game"
+                android:textColor="@color/white"
+                app:cornerRadius="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llStats" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

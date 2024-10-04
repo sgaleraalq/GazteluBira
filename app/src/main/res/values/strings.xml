@@ -114,4 +114,6 @@
     <string name="result">Result</string>
     <string name="zero">0</string>
     <string name="insert_local">Set local to insert result</string>
+    <string name="stats">Stats</string>
+    <string name="select_team">Select team</string>
 </resources>

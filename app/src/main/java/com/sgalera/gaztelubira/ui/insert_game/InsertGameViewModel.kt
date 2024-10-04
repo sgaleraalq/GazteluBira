@@ -1,24 +1,10 @@
 package com.sgalera.gaztelubira.ui.insert_game
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.google.firebase.firestore.DocumentReference
-import com.sgalera.gaztelubira.data.provider.MatchesProvider
-import com.sgalera.gaztelubira.data.provider.PlayersProvider
-import com.sgalera.gaztelubira.data.provider.TeamsProvider
-import com.sgalera.gaztelubira.data.response.MatchInfoResponse
-import com.sgalera.gaztelubira.data.response.MatchResponse
-import com.sgalera.gaztelubira.domain.model.TeamInformation
-import com.sgalera.gaztelubira.domain.model.players.PlayerStats
-import com.sgalera.gaztelubira.ui.insert_game.InsertGameExpandable.MATCH_TYPE
 import com.sgalera.gaztelubira.ui.manager.SharedPreferences
-import com.sgalera.gaztelubira.ui.stats.StatsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,7 +27,6 @@ class InsertGameViewModel @Inject constructor(
 
     fun onMatchTypeSelected(matchType: MatchType) {
         if (_matchType.value == matchType) _matchType.value = null else _matchType.value = matchType
-        Log.i("InsertGameViewModel", "matchType: ${_matchType.value}")
     }
 
     fun onMatchLocalSelected(matchLocal: MatchLocal) {
@@ -51,7 +36,7 @@ class InsertGameViewModel @Inject constructor(
 }
 
 enum class InsertGameExpandable{
-    MATCH_TYPE, MATCH_LOCAL, RESULT, PLAYERS
+    MATCH_TYPE, MATCH_LOCAL, RESULT, STARTERS, BENCH, STATS
 }
 
 enum class MatchType{
