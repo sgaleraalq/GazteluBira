@@ -3,7 +3,6 @@ package com.sgalera.gaztelubira.ui.insert_game
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,7 +15,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -24,7 +22,12 @@ import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityInsertGameBinding
-import com.sgalera.gaztelubira.ui.insert_game.InsertGameExpandable.*
+import com.sgalera.gaztelubira.ui.insert_game.InsertGameExpandable.BENCH
+import com.sgalera.gaztelubira.ui.insert_game.InsertGameExpandable.MATCH_LOCAL
+import com.sgalera.gaztelubira.ui.insert_game.InsertGameExpandable.MATCH_TYPE
+import com.sgalera.gaztelubira.ui.insert_game.InsertGameExpandable.RESULT
+import com.sgalera.gaztelubira.ui.insert_game.InsertGameExpandable.STARTERS
+import com.sgalera.gaztelubira.ui.insert_game.InsertGameExpandable.STATS
 import com.sgalera.gaztelubira.ui.insert_game.MatchLocal.AWAY
 import com.sgalera.gaztelubira.ui.insert_game.MatchLocal.HOME
 import com.sgalera.gaztelubira.ui.insert_game.MatchType.CUP
@@ -124,6 +127,11 @@ class InsertGameActivity : AppCompatActivity() {
         binding.cvStarters.setOnClickListener{ insertGameViewModel.onExpandableChanged(STARTERS) }
         binding.cvBench.setOnClickListener{ insertGameViewModel.onExpandableChanged(BENCH) }
         binding.cvStats.setOnClickListener{ insertGameViewModel.onExpandableChanged(STATS) }
+
+        // Starters
+        binding.ivGoalKeeper.parent.setOnClickListener{
+            showDialog(insertGameViewModel.providePlayersList(), getString(R.string.select_goalkeeper))
+        }
     }
 
     private fun showItem(arrow: ImageView, childView: LinearLayout?, childConstraint: ConstraintLayout? = null) {
