@@ -6,22 +6,12 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:id="@+id/ivParent"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:contentDescription="@string/description_football_dot"
         android:src="@drawable/ic_player_dot"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/white" />
-
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:contentDescription="@string/description_football_dot"
-        android:src="@drawable/ic_player_dot"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tvPlayerName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,12 +22,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivParent"
+        app:layout_constraintEnd_toEndOf="@id/ivParent"
+        app:layout_constraintStart_toStartOf="@id/ivParent"
+        app:layout_constraintTop_toTopOf="@id/ivParent"
         tools:ignore="SmallSp"
         tools:text="10" />
+
+    <TextView
+        android:id="@+id/tvPlayerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/ivParent"
+        app:layout_constraintStart_toStartOf="@id/ivParent"
+        app:layout_constraintTop_toBottomOf="@id/ivParent"
+        tools:text="Whatever" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
