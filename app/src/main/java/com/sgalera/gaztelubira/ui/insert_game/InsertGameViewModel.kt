@@ -1,15 +1,22 @@
 package com.sgalera.gaztelubira.ui.insert_game
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.sgalera.gaztelubira.domain.model.TeamModel
+import com.sgalera.gaztelubira.domain.usecases.matches.GetTeamsUseCase
 import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class InsertGameViewModel @Inject constructor(
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
+    private val getTeamsUseCase: GetTeamsUseCase
 ) : ViewModel() {
 
     private val _expandable = MutableStateFlow<InsertGameExpandable?>(null)
@@ -20,6 +27,9 @@ class InsertGameViewModel @Inject constructor(
 
     private val _matchLocal = MutableStateFlow<MatchLocal?>(null)
     val matchLocal: StateFlow<MatchLocal?> = _matchLocal
+
+    private val _teamsList = MutableStateFlow<List<TeamModel?>>(emptyList())
+    val teamsList: StateFlow<List<TeamModel?>> = _teamsList
 
     fun onExpandableChanged(expandable: InsertGameExpandable) {
         if (_expandable.value == expandable) _expandable.value = null else _expandable.value = expandable
@@ -33,6 +43,19 @@ class InsertGameViewModel @Inject constructor(
         if (_matchLocal.value == matchLocal) _matchLocal.value = null else _matchLocal.value = matchLocal
     }
 
+    init {
+        viewModelScope.launch {
+            _teamsList.value = withContext(Dispatchers.IO){
+                getTeamsUseCase(sharedPreferences.credentials.year.toString())
+            }
+        }
+    }
+
+    fun provideTeamList(): List<Pair<String, String>?> {
+        return _teamsList.value.filter { it?.teamName != "Gaztelu Bira" }.map { team ->
+            team?.let { Pair(it.teamName, it.teamImg) }
+        }
+    }
 }
 
 enum class InsertGameExpandable{
