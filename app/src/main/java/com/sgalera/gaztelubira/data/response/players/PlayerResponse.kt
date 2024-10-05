@@ -1,10 +1,10 @@
-package com.sgalera.gaztelubira.data.response
+package com.sgalera.gaztelubira.data.response.players
 
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.PropertyName
-import com.sgalera.gaztelubira.domain.model.PlayerModel
-import com.sgalera.gaztelubira.domain.model.PlayerPosition
-import com.sgalera.gaztelubira.domain.model.PlayerPosition.*
+import com.sgalera.gaztelubira.domain.model.players.PlayerModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerPosition
+import com.sgalera.gaztelubira.domain.model.players.PlayerPosition.*
 
 data class PlayerResponse(
     @get:PropertyName("complete_name") @set:PropertyName("complete_name") var completeName: String = "",

@@ -7,10 +7,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.sgalera.gaztelubira.core.Constants.INFO
 import com.sgalera.gaztelubira.core.Constants.PLAYERS
 import com.sgalera.gaztelubira.core.Constants.STATS
-import com.sgalera.gaztelubira.data.response.PlayerResponse
-import com.sgalera.gaztelubira.data.response.PlayerStatsResponse
-import com.sgalera.gaztelubira.domain.model.PlayerModel
-import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
+import com.sgalera.gaztelubira.data.response.players.PlayerResponse
+import com.sgalera.gaztelubira.data.response.players.PlayerStatsResponse
+import com.sgalera.gaztelubira.domain.model.players.PlayerModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.repository.PlayersRepository
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await

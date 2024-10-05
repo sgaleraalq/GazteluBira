@@ -2,7 +2,7 @@ package com.sgalera.gaztelubira.data.repository
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sgalera.gaztelubira.core.Constants.TEAMS
-import com.sgalera.gaztelubira.data.response.TeamResponse
+import com.sgalera.gaztelubira.data.response.teams.TeamResponse
 import com.sgalera.gaztelubira.domain.repository.TeamsRepository
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject

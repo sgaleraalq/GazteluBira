@@ -1,10 +1,10 @@
-package com.sgalera.gaztelubira.data.response
+package com.sgalera.gaztelubira.data.response.matches
 
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.PropertyName
-import com.sgalera.gaztelubira.domain.model.MatchModel
+import com.sgalera.gaztelubira.domain.model.matches.MatchModel
 
-data class MatchR (
+data class MatchResponse (
     val id: Int = 0,
     val journey: Int = 0,
     val match: String = "",

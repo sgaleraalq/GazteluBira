@@ -1,7 +1,6 @@
 package com.sgalera.gaztelubira.ui.player_compare
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentComparePlayersBinding
-import com.sgalera.gaztelubira.domain.model.PlayerModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerModel
 import com.sgalera.gaztelubira.ui.player_compare.adapter.PlayerComparisonAdapter
 import com.sgalera.gaztelubira.ui.player_compare.detail.ComparePlayersActivity
 import dagger.hilt.android.AndroidEntryPoint

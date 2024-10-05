@@ -1,7 +1,7 @@
-package com.sgalera.gaztelubira.data.response
+package com.sgalera.gaztelubira.data.response.teams
 
 import com.google.firebase.firestore.DocumentReference
-import com.sgalera.gaztelubira.domain.model.TeamModel
+import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 
 data class TeamResponse(
     val name: String = "",

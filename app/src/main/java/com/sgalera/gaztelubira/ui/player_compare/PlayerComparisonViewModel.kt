@@ -2,8 +2,8 @@ package com.sgalera.gaztelubira.ui.player_compare
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sgalera.gaztelubira.domain.model.PlayerModel
-import com.sgalera.gaztelubira.domain.model.PlayerPosition.TECHNICAL_STAFF
+import com.sgalera.gaztelubira.domain.model.players.PlayerModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerPosition.TECHNICAL_STAFF
 import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersUseCase
 import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import com.sgalera.gaztelubira.ui.player_compare.PlayerSelection.*

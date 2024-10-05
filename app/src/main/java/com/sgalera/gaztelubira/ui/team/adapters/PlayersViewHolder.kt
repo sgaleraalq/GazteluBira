@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.sgalera.gaztelubira.databinding.ItemPlayersBinding
-import com.sgalera.gaztelubira.domain.model.PlayerModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerModel
 
 class PlayersViewHolder(view: View): RecyclerView.ViewHolder(view){
     private val binding = ItemPlayersBinding.bind(view)

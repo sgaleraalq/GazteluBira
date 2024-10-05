@@ -3,7 +3,6 @@ package com.sgalera.gaztelubira.ui.matches.detail
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -17,9 +16,9 @@ import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.core.Constants.TEAM_NO_IMAGE
 import com.sgalera.gaztelubira.databinding.ActivityDetailMatchBinding
 import com.sgalera.gaztelubira.databinding.StartersDorsalImageViewBinding
-import com.sgalera.gaztelubira.domain.model.MatchStatsModel
-import com.sgalera.gaztelubira.domain.model.PlayerModel
-import com.sgalera.gaztelubira.domain.model.TeamModel
+import com.sgalera.gaztelubira.domain.model.matches.MatchStatsModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerModel
+import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

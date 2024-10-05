@@ -2,8 +2,8 @@ package com.sgalera.gaztelubira.ui.insert_game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
-import com.sgalera.gaztelubira.domain.model.TeamModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
+import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 import com.sgalera.gaztelubira.domain.usecases.matches.GetTeamsUseCase
 import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersStatsUseCase
 import com.sgalera.gaztelubira.ui.manager.SharedPreferences

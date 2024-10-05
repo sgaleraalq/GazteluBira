@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sgalera.gaztelubira.R
-import com.sgalera.gaztelubira.domain.model.PlayerModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerModel
 
 class PlayerComparisonAdapter(
     var playersList: MutableList<PlayerModel?> = mutableListOf(),

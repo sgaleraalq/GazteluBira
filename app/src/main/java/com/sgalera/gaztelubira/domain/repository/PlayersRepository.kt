@@ -1,8 +1,8 @@
 package com.sgalera.gaztelubira.domain.repository
 
 import com.google.firebase.firestore.DocumentReference
-import com.sgalera.gaztelubira.domain.model.PlayerModel
-import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 
 interface PlayersRepository {
 

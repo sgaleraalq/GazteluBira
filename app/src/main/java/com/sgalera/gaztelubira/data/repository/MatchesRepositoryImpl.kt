@@ -5,15 +5,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.sgalera.gaztelubira.core.Constants.GAMES
 import com.sgalera.gaztelubira.core.Constants.MATCHES
 import com.sgalera.gaztelubira.core.Constants.STATS
-import com.sgalera.gaztelubira.data.response.MatchR
-import com.sgalera.gaztelubira.data.response.MatchStatsResponse
-import com.sgalera.gaztelubira.data.response.TeamResponse
-import com.sgalera.gaztelubira.domain.model.MatchModel
-import com.sgalera.gaztelubira.domain.model.MatchStatsModel
-import com.sgalera.gaztelubira.domain.model.PlayerModel
-import com.sgalera.gaztelubira.domain.model.TeamModel
+import com.sgalera.gaztelubira.data.response.matches.MatchResponse
+import com.sgalera.gaztelubira.data.response.matches.MatchStatsResponse
+import com.sgalera.gaztelubira.data.response.teams.TeamResponse
+import com.sgalera.gaztelubira.domain.model.matches.MatchModel
+import com.sgalera.gaztelubira.domain.model.matches.MatchStatsModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerModel
+import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 import com.sgalera.gaztelubira.domain.repository.MatchesRepository
-import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -34,7 +33,7 @@ class MatchesRepositoryImpl @Inject constructor(
             firestore.collection(MATCHES).document(year).collection(GAMES).get()
                 .addOnSuccessListener { snapshot ->
                     cancellableContinuation.resume(
-                        snapshot.toObjects(MatchR::class.java).map { it.toDomain() }
+                        snapshot.toObjects(MatchResponse::class.java).map { it.toDomain() }
                     )
                 }
                 .addOnFailureListener { cancellableContinuation.resume(null) }

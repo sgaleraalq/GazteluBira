@@ -1,6 +1,6 @@
 package com.sgalera.gaztelubira.ui.stats
 
-import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 
 sealed class StatsState {
     data object Loading : StatsState()

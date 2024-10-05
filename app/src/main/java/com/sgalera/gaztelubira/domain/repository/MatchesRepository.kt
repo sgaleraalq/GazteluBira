@@ -1,10 +1,10 @@
 package com.sgalera.gaztelubira.domain.repository
 
 import com.google.firebase.firestore.DocumentReference
-import com.sgalera.gaztelubira.domain.model.MatchModel
-import com.sgalera.gaztelubira.domain.model.MatchStatsModel
-import com.sgalera.gaztelubira.domain.model.PlayerModel
-import com.sgalera.gaztelubira.domain.model.TeamModel
+import com.sgalera.gaztelubira.domain.model.matches.MatchModel
+import com.sgalera.gaztelubira.domain.model.matches.MatchStatsModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerModel
+import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 
 interface MatchesRepository {
 

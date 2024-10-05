@@ -12,10 +12,8 @@ import com.bumptech.glide.request.target.Target
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.core.Constants.TEAM_NO_IMAGE
 import com.sgalera.gaztelubira.databinding.ItemMatchesBinding
-import com.sgalera.gaztelubira.domain.model.MatchModel
-import com.sgalera.gaztelubira.domain.model.TeamInformation
-import com.sgalera.gaztelubira.domain.model.TeamModel
-import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
+import com.sgalera.gaztelubira.domain.model.matches.MatchModel
+import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 
 class MatchesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val binding = ItemMatchesBinding.bind(view)

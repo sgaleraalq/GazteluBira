@@ -2,7 +2,7 @@ package com.sgalera.gaztelubira.ui.team.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.usecases.players.GetPlayerStatsUseCase
 import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel

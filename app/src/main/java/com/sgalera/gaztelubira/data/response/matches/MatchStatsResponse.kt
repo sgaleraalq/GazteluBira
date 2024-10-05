@@ -1,10 +1,10 @@
-package com.sgalera.gaztelubira.data.response
+package com.sgalera.gaztelubira.data.response.matches
 
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.PropertyName
-import com.sgalera.gaztelubira.domain.model.MatchStatsModel
-import com.sgalera.gaztelubira.domain.model.PlayerModel
-import com.sgalera.gaztelubira.domain.model.TeamModel
+import com.sgalera.gaztelubira.domain.model.matches.MatchStatsModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerModel
+import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 
 data class MatchStatsResponse (
     val match: String = "",

@@ -19,7 +19,7 @@ import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentStatsBinding
 import com.sgalera.gaztelubira.databinding.ItemTableRowBinding
-import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.ui.stats.StatType.ASSISTS
 import com.sgalera.gaztelubira.ui.stats.StatType.CLEAN_SHEET
 import com.sgalera.gaztelubira.ui.stats.StatType.GAMES_PLAYED

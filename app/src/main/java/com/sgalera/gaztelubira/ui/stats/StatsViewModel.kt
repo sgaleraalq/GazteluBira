@@ -2,8 +2,8 @@ package com.sgalera.gaztelubira.ui.stats
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sgalera.gaztelubira.domain.model.PlayerModel
-import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersStatsUseCase
 import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersUseCase
 import com.sgalera.gaztelubira.ui.manager.PasswordManager

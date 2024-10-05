@@ -1,4 +1,4 @@
-package com.sgalera.gaztelubira.domain.model
+package com.sgalera.gaztelubira.domain.model.teams
 
 import com.google.firebase.firestore.DocumentReference
 

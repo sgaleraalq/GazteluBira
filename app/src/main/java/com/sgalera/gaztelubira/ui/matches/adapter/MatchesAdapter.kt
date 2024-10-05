@@ -5,8 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sgalera.gaztelubira.R
-import com.sgalera.gaztelubira.domain.model.MatchModel
-import com.sgalera.gaztelubira.domain.model.matches.MatchInfo
+import com.sgalera.gaztelubira.domain.model.matches.MatchModel
 
 
 class MatchesAdapter(

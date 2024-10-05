@@ -1,7 +1,7 @@
 package com.sgalera.gaztelubira.domain.usecases.matches
 
-import com.sgalera.gaztelubira.domain.model.PlayerModel
-import com.sgalera.gaztelubira.domain.model.TeamModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerModel
+import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 import com.sgalera.gaztelubira.domain.repository.MatchesRepository
 import javax.inject.Inject
 

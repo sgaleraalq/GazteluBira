@@ -1,8 +1,8 @@
-package com.sgalera.gaztelubira.data.response
+package com.sgalera.gaztelubira.data.response.players
 
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.PropertyName
-import com.sgalera.gaztelubira.domain.model.PlayerStatsModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import java.text.DecimalFormat
 
 data class PlayerStatsResponse(

@@ -1,10 +1,9 @@
 package com.sgalera.gaztelubira.ui.matches
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sgalera.gaztelubira.domain.model.MatchModel
-import com.sgalera.gaztelubira.domain.model.TeamModel
+import com.sgalera.gaztelubira.domain.model.matches.MatchModel
+import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 import com.sgalera.gaztelubira.domain.usecases.matches.GetMatchesUseCase
 import com.sgalera.gaztelubira.domain.usecases.matches.GetTeamsUseCase
 import com.sgalera.gaztelubira.ui.manager.SharedPreferences

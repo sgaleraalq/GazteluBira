@@ -1,6 +1,6 @@
 package com.sgalera.gaztelubira.domain.repository
 
-import com.sgalera.gaztelubira.domain.model.TeamModel
+import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 
 interface TeamsRepository {
 

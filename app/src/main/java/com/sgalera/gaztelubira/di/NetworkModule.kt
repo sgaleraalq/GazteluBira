@@ -7,7 +7,6 @@ import com.google.firebase.ktx.Firebase
 import com.sgalera.gaztelubira.data.repository.MatchesRepositoryImpl
 import com.sgalera.gaztelubira.data.repository.PlayersRepositoryImpl
 import com.sgalera.gaztelubira.data.repository.TeamsRepositoryImpl
-import com.sgalera.gaztelubira.domain.model.PlayerModel
 import com.sgalera.gaztelubira.domain.repository.MatchesRepository
 import com.sgalera.gaztelubira.domain.repository.PlayersRepository
 import com.sgalera.gaztelubira.domain.repository.TeamsRepository
@@ -18,7 +17,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import java.time.Year
 import javax.inject.Singleton
 
 @Module

@@ -10,7 +10,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ItemPlayerSelectionBinding
-import com.sgalera.gaztelubira.domain.model.PlayerModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerModel
 
 class PlayerComparisonViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val binding = ItemPlayerSelectionBinding.bind(view)
