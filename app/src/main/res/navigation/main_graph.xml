@@ -17,7 +17,7 @@
         android:id="@+id/playerFragment"
         android:name="com.sgalera.gaztelubira.ui.player_compare.PlayerCompareFragment"
         android:label="fragment_players"
-        tools:layout="@layout/last_fragment_compare_players" />
+        tools:layout="@layout/fragment_compare_players" />
     <fragment
         android:id="@+id/statsFragment"
         android:name="com.sgalera.gaztelubira.ui.stats.StatsFragment"

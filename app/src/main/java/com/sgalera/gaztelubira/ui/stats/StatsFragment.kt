@@ -189,7 +189,7 @@ class StatsFragment : Fragment() {
     @SuppressLint("InflateParams")
     private fun showAdminDialog() {
         val builder = AlertDialog.Builder(requireContext())
-        val view = LayoutInflater.from(requireContext()).inflate(R.layout.item_admin_popup, null)
+        val view = LayoutInflater.from(requireContext()).inflate(R.layout.item_admin_dialog, null)
 
         with(builder){
             setView(view)
