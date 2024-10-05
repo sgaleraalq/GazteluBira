@@ -2,12 +2,14 @@ package com.sgalera.gaztelubira.ui.stats
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sgalera.gaztelubira.domain.manager.PasswordManager
+import com.sgalera.gaztelubira.domain.manager.SharedPreferences
 import com.sgalera.gaztelubira.domain.model.players.PlayerModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
+import com.sgalera.gaztelubira.domain.repository.PlayersRepository
+import com.sgalera.gaztelubira.domain.usecases.matches.GetTeamsUseCase
 import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersStatsUseCase
 import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersUseCase
-import com.sgalera.gaztelubira.ui.manager.PasswordManager
-import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import com.sgalera.gaztelubira.ui.stats.StatType.ASSISTS
 import com.sgalera.gaztelubira.ui.stats.StatType.CLEAN_SHEET
 import com.sgalera.gaztelubira.ui.stats.StatType.GAMES_PLAYED
@@ -27,15 +29,17 @@ import javax.inject.Inject
 class StatsViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val passwordManager: PasswordManager,
+    private val playersRepository: PlayersRepository,
     private val getPlayersUseCase: GetPlayersUseCase,
+    private val getTeamsUseCase: GetTeamsUseCase,
     private val getPlayersStatsUseCase: GetPlayersStatsUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<StatsUiState>(StatsUiState.Loading)
     val uiState: StateFlow<StatsUiState> = _uiState
 
-    private val _playersStats = MutableStateFlow<List<PlayerStatsModel>>(emptyList())
-    val playersStats: StateFlow<List<PlayerStatsModel>> = _playersStats
+    private val _playersStats = MutableStateFlow<List<PlayerStatsModel?>>(emptyList())
+    val playersStats: StateFlow<List<PlayerStatsModel?>> = _playersStats
 
     private val _isAdmin = MutableStateFlow(false)
     val isAdmin: StateFlow<Boolean> = _isAdmin
@@ -45,29 +49,34 @@ class StatsViewModel @Inject constructor(
             _uiState.value = StatsUiState.Loading
             sharedPreferences.getCredentials()
 
-            val players = withContext(Dispatchers.IO) {
+            val playersListResult = withContext(Dispatchers.IO){
                 getPlayersUseCase(sharedPreferences.credentials.year.toString())
             }
 
-            if (players.isNotEmpty()) {
-                initStats(players)
+            val playersStatsResult = withContext(Dispatchers.IO){
+                getPlayersStatsUseCase(sharedPreferences.credentials.year.toString())
+            }
+
+            withContext(Dispatchers.IO){
+                getTeamsUseCase(sharedPreferences.credentials.year.toString())
+            }
+
+            if (playersListResult && playersStatsResult) {
+                val playersList = playersRepository.playersList.value
+                val playersStats = playersRepository.playersStats.value
+                initStats(playersList, playersStats)
             }
         }
     }
 
-    private fun initStats(players: List<PlayerModel?>) {
+    private fun initStats(playersList: List<PlayerModel?>, playersStats: List<PlayerStatsModel?>) {
         viewModelScope.launch {
-
-            val playersStats = withContext(Dispatchers.IO) {
-                getPlayersStatsUseCase(sharedPreferences.credentials.year.toString())
-            }
-
-            if (playersStats != null) {
-                _playersStats.value = playersStats.map { stat ->
-                        val player = players.find { player -> player?.ownReference == stat.reference }
-                        stat.information = player
-                        stat
-                    }.sortedByDescending { it.percentage }
+            if (playersStats.isNotEmpty()) {
+                _playersStats.value = playersStats.map { playerStat ->
+                    val player = playersList.find { player -> player?.ownReference == playerStat?.reference }
+                    playerStat?.information = player
+                    playerStat
+                }.sortedByDescending { it?.percentage }
             } else {
                 _uiState.value = StatsUiState.Error
             }
@@ -76,16 +85,16 @@ class StatsViewModel @Inject constructor(
 
     fun sortPlayersBy(stat: StatType, changeButtonColor: (StatType) -> Unit) {
         val sortedList = _playersStats.value.sortedWith(
-            compareByDescending<PlayerStatsModel> {
+            compareByDescending<PlayerStatsModel?> {
                 when (stat) {
-                    PERCENTAGE -> it.percentage
-                    GOALS -> it.goals
-                    ASSISTS -> it.assists
-                    PENALTIES -> it.penalties
-                    CLEAN_SHEET -> it.cleanSheet
-                    GAMES_PLAYED -> it.gamesPlayed
+                    PERCENTAGE -> it?.percentage
+                    GOALS -> it?.goals
+                    ASSISTS -> it?.assists
+                    PENALTIES -> it?.penalties
+                    CLEAN_SHEET -> it?.cleanSheet
+                    GAMES_PLAYED -> it?.gamesPlayed
                 }
-            }.thenBy { it.information?.name }
+            }.thenBy { it?.information?.name }
         )
         _playersStats.value = sortedList
         changeButtonColor(stat)

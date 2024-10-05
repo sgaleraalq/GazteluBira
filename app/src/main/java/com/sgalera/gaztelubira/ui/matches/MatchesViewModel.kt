@@ -2,11 +2,12 @@ package com.sgalera.gaztelubira.ui.matches
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sgalera.gaztelubira.domain.manager.SharedPreferences
 import com.sgalera.gaztelubira.domain.model.matches.MatchModel
 import com.sgalera.gaztelubira.domain.model.teams.TeamModel
+import com.sgalera.gaztelubira.domain.repository.TeamsRepository
 import com.sgalera.gaztelubira.domain.usecases.matches.GetMatchesUseCase
 import com.sgalera.gaztelubira.domain.usecases.matches.GetTeamsUseCase
-import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,9 +18,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MatchesViewModel @Inject constructor(
+    private val teamsRepository: TeamsRepository,
     private val sharedPreferences: SharedPreferences,
     private val getMatchesUseCase: GetMatchesUseCase,
-    private val getTeamsUseCase: GetTeamsUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UIState>(UIState.Loading)
@@ -39,23 +40,21 @@ class MatchesViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val teamsList = withContext(Dispatchers.IO) {
-                getTeamsUseCase(sharedPreferences.credentials.year.toString())
-            }
+            val teamsList = teamsRepository.teamsList.value
             if (teamsList.isNotEmpty()){
                 initMatches(teamsList)
             }
         }
     }
 
-    private fun initMatches(teamsList: List<TeamModel>) {
+    private fun initMatches(teamsList: List<TeamModel?>) {
         viewModelScope.launch {
             _uiState.value = UIState.Loading
             val result = withContext(Dispatchers.IO) { getMatchesUseCase(sharedPreferences.credentials.year.toString()) }
             if (result != null) {
                 _matchesList.value = result.map { match ->
-                    val homeTeam = teamsList.find { it.ownReference == match.homeTeam }
-                    val awayTeam = teamsList.find { it.ownReference == match.awayTeam }
+                    val homeTeam = teamsList.find { it?.ownReference == match.homeTeam }
+                    val awayTeam = teamsList.find { it?.ownReference == match.awayTeam }
                     match.localTeam = homeTeam
                     match.visitorTeam = awayTeam
                     match

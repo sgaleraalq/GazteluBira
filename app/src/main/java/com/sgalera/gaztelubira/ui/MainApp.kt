@@ -1,12 +1,7 @@
 package com.sgalera.gaztelubira.ui
 
 import android.app.Application
-import com.sgalera.gaztelubira.domain.model.TeamInformation
-import com.sgalera.gaztelubira.domain.model.players.PlayerInformation
 import dagger.hilt.android.HiltAndroidApp
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @HiltAndroidApp
 class MainApp : Application() {

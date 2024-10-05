@@ -4,22 +4,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.model.teams.TeamModel
-import com.sgalera.gaztelubira.domain.usecases.matches.GetTeamsUseCase
-import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersStatsUseCase
-import com.sgalera.gaztelubira.ui.manager.SharedPreferences
+import com.sgalera.gaztelubira.domain.repository.PlayersRepository
+import com.sgalera.gaztelubira.domain.repository.TeamsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class InsertGameViewModel @Inject constructor(
-    private val sharedPreferences: SharedPreferences,
-    private val getTeamsUseCase: GetTeamsUseCase,
-    private val getPlayerStatsUseCase: GetPlayersStatsUseCase
+    private val teamsRepository: TeamsRepository,
+    private val playersRepository: PlayersRepository,
 ) : ViewModel() {
 
     private val _expandable = MutableStateFlow<InsertGameExpandable?>(null)
@@ -32,7 +28,7 @@ class InsertGameViewModel @Inject constructor(
     val matchLocal: StateFlow<MatchLocal?> = _matchLocal
 
     private val _teamsList = MutableStateFlow<List<TeamModel?>>(emptyList())
-    private val _playersList = MutableStateFlow<List<PlayerStatsModel>?>(emptyList())
+    private val _playersList = MutableStateFlow<List<PlayerStatsModel?>>(emptyList())
 
     fun onExpandableChanged(expandable: InsertGameExpandable) {
         if (_expandable.value == expandable) _expandable.value = null else _expandable.value = expandable
@@ -48,12 +44,8 @@ class InsertGameViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            _teamsList.value = withContext(Dispatchers.IO){
-                getTeamsUseCase(sharedPreferences.credentials.year.toString())
-            }
-            _playersList.value = withContext(Dispatchers.IO){
-                getPlayerStatsUseCase(sharedPreferences.credentials.year.toString())
-            }
+            _teamsList.value = teamsRepository.teamsList.value
+            _playersList.value = playersRepository.playersStats.value
         }
     }
 
@@ -64,8 +56,8 @@ class InsertGameViewModel @Inject constructor(
     }
 
     fun providePlayersList(): List<Pair<String, String>?> {
-        return _playersList.value!!.map { player ->
-            player.let { Pair(it.information?.name ?: "", it.information?.img ?: "") }
+        return _playersList.value.map { player ->
+            player.let { Pair(it?.information?.name ?: "", it?.information?.img ?: "") }
         }
     }
 }

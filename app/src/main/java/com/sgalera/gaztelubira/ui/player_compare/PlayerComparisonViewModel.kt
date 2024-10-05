@@ -1,24 +1,22 @@
 package com.sgalera.gaztelubira.ui.player_compare
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.domain.model.players.PlayerModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerPosition.TECHNICAL_STAFF
-import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersUseCase
-import com.sgalera.gaztelubira.ui.manager.SharedPreferences
-import com.sgalera.gaztelubira.ui.player_compare.PlayerSelection.*
+import com.sgalera.gaztelubira.domain.repository.PlayersRepository
+import com.sgalera.gaztelubira.ui.player_compare.PlayerSelection.PLAYER_ONE
+import com.sgalera.gaztelubira.ui.player_compare.PlayerSelection.PLAYER_TWO
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class PlayerComparisonViewModel @Inject constructor(
-    private val sharedPreferences: SharedPreferences,
-    private val getPlayersUseCase: GetPlayersUseCase
+    private val playersRepository: PlayersRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<PlayerComparisonUiState>(PlayerComparisonUiState.Loading)
@@ -40,10 +38,8 @@ class PlayerComparisonViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            _playersList.value = withContext(Dispatchers.IO){
-                getPlayersUseCase(sharedPreferences.credentials.year.toString())
-                    .filter { it?.position != TECHNICAL_STAFF }.sortedBy { it?.dorsal }
-            }
+            _playersList.value = playersRepository.playersList.value.filter { it?.position != TECHNICAL_STAFF }.sortedBy { it?.dorsal }
+            Log.i("PlayerComparisonViewModel", "Players: ${playersRepository.playersList.value}")
             if (_playersList.value.isNotEmpty()) {
                 _uiState.value = PlayerComparisonUiState.Success
             }

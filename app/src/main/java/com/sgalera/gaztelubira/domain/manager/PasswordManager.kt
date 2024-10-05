@@ -1,4 +1,4 @@
-package com.sgalera.gaztelubira.ui.manager
+package com.sgalera.gaztelubira.domain.manager
 
 import com.sgalera.gaztelubira.BuildConfig
 import java.security.MessageDigest

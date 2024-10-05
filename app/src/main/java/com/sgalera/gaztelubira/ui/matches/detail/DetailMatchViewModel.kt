@@ -2,13 +2,13 @@ package com.sgalera.gaztelubira.ui.matches.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sgalera.gaztelubira.domain.manager.SharedPreferences
 import com.sgalera.gaztelubira.domain.model.matches.MatchStatsModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerModel
 import com.sgalera.gaztelubira.domain.model.teams.TeamModel
+import com.sgalera.gaztelubira.domain.repository.PlayersRepository
+import com.sgalera.gaztelubira.domain.repository.TeamsRepository
 import com.sgalera.gaztelubira.domain.usecases.matches.GetMatchStatsUseCase
-import com.sgalera.gaztelubira.domain.usecases.matches.GetTeamsUseCase
-import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersUseCase
-import com.sgalera.gaztelubira.ui.manager.SharedPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,8 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailMatchViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
-    private val getTeamsUseCase: GetTeamsUseCase, // TODO: Change to obtain global object
-    private val getPlayersUseCase: GetPlayersUseCase,
+    private val playersRepository: PlayersRepository,
+    private val teamsRepository: TeamsRepository,
     private val getMatchStatsUseCase: GetMatchStatsUseCase
 ) : ViewModel() {
 
@@ -35,12 +35,9 @@ class DetailMatchViewModel @Inject constructor(
 
     fun init(id: Int) {
         viewModelScope.launch {
-            _teamsList.value = withContext(Dispatchers.IO) {
-                getTeamsUseCase(sharedPreferences.credentials.year.toString())
-            }
-            _playersList.value = withContext(Dispatchers.IO) {
-                getPlayersUseCase(sharedPreferences.credentials.year.toString())
-            }
+            _teamsList.value = teamsRepository.teamsList.value
+            _playersList.value = playersRepository.playersList.value
+
             if (_teamsList.value.isNotEmpty() && _playersList.value.isNotEmpty()) {
                 initMatch(id)
             }

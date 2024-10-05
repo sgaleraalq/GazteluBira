@@ -1,4 +1,4 @@
-package com.sgalera.gaztelubira.ui.manager
+package com.sgalera.gaztelubira.domain.manager
 
 import android.content.Context
 import android.content.SharedPreferences

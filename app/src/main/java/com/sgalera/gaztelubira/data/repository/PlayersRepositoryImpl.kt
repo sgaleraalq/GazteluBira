@@ -1,6 +1,5 @@
 package com.sgalera.gaztelubira.data.repository
 
-import android.util.Log
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -12,6 +11,8 @@ import com.sgalera.gaztelubira.data.response.players.PlayerStatsResponse
 import com.sgalera.gaztelubira.domain.model.players.PlayerModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.repository.PlayersRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -21,24 +22,36 @@ class PlayersRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : PlayersRepository {
 
-    private var _players: List<PlayerModel?> = emptyList()
-    override val players: List<PlayerModel?> get() = _players
+    private val _playersList = MutableStateFlow<List<PlayerModel?>>(emptyList())
+    override val playersList: StateFlow<List<PlayerModel?>> get() = _playersList
 
-    // TODO enorme
-    override suspend fun getPlayers(year: String): List<PlayerModel?> {
+    private val _playersStats = MutableStateFlow<List<PlayerStatsModel?>>(emptyList())
+    override val playersStats: StateFlow<List<PlayerStatsModel?>> get() = _playersStats
+
+    override suspend fun getPlayers(year: String): Boolean {
         return try {
-            val querySnapshot =
-                Tasks.await(firestore.collection(PLAYERS).document(year).collection(INFO).get())
-            _players = querySnapshot.toObjects(PlayerResponse::class.java).map { it.toDomain() }
-            _players
+            val querySnapshot = Tasks.await(firestore.collection(PLAYERS).document(year).collection(INFO).get())
+            _playersList.value = querySnapshot.toObjects(PlayerResponse::class.java).map { it.toDomain() }
+            true
         } catch (e: Exception) {
-            Log.e("PlayersRepository", "Error getting players", e)
-            emptyList()
+            false
+        }
+    }
+
+    override suspend fun getPlayersStats(year: String): Boolean {
+        return suspendCancellableCoroutine { cancellableContinuation ->
+            firestore.collection(PLAYERS).document(year).collection(STATS).get()
+                .addOnSuccessListener { querySnapshot ->
+                    _playersStats.value = querySnapshot.toObjects(PlayerStatsResponse::class.java).map { it.toDomain() }
+                    cancellableContinuation.resume(true)
+                }
+                .addOnFailureListener { cancellableContinuation.resume(false) }
         }
     }
 
     override suspend fun getPlayerStats(playerName: String, year: String): PlayerStatsModel? {
-        return firestore.collection(PLAYERS).document(year).collection(STATS).document(playerName.lowercase())
+        return firestore.collection(PLAYERS).document(year).collection(STATS)
+            .document(playerName.lowercase())
             .get().await().toObject(PlayerStatsResponse::class.java)?.toDomain()
     }
 
@@ -51,20 +64,6 @@ class PlayersRepositoryImpl @Inject constructor(
                     )
                 }
                 .addOnFailureListener { cancellableContinuation.resume(null) }
-        }
-    }
-
-    override suspend fun getPlayersStats(year: String): List<PlayerStatsModel>? {
-        return suspendCancellableCoroutine { cancellableContinuation ->
-            firestore.collection(PLAYERS).document(year).collection(STATS).get()
-                .addOnSuccessListener { querySnapshot ->
-                    val playerStatsList = querySnapshot.toObjects(PlayerStatsResponse::class.java)
-                        .map { it.toDomain() }
-                    cancellableContinuation.resume(playerStatsList)
-                }
-                .addOnFailureListener {
-                    cancellableContinuation.resume(null)
-                }
         }
     }
 }

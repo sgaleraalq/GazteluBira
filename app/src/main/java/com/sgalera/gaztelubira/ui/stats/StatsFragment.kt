@@ -104,7 +104,7 @@ class StatsFragment : Fragment() {
         Toast.makeText(context, getString(R.string.main_error), Toast.LENGTH_SHORT).show()
     }
 
-    private fun onSuccess(playersListStats: List<PlayerStatsModel>, champion: PlayerStatsModel?) {
+    private fun onSuccess(playersListStats: List<PlayerStatsModel?>, champion: PlayerStatsModel?) {
         binding.pbLoading.visibility = View.GONE
 
         // Show the table
@@ -121,20 +121,20 @@ class StatsFragment : Fragment() {
         initButtonListeners()
     }
 
-    private fun insertRow(player: PlayerStatsModel, index: Int): View {
+    private fun insertRow(player: PlayerStatsModel?, index: Int): View {
         val binding = ItemTableRowBinding.inflate(layoutInflater)
         val arrow = getArrow(player)
 
         with(binding) {
             ivArrow.setImageResource(arrow)
             tvRanking.text = getString(R.string.player_ranking, index + 1)
-            tvPlayerName.text = player.information?.name ?: getString(R.string.could_not_retrieve)
-            tvPlayerProportion.text = player.percentage
-            tvPlayerGoals.text = player.goals.toString()
-            tvPlayerAssists.text = player.assists.toString()
-            tvPlayerPenalties.text = player.penalties.toString()
-            tvPlayerCleanSheet.text = player.cleanSheet.toString()
-            tvPlayerGames.text = player.gamesPlayed.toString()
+            tvPlayerName.text = player?.information?.name ?: getString(R.string.could_not_retrieve)
+            tvPlayerProportion.text = player?.percentage
+            tvPlayerGoals.text = player?.goals.toString()
+            tvPlayerAssists.text = player?.assists.toString()
+            tvPlayerPenalties.text = player?.penalties.toString()
+            tvPlayerCleanSheet.text = player?.cleanSheet.toString()
+            tvPlayerGames.text = player?.gamesPlayed.toString()
         }
         return binding.root
     }
@@ -210,8 +210,10 @@ class StatsFragment : Fragment() {
         }
     }
 
-    private fun getArrow(player: PlayerStatsModel): Int {
-        return if (player.lastRanking < player.ranking) {
+    private fun getArrow(player: PlayerStatsModel?): Int {
+        return if (player == null){
+            R.drawable.ic_arrow_equal
+        } else if (player.lastRanking < player.ranking) {
             R.drawable.ic_arrow_down
         } else if (player.lastRanking > player.ranking) {
             R.drawable.ic_arrow_up

@@ -10,8 +10,8 @@ import com.sgalera.gaztelubira.data.repository.TeamsRepositoryImpl
 import com.sgalera.gaztelubira.domain.repository.MatchesRepository
 import com.sgalera.gaztelubira.domain.repository.PlayersRepository
 import com.sgalera.gaztelubira.domain.repository.TeamsRepository
-import com.sgalera.gaztelubira.ui.manager.PasswordManager
-import com.sgalera.gaztelubira.ui.manager.SharedPreferences
+import com.sgalera.gaztelubira.domain.manager.PasswordManager
+import com.sgalera.gaztelubira.domain.manager.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,11 +36,14 @@ object NetworkModule {
     fun providePasswordManager() = PasswordManager()
 
     @Provides
+    @Singleton
     fun providePlayersRepository(firestore: FirebaseFirestore): PlayersRepository = PlayersRepositoryImpl(firestore)
+
+    @Provides
+    @Singleton
+    fun provideTeamsRepository(firestore: FirebaseFirestore): TeamsRepository = TeamsRepositoryImpl(firestore)
 
     @Provides
     fun provideMatchesRepository(firestore: FirebaseFirestore): MatchesRepository = MatchesRepositoryImpl(firestore)
 
-    @Provides
-    fun provideTeamsRepository(firestore: FirebaseFirestore): TeamsRepository = TeamsRepositoryImpl(firestore)
 }
