@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentTeamBinding
+import com.sgalera.gaztelubira.domain.model.UIState
 import com.sgalera.gaztelubira.domain.model.players.PlayerModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerPosition.DEFENDER
 import com.sgalera.gaztelubira.domain.model.players.PlayerPosition.FORWARD
@@ -118,9 +119,9 @@ class TeamListFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 teamListViewModel.uiState.collect { uiState ->
                     when (uiState) {
-                        TeamInfoState.Error -> onError()
-                        TeamInfoState.Loading -> {}
-                        TeamInfoState.Success -> onSuccess()
+                        UIState.Error -> onError()
+                        UIState.Loading -> {}
+                        UIState.Success -> onSuccess()
                     }
                 }
             }

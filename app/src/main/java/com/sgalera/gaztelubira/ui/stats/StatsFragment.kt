@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentStatsBinding
 import com.sgalera.gaztelubira.databinding.ItemTableRowBinding
+import com.sgalera.gaztelubira.domain.model.UIState
 import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.ui.stats.StatType.ASSISTS
 import com.sgalera.gaztelubira.ui.stats.StatType.CLEAN_SHEET
@@ -59,8 +60,9 @@ class StatsFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 statsViewModel.uiState.collect { uiState ->
                     when (uiState) {
-                        StatsUiState.Loading -> { onLoading() }
-                        is StatsUiState.Error -> { onError() }
+                        UIState.Loading -> { onLoading() }
+                        is UIState.Error -> { onError() }
+                        UIState.Success -> {}
                     }
                 }
             }

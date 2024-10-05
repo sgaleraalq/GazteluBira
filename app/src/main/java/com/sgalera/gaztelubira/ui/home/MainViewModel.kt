@@ -3,6 +3,10 @@ package com.sgalera.gaztelubira.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.domain.manager.SharedPreferences
+import com.sgalera.gaztelubira.domain.model.UIState
+import com.sgalera.gaztelubira.domain.model.UIState.Error
+import com.sgalera.gaztelubira.domain.model.UIState.Loading
+import com.sgalera.gaztelubira.domain.model.UIState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,26 +19,20 @@ class MainViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ): ViewModel() {
 
-    private val _state = MutableStateFlow<MainState>(MainState.Loading)
+    private val _state = MutableStateFlow<UIState>(Loading)
     val state = _state
 
     fun getCredentials(){
         viewModelScope.launch {
-            _state.value = MainState.Loading
+            _state.value = Loading
             val result = withContext(Dispatchers.IO){
                 sharedPreferences.getCredentials()
             }
             if (result) {
-                _state.value = MainState.Success
+                _state.value = Success
             } else {
-                _state.value = MainState.Error
+                _state.value = Error
             }
         }
     }
-}
-
-sealed class MainState{
-    data object Loading: MainState()
-    data object Error: MainState()
-    data object Success: MainState()
 }

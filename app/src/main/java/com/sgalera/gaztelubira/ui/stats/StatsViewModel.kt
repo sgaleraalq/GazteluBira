@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.domain.manager.PasswordManager
 import com.sgalera.gaztelubira.domain.manager.SharedPreferences
+import com.sgalera.gaztelubira.domain.model.UIState
 import com.sgalera.gaztelubira.domain.model.players.PlayerModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.repository.PlayersRepository
@@ -35,8 +36,8 @@ class StatsViewModel @Inject constructor(
     private val getPlayersStatsUseCase: GetPlayersStatsUseCase,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<StatsUiState>(StatsUiState.Loading)
-    val uiState: StateFlow<StatsUiState> = _uiState
+    private val _uiState = MutableStateFlow<UIState>(UIState.Loading)
+    val uiState: StateFlow<UIState> = _uiState
 
     private val _playersStats = MutableStateFlow<List<PlayerStatsModel?>>(emptyList())
     val playersStats: StateFlow<List<PlayerStatsModel?>> = _playersStats
@@ -46,7 +47,7 @@ class StatsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            _uiState.value = StatsUiState.Loading
+            _uiState.value = UIState.Loading
             sharedPreferences.getCredentials()
 
             val playersListResult = withContext(Dispatchers.IO){
@@ -78,7 +79,7 @@ class StatsViewModel @Inject constructor(
                     playerStat
                 }.sortedByDescending { it?.percentage }
             } else {
-                _uiState.value = StatsUiState.Error
+                _uiState.value = UIState.Error
             }
         }
     }
@@ -114,12 +115,6 @@ class StatsViewModel @Inject constructor(
         _isAdmin.value = false
         sharedPreferences.manageAdminLogIn(false)
     }
-}
-
-
-sealed class StatsUiState {
-    data object Loading : StatsUiState()
-    data object Error : StatsUiState()
 }
 
 enum class StatType {

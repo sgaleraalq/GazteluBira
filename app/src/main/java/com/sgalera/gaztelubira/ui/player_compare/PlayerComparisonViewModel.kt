@@ -1,6 +1,5 @@
 package com.sgalera.gaztelubira.ui.player_compare
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.domain.model.players.PlayerModel
@@ -39,7 +38,6 @@ class PlayerComparisonViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             _playersList.value = playersRepository.playersList.value.filter { it?.position != TECHNICAL_STAFF }.sortedBy { it?.dorsal }
-            Log.i("PlayerComparisonViewModel", "Players: ${playersRepository.playersList.value}")
             if (_playersList.value.isNotEmpty()) {
                 _uiState.value = PlayerComparisonUiState.Success
             }

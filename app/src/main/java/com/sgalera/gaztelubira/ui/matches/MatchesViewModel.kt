@@ -3,11 +3,12 @@ package com.sgalera.gaztelubira.ui.matches
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.domain.manager.SharedPreferences
+import com.sgalera.gaztelubira.domain.model.UIState
+import com.sgalera.gaztelubira.domain.model.UIState.*
 import com.sgalera.gaztelubira.domain.model.matches.MatchModel
 import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 import com.sgalera.gaztelubira.domain.repository.TeamsRepository
 import com.sgalera.gaztelubira.domain.usecases.matches.GetMatchesUseCase
-import com.sgalera.gaztelubira.domain.usecases.matches.GetTeamsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +24,7 @@ class MatchesViewModel @Inject constructor(
     private val getMatchesUseCase: GetMatchesUseCase,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<UIState>(UIState.Loading)
+    private val _uiState = MutableStateFlow<UIState>(Loading)
     val uiState: StateFlow<UIState> = _uiState
 
     private val _matchesList = MutableStateFlow<List<MatchModel>>(emptyList())
@@ -49,7 +50,7 @@ class MatchesViewModel @Inject constructor(
 
     private fun initMatches(teamsList: List<TeamModel?>) {
         viewModelScope.launch {
-            _uiState.value = UIState.Loading
+            _uiState.value = Loading
             val result = withContext(Dispatchers.IO) { getMatchesUseCase(sharedPreferences.credentials.year.toString()) }
             if (result != null) {
                 _matchesList.value = result.map { match ->
@@ -59,11 +60,11 @@ class MatchesViewModel @Inject constructor(
                     match.visitorTeam = awayTeam
                     match
                 }.sortedByDescending { it.id }
-                _uiState.value = UIState.Success
+                _uiState.value = Success
                 _id.value = _matchesList.value.first().id + 1
                 setJourneyLeague()
             } else {
-                _uiState.value = UIState.Error
+                _uiState.value = Error
             }
         }
     }
@@ -75,10 +76,4 @@ class MatchesViewModel @Inject constructor(
     fun checkAdminStatus() {
         _isAdmin.value = sharedPreferences.credentials.isAdmin
     }
-}
-
-sealed class UIState {
-    data object Loading : UIState()
-    data object Success : UIState()
-    data object Error : UIState()
 }

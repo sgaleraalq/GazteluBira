@@ -12,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ActivityMainBinding
+import com.sgalera.gaztelubira.domain.model.UIState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -38,9 +39,9 @@ class MainActivity: AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mainViewModel.state.collect { state ->
                     when (state) {
-                        MainState.Loading -> { onLoading() }
-                        is MainState.Error -> { onStateError() }
-                        is MainState.Success -> { onStateSuccess() }
+                        UIState.Loading -> { onLoading() }
+                        is UIState.Error -> { onStateError() }
+                        is UIState.Success -> { onStateSuccess() }
                     }
                 }
             }
