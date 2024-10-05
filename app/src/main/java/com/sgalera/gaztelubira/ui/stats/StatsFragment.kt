@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
+import com.sgalera.gaztelubira.core.Constants.PLAYER_NO_IMAGE
 import com.sgalera.gaztelubira.databinding.FragmentStatsBinding
 import com.sgalera.gaztelubira.databinding.ItemTableRowBinding
 import com.sgalera.gaztelubira.domain.model.UIState
@@ -176,7 +177,7 @@ class StatsFragment : Fragment() {
         binding.tvChampionGoals.text = player.goals.toString()
         binding.tvChampionAssists.text = player.assists.toString()
         Glide.with(requireContext())
-            .load(player.information?.img ?: R.drawable.ic_profile)
+            .load(player.information?.img ?: PLAYER_NO_IMAGE)
             .into(binding.ivChampion)
     }
 

@@ -189,241 +189,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/viewSeparator2" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <include
             android:id="@+id/clStarters"
+            layout="@layout/item_football_field"
             android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_marginHorizontal="4dp"
-            android:layout_marginTop="16dp"
-            android:visibility="visible"
+            android:layout_height="240dp"
+            android:layout_marginTop="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvStarters">
+            app:layout_constraintTop_toBottomOf="@id/tvStarters" />
 
-            <View
-                android:id="@+id/middlePoint"
-                android:layout_width="0.1dp"
-                android:layout_height="0.1dp"
-                app:layout_constraintBottom_toBottomOf="@id/clStarters"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/clStarters" />
-
-            <ImageView
-                android:id="@+id/ivFootballField"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/description_football_field"
-                android:scaleType="centerCrop"
-                android:src="@drawable/img_football_field"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="parent" />
-
-            <include
-                android:id="@+id/ivGoalKeeper"
-                layout="@layout/starters_dorsal_image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvGoalKeeper"
-                style="@style/text_view_players_football_field"
-                app:layout_constraintEnd_toEndOf="@id/ivGoalKeeper"
-                app:layout_constraintStart_toStartOf="@id/ivGoalKeeper"
-                app:layout_constraintTop_toBottomOf="@id/ivGoalKeeper"
-                tools:text="Whasdfjañsdlf" />
-
-            <include
-                android:id="@+id/ivRightBack"
-                layout="@layout/starters_dorsal_image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                app:layout_constraintBottom_toTopOf="@id/tvRightBack"
-                app:layout_constraintEnd_toEndOf="@id/middlePoint"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/tvRightBack"
-                style="@style/text_view_players_football_field"
-                android:layout_marginBottom="4dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/ivRightBack"
-                app:layout_constraintStart_toStartOf="@id/ivRightBack"
-                tools:text="Whasdfjañsdlf" />
-
-            <include
-                android:id="@+id/ivRightCentreBack"
-                layout="@layout/starters_dorsal_image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginBottom="30dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/ivRightBack"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/middlePoint" />
-
-
-            <TextView
-                android:id="@+id/tvRightCentreBack"
-                style="@style/text_view_players_football_field"
-                app:layout_constraintEnd_toEndOf="@id/ivRightCentreBack"
-                app:layout_constraintStart_toStartOf="@id/ivRightCentreBack"
-                app:layout_constraintTop_toBottomOf="@id/ivRightCentreBack"
-                tools:text="Whasdfjañsdlf" />
-
-            <include
-                android:id="@+id/ivLeftCentreBack"
-                layout="@layout/starters_dorsal_image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                app:layout_constraintBottom_toBottomOf="@id/middlePoint"
-                app:layout_constraintEnd_toEndOf="@id/ivRightCentreBack"
-                app:layout_constraintStart_toStartOf="@id/ivRightCentreBack"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvLeftCentreBack"
-                style="@style/text_view_players_football_field"
-                app:layout_constraintEnd_toEndOf="@id/ivLeftCentreBack"
-                app:layout_constraintStart_toStartOf="@id/ivLeftCentreBack"
-                app:layout_constraintTop_toBottomOf="@id/ivLeftCentreBack"
-                tools:text="añjsfdalsd" />
-
-            <include
-                android:id="@+id/ivLeftBack"
-                layout="@layout/starters_dorsal_image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                app:layout_constraintEnd_toEndOf="@id/ivRightBack"
-                app:layout_constraintStart_toStartOf="@id/ivRightBack"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvLeftBack"
-                style="@style/text_view_players_football_field"
-                app:layout_constraintEnd_toEndOf="@id/ivLeftBack"
-                app:layout_constraintStart_toStartOf="@id/ivLeftBack"
-                app:layout_constraintTop_toBottomOf="@id/ivLeftBack"
-                tools:text="lkañsjdfñalks" />
-
-            <include
-                android:id="@+id/ivDefensiveMidFielder"
-                layout="@layout/starters_dorsal_image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/middlePoint"
-                app:layout_constraintStart_toStartOf="@id/ivRightBack"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvDefensiveMidFielder"
-                style="@style/text_view_players_football_field"
-                app:layout_constraintEnd_toEndOf="@id/ivDefensiveMidFielder"
-                app:layout_constraintStart_toStartOf="@id/ivDefensiveMidFielder"
-                app:layout_constraintTop_toBottomOf="@id/ivDefensiveMidFielder"
-                tools:text="lkñajsdfañlsajf" />
-
-            <include
-                android:id="@+id/ivRightMidFielder"
-                layout="@layout/starters_dorsal_image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="-10dp"
-                app:layout_constraintStart_toStartOf="@id/middlePoint"
-                app:layout_constraintTop_toTopOf="@id/ivRightCentreBack" />
-
-            <TextView
-                android:id="@+id/tvRightMidFielder"
-                style="@style/text_view_players_football_field"
-                app:layout_constraintEnd_toEndOf="@id/ivRightMidFielder"
-                app:layout_constraintStart_toStartOf="@id/ivRightMidFielder"
-                app:layout_constraintTop_toBottomOf="@id/ivRightMidFielder"
-                tools:text="ñalksdfjañfd" />
-
-            <include
-                android:id="@+id/ivLeftMidFielder"
-                layout="@layout/starters_dorsal_image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintEnd_toEndOf="@id/ivRightMidFielder"
-                app:layout_constraintStart_toStartOf="@id/ivRightMidFielder"
-                app:layout_constraintTop_toTopOf="@id/ivLeftCentreBack" />
-
-            <TextView
-                android:id="@+id/tvLeftMidFielder"
-                style="@style/text_view_players_football_field"
-                app:layout_constraintEnd_toEndOf="@id/ivLeftMidFielder"
-                app:layout_constraintStart_toStartOf="@id/ivLeftMidFielder"
-                app:layout_constraintTop_toBottomOf="@id/ivLeftMidFielder"
-                tools:text="alñsjfdafa" />
-
-            <include
-                android:id="@+id/ivRightStriker"
-                layout="@layout/starters_dorsal_image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                app:layout_constraintBottom_toBottomOf="@id/ivRightBack"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/middlePoint" />
-
-            <TextView
-                android:id="@+id/tvRightStriker"
-                style="@style/text_view_players_football_field"
-                app:layout_constraintEnd_toEndOf="@id/ivRightStriker"
-                app:layout_constraintStart_toStartOf="@id/ivRightStriker"
-                app:layout_constraintTop_toBottomOf="@id/ivRightStriker"
-                tools:text="jañlsfdkjads" />
-
-            <include
-                android:id="@+id/ivLeftStriker"
-                layout="@layout/starters_dorsal_image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintStart_toStartOf="@id/ivRightStriker"
-                app:layout_constraintTop_toTopOf="@id/ivLeftBack" />
-
-            <TextView
-                android:id="@+id/tvLeftStriker"
-                style="@style/text_view_players_football_field"
-                app:layout_constraintEnd_toEndOf="@id/ivLeftStriker"
-                app:layout_constraintStart_toStartOf="@id/ivLeftStriker"
-                app:layout_constraintTop_toBottomOf="@id/ivLeftStriker"
-                tools:text="jalñsdfjas" />
-
-            <include
-                android:id="@+id/ivStriker"
-                layout="@layout/starters_dorsal_image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="40dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/ivRightStriker"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvStriker"
-                style="@style/text_view_players_football_field"
-                app:layout_constraintEnd_toEndOf="@id/ivStriker"
-                app:layout_constraintStart_toStartOf="@id/ivStriker"
-                app:layout_constraintTop_toBottomOf="@id/ivStriker"
-                tools:text="ajslñdfkjad" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/tvBench"
@@ -444,8 +219,8 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
-            android:orientation="vertical"
             android:gravity="start"
+            android:orientation="vertical"
             app:layout_constraintEnd_toStartOf="@id/tvSlash"
             app:layout_constraintTop_toBottomOf="@id/tvBench" />
 
@@ -453,8 +228,8 @@
             android:id="@+id/llBench2"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:orientation="vertical"
             android:gravity="start"
+            android:orientation="vertical"
             app:layout_constraintStart_toEndOf="@id/tvSlash"
             app:layout_constraintTop_toTopOf="@id/llBench1" />
 

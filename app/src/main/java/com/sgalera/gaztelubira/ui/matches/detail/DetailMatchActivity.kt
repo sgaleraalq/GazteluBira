@@ -98,17 +98,17 @@ class DetailMatchActivity : AppCompatActivity() {
     private fun initStarters(starters: Map<String, PlayerModel?>) {
         starters.forEach { (position, player) ->
             when (position) {
-                "goal_keeper" -> inflateStarterView(player, binding.ivGoalKeeper, binding.tvGoalKeeper)
-                "left_back" -> inflateStarterView(player, binding.ivLeftBack, binding.tvLeftBack)
-                "right_back" -> inflateStarterView(player, binding.ivRightBack, binding.tvRightBack)
-                "left_centre_back" -> inflateStarterView(player, binding.ivLeftCentreBack, binding.tvLeftCentreBack)
-                "right_centre_back" -> inflateStarterView(player, binding.ivRightCentreBack, binding.tvRightCentreBack)
-                "defensive_mid_fielder" -> inflateStarterView(player, binding.ivDefensiveMidFielder, binding.tvDefensiveMidFielder)
-                "left_mid_fielder" -> inflateStarterView(player, binding.ivLeftMidFielder, binding.tvLeftMidFielder)
-                "right_mid_fielder" -> inflateStarterView(player, binding.ivRightMidFielder, binding.tvRightMidFielder)
-                "left_striker" -> inflateStarterView(player, binding.ivLeftStriker, binding.tvLeftStriker)
-                "right_striker" -> inflateStarterView(player, binding.ivRightStriker, binding.tvRightStriker)
-                "striker" -> inflateStarterView(player, binding.ivStriker, binding.tvStriker)
+                "goal_keeper" -> inflateStarterView(player, binding.clStarters.ivGoalKeeper)
+                "left_back" -> inflateStarterView(player, binding.clStarters.ivLeftBack)
+                "right_back" -> inflateStarterView(player, binding.clStarters.ivRightBack)
+                "left_centre_back" -> inflateStarterView(player, binding.clStarters.ivLeftCentreBack)
+                "right_centre_back" -> inflateStarterView(player, binding.clStarters.ivRightCentreBack)
+                "defensive_mid_fielder" -> inflateStarterView(player, binding.clStarters.ivDefensiveMidFielder)
+                "left_mid_fielder" -> inflateStarterView(player, binding.clStarters.ivLeftMidFielder)
+                "right_mid_fielder" -> inflateStarterView(player, binding.clStarters.ivRightMidFielder)
+                "left_striker" -> inflateStarterView(player, binding.clStarters.ivLeftStriker)
+                "right_striker" -> inflateStarterView(player, binding.clStarters.ivRightStriker)
+                "striker" -> inflateStarterView(player, binding.clStarters.ivStriker)
             }
         }
     }
@@ -132,8 +132,8 @@ class DetailMatchActivity : AppCompatActivity() {
         if (index % 2 == 0) { parent.addView(itemLayout) } else { parent2.addView(itemLayout) }
     }
 
-    private fun inflateStarterView(player: PlayerModel?, ivPlayer: StartersDorsalImageViewBinding, tvPlayer: TextView) {
-        ivPlayer.root.findViewById<TextView>(R.id.dorsalTextView).text = player?.dorsal.toString()
-        tvPlayer.text = player?.name ?: getString(R.string.could_not_retrieve)
+    private fun inflateStarterView(player: PlayerModel?, ivPlayer: StartersDorsalImageViewBinding) {
+        ivPlayer.dorsalTextView.text = player?.dorsal.toString()
+        ivPlayer.tvPlayerName.text = player?.name ?: getString(R.string.could_not_retrieve)
     }
 }

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="280dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/fourthDivider">
+
+    <View
+        android:id="@+id/middlePoint"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivFootball"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/description_football_field"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_football_field"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/ivGoalKeeper"
+        layout="@layout/starters_dorsal_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/ivRightBack"
+        layout="@layout/starters_dorsal_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="46dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/middlePoint"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <include
+        android:id="@+id/ivLeftBack"
+        layout="@layout/starters_dorsal_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/middlePoint"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/ivRightCentreBack"
+        layout="@layout/starters_dorsal_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/ivRightBack"
+        app:layout_constraintEnd_toStartOf="@id/ivRightBack"
+        app:layout_constraintStart_toEndOf="@id/ivGoalKeeper"
+        app:layout_constraintTop_toBottomOf="@id/ivGoalKeeper" />
+
+    <include
+        android:id="@+id/ivLeftCentreBack"
+        layout="@layout/starters_dorsal_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@id/ivGoalKeeper"
+        app:layout_constraintEnd_toStartOf="@id/ivLeftBack"
+        app:layout_constraintStart_toEndOf="@id/ivGoalKeeper"
+        app:layout_constraintTop_toBottomOf="@id/ivLeftBack" />
+
+    <include
+        android:id="@+id/ivDefensiveMidFielder"
+        layout="@layout/starters_dorsal_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/middlePoint"
+        app:layout_constraintStart_toEndOf="@id/ivRightCentreBack"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/ivRightMidFielder"
+        layout="@layout/starters_dorsal_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/middlePoint"
+        app:layout_constraintTop_toBottomOf="@id/ivDefensiveMidFielder" />
+
+    <include
+        android:id="@+id/ivLeftMidFielder"
+        layout="@layout/starters_dorsal_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toTopOf="@id/ivDefensiveMidFielder"
+        app:layout_constraintStart_toStartOf="@id/middlePoint"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/ivRightStriker"
+        layout="@layout/starters_dorsal_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivRightMidFielder" />
+
+    <include
+        android:id="@+id/ivLeftStriker"
+        layout="@layout/starters_dorsal_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivRightMidFielder"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/ivStriker"
+        layout="@layout/starters_dorsal_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivRightStriker"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
