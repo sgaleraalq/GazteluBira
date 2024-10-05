@@ -2,6 +2,7 @@ package com.sgalera.gaztelubira.ui.insert_game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sgalera.gaztelubira.domain.model.matches.MatchStatsModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 import com.sgalera.gaztelubira.domain.repository.PlayersRepository
@@ -18,6 +19,8 @@ class InsertGameViewModel @Inject constructor(
     private val playersRepository: PlayersRepository,
 ) : ViewModel() {
 
+    private val _matchStats = MutableStateFlow<MatchStatsModel?>(null)
+
     private val _expandable = MutableStateFlow<InsertGameExpandable?>(null)
     val expandable: StateFlow<InsertGameExpandable?> = _expandable
 
@@ -31,7 +34,8 @@ class InsertGameViewModel @Inject constructor(
     private val _playersList = MutableStateFlow<List<PlayerStatsModel?>>(emptyList())
 
     fun onExpandableChanged(expandable: InsertGameExpandable) {
-        if (_expandable.value == expandable) _expandable.value = null else _expandable.value = expandable
+        if (_expandable.value == expandable) _expandable.value = null else _expandable.value =
+            expandable
     }
 
     fun onMatchTypeSelected(matchType: MatchType) {
@@ -39,7 +43,8 @@ class InsertGameViewModel @Inject constructor(
     }
 
     fun onMatchLocalSelected(matchLocal: MatchLocal) {
-        if (_matchLocal.value == matchLocal) _matchLocal.value = null else _matchLocal.value = matchLocal
+        if (_matchLocal.value == matchLocal) _matchLocal.value = null else _matchLocal.value =
+            matchLocal
     }
 
     init {
@@ -60,20 +65,31 @@ class InsertGameViewModel @Inject constructor(
             player.let { Pair(it?.information?.name ?: "", it?.information?.img ?: "") }
         }
     }
+
+    fun setLocalVisitor(team: MatchLocal, teamName: String?, teamImg: String?) {
+
+    }
 }
 
-enum class InsertGameExpandable{
+enum class InsertGameExpandable {
     MATCH_TYPE, MATCH_LOCAL, RESULT, STARTERS, BENCH, STATS
 }
 
-enum class MatchType{
+enum class MatchType {
     LEAGUE, CUP
 }
 
-enum class MatchLocal{
+enum class MatchLocal {
     HOME, AWAY
 }
 
+enum class PlayerPositions {
+    GOAL_KEEPER,
+    LEFT_BACK, RIGHT_BACK, LEFT_CENTRE_BACK, RIGHT_CENTRE_BACK,
+    DEFENSIVE_MID_FIELDER, LEFT_MID_FIELDER, RIGHT_MID_FIELDER,
+    LEFT_STRIKER, RIGHT_STRIKER, STRIKER,
+    BENCH
+}
 
 
 //private val _stateTeams = MutableStateFlow<InsertGameState>(InsertGameState.Loading)

@@ -34,6 +34,7 @@ import com.sgalera.gaztelubira.ui.insert_game.MatchLocal.AWAY
 import com.sgalera.gaztelubira.ui.insert_game.MatchLocal.HOME
 import com.sgalera.gaztelubira.ui.insert_game.MatchType.CUP
 import com.sgalera.gaztelubira.ui.insert_game.MatchType.LEAGUE
+import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -174,8 +175,10 @@ class InsertGameActivity : AppCompatActivity() {
         // Starters
         binding.clStarters.ivGoalKeeper.parent.setOnClickListener {
             showDialog(
-                insertGameViewModel.providePlayersList(),
-                getString(R.string.select_goalkeeper)
+                dialogList = insertGameViewModel.providePlayersList(),
+                dialogTitle = getString(R.string.select_goalkeeper),
+                team = null,
+                playerPosition = GOAL_KEEPER
             )
         }
     }
@@ -193,10 +196,14 @@ class InsertGameActivity : AppCompatActivity() {
             childView.visibility =
                 if (childView.visibility == LinearLayout.VISIBLE) LinearLayout.GONE else LinearLayout.VISIBLE
             childView.setBackgroundColor(resources.getColor(R.color.primary, null))
-        } else {
-            childConstraint!!.visibility =
+        } else if (childConstraint != null) {
+            childConstraint.visibility =
                 if (childConstraint.visibility == ConstraintLayout.VISIBLE) ConstraintLayout.GONE else ConstraintLayout.VISIBLE
             childConstraint.setBackgroundColor(resources.getColor(R.color.primary, null))
+        } else if (footballFieldBinding != null) {
+            footballFieldBinding.root.visibility =
+                if (footballFieldBinding.root.visibility == ConstraintLayout.VISIBLE) ConstraintLayout.GONE else ConstraintLayout.VISIBLE
+            footballFieldBinding.root.setBackgroundColor(resources.getColor(R.color.primary, null))
         }
     }
 
@@ -222,8 +229,10 @@ class InsertGameActivity : AppCompatActivity() {
                 binding.tvVisitorTeam.text = resources.getString(R.string.select_team)
                 binding.ivVisitor.setOnClickListener {
                     showDialog(
-                        insertGameViewModel.provideTeamList(),
-                        getString(R.string.select_team)
+                        dialogList = insertGameViewModel.provideTeamList(),
+                        dialogTitle = getString(R.string.select_team),
+                        team = AWAY,
+                        playerPosition = null
                     )
                 }
             }
@@ -235,15 +244,22 @@ class InsertGameActivity : AppCompatActivity() {
                 binding.tvLocalTeam.text = resources.getString(R.string.select_team)
                 binding.ivLocal.setOnClickListener {
                     showDialog(
-                        insertGameViewModel.provideTeamList(),
-                        getString(R.string.select_team)
+                        dialogList = insertGameViewModel.provideTeamList(),
+                        dialogTitle = getString(R.string.select_team),
+                        team = HOME,
+                        playerPosition = null
                     )
                 }
             }
         }
     }
 
-    private fun showDialog(dialogList: List<Pair<String, String>?>, dialogTitle: String) {
+    private fun showDialog(
+        dialogList: List<Pair<String, String>?>,
+        team: MatchLocal?,
+        playerPosition: PlayerPositions?,
+        dialogTitle: String
+    ) {
         val builder = AlertDialog.Builder(this)
         val view = LayoutInflater.from(this).inflate(R.layout.dialog_layout, null)
         with(builder) {
@@ -252,7 +268,20 @@ class InsertGameActivity : AppCompatActivity() {
                 window?.setBackgroundDrawableResource(android.R.color.transparent)
                 show()
                 view.findViewById<TextView>(R.id.tvDialogTitle).text = dialogTitle
-                setDialogGridLayout(view.findViewById(R.id.glDialog), dialogList)
+                setDialogGridLayout(
+                    view = view.findViewById(R.id.glDialog),
+                    dialogList = dialogList,
+                    team = team,
+                    playerPosition = playerPosition,
+                    onTeamSelected = { team, teamName, teamImg ->
+                        setTeam(team, teamName, teamImg)
+                        dismiss()
+                    },
+                    onPlayerSelected = { playerPosition, playerName, playerImg ->
+                        setPlayer(playerPosition, playerName, playerImg)
+                        dismiss()
+                    }
+                )
 
                 if (dialogList.isEmpty()) {
                     Toast.makeText(
@@ -266,14 +295,60 @@ class InsertGameActivity : AppCompatActivity() {
         }
     }
 
-    private fun setDialogGridLayout(view: GridLayout, dialogList: List<Pair<String, String>?>) {
-        dialogList.forEach {
+    private fun setDialogGridLayout(
+        view: GridLayout,
+        dialogList: List<Pair<String, String>?>,
+        team: MatchLocal?,
+        playerPosition: PlayerPositions?,
+        onTeamSelected: (MatchLocal, String?, String?) -> Unit,
+        onPlayerSelected: (PlayerPositions, String?, String?) -> Unit
+    ) {
+        dialogList.forEach { dialogItem ->
             val item = LayoutInflater.from(this).inflate(R.layout.item_dialog, null)
-            item.findViewById<TextView>(R.id.tvDialog).text = it?.first
-            Glide.with(this).load(it?.second).into(item.findViewById(R.id.ivDialog))
+            item.findViewById<TextView>(R.id.tvDialog).text = dialogItem?.first
+            Glide.with(this).load(dialogItem?.second).into(item.findViewById(R.id.ivDialog))
             view.addView(item)
+
+            item.setOnClickListener {
+                if (team != null) {
+                    onTeamSelected(team, dialogItem?.first, dialogItem?.second)
+                } else if (playerPosition != null) {
+                    onPlayerSelected(playerPosition, dialogItem?.first, dialogItem?.second)
+                }
+            }
         }
     }
+
+    private fun setTeam(team: MatchLocal, teamName: String?, teamImg: String?) {
+        insertGameViewModel.setLocalVisitor(team, teamName, teamImg)
+        when (team) {
+            HOME -> {
+                Glide.with(this).load(teamImg).into(binding.ivLocal)
+                binding.tvLocalTeam.text = teamName
+            }
+
+            AWAY -> {
+                Glide.with(this).load(teamImg).into(binding.ivVisitor)
+                binding.tvVisitorTeam.text = teamName
+            }
+        }
+    }
+
+    private fun setPlayer(playerPosition: PlayerPositions, playerName: String?, playerImg: String?) =
+        when (playerPosition) {
+            GOAL_KEEPER -> { binding.clStarters.ivGoalKeeper.tvPlayerName.text = playerName }
+            LEFT_BACK -> {}
+            RIGHT_BACK -> {}
+            LEFT_CENTRE_BACK -> {}
+            RIGHT_CENTRE_BACK -> {}
+            DEFENSIVE_MID_FIELDER -> {}
+            LEFT_MID_FIELDER -> {}
+            RIGHT_MID_FIELDER -> {}
+            LEFT_STRIKER -> {}
+            RIGHT_STRIKER -> {}
+            STRIKER -> {}
+            PlayerPositions.BENCH -> {}
+        }
 
     private fun deselectMatchType() {
         binding.btnLeague.setBackgroundColor(resources.getColor(R.color.grey_selected, null))
