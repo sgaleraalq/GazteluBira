@@ -2,6 +2,7 @@ package com.sgalera.gaztelubira.ui.insert_game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sgalera.gaztelubira.core.Constants.PLAYER_NO_IMAGE
 import com.sgalera.gaztelubira.domain.model.matches.MatchModel
 import com.sgalera.gaztelubira.domain.model.matches.MatchStatsModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
@@ -64,18 +65,25 @@ class InsertGameViewModel @Inject constructor(
     }
 
     fun providePlayersList(): List<Pair<String, String>?> {
-        return _playersList.value.map { player ->
+        return _playersList.value.sortedBy { it?.information?.dorsal }.map { player ->
             player.let { Pair(it?.information?.name ?: "", it?.information?.dorsal.toString()) }
         }
     }
 
-    fun setLocalVisitor(team: MatchLocal, teamName: String?, teamImg: String?) {
+    fun getPlayerImg(playerName: String?): String {
+        return _playersList.value.find { it?.information?.name == playerName }?.information?.img ?: PLAYER_NO_IMAGE
+    }
+
+    fun setLocalVisitor(team: MatchLocal, teamName: String?) {
+        val teamModel = _teamsList.value.find { it?.teamName == teamName }
         when (team){
             HOME -> {
-
+                _match.value.homeTeam = teamModel?.ownReference
+                _matchStats.value.homeTeam = teamModel
             }
             AWAY -> {
-
+                _match.value.awayTeam = teamModel?.ownReference
+                _matchStats.value.awayTeam = teamModel
             }
         }
     }
