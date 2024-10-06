@@ -19,6 +19,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.sgalera.gaztelubira.R
@@ -35,6 +36,7 @@ import com.sgalera.gaztelubira.ui.insert_game.MatchLocal.HOME
 import com.sgalera.gaztelubira.ui.insert_game.MatchType.CUP
 import com.sgalera.gaztelubira.ui.insert_game.MatchType.LEAGUE
 import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.*
+import com.sgalera.gaztelubira.ui.insert_game.adapter.BenchAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -43,6 +45,8 @@ class InsertGameActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityInsertGameBinding
     private val insertGameViewModel by viewModels<InsertGameViewModel>()
+
+    private lateinit var benchAdapter: BenchAdapter
     private var id: Int = 0
     private var journey: Int = 0
 
@@ -71,7 +75,6 @@ class InsertGameActivity : AppCompatActivity() {
     private fun initUI() {
         initExpandable()
         initListeners()
-
     }
 
     private fun initExpandable() {
@@ -113,6 +116,21 @@ class InsertGameActivity : AppCompatActivity() {
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                insertGameViewModel.benchPlayers.collect { benchPlayersList ->
+                    benchAdapter = BenchAdapter(benchPlayersList, onCancelSelected = { playerName ->
+                        insertGameViewModel.onBenchPlayerRemoved(playerName)
+                    })
+                    binding.rvBench.apply {
+                        adapter = benchAdapter
+                        layoutManager = LinearLayoutManager(this@InsertGameActivity, LinearLayoutManager.HORIZONTAL, false)
+                    }
+                }
+            }
+        }
+
     }
 
     private fun initListeners() {
@@ -392,7 +410,14 @@ class InsertGameActivity : AppCompatActivity() {
         playerName: String?,
         playerDorsal: String?
     ) {
-        insertGameViewModel.setPlayerInMatchStats(playerPosition, playerName)
+        val showMaxBenchPlayersError = {
+            Toast.makeText(
+                this,
+                getString(R.string.max_bench_players_error),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        insertGameViewModel.setPlayerInMatchStats(playerPosition, playerName) { showMaxBenchPlayersError() }
         when (playerPosition) {
             GOAL_KEEPER -> {
                 binding.clStarters.ivGoalKeeper.tvPlayerName.text = playerName

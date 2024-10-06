@@ -46,7 +46,6 @@
             app:layout_constraintTop_toBottomOf="@id/ivPlayer"
             tools:text="Madariaga" />
 
-
         <ProgressBar
             android:id="@+id/pbLoadingPlayer"
             android:layout_width="50dp"
@@ -58,5 +57,14 @@
             app:layout_constraintTop_toTopOf="@id/ivPlayer" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/ivCancel"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:visibility="invisible"
+        android:layout_gravity="end"
+        android:padding="6dp"
+        android:src="@drawable/ic_cancel" />
 
 </androidx.cardview.widget.CardView>

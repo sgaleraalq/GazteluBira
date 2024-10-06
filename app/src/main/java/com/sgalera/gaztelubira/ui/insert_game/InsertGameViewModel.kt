@@ -37,6 +37,9 @@ class InsertGameViewModel @Inject constructor(
     private val _matchLocal = MutableStateFlow<MatchLocal?>(null)
     val matchLocal: StateFlow<MatchLocal?> = _matchLocal
 
+    private val _benchPlayers = MutableStateFlow<List<PlayerModel?>>(emptyList())
+    val benchPlayers: StateFlow<List<PlayerModel?>> = _benchPlayers
+
     private val _teamsList = MutableStateFlow<List<TeamModel?>>(emptyList())
     private val _playersList = MutableStateFlow<List<PlayerStatsModel?>>(emptyList())
     private val _playersModelList = MutableStateFlow<List<PlayerModel?>>(emptyList())
@@ -109,7 +112,7 @@ class InsertGameViewModel @Inject constructor(
         )
     }
 
-    fun setPlayerInMatchStats(playerPositions: PlayerPositions, playerName: String?) {
+    fun setPlayerInMatchStats(playerPositions: PlayerPositions, playerName: String?, showMaxBenchPlayersError: () -> Unit) {
         val playerModel = _playersModelList.value.find { it?.name == playerName }
         when (playerPositions) {
             PlayerPositions.GOAL_KEEPER -> {
@@ -157,11 +160,21 @@ class InsertGameViewModel @Inject constructor(
             }
 
             PlayerPositions.BENCH -> {
-                _matchStats.value.bench += playerModel
+                if (_matchStats.value.bench.size < 5) {
+                    _matchStats.value.bench += playerModel
+                    _benchPlayers.value += playerModel
+                } else {
+                    showMaxBenchPlayersError()
+                }
             }
         }
-
         Log.i("InsertGameViewModel", "Starters: ${_matchStats.value.starters}")
+        Log.i("InsertGameViewModel", "Bench: ${_matchStats.value.bench}")
+    }
+
+    fun onBenchPlayerRemoved(playerName: String?){
+        _matchStats.value.bench = _matchStats.value.bench.filter { it?.name != playerName }
+        _benchPlayers.value = _benchPlayers.value.filter { it?.name != playerName }
         Log.i("InsertGameViewModel", "Bench: ${_matchStats.value.bench}")
     }
 }
