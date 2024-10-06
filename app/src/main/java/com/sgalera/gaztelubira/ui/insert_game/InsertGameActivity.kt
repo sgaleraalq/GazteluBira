@@ -34,7 +34,17 @@ import com.sgalera.gaztelubira.ui.insert_game.MatchLocal.AWAY
 import com.sgalera.gaztelubira.ui.insert_game.MatchLocal.HOME
 import com.sgalera.gaztelubira.ui.insert_game.MatchType.CUP
 import com.sgalera.gaztelubira.ui.insert_game.MatchType.LEAGUE
-import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.*
+import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.DEFENSIVE_MID_FIELDER
+import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.GOAL_KEEPER
+import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.LEFT_BACK
+import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.LEFT_CENTRE_BACK
+import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.LEFT_MID_FIELDER
+import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.LEFT_STRIKER
+import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.RIGHT_BACK
+import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.RIGHT_CENTRE_BACK
+import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.RIGHT_MID_FIELDER
+import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.RIGHT_STRIKER
+import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.STRIKER
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -79,17 +89,9 @@ class InsertGameActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 insertGameViewModel.matchType.collect { matchType ->
                     when (matchType) {
-                        LEAGUE -> {
-                            setMatchType(binding.btnLeague)
-                        }
-
-                        CUP -> {
-                            setMatchType(binding.btnCup)
-                        }
-
-                        null -> {
-                            deselectMatchType()
-                        }
+                        LEAGUE -> setMatchType(binding.btnLeague)
+                        CUP -> setMatchType(binding.btnCup)
+                        null -> deselectMatchType()
                     }
                 }
             }
@@ -98,17 +100,9 @@ class InsertGameActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 insertGameViewModel.matchLocal.collect { matchLocal ->
                     when (matchLocal) {
-                        HOME -> {
-                            setMatchType(binding.btnLocal, matchLocal)
-                        }
-
-                        AWAY -> {
-                            setMatchType(binding.btnVisitor, matchLocal)
-                        }
-
-                        null -> {
-                            deselectMatchLocal()
-                        }
+                        HOME -> setMatchType(binding.btnLocal, matchLocal)
+                        AWAY -> setMatchType(binding.btnVisitor, matchLocal)
+                        null -> deselectMatchLocal()
                     }
                 }
             }
@@ -118,33 +112,13 @@ class InsertGameActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 insertGameViewModel.expandable.collect { expandable ->
                     when (expandable) {
-                        MATCH_TYPE -> {
-                            showItem(binding.ivArrowMatchType, binding.llMatchType)
-                        }
-
-                        MATCH_LOCAL -> {
-                            showItem(binding.ivArrowMatchLocal, binding.llMatchLocal)
-                        }
-
-                        RESULT -> {
-                            showItem(binding.ivArrowResult, null, binding.clResult)
-                        }
-
-                        STARTERS -> {
-                            showItem(binding.ivArrowPlayers, null, null, binding.clStarters)
-                        }
-
-                        BENCH -> {
-                            showItem(binding.ivArrowBench, binding.llBench)
-                        }
-
-                        STATS -> {
-                            showItem(binding.ivArrowStats, binding.llStats)
-                        }
-
-                        null -> {
-                            deselectAll()
-                        }
+                        MATCH_TYPE -> showItem(binding.ivArrowMatchType, binding.llMatchType)
+                        MATCH_LOCAL -> showItem(binding.ivArrowMatchLocal, binding.llMatchLocal)
+                        RESULT -> showItem(binding.ivArrowResult, null, binding.clResult)
+                        STARTERS -> showItem(binding.ivArrowPlayers, null, null, binding.clStarters)
+                        BENCH -> showItem(binding.ivArrowBench, binding.llBench)
+                        STATS -> showItem(binding.ivArrowStats, binding.llStats)
+                        null -> deselectAll()
                     }
                 }
             }
@@ -162,11 +136,7 @@ class InsertGameActivity : AppCompatActivity() {
 
         // Expandable buttons
         binding.cvMatchType.setOnClickListener { insertGameViewModel.onExpandableChanged(MATCH_TYPE) }
-        binding.cvMatchLocal.setOnClickListener {
-            insertGameViewModel.onExpandableChanged(
-                MATCH_LOCAL
-            )
-        }
+        binding.cvMatchLocal.setOnClickListener { insertGameViewModel.onExpandableChanged(MATCH_LOCAL) }
         binding.cvResult.setOnClickListener { insertGameViewModel.onExpandableChanged(RESULT) }
         binding.cvStarters.setOnClickListener { insertGameViewModel.onExpandableChanged(STARTERS) }
         binding.cvBench.setOnClickListener { insertGameViewModel.onExpandableChanged(BENCH) }
@@ -174,12 +144,37 @@ class InsertGameActivity : AppCompatActivity() {
 
         // Starters
         binding.clStarters.ivGoalKeeper.parent.setOnClickListener {
-            showDialog(
-                dialogList = insertGameViewModel.providePlayersList(),
-                dialogTitle = getString(R.string.select_goalkeeper),
-                team = null,
-                playerPosition = GOAL_KEEPER
-            )
+            showDialog(insertGameViewModel.providePlayersList(), getString(R.string.select_goalkeeper), null, GOAL_KEEPER)
+        }
+        binding.clStarters.ivLeftBack.parent.setOnClickListener {
+            showDialog(insertGameViewModel.providePlayersList(), getString(R.string.select_left_back), null, LEFT_BACK)
+        }
+        binding.clStarters.ivRightBack.parent.setOnClickListener {
+            showDialog(insertGameViewModel.providePlayersList(), getString(R.string.select_right_back), null, RIGHT_BACK)
+        }
+        binding.clStarters.ivLeftCentreBack.parent.setOnClickListener {
+            showDialog(insertGameViewModel.providePlayersList(), getString(R.string.select_left_centre_back), null, LEFT_CENTRE_BACK)
+        }
+        binding.clStarters.ivRightCentreBack.parent.setOnClickListener {
+            showDialog(insertGameViewModel.providePlayersList(), getString(R.string.select_right_centre_back), null, RIGHT_CENTRE_BACK)
+        }
+        binding.clStarters.ivDefensiveMidFielder.parent.setOnClickListener {
+            showDialog(insertGameViewModel.providePlayersList(), getString(R.string.select_defensive_midfielder), null, DEFENSIVE_MID_FIELDER)
+        }
+        binding.clStarters.ivLeftMidFielder.parent.setOnClickListener {
+            showDialog(insertGameViewModel.providePlayersList(), getString(R.string.select_left_midfielder), null, LEFT_MID_FIELDER)
+        }
+        binding.clStarters.ivRightMidFielder.parent.setOnClickListener {
+            showDialog(insertGameViewModel.providePlayersList(), getString(R.string.select_right_midfielder), null, RIGHT_MID_FIELDER)
+        }
+        binding.clStarters.ivLeftStriker.parent.setOnClickListener {
+            showDialog(insertGameViewModel.providePlayersList(), getString(R.string.select_left_striker), null, LEFT_STRIKER)
+        }
+        binding.clStarters.ivRightStriker.parent.setOnClickListener {
+            showDialog(insertGameViewModel.providePlayersList(), getString(R.string.select_right_striker), null, RIGHT_STRIKER)
+        }
+        binding.clStarters.ivStriker.parent.setOnClickListener {
+            showDialog(insertGameViewModel.providePlayersList(), getString(R.string.select_striker), null, STRIKER)
         }
     }
 
@@ -256,9 +251,9 @@ class InsertGameActivity : AppCompatActivity() {
 
     private fun showDialog(
         dialogList: List<Pair<String, String>?>,
+        dialogTitle: String,
         team: MatchLocal?,
-        playerPosition: PlayerPositions?,
-        dialogTitle: String
+        playerPosition: PlayerPositions?
     ) {
         val builder = AlertDialog.Builder(this)
         val view = LayoutInflater.from(this).inflate(R.layout.dialog_layout, null)
@@ -277,8 +272,8 @@ class InsertGameActivity : AppCompatActivity() {
                         setTeam(team, teamName, teamImg)
                         dismiss()
                     },
-                    onPlayerSelected = { playerPosition, playerName, playerImg ->
-                        setPlayer(playerPosition, playerName, playerImg)
+                    onPlayerSelected = { playerPosition, playerName, playerDorsal ->
+                        setPlayer(playerPosition, playerName, playerDorsal)
                         dismiss()
                     }
                 )
@@ -334,19 +329,52 @@ class InsertGameActivity : AppCompatActivity() {
         }
     }
 
-    private fun setPlayer(playerPosition: PlayerPositions, playerName: String?, playerImg: String?) =
+    private fun setPlayer(playerPosition: PlayerPositions, playerName: String?, playerDorsal: String?) =
         when (playerPosition) {
-            GOAL_KEEPER -> { binding.clStarters.ivGoalKeeper.tvPlayerName.text = playerName }
-            LEFT_BACK -> {}
-            RIGHT_BACK -> {}
-            LEFT_CENTRE_BACK -> {}
-            RIGHT_CENTRE_BACK -> {}
-            DEFENSIVE_MID_FIELDER -> {}
-            LEFT_MID_FIELDER -> {}
-            RIGHT_MID_FIELDER -> {}
-            LEFT_STRIKER -> {}
-            RIGHT_STRIKER -> {}
-            STRIKER -> {}
+            GOAL_KEEPER -> {
+                binding.clStarters.ivGoalKeeper.tvPlayerName.text = playerName
+                binding.clStarters.ivGoalKeeper.dorsalTextView.text = playerDorsal
+            }
+            LEFT_BACK -> {
+                binding.clStarters.ivLeftBack.tvPlayerName.text = playerName
+                binding.clStarters.ivLeftBack.dorsalTextView.text = playerDorsal
+            }
+            RIGHT_BACK -> {
+                binding.clStarters.ivRightBack.tvPlayerName.text = playerName
+                binding.clStarters.ivRightBack.dorsalTextView.text = playerDorsal
+            }
+            LEFT_CENTRE_BACK -> {
+                binding.clStarters.ivLeftCentreBack.tvPlayerName.text = playerName
+                binding.clStarters.ivLeftCentreBack.dorsalTextView.text = playerDorsal
+            }
+            RIGHT_CENTRE_BACK -> {
+                binding.clStarters.ivRightCentreBack.tvPlayerName.text = playerName
+                binding.clStarters.ivRightCentreBack.dorsalTextView.text = playerDorsal
+            }
+            DEFENSIVE_MID_FIELDER -> {
+                binding.clStarters.ivDefensiveMidFielder.tvPlayerName.text = playerName
+                binding.clStarters.ivDefensiveMidFielder.dorsalTextView.text = playerDorsal
+            }
+            LEFT_MID_FIELDER -> {
+                binding.clStarters.ivLeftMidFielder.tvPlayerName.text = playerName
+                binding.clStarters.ivLeftMidFielder.dorsalTextView.text = playerDorsal
+            }
+            RIGHT_MID_FIELDER -> {
+                binding.clStarters.ivRightMidFielder.tvPlayerName.text = playerName
+                binding.clStarters.ivRightMidFielder.dorsalTextView.text = playerDorsal
+            }
+            LEFT_STRIKER -> {
+                binding.clStarters.ivLeftStriker.tvPlayerName.text = playerName
+                binding.clStarters.ivLeftStriker.dorsalTextView.text = playerDorsal
+            }
+            RIGHT_STRIKER -> {
+                binding.clStarters.ivRightStriker.tvPlayerName.text = playerName
+                binding.clStarters.ivRightStriker.dorsalTextView.text = playerDorsal
+            }
+            STRIKER -> {
+                binding.clStarters.ivStriker.tvPlayerName.text = playerName
+                binding.clStarters.ivStriker.dorsalTextView.text = playerDorsal
+            }
             PlayerPositions.BENCH -> {}
         }
 

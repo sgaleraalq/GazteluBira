@@ -118,4 +118,14 @@
     <string name="select_team">Select team</string>
     <string name="description_icon">Icon</string>
     <string name="select_goalkeeper">Select goalkeeper</string>
+    <string name="select_left_back">Select left back</string>
+    <string name="select_right_back">Select right back</string>
+    <string name="select_left_centre_back">Select left centre back</string>
+    <string name="select_right_centre_back">Select right centre back</string>
+    <string name="select_defensive_midfielder">Select defensive midfielder</string>
+    <string name="select_left_midfielder">Select left midfielder</string>
+    <string name="select_right_midfielder">Select right midfielder</string>
+    <string name="select_left_striker">Select left striker</string>
+    <string name="select_right_striker">Select right striker</string>
+    <string name="select_striker">Select striker</string>
 </resources>
