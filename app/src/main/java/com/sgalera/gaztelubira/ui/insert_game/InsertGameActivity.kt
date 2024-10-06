@@ -34,17 +34,7 @@ import com.sgalera.gaztelubira.ui.insert_game.MatchLocal.AWAY
 import com.sgalera.gaztelubira.ui.insert_game.MatchLocal.HOME
 import com.sgalera.gaztelubira.ui.insert_game.MatchType.CUP
 import com.sgalera.gaztelubira.ui.insert_game.MatchType.LEAGUE
-import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.DEFENSIVE_MID_FIELDER
-import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.GOAL_KEEPER
-import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.LEFT_BACK
-import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.LEFT_CENTRE_BACK
-import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.LEFT_MID_FIELDER
-import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.LEFT_STRIKER
-import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.RIGHT_BACK
-import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.RIGHT_CENTRE_BACK
-import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.RIGHT_MID_FIELDER
-import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.RIGHT_STRIKER
-import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.STRIKER
+import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -235,6 +225,16 @@ class InsertGameActivity : AppCompatActivity() {
                 STRIKER
             )
         }
+
+        // Bench
+        binding.btnInsertBenchPlayer.setOnClickListener {
+            showDialog(
+                insertGameViewModel.providePlayersList(),
+                getString(R.string.select_bench_player),
+                null,
+                PlayerPositions.BENCH
+            )
+        }
     }
 
     private fun showItem(
@@ -391,7 +391,8 @@ class InsertGameActivity : AppCompatActivity() {
         playerPosition: PlayerPositions,
         playerName: String?,
         playerDorsal: String?
-    ) =
+    ) {
+        insertGameViewModel.setPlayerInMatchStats(playerPosition, playerName)
         when (playerPosition) {
             GOAL_KEEPER -> {
                 binding.clStarters.ivGoalKeeper.tvPlayerName.text = playerName
@@ -450,6 +451,7 @@ class InsertGameActivity : AppCompatActivity() {
 
             PlayerPositions.BENCH -> {}
         }
+    }
 
     private fun deselectMatchType() {
         binding.btnLeague.setBackgroundColor(resources.getColor(R.color.grey_selected, null))

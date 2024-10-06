@@ -128,4 +128,5 @@
     <string name="select_left_striker">Select left striker</string>
     <string name="select_right_striker">Select right striker</string>
     <string name="select_striker">Select striker</string>
+    <string name="select_bench_player">Select bench player</string>
 </resources>

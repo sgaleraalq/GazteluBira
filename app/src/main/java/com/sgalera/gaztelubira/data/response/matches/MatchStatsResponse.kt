@@ -42,7 +42,7 @@ data class MatchStatsResponse (
             awayGoals = awayGoals,
             scorers = scorers.map { playersRef.find { player -> player?.ownReference == it } },
             assistants = assistants.map { playersRef.find { player -> player?.ownReference == it } },
-            starters = starters.mapValues { playersRef.find { player -> player?.ownReference == it.value } },
+            starters = starters.mapValues { playersRef.find { player -> player?.ownReference == it.value } }.toMutableMap(),
             bench = bench.map { playersRef.find { player -> player?.ownReference == it } }
         )
     }
