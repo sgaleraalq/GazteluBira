@@ -7,6 +7,7 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerModel
 import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 
 data class MatchStatsResponse (
+    val id: Int = 0,
     val match: String = "",
     val journey: Int = 0,
     @get:PropertyName("home_team") @set:PropertyName("home_team") var homeTeamRef: DocumentReference? = null,
@@ -32,6 +33,7 @@ data class MatchStatsResponse (
 ) {
     fun toDomain(playersRef: List<PlayerModel?>, teamsRef: List<TeamModel?>): MatchStatsModel {
         return MatchStatsModel(
+            id = id,
             match = match,
             journey = journey,
             homeTeam = teamsRef.find { it?.ownReference == homeTeamRef },

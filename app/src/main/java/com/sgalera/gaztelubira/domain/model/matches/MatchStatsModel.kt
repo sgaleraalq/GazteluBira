@@ -4,14 +4,15 @@ import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerModel
 
 data class MatchStatsModel(
-    val match: String,
-    val journey: Int,
-    val homeTeam: TeamModel?,
-    val awayTeam: TeamModel?,
-    val homeGoals: Int,
-    val awayGoals: Int,
-    val scorers: List<PlayerModel?>,
-    val assistants: List<PlayerModel?>,
+    val id: Int? = null,
+    val match: String? = null,
+    val journey: Int? = null,
+    val homeTeam: TeamModel? = null,
+    val awayTeam: TeamModel? = null,
+    val homeGoals: Int? = null,
+    val awayGoals: Int? = null,
+    val scorers: List<PlayerModel?> = emptyList(),
+    val assistants: List<PlayerModel?> = emptyList(),
     val starters: Map<String, PlayerModel?> = mapOf(
         "goal_keeper" to null,
         "left_back" to null,

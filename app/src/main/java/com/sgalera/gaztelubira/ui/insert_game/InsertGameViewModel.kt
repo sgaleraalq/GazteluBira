@@ -2,11 +2,13 @@ package com.sgalera.gaztelubira.ui.insert_game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sgalera.gaztelubira.domain.model.matches.MatchModel
 import com.sgalera.gaztelubira.domain.model.matches.MatchStatsModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 import com.sgalera.gaztelubira.domain.repository.PlayersRepository
 import com.sgalera.gaztelubira.domain.repository.TeamsRepository
+import com.sgalera.gaztelubira.ui.insert_game.MatchLocal.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +21,8 @@ class InsertGameViewModel @Inject constructor(
     private val playersRepository: PlayersRepository,
 ) : ViewModel() {
 
-    private val _matchStats = MutableStateFlow<MatchStatsModel?>(null)
+    private val _match = MutableStateFlow(MatchModel())
+    private val _matchStats = MutableStateFlow(MatchStatsModel())
 
     private val _expandable = MutableStateFlow<InsertGameExpandable?>(null)
     val expandable: StateFlow<InsertGameExpandable?> = _expandable
@@ -67,7 +70,14 @@ class InsertGameViewModel @Inject constructor(
     }
 
     fun setLocalVisitor(team: MatchLocal, teamName: String?, teamImg: String?) {
+        when (team){
+            HOME -> {
 
+            }
+            AWAY -> {
+
+            }
+        }
     }
 }
 
