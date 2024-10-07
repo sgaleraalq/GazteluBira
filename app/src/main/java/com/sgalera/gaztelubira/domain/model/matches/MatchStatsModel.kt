@@ -9,8 +9,8 @@ data class MatchStatsModel(
     val journey: Int = -1,
     var homeTeam: TeamModel? = null,
     var awayTeam: TeamModel? = null,
-    val homeGoals: Int = -1,
-    val awayGoals: Int = -1,
+    var homeGoals: Int = -1,
+    var awayGoals: Int = -1,
     val scorers: List<PlayerModel?> = emptyList(),
     val assistants: List<PlayerModel?> = emptyList(),
     val starters: MutableMap<String, PlayerModel?> = mutableMapOf(

@@ -203,22 +203,38 @@ class InsertGameViewModel @Inject constructor(
         Log.i("InsertGameViewModel", "Bench: ${_matchStats.value.bench}")
     }
 
-    fun insertGame(id: Int, journey: Int, onSuccess: () -> Unit, onMissingField: (InsertGameChecks) -> Unit) {
+    fun insertGame(
+        id: Int,
+        journey: Int,
+        homeGoals: String,
+        awayGoals: String,
+        onSuccess: () -> Unit,
+        onMissingField: (InsertGameChecks) -> Unit
+    ) {
         Log.i("InsertGameViewModel", "Match: ${_match.value}")
         Log.i("InsertGameViewModel", "MatchStats: ${_matchStats.value}")
         Log.i("InsertGameViewModel", id.toString())
         Log.i("InsertGameViewModel", journey.toString())
 
-        val matchResult = checkMatchModel{ onMissingField(it) }
-        val matchStatsResult = checkMatchStatsModel{ onMissingField(it) }
+        if (homeGoals.isBlank() || awayGoals.isBlank()) {
+            onMissingField(RESULT)
+            return
+        }
+        _match.value.homeGoals = homeGoals.toInt()
+        _match.value.awayGoals = awayGoals.toInt()
+        _matchStats.value.homeGoals = homeGoals.toInt()
+        _matchStats.value.awayGoals = awayGoals.toInt()
 
+        val matchResult = checkMatchModel { onMissingField(it) }
+        if (!matchResult) return
 
-        if (matchResult && matchStatsResult) {
+        val matchStatsResult = checkMatchStatsModel { onMissingField(it) }
+        if (!matchStatsResult) return
+
 //            viewModelScope.launch {
 //                teamsRepository.insertMatch(id, journey, match, matchStats)
 //                onSuccess()
 //            }
-        }
 
     }
 
@@ -255,7 +271,7 @@ class InsertGameViewModel @Inject constructor(
         } else if (match.starters.values.any { it == null }) {
             onMissingField(STARTERS)
             false
-        } else if (match.bench.any { it == null } ) {
+        } else if (match.bench.any { it == null }) {
             onMissingField(BENCH)
             false
         } else if (gazteluBira == HOME && match.homeGoals < match.scorers.size) {
@@ -267,7 +283,7 @@ class InsertGameViewModel @Inject constructor(
         } else if ((gazteluBira == HOME && match.awayGoals == 0) || (gazteluBira == AWAY && match.homeGoals == 0) && _cleanSheetPlayers.value.isEmpty()) {
             onMissingField(CLEAN_SHEET)
             false
-        } else{
+        } else {
             true
         }
     }

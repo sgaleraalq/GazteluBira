@@ -259,10 +259,14 @@ class InsertGameActivity : AppCompatActivity() {
             )
         }
 
+        // Insert game
         binding.btnInsertGame.setOnClickListener {
+            reDoInsertGame()
             insertGameViewModel.insertGame(
                 id = id,
                 journey = journey,
+                homeGoals = binding.etLocalGoals.text.toString(),
+                awayGoals = binding.etVisitorGoals.text.toString(),
                 onSuccess = { onBackPressedDispatcher.onBackPressed() },
                 onMissingField = { showErrors(it) }
             )
@@ -540,11 +544,23 @@ class InsertGameActivity : AppCompatActivity() {
         binding.llStats.visibility = GONE
     }
 
+    private fun reDoInsertGame(){
+        binding.tvMatchType.setTextColor(resources.getColor(R.color.black, null))
+        binding.tvMatchLocal.setTextColor(resources.getColor(R.color.black, null))
+        binding.tvResult.setTextColor(resources.getColor(R.color.black, null))
+        binding.tvStarters.setTextColor(resources.getColor(R.color.black, null))
+        binding.tvBench.setTextColor(resources.getColor(R.color.black, null))
+        binding.tvStats.setTextColor(resources.getColor(R.color.black, null))
+    }
+
     private fun showErrors(check: InsertGameChecks) {
         Toast.makeText(this, getString(R.string.missing_field_error), Toast.LENGTH_SHORT).show()
         when (check){
             InsertGameChecks.MATCH_TYPE -> { binding.tvMatchType.setTextColor(resources.getColor(R.color.main_red, null)) }
-            InsertGameChecks.MATCH_LOCAL -> { binding.tvMatchLocal.setTextColor(resources.getColor(R.color.main_red, null)) }
+            InsertGameChecks.MATCH_LOCAL -> {
+                binding.tvMatchLocal.setTextColor(resources.getColor(R.color.main_red, null))
+                binding.tvResult.setTextColor(resources.getColor(R.color.main_red, null))
+            }
             InsertGameChecks.RESULT -> { binding.tvResult.setTextColor(resources.getColor(R.color.main_red, null)) }
             InsertGameChecks.STARTERS -> { binding.tvStarters.setTextColor(resources.getColor(R.color.main_red, null)) }
             InsertGameChecks.BENCH -> { binding.tvBench.setTextColor(resources.getColor(R.color.main_red, null)) }
