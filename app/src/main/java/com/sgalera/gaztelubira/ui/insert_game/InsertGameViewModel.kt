@@ -11,6 +11,13 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 import com.sgalera.gaztelubira.domain.repository.PlayersRepository
 import com.sgalera.gaztelubira.domain.repository.TeamsRepository
+import com.sgalera.gaztelubira.ui.insert_game.InsertGameChecks.BENCH
+import com.sgalera.gaztelubira.ui.insert_game.InsertGameChecks.CLEAN_SHEET
+import com.sgalera.gaztelubira.ui.insert_game.InsertGameChecks.GOALS
+import com.sgalera.gaztelubira.ui.insert_game.InsertGameChecks.MATCH_LOCAL
+import com.sgalera.gaztelubira.ui.insert_game.InsertGameChecks.MATCH_TYPE
+import com.sgalera.gaztelubira.ui.insert_game.InsertGameChecks.RESULT
+import com.sgalera.gaztelubira.ui.insert_game.InsertGameChecks.STARTERS
 import com.sgalera.gaztelubira.ui.insert_game.MatchLocal.AWAY
 import com.sgalera.gaztelubira.ui.insert_game.MatchLocal.HOME
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,6 +51,9 @@ class InsertGameViewModel @Inject constructor(
     private val _playersList = MutableStateFlow<List<PlayerStatsModel?>>(emptyList())
     private val _playersModelList = MutableStateFlow<List<PlayerModel?>>(emptyList())
 
+    private val _cleanSheetPlayers = MutableStateFlow<List<PlayerModel?>>(emptyList())
+    private val _penaltiesPlayers = MutableStateFlow<List<PlayerModel?>>(emptyList())
+
     fun onExpandableChanged(expandable: InsertGameExpandable) {
         if (_expandable.value == expandable) _expandable.value = null else _expandable.value =
             expandable
@@ -51,6 +61,17 @@ class InsertGameViewModel @Inject constructor(
 
     fun onMatchTypeSelected(matchType: MatchType) {
         if (_matchType.value == matchType) _matchType.value = null else _matchType.value = matchType
+        when (matchType) {
+            MatchType.LEAGUE -> {
+                _match.value.match = "liga"
+                _matchStats.value.match = "liga"
+            }
+
+            MatchType.CUP -> {
+                _match.value.match = "copa"
+                _matchStats.value.match = "copa"
+            }
+        }
     }
 
     fun onMatchLocalSelected(matchLocal: MatchLocal) {
@@ -112,7 +133,11 @@ class InsertGameViewModel @Inject constructor(
         )
     }
 
-    fun setPlayerInMatchStats(playerPositions: PlayerPositions, playerName: String?, showMaxBenchPlayersError: () -> Unit) {
+    fun setPlayerInMatchStats(
+        playerPositions: PlayerPositions,
+        playerName: String?,
+        showMaxBenchPlayersError: () -> Unit
+    ) {
         val playerModel = _playersModelList.value.find { it?.name == playerName }
         when (playerPositions) {
             PlayerPositions.GOAL_KEEPER -> {
@@ -172,10 +197,79 @@ class InsertGameViewModel @Inject constructor(
         Log.i("InsertGameViewModel", "Bench: ${_matchStats.value.bench}")
     }
 
-    fun onBenchPlayerRemoved(playerName: String?){
+    fun onBenchPlayerRemoved(playerName: String?) {
         _matchStats.value.bench = _matchStats.value.bench.filter { it?.name != playerName }
         _benchPlayers.value = _benchPlayers.value.filter { it?.name != playerName }
         Log.i("InsertGameViewModel", "Bench: ${_matchStats.value.bench}")
+    }
+
+    fun insertGame(id: Int, journey: Int, onSuccess: () -> Unit, onMissingField: (InsertGameChecks) -> Unit) {
+        Log.i("InsertGameViewModel", "Match: ${_match.value}")
+        Log.i("InsertGameViewModel", "MatchStats: ${_matchStats.value}")
+        Log.i("InsertGameViewModel", id.toString())
+        Log.i("InsertGameViewModel", journey.toString())
+
+        val matchResult = checkMatchModel{ onMissingField(it) }
+        val matchStatsResult = checkMatchStatsModel{ onMissingField(it) }
+
+
+        if (matchResult && matchStatsResult) {
+//            viewModelScope.launch {
+//                teamsRepository.insertMatch(id, journey, match, matchStats)
+//                onSuccess()
+//            }
+        }
+
+    }
+
+    private fun checkMatchModel(onMissingField: (InsertGameChecks) -> Unit): Boolean {
+        val match = _match.value
+
+        return if (match.match == null || match.match!!.isBlank()) {
+            onMissingField(MATCH_TYPE) // TODO
+            false
+        } else if (match.homeTeam == null || match.awayTeam == null) {
+            onMissingField(MATCH_LOCAL)
+            false
+        } else if (match.homeGoals == -1 || match.awayGoals == -1) {
+            onMissingField(RESULT)
+            false
+        } else {
+            true
+        }
+    }
+
+    private fun checkMatchStatsModel(onMissingField: (InsertGameChecks) -> Unit): Boolean {
+        val match = _matchStats.value
+        val gazteluBira = if (match.homeTeam?.teamName == "Gaztelu Bira") HOME else AWAY
+
+        return if (match.match == null || match.match!!.isBlank()) {
+            onMissingField(MATCH_TYPE) // TODO
+            false
+        } else if (match.homeTeam == null || match.awayTeam == null) {
+            onMissingField(MATCH_LOCAL)
+            false
+        } else if (match.homeGoals == -1 || match.awayGoals == -1) {
+            onMissingField(RESULT)
+            false
+        } else if (match.starters.values.any { it == null }) {
+            onMissingField(STARTERS)
+            false
+        } else if (match.bench.any { it == null } ) {
+            onMissingField(BENCH)
+            false
+        } else if (gazteluBira == HOME && match.homeGoals < match.scorers.size) {
+            onMissingField(GOALS)
+            false
+        } else if (gazteluBira == AWAY && match.awayGoals < match.scorers.size) {
+            onMissingField(GOALS)
+            false
+        } else if ((gazteluBira == HOME && match.awayGoals == 0) || (gazteluBira == AWAY && match.homeGoals == 0) && _cleanSheetPlayers.value.isEmpty()) {
+            onMissingField(CLEAN_SHEET)
+            false
+        } else{
+            true
+        }
     }
 }
 
@@ -197,4 +291,8 @@ enum class PlayerPositions {
     DEFENSIVE_MID_FIELDER, LEFT_MID_FIELDER, RIGHT_MID_FIELDER,
     LEFT_STRIKER, RIGHT_STRIKER, STRIKER,
     BENCH
+}
+
+enum class InsertGameChecks {
+    MATCH_TYPE, MATCH_LOCAL, RESULT, STARTERS, BENCH, GOALS, CLEAN_SHEET
 }

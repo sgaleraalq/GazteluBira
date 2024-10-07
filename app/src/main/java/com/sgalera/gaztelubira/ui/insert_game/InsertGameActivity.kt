@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
+import android.view.ViewGroup
 import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -125,7 +126,11 @@ class InsertGameActivity : AppCompatActivity() {
                     })
                     binding.rvBench.apply {
                         adapter = benchAdapter
-                        layoutManager = LinearLayoutManager(this@InsertGameActivity, LinearLayoutManager.HORIZONTAL, false)
+                        layoutManager = LinearLayoutManager(
+                            this@InsertGameActivity,
+                            LinearLayoutManager.HORIZONTAL,
+                            false
+                        )
                     }
                 }
             }
@@ -253,6 +258,15 @@ class InsertGameActivity : AppCompatActivity() {
                 PlayerPositions.BENCH
             )
         }
+
+        binding.btnInsertGame.setOnClickListener {
+            insertGameViewModel.insertGame(
+                id = id,
+                journey = journey,
+                onSuccess = { onBackPressedDispatcher.onBackPressed() },
+                onMissingField = { showErrors(it) }
+            )
+        }
     }
 
     private fun showItem(
@@ -333,7 +347,12 @@ class InsertGameActivity : AppCompatActivity() {
         playerPosition: PlayerPositions?
     ) {
         val builder = AlertDialog.Builder(this)
-        val view = LayoutInflater.from(this).inflate(R.layout.dialog_layout, null)
+        val view = LayoutInflater.from(this).inflate(
+            R.layout.dialog_layout,
+            builder.create().window?.decorView as? ViewGroup,
+            false
+        )
+
         with(builder) {
             setView(view)
             create().apply {
@@ -376,15 +395,27 @@ class InsertGameActivity : AppCompatActivity() {
         onPlayerSelected: (PlayerPositions, String?, String?) -> Unit
     ) {
         dialogList.forEach { dialogItem ->
-            val item = LayoutInflater.from(this).inflate(R.layout.item_dialog, null)
+            val item = layoutInflater.inflate(R.layout.item_dialog, view, false) as View
             item.findViewById<TextView>(R.id.tvDialog).text = dialogItem?.first
             if (team != null) {
                 Glide.with(this).load(dialogItem?.second).into(item.findViewById(R.id.ivDialog))
-                item.setOnClickListener { onTeamSelected(team, dialogItem?.first, dialogItem?.second) }
+                item.setOnClickListener {
+                    onTeamSelected(
+                        team,
+                        dialogItem?.first,
+                        dialogItem?.second
+                    )
+                }
             } else if (playerPosition != null) {
                 Glide.with(this).load(insertGameViewModel.getPlayerImg(dialogItem?.first))
                     .into(item.findViewById(R.id.ivDialog))
-                item.setOnClickListener { onPlayerSelected(playerPosition, dialogItem?.first, dialogItem?.second) }
+                item.setOnClickListener {
+                    onPlayerSelected(
+                        playerPosition,
+                        dialogItem?.first,
+                        dialogItem?.second
+                    )
+                }
             }
             view.addView(item)
         }
@@ -417,7 +448,10 @@ class InsertGameActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
         }
-        insertGameViewModel.setPlayerInMatchStats(playerPosition, playerName) { showMaxBenchPlayersError() }
+        insertGameViewModel.setPlayerInMatchStats(
+            playerPosition,
+            playerName
+        ) { showMaxBenchPlayersError() }
         when (playerPosition) {
             GOAL_KEEPER -> {
                 binding.clStarters.ivGoalKeeper.tvPlayerName.text = playerName
@@ -504,5 +538,18 @@ class InsertGameActivity : AppCompatActivity() {
         binding.clStarters.parent.visibility = GONE
         binding.llBench.visibility = GONE
         binding.llStats.visibility = GONE
+    }
+
+    private fun showErrors(check: InsertGameChecks) {
+        Toast.makeText(this, getString(R.string.missing_field_error), Toast.LENGTH_SHORT).show()
+        when (check){
+            InsertGameChecks.MATCH_TYPE -> { binding.tvMatchType.setTextColor(resources.getColor(R.color.main_red, null)) }
+            InsertGameChecks.MATCH_LOCAL -> { binding.tvMatchLocal.setTextColor(resources.getColor(R.color.main_red, null)) }
+            InsertGameChecks.RESULT -> { binding.tvResult.setTextColor(resources.getColor(R.color.main_red, null)) }
+            InsertGameChecks.STARTERS -> { binding.tvStarters.setTextColor(resources.getColor(R.color.main_red, null)) }
+            InsertGameChecks.BENCH -> { binding.tvBench.setTextColor(resources.getColor(R.color.main_red, null)) }
+            InsertGameChecks.GOALS -> { binding.tvStats.setTextColor(resources.getColor(R.color.main_red, null)) }
+            InsertGameChecks.CLEAN_SHEET -> { binding.tvStats.setTextColor(resources.getColor(R.color.main_red, null)) }
+        }
     }
 }

@@ -5,7 +5,7 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerModel
 
 data class MatchStatsModel(
     val id: Int = 0,
-    val match: String? = null,
+    var match: String? = null,
     val journey: Int = -1,
     var homeTeam: TeamModel? = null,
     var awayTeam: TeamModel? = null,

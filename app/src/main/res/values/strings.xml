@@ -130,4 +130,5 @@
     <string name="select_striker">Select striker</string>
     <string name="select_bench_player">Select bench player</string>
     <string name="max_bench_players_error">Max bench players already added</string>
+    <string name="missing_field_error">You are missing a field</string>
 </resources>
