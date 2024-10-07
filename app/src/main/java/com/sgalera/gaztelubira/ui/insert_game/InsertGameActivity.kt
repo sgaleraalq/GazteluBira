@@ -38,8 +38,11 @@ import com.sgalera.gaztelubira.ui.insert_game.MatchLocal.HOME
 import com.sgalera.gaztelubira.ui.insert_game.MatchType.CUP
 import com.sgalera.gaztelubira.ui.insert_game.MatchType.LEAGUE
 import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.*
+import com.sgalera.gaztelubira.ui.insert_game.adapter.AssistsAdapter
 import com.sgalera.gaztelubira.ui.insert_game.adapter.BenchAdapter
-import com.sgalera.gaztelubira.ui.matches.adapter.ScorersAdapter
+import com.sgalera.gaztelubira.ui.insert_game.adapter.CleanSheetAdapter
+import com.sgalera.gaztelubira.ui.insert_game.adapter.PenaltiesAdapter
+import com.sgalera.gaztelubira.ui.insert_game.adapter.ScorersAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -51,6 +54,9 @@ class InsertGameActivity : AppCompatActivity() {
 
     private lateinit var benchAdapter: BenchAdapter
     private lateinit var scorersAdapters: ScorersAdapter
+    private lateinit var assistantsAdapter: AssistsAdapter
+    private lateinit var cleanSheetAdapter: CleanSheetAdapter
+    private lateinit var penaltiesAdapter: PenaltiesAdapter
 
     private var id: Int = 0
     private var journey: Int = 0
@@ -151,6 +157,51 @@ class InsertGameActivity : AppCompatActivity() {
                         adapter = scorersAdapters
                         layoutManager =
                             LinearLayoutManager(this@InsertGameActivity, VERTICAL, false)
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                insertGameViewModel.assistants.collect { assistants ->
+                    assistantsAdapter = AssistsAdapter(
+                        assistants,
+                        onPlayerSelected = { insertGameViewModel.onAssistantsRemoved(it) }
+                    )
+                    binding.rvAssists.apply {
+                        adapter = assistantsAdapter
+                        layoutManager = LinearLayoutManager(this@InsertGameActivity, VERTICAL, false)
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                insertGameViewModel.cleanSheetPlayers.collect { cleanSheetList ->
+                    cleanSheetAdapter = CleanSheetAdapter(
+                        cleanSheetList,
+                        onPlayerSelected = { insertGameViewModel.onCleanSheetPlayerRemoved(it) }
+                    )
+                    binding.rvCleanSheet.apply {
+                        adapter = cleanSheetAdapter
+                        layoutManager = LinearLayoutManager(this@InsertGameActivity, VERTICAL, false)
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                insertGameViewModel.penaltiesPlayers.collect { penaltiesPlayers ->
+                    penaltiesAdapter = PenaltiesAdapter(
+                        penaltiesPlayers,
+                        onPlayerSelected = { insertGameViewModel.onPenaltiesPlayerRemoved(it) }
+                    )
+                    binding.rvPenalties.apply {
+                        adapter = penaltiesAdapter
+                        layoutManager = LinearLayoutManager(this@InsertGameActivity, VERTICAL, false)
                     }
                 }
             }
@@ -287,6 +338,36 @@ class InsertGameActivity : AppCompatActivity() {
                 null,
                 null,
                 MatchStats.SCORERS
+            )
+        }
+
+        binding.btnInsertAssist.setOnClickListener {
+            showDialog(
+                insertGameViewModel.providePlayersList(),
+                getString(R.string.select_assistant),
+                null,
+                null,
+                MatchStats.ASSISTS
+            )
+        }
+
+        binding.btnInsertCleanSheet.setOnClickListener {
+            showDialog(
+                insertGameViewModel.providePlayersList(),
+                getString(R.string.select_clean_sheet),
+                null,
+                null,
+                MatchStats.CLEAN_SHEET
+            )
+        }
+
+        binding.btnInsertPenalty.setOnClickListener {
+            showDialog(
+                insertGameViewModel.providePlayersList(),
+                getString(R.string.select_penalty),
+                null,
+                null,
+                MatchStats.PENALTIES
             )
         }
 

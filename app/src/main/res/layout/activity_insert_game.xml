@@ -561,6 +561,7 @@
                         android:layout_height="50dp"
                         android:layout_gravity="center"
                         android:contentDescription="@string/description_goal_icon"
+                        android:padding="8dp"
                         android:src="@drawable/ic_football_goal" />
 
                     <TextView
@@ -602,7 +603,7 @@
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="@color/white"/>
+                    android:background="@color/white" />
 
                 <LinearLayout
                     android:id="@+id/llAssists"
@@ -616,6 +617,7 @@
                         android:layout_height="50dp"
                         android:layout_gravity="center"
                         android:contentDescription="@string/description_assist_icon"
+                        android:padding="8dp"
                         android:src="@drawable/ic_football_shoe"
                         app:tint="@color/white" />
 
@@ -628,16 +630,37 @@
                         android:textSize="12sp" />
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvAssists"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cvInsertAssist"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="8dp"
+                        app:cardBackgroundColor="@color/primary_soft"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="12dp">
+
+                        <ImageView
+                            android:id="@+id/btnInsertAssist"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="@string/description_icon_plus"
+                            android:padding="12dp"
+                            android:src="@drawable/ic_plus"
+                            app:tint="@color/white" />
+
+                    </androidx.cardview.widget.CardView>
 
                 </LinearLayout>
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="@color/white"/>
+                    android:background="@color/white" />
 
                 <LinearLayout
                     android:id="@+id/llCleanSheet"
@@ -651,6 +674,7 @@
                         android:layout_height="50dp"
                         android:layout_gravity="center"
                         android:contentDescription="@string/description_clean_sheet_icon"
+                        android:padding="8dp"
                         android:src="@drawable/ic_clean_sheet" />
 
                     <TextView
@@ -662,9 +686,86 @@
                         android:textSize="12sp" />
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvCleanSheet"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cvInsertCleanSheet"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="8dp"
+                        app:cardBackgroundColor="@color/primary_soft"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="12dp">
+
+                        <ImageView
+                            android:id="@+id/btnInsertCleanSheet"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="@string/description_icon_plus"
+                            android:padding="12dp"
+                            android:src="@drawable/ic_plus"
+                            app:tint="@color/white" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/white" />
+
+                <LinearLayout
+                    android:id="@+id/llPenalties"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/description_clean_sheet_icon"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_penalty" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/penalties"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvPenalties"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cvPenalties"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="8dp"
+                        app:cardBackgroundColor="@color/primary_soft"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="12dp">
+
+                        <ImageView
+                            android:id="@+id/btnInsertPenalty"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="@string/description_icon_plus"
+                            android:padding="12dp"
+                            android:src="@drawable/ic_plus"
+                            app:tint="@color/white" />
+
+                    </androidx.cardview.widget.CardView>
 
                 </LinearLayout>
 

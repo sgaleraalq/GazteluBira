@@ -1,4 +1,4 @@
-package com.sgalera.gaztelubira.ui.matches.adapter
+package com.sgalera.gaztelubira.ui.insert_game.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

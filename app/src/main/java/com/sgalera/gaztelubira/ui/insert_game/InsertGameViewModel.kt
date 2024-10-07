@@ -54,8 +54,14 @@ class InsertGameViewModel @Inject constructor(
     private val _scorers = MutableStateFlow<List<PlayerModel?>>(emptyList())
     val scorers: StateFlow<List<PlayerModel?>> = _scorers
 
+    private val _assistants = MutableStateFlow<List<PlayerModel?>>(emptyList())
+    val assistants: StateFlow<List<PlayerModel?>> = _assistants
+
     private val _cleanSheetPlayers = MutableStateFlow<List<PlayerModel?>>(emptyList())
+    val cleanSheetPlayers: StateFlow<List<PlayerModel?>> = _cleanSheetPlayers
+
     private val _penaltiesPlayers = MutableStateFlow<List<PlayerModel?>>(emptyList())
+    val penaltiesPlayers: StateFlow<List<PlayerModel?>> = _penaltiesPlayers
 
     fun onExpandableChanged(expandable: InsertGameExpandable) {
         if (_expandable.value == expandable) _expandable.value = null else _expandable.value =
@@ -203,24 +209,11 @@ class InsertGameViewModel @Inject constructor(
     fun setStat(matchStat: MatchStats?, playerName: String?) {
         val playerModel = _playersModelList.value.find { it?.name == playerName }
         when (matchStat){
-            MatchStats.SCORERS -> {
-                setScorer(playerModel)
-            }
-            MatchStats.ASSISTS -> {}
-            MatchStats.CLEAN_SHEET -> {}
-            MatchStats.PENALTIES -> {}
+            MatchStats.SCORERS -> _scorers.value += playerModel
+            MatchStats.ASSISTS -> _assistants.value += playerModel
+            MatchStats.CLEAN_SHEET -> _cleanSheetPlayers.value += playerModel
+            MatchStats.PENALTIES -> _penaltiesPlayers.value += playerModel
             null -> {}
-        }
-    }
-
-    private fun setScorer(playerModel: PlayerModel?) {
-        val gazteluBira = if (_matchStats.value.homeTeam?.teamName == "Gaztelu Bira") HOME else AWAY
-        if (gazteluBira == HOME && _matchStats.value.scorers.size < _matchStats.value.homeGoals) {
-            _scorers.value += playerModel
-        } else if (gazteluBira == AWAY && _matchStats.value.scorers.size < _matchStats.value.awayGoals) {
-            _scorers.value += playerModel
-        } else{
-            Log.i("InsertGameViewModel", "Scorer: ${_matchStats.value.scorers.size} - Goals: ${_matchStats.value.homeGoals}")
         }
     }
 
@@ -232,6 +225,18 @@ class InsertGameViewModel @Inject constructor(
 
     fun onScorerRemoved(playerName: String) {
         _scorers.value = _scorers.value.filter { it?.name != playerName }
+    }
+
+    fun onAssistantsRemoved(playerName: String) {
+        _assistants.value = _assistants.value.filter { it?.name != playerName }
+    }
+
+    fun onCleanSheetPlayerRemoved(playerName: String) {
+        _cleanSheetPlayers.value = _cleanSheetPlayers.value.filter { it?.name != playerName }
+    }
+
+    fun onPenaltiesPlayerRemoved(playerName: String) {
+        _penaltiesPlayers.value = _penaltiesPlayers.value.filter { it?.name != playerName }
     }
 
     fun insertGame(
@@ -287,6 +292,7 @@ class InsertGameViewModel @Inject constructor(
     }
 
     private fun checkMatchStatsModel(onMissingField: (InsertGameChecks) -> Unit): Boolean {
+        // TODO check if there are more scorers than goals
         val match = _matchStats.value
         val gazteluBira = if (match.homeTeam?.teamName == "Gaztelu Bira") HOME else AWAY
 
