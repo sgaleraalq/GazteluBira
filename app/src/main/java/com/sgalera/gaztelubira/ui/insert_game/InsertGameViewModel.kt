@@ -51,6 +51,9 @@ class InsertGameViewModel @Inject constructor(
     private val _playersList = MutableStateFlow<List<PlayerStatsModel?>>(emptyList())
     private val _playersModelList = MutableStateFlow<List<PlayerModel?>>(emptyList())
 
+    private val _scorers = MutableStateFlow<List<PlayerModel?>>(emptyList())
+    val scorers: StateFlow<List<PlayerModel?>> = _scorers
+
     private val _cleanSheetPlayers = MutableStateFlow<List<PlayerModel?>>(emptyList())
     private val _penaltiesPlayers = MutableStateFlow<List<PlayerModel?>>(emptyList())
 
@@ -185,7 +188,7 @@ class InsertGameViewModel @Inject constructor(
             }
 
             PlayerPositions.BENCH -> {
-                if (_matchStats.value.bench.size < 5) {
+                if (_matchStats.value.bench.size < 6) {
                     _matchStats.value.bench += playerModel
                     _benchPlayers.value += playerModel
                 } else {
@@ -197,10 +200,38 @@ class InsertGameViewModel @Inject constructor(
         Log.i("InsertGameViewModel", "Bench: ${_matchStats.value.bench}")
     }
 
+    fun setStat(matchStat: MatchStats?, playerName: String?) {
+        val playerModel = _playersModelList.value.find { it?.name == playerName }
+        when (matchStat){
+            MatchStats.SCORERS -> {
+                setScorer(playerModel)
+            }
+            MatchStats.ASSISTS -> {}
+            MatchStats.CLEAN_SHEET -> {}
+            MatchStats.PENALTIES -> {}
+            null -> {}
+        }
+    }
+
+    private fun setScorer(playerModel: PlayerModel?) {
+        val gazteluBira = if (_matchStats.value.homeTeam?.teamName == "Gaztelu Bira") HOME else AWAY
+        if (gazteluBira == HOME && _matchStats.value.scorers.size < _matchStats.value.homeGoals) {
+            _scorers.value += playerModel
+        } else if (gazteluBira == AWAY && _matchStats.value.scorers.size < _matchStats.value.awayGoals) {
+            _scorers.value += playerModel
+        } else{
+            Log.i("InsertGameViewModel", "Scorer: ${_matchStats.value.scorers.size} - Goals: ${_matchStats.value.homeGoals}")
+        }
+    }
+
     fun onBenchPlayerRemoved(playerName: String?) {
         _matchStats.value.bench = _matchStats.value.bench.filter { it?.name != playerName }
         _benchPlayers.value = _benchPlayers.value.filter { it?.name != playerName }
         Log.i("InsertGameViewModel", "Bench: ${_matchStats.value.bench}")
+    }
+
+    fun onScorerRemoved(playerName: String) {
+        _scorers.value = _scorers.value.filter { it?.name != playerName }
     }
 
     fun insertGame(
@@ -242,7 +273,7 @@ class InsertGameViewModel @Inject constructor(
         val match = _match.value
 
         return if (match.match == null || match.match!!.isBlank()) {
-            onMissingField(MATCH_TYPE) // TODO
+            onMissingField(MATCH_TYPE)
             false
         } else if (match.homeTeam == null || match.awayTeam == null) {
             onMissingField(MATCH_LOCAL)
@@ -260,7 +291,7 @@ class InsertGameViewModel @Inject constructor(
         val gazteluBira = if (match.homeTeam?.teamName == "Gaztelu Bira") HOME else AWAY
 
         return if (match.match == null || match.match!!.isBlank()) {
-            onMissingField(MATCH_TYPE) // TODO
+            onMissingField(MATCH_TYPE)
             false
         } else if (match.homeTeam == null || match.awayTeam == null) {
             onMissingField(MATCH_LOCAL)
@@ -278,6 +309,7 @@ class InsertGameViewModel @Inject constructor(
             onMissingField(GOALS)
             false
         } else if (gazteluBira == AWAY && match.awayGoals < match.scorers.size) {
+            Log.i("InsertGameViewModel", "Away: ${match.awayGoals} - Scorer: ${match.scorers.size}")
             onMissingField(GOALS)
             false
         } else if ((gazteluBira == HOME && match.awayGoals == 0) || (gazteluBira == AWAY && match.homeGoals == 0) && _cleanSheetPlayers.value.isEmpty()) {
@@ -309,6 +341,11 @@ enum class PlayerPositions {
     BENCH
 }
 
+enum class MatchStats {
+    SCORERS, ASSISTS, CLEAN_SHEET, PENALTIES
+}
+
 enum class InsertGameChecks {
     MATCH_TYPE, MATCH_LOCAL, RESULT, STARTERS, BENCH, GOALS, CLEAN_SHEET
 }
+

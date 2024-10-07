@@ -293,9 +293,9 @@
                     android:id="@+id/tvLocalTeam"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toEndOf="@id/ivLocal"
                     app:layout_constraintStart_toStartOf="@id/ivLocal"
                     app:layout_constraintTop_toBottomOf="@id/ivLocal"
@@ -333,9 +333,9 @@
                     android:id="@+id/tvVisitorTeam"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toEndOf="@id/ivVisitor"
                     app:layout_constraintStart_toStartOf="@id/ivVisitor"
                     app:layout_constraintTop_toBottomOf="@id/ivVisitor"
@@ -572,13 +572,37 @@
                         android:textSize="12sp" />
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvScorers"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@color/main_red"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical" />
 
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cvInsertGoal"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="8dp"
+                        app:cardBackgroundColor="@color/primary_soft"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="12dp">
+
+                        <ImageView
+                            android:id="@+id/btnInsertGoal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="@string/description_icon_plus"
+                            android:padding="12dp"
+                            android:src="@drawable/ic_plus"
+                            app:tint="@color/white" />
+
+                    </androidx.cardview.widget.CardView>
+
                 </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"/>
 
                 <LinearLayout
                     android:id="@+id/llAssists"
@@ -605,12 +629,15 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@color/indian_red"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical" />
 
                 </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"/>
 
                 <LinearLayout
                     android:id="@+id/llCleanSheet"
@@ -636,9 +663,7 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@color/teal_200"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical" />
 
                 </LinearLayout>

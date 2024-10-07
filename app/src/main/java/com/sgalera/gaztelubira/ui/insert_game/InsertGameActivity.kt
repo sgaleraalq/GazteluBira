@@ -21,6 +21,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager.*
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.sgalera.gaztelubira.R
@@ -38,6 +39,7 @@ import com.sgalera.gaztelubira.ui.insert_game.MatchType.CUP
 import com.sgalera.gaztelubira.ui.insert_game.MatchType.LEAGUE
 import com.sgalera.gaztelubira.ui.insert_game.PlayerPositions.*
 import com.sgalera.gaztelubira.ui.insert_game.adapter.BenchAdapter
+import com.sgalera.gaztelubira.ui.matches.adapter.ScorersAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -48,6 +50,8 @@ class InsertGameActivity : AppCompatActivity() {
     private val insertGameViewModel by viewModels<InsertGameViewModel>()
 
     private lateinit var benchAdapter: BenchAdapter
+    private lateinit var scorersAdapters: ScorersAdapter
+
     private var id: Int = 0
     private var journey: Int = 0
 
@@ -128,9 +132,25 @@ class InsertGameActivity : AppCompatActivity() {
                         adapter = benchAdapter
                         layoutManager = LinearLayoutManager(
                             this@InsertGameActivity,
-                            LinearLayoutManager.HORIZONTAL,
+                            HORIZONTAL,
                             false
                         )
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                insertGameViewModel.scorers.collect { scorersList ->
+                    scorersAdapters = ScorersAdapter(
+                        scorersList,
+                        onPlayerSelected = { insertGameViewModel.onScorerRemoved(it) }
+                    )
+                    binding.rvScorers.apply {
+                        adapter = scorersAdapters
+                        layoutManager =
+                            LinearLayoutManager(this@InsertGameActivity, VERTICAL, false)
                     }
                 }
             }
@@ -259,6 +279,17 @@ class InsertGameActivity : AppCompatActivity() {
             )
         }
 
+        // Stats
+        binding.btnInsertGoal.setOnClickListener {
+            showDialog(
+                insertGameViewModel.providePlayersList(),
+                getString(R.string.select_scorer),
+                null,
+                null,
+                MatchStats.SCORERS
+            )
+        }
+
         // Insert game
         binding.btnInsertGame.setOnClickListener {
             reDoInsertGame()
@@ -348,7 +379,8 @@ class InsertGameActivity : AppCompatActivity() {
         dialogList: List<Pair<String, String>?>,
         dialogTitle: String,
         team: MatchLocal?,
-        playerPosition: PlayerPositions?
+        playerPosition: PlayerPositions?,
+        matchStat: MatchStats? = null
     ) {
         val builder = AlertDialog.Builder(this)
         val view = LayoutInflater.from(this).inflate(
@@ -368,12 +400,17 @@ class InsertGameActivity : AppCompatActivity() {
                     dialogList = dialogList,
                     team = team,
                     playerPosition = playerPosition,
+                    matchStat = matchStat,
                     onTeamSelected = { team, teamName, teamImg ->
                         setTeam(team, teamName, teamImg)
                         dismiss()
                     },
                     onPlayerSelected = { playerPosition, playerName, playerDorsal ->
                         setPlayer(playerPosition, playerName, playerDorsal)
+                        dismiss()
+                    },
+                    onStatSelected = { matchStat, playerName ->
+                        insertGameViewModel.setStat(matchStat, playerName)
                         dismiss()
                     }
                 )
@@ -395,8 +432,10 @@ class InsertGameActivity : AppCompatActivity() {
         dialogList: List<Pair<String, String>?>,
         team: MatchLocal?,
         playerPosition: PlayerPositions?,
+        matchStat: MatchStats?,
         onTeamSelected: (MatchLocal, String?, String?) -> Unit,
-        onPlayerSelected: (PlayerPositions, String?, String?) -> Unit
+        onPlayerSelected: (PlayerPositions, String?, String?) -> Unit,
+        onStatSelected: (MatchStats?, String?) -> Unit = { _, _ -> }
     ) {
         dialogList.forEach { dialogItem ->
             val item = layoutInflater.inflate(R.layout.item_dialog, view, false) as View
@@ -420,6 +459,10 @@ class InsertGameActivity : AppCompatActivity() {
                         dialogItem?.second
                     )
                 }
+            } else if (matchStat != null){
+                Glide.with(this).load(insertGameViewModel.getPlayerImg(dialogItem?.first))
+                    .into(item.findViewById(R.id.ivDialog))
+                item.setOnClickListener { onStatSelected(matchStat, dialogItem?.first) }
             }
             view.addView(item)
         }
@@ -544,7 +587,7 @@ class InsertGameActivity : AppCompatActivity() {
         binding.llStats.visibility = GONE
     }
 
-    private fun reDoInsertGame(){
+    private fun reDoInsertGame() {
         binding.tvMatchType.setTextColor(resources.getColor(R.color.black, null))
         binding.tvMatchLocal.setTextColor(resources.getColor(R.color.black, null))
         binding.tvResult.setTextColor(resources.getColor(R.color.black, null))
@@ -555,17 +598,35 @@ class InsertGameActivity : AppCompatActivity() {
 
     private fun showErrors(check: InsertGameChecks) {
         Toast.makeText(this, getString(R.string.missing_field_error), Toast.LENGTH_SHORT).show()
-        when (check){
-            InsertGameChecks.MATCH_TYPE -> { binding.tvMatchType.setTextColor(resources.getColor(R.color.main_red, null)) }
+        when (check) {
+            InsertGameChecks.MATCH_TYPE -> {
+                binding.tvMatchType.setTextColor(resources.getColor(R.color.main_red, null))
+            }
+
             InsertGameChecks.MATCH_LOCAL -> {
                 binding.tvMatchLocal.setTextColor(resources.getColor(R.color.main_red, null))
                 binding.tvResult.setTextColor(resources.getColor(R.color.main_red, null))
             }
-            InsertGameChecks.RESULT -> { binding.tvResult.setTextColor(resources.getColor(R.color.main_red, null)) }
-            InsertGameChecks.STARTERS -> { binding.tvStarters.setTextColor(resources.getColor(R.color.main_red, null)) }
-            InsertGameChecks.BENCH -> { binding.tvBench.setTextColor(resources.getColor(R.color.main_red, null)) }
-            InsertGameChecks.GOALS -> { binding.tvStats.setTextColor(resources.getColor(R.color.main_red, null)) }
-            InsertGameChecks.CLEAN_SHEET -> { binding.tvStats.setTextColor(resources.getColor(R.color.main_red, null)) }
+
+            InsertGameChecks.RESULT -> {
+                binding.tvResult.setTextColor(resources.getColor(R.color.main_red, null))
+            }
+
+            InsertGameChecks.STARTERS -> {
+                binding.tvStarters.setTextColor(resources.getColor(R.color.main_red, null))
+            }
+
+            InsertGameChecks.BENCH -> {
+                binding.tvBench.setTextColor(resources.getColor(R.color.main_red, null))
+            }
+
+            InsertGameChecks.GOALS -> {
+                binding.tvStats.setTextColor(resources.getColor(R.color.main_red, null))
+            }
+
+            InsertGameChecks.CLEAN_SHEET -> {
+                binding.tvStats.setTextColor(resources.getColor(R.color.main_red, null))
+            }
         }
     }
 }
