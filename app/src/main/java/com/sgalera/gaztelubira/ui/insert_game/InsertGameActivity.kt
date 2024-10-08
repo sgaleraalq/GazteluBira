@@ -333,7 +333,7 @@ class InsertGameActivity : AppCompatActivity() {
         // Stats
         binding.btnInsertGoal.setOnClickListener {
             showDialog(
-                insertGameViewModel.providePlayersList(),
+                insertGameViewModel.providePlayerListToStats(),
                 getString(R.string.select_scorer),
                 null,
                 null,
@@ -343,7 +343,7 @@ class InsertGameActivity : AppCompatActivity() {
 
         binding.btnInsertAssist.setOnClickListener {
             showDialog(
-                insertGameViewModel.providePlayersList(),
+                insertGameViewModel.providePlayerListToStats(),
                 getString(R.string.select_assistant),
                 null,
                 null,
@@ -353,7 +353,7 @@ class InsertGameActivity : AppCompatActivity() {
 
         binding.btnInsertCleanSheet.setOnClickListener {
             showDialog(
-                insertGameViewModel.providePlayersList(),
+                insertGameViewModel.providePlayerListToStats(),
                 getString(R.string.select_clean_sheet),
                 null,
                 null,
@@ -363,7 +363,7 @@ class InsertGameActivity : AppCompatActivity() {
 
         binding.btnInsertPenalty.setOnClickListener {
             showDialog(
-                insertGameViewModel.providePlayersList(),
+                insertGameViewModel.providePlayerListToStats(),
                 getString(R.string.select_penalty),
                 null,
                 null,
@@ -380,6 +380,7 @@ class InsertGameActivity : AppCompatActivity() {
                 homeGoals = binding.etLocalGoals.text.toString(),
                 awayGoals = binding.etVisitorGoals.text.toString(),
                 onSuccess = { onBackPressedDispatcher.onBackPressed() },
+                onFailure = { Toast.makeText(this, getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT).show() },
                 onMissingField = { showErrors(it) }
             )
         }
@@ -675,6 +676,8 @@ class InsertGameActivity : AppCompatActivity() {
         binding.tvStarters.setTextColor(resources.getColor(R.color.black, null))
         binding.tvBench.setTextColor(resources.getColor(R.color.black, null))
         binding.tvStats.setTextColor(resources.getColor(R.color.black, null))
+        binding.tvGoals.setTextColor(resources.getColor(R.color.white, null))
+        binding.tvCleanSheet.setTextColor(resources.getColor(R.color.white, null))
     }
 
     private fun showErrors(check: InsertGameChecks) {
@@ -703,10 +706,12 @@ class InsertGameActivity : AppCompatActivity() {
 
             InsertGameChecks.GOALS -> {
                 binding.tvStats.setTextColor(resources.getColor(R.color.main_red, null))
+                binding.tvGoals.setTextColor(resources.getColor(R.color.main_red, null))
             }
 
             InsertGameChecks.CLEAN_SHEET -> {
                 binding.tvStats.setTextColor(resources.getColor(R.color.main_red, null))
+                binding.tvCleanSheet.setTextColor(resources.getColor(R.color.main_red, null))
             }
         }
     }

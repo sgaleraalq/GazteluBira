@@ -21,6 +21,7 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerModel
 import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 @AndroidEntryPoint
 class DetailMatchActivity : AppCompatActivity() {
@@ -83,8 +84,8 @@ class DetailMatchActivity : AppCompatActivity() {
         Glide.with(this).load(awayTeam?.teamImg ?: TEAM_NO_IMAGE).into(binding.ivAwayTeam)
         binding.tvLocalTeam.text = homeTeam?.teamName ?: getString(R.string.could_not_retrieve)
         binding.tvAwayTeam.text = awayTeam?.teamName ?: getString(R.string.could_not_retrieve)
-        binding.tvLocalGoals.text = homeGoals.toString()
-        binding.tvAwayGoals.text = awayGoals.toString()
+        binding.tvLocalGoals.text = String.format(Locale.getDefault(), "%d", homeGoals)
+        binding.tvAwayGoals.text = String.format(Locale.getDefault(), "%d", awayGoals)
     }
 
     private fun initScorers(scorers: List<PlayerModel?>) {

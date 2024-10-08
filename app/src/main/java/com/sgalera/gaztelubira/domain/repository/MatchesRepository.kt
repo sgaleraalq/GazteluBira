@@ -19,4 +19,8 @@ interface MatchesRepository {
         teamsRef: List<TeamModel?>
     ): MatchStatsModel?
 
+    suspend fun insertGame(id: String, year: String, matchModel: MatchModel): Boolean
+
+    suspend fun insertMatchStats(id: String, year: String, matchStats: MatchStatsModel): Boolean
+
 }

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.core.Constants.PLAYER_NO_IMAGE
+import com.sgalera.gaztelubira.domain.manager.SharedPreferences
 import com.sgalera.gaztelubira.domain.model.matches.MatchModel
 import com.sgalera.gaztelubira.domain.model.matches.MatchStatsModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerModel
@@ -11,6 +12,7 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 import com.sgalera.gaztelubira.domain.repository.PlayersRepository
 import com.sgalera.gaztelubira.domain.repository.TeamsRepository
+import com.sgalera.gaztelubira.domain.usecases.matches.InsertGameUseCase
 import com.sgalera.gaztelubira.ui.insert_game.InsertGameChecks.BENCH
 import com.sgalera.gaztelubira.ui.insert_game.InsertGameChecks.CLEAN_SHEET
 import com.sgalera.gaztelubira.ui.insert_game.InsertGameChecks.GOALS
@@ -21,15 +23,19 @@ import com.sgalera.gaztelubira.ui.insert_game.InsertGameChecks.STARTERS
 import com.sgalera.gaztelubira.ui.insert_game.MatchLocal.AWAY
 import com.sgalera.gaztelubira.ui.insert_game.MatchLocal.HOME
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class InsertGameViewModel @Inject constructor(
+    private val sharedPreferences: SharedPreferences,
     private val teamsRepository: TeamsRepository,
     private val playersRepository: PlayersRepository,
+    private val insertGameUseCase: InsertGameUseCase
 ) : ViewModel() {
 
     private val _match = MutableStateFlow(MatchModel())
@@ -104,12 +110,17 @@ class InsertGameViewModel @Inject constructor(
 
     fun providePlayersList(): List<Pair<String, String>?> {
         return _playersList.value
-            .sortedBy { it?.information?.dorsal }
+            .sortedBy { it?.information?.name }
             .filter { it?.information !in _matchStats.value.starters.values }
             .filter { it?.information !in _matchStats.value.bench }
-            .map { player ->
-                player.let { Pair(it?.information?.name ?: "", it?.information?.dorsal.toString()) }
-            }
+            .map { player -> player.let { Pair(it?.information?.name ?: "", it?.information?.dorsal.toString()) } }
+    }
+
+    fun providePlayerListToStats(): List<Pair<String, String>?>{
+        return _playersList.value
+            .sortedBy { it?.information?.name }
+            .filter { it?.information in _matchStats.value.starters.values || it?.information in _matchStats.value.bench }
+            .map { player -> player.let { Pair(it?.information?.name ?: "", it?.information?.dorsal.toString()) } }
     }
 
     fun getPlayerImg(playerName: String?): String {
@@ -245,6 +256,7 @@ class InsertGameViewModel @Inject constructor(
         homeGoals: String,
         awayGoals: String,
         onSuccess: () -> Unit,
+        onFailure: () -> Unit,
         onMissingField: (InsertGameChecks) -> Unit
     ) {
         Log.i("InsertGameViewModel", "Match: ${_match.value}")
@@ -267,11 +279,24 @@ class InsertGameViewModel @Inject constructor(
         val matchStatsResult = checkMatchStatsModel { onMissingField(it) }
         if (!matchStatsResult) return
 
-//            viewModelScope.launch {
-//                teamsRepository.insertMatch(id, journey, match, matchStats)
-//                onSuccess()
-//            }
+        viewModelScope.launch {
+            val result = withContext(Dispatchers.IO){
+                insertGameUseCase(
+                    year = sharedPreferences.credentials.year.toString(),
+                    id = id,
+                    journey = journey,
+                    matchModel = _match.value,
+                    matchStats = _matchStats.value,
+                    playersStats = _playersList.value
+                )
+            }
 
+            if (result) {
+                onSuccess()
+            } else {
+                onFailure()
+            }
+        }
     }
 
     private fun checkMatchModel(onMissingField: (InsertGameChecks) -> Unit): Boolean {
@@ -292,7 +317,6 @@ class InsertGameViewModel @Inject constructor(
     }
 
     private fun checkMatchStatsModel(onMissingField: (InsertGameChecks) -> Unit): Boolean {
-        // TODO check if there are more scorers than goals
         val match = _matchStats.value
         val gazteluBira = if (match.homeTeam?.teamName == "Gaztelu Bira") HOME else AWAY
 
@@ -311,11 +335,10 @@ class InsertGameViewModel @Inject constructor(
         } else if (match.bench.any { it == null }) {
             onMissingField(BENCH)
             false
-        } else if (gazteluBira == HOME && match.homeGoals < match.scorers.size) {
+        } else if (gazteluBira == HOME && match.homeGoals < _scorers.value.size) {
             onMissingField(GOALS)
             false
-        } else if (gazteluBira == AWAY && match.awayGoals < match.scorers.size) {
-            Log.i("InsertGameViewModel", "Away: ${match.awayGoals} - Scorer: ${match.scorers.size}")
+        } else if (gazteluBira == AWAY && match.awayGoals < _scorers.value.size) {
             onMissingField(GOALS)
             false
         } else if ((gazteluBira == HOME && match.awayGoals == 0) || (gazteluBira == AWAY && match.homeGoals == 0) && _cleanSheetPlayers.value.isEmpty()) {

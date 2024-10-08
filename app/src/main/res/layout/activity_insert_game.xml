@@ -565,6 +565,7 @@
                         android:src="@drawable/ic_football_goal" />
 
                     <TextView
+                        android:id="@+id/tvGoals"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/goals"
@@ -678,6 +679,7 @@
                         android:src="@drawable/ic_clean_sheet" />
 
                     <TextView
+                        android:id="@+id/tvCleanSheet"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/clean_sheet"

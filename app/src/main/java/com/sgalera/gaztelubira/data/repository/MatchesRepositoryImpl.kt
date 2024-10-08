@@ -52,4 +52,19 @@ class MatchesRepositoryImpl @Inject constructor(
             .toObject(MatchStatsResponse::class.java)?.toDomain(playersRef, teamsRef)
     }
 
+    override suspend fun insertGame(id: String, year: String, matchModel: MatchModel): Boolean {
+        return suspendCancellableCoroutine { cancellableContinuation ->
+            firestore.collection(MATCHES).document(year).collection(GAMES).document(id).set(matchModel)
+                .addOnSuccessListener { cancellableContinuation.resume(true) }
+                .addOnFailureListener { cancellableContinuation.resume(false) }
+        }
+    }
+
+    override suspend fun insertMatchStats(id: String, year: String, matchStats: MatchStatsModel): Boolean {
+        return suspendCancellableCoroutine { cancellableContinuation ->
+            firestore.collection(MATCHES).document(year).collection(STATS).document(id).set(matchStats)
+                .addOnSuccessListener { cancellableContinuation.resume(true) }
+                .addOnFailureListener { cancellableContinuation.resume(false) }
+        }
+    }
 }
