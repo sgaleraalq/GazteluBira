@@ -173,7 +173,7 @@ class StatsFragment : Fragment() {
 
     private fun showImage(player: PlayerStatsModel) {
         makeImageElementsVisible()
-        binding.tvNameChampion.text = player.information!!.name
+        binding.tvNameChampion.text = player.information?.name
         binding.tvChampionGoals.text = player.goals.toString()
         binding.tvChampionAssists.text = player.assists.toString()
         Glide.with(requireContext())

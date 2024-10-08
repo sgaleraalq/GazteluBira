@@ -82,6 +82,7 @@ class PlayersRepositoryImpl @Inject constructor(
                         "last_ranking" to playerStats.lastRanking,
                         "penalties" to playerStats.penalties,
                         "ranking" to playerStats.ranking,
+                        "reference" to playerStats.information?.ownReference,
                     )
                     firestore.document(playerStats.information?.stats!!.path).set(data)
                 }
