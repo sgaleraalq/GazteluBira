@@ -41,6 +41,10 @@ class InsertGameViewModel @Inject constructor(
     private val _match = MutableStateFlow(MatchModel())
     private val _matchStats = MutableStateFlow(MatchStatsModel())
 
+    private val _teamsList = MutableStateFlow<List<TeamModel?>>(emptyList())
+    private val _playersList = MutableStateFlow<List<PlayerStatsModel?>>(emptyList())
+    private val _playersModelList = MutableStateFlow<List<PlayerModel?>>(emptyList())
+
     private val _expandable = MutableStateFlow<InsertGameExpandable?>(null)
     val expandable: StateFlow<InsertGameExpandable?> = _expandable
 
@@ -52,10 +56,6 @@ class InsertGameViewModel @Inject constructor(
 
     private val _benchPlayers = MutableStateFlow<List<PlayerModel?>>(emptyList())
     val benchPlayers: StateFlow<List<PlayerModel?>> = _benchPlayers
-
-    private val _teamsList = MutableStateFlow<List<TeamModel?>>(emptyList())
-    private val _playersList = MutableStateFlow<List<PlayerStatsModel?>>(emptyList())
-    private val _playersModelList = MutableStateFlow<List<PlayerModel?>>(emptyList())
 
     private val _scorers = MutableStateFlow<List<PlayerModel?>>(emptyList())
     val scorers: StateFlow<List<PlayerModel?>> = _scorers
@@ -70,8 +70,7 @@ class InsertGameViewModel @Inject constructor(
     val penaltiesPlayers: StateFlow<List<PlayerModel?>> = _penaltiesPlayers
 
     fun onExpandableChanged(expandable: InsertGameExpandable) {
-        if (_expandable.value == expandable) _expandable.value = null else _expandable.value =
-            expandable
+        if (_expandable.value == expandable) _expandable.value = null else _expandable.value = expandable
     }
 
     fun onMatchTypeSelected(matchType: MatchType) {
@@ -147,10 +146,7 @@ class InsertGameViewModel @Inject constructor(
             }
         }
         Log.i("InsertGameViewModel", "Home: ${_match.value} - Away: ${_match.value}")
-        Log.i(
-            "InsertGameViewModel",
-            "Home: ${_matchStats.value.homeTeam} - Away: ${_matchStats.value.awayTeam}"
-        )
+        Log.i("InsertGameViewModel", "Home: ${_matchStats.value.homeTeam} - Away: ${_matchStats.value.awayTeam}")
     }
 
     fun setPlayerInMatchStats(
@@ -279,6 +275,9 @@ class InsertGameViewModel @Inject constructor(
         val matchStatsResult = checkMatchStatsModel { onMissingField(it) }
         if (!matchStatsResult) return
 
+        _matchStats.value.scorers = _scorers.value
+        _matchStats.value.assistants = _assistants.value
+        _matchStats.value.penalties = _penaltiesPlayers.value
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO){
                 insertGameUseCase(

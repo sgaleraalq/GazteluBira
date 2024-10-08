@@ -23,8 +23,8 @@ class InsertGameUseCase @Inject constructor(
         playersStats: List<PlayerStatsModel?>
         ): Boolean {
 
-//        val matchModelInsert = matchesRepository.insertGame(id.toString(), year, matchModel)
-//        val matchStatsInsert = matchesRepository.insertMatchStats(id.toString(), year, matchStats)
+        val matchModelInsert = matchesRepository.insertGame(id.toString(), year, matchModel.copy(id = id, journey = journey))
+        val matchStatsInsert = matchesRepository.insertMatchStats(id.toString(), year, matchStats.copy(id = id, journey = journey))
 
         val updatedPlayersStats = updatePlayersStats(playersStats, matchStats)
 

@@ -53,16 +53,42 @@ class MatchesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun insertGame(id: String, year: String, matchModel: MatchModel): Boolean {
+        val journey = if (matchModel.match == "liga") matchModel.journey else 0
+        val data = mapOf(
+            "id" to matchModel.id,
+            "journey" to journey,
+            "match" to matchModel.match,
+            "home_goals" to matchModel.homeGoals,
+            "home_team" to matchModel.homeTeam,
+            "away_goals" to matchModel.awayGoals,
+            "away_team" to matchModel.awayTeam
+        )
         return suspendCancellableCoroutine { cancellableContinuation ->
-            firestore.collection(MATCHES).document(year).collection(GAMES).document(id).set(matchModel)
+            firestore.collection(MATCHES).document(year).collection(GAMES).document(id).set(data)
                 .addOnSuccessListener { cancellableContinuation.resume(true) }
                 .addOnFailureListener { cancellableContinuation.resume(false) }
         }
     }
 
     override suspend fun insertMatchStats(id: String, year: String, matchStats: MatchStatsModel): Boolean {
+        val journey = if (matchStats.match == "liga") matchStats.journey else 0
+        val matchStarters = matchStats.starters.mapValues { it.value?.ownReference }
+        val data = mapOf(
+            "id" to matchStats.id,
+            "journey" to journey,
+            "match" to matchStats.match,
+            "home_goals" to matchStats.homeGoals,
+            "home_team" to matchStats.homeTeam?.ownReference,
+            "away_goals" to matchStats.awayGoals,
+            "away_team" to matchStats.awayTeam?.ownReference,
+            "starters" to matchStarters,
+            "bench" to matchStats.bench.map { it?.ownReference },
+            "scorers" to matchStats.scorers.map { it?.ownReference },
+            "assistants" to matchStats.assistants.map { it?.ownReference },
+            "penalties" to matchStats.penalties.map { it?.ownReference },
+        )
         return suspendCancellableCoroutine { cancellableContinuation ->
-            firestore.collection(MATCHES).document(year).collection(STATS).document(id).set(matchStats)
+            firestore.collection(MATCHES).document(year).collection(STATS).document(id).set(data)
                 .addOnSuccessListener { cancellableContinuation.resume(true) }
                 .addOnFailureListener { cancellableContinuation.resume(false) }
         }

@@ -11,8 +11,9 @@ data class MatchStatsModel(
     var awayTeam: TeamModel? = null,
     var homeGoals: Int = -1,
     var awayGoals: Int = -1,
-    val scorers: List<PlayerModel?> = emptyList(),
-    val assistants: List<PlayerModel?> = emptyList(),
+    var scorers: List<PlayerModel?> = emptyList(),
+    var assistants: List<PlayerModel?> = emptyList(),
+    var penalties: List<PlayerModel?> = emptyList(),
     val starters: MutableMap<String, PlayerModel?> = mutableMapOf(
         "goal_keeper" to null,
         "left_back" to null,
