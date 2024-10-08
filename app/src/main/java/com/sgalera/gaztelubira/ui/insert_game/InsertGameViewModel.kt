@@ -286,7 +286,8 @@ class InsertGameViewModel @Inject constructor(
                     journey = journey,
                     matchModel = _match.value,
                     matchStats = _matchStats.value,
-                    playersStats = _playersList.value
+                    playersStats = _playersList.value,
+                    cleanSheet = _cleanSheetPlayers.value
                 )
             }
 

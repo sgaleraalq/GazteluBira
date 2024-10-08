@@ -5,12 +5,12 @@ import com.google.firebase.firestore.DocumentReference
 data class PlayerStatsModel(
     var information: PlayerModel? = null,
     val reference: DocumentReference?,
-    val goals: Int,
-    val assists: Int,
-    val penalties: Int,
-    val cleanSheet: Int,
-    val gamesPlayed: Int,
-    val ranking: Int,
-    val lastRanking: Int,
-    val percentage: String
+    var goals: Int,
+    var assists: Int,
+    var penalties: Int,
+    var cleanSheet: Int,
+    var gamesPlayed: Int,
+    var ranking: Int,
+    var lastRanking: Int,
+    var percentage: String
 )
