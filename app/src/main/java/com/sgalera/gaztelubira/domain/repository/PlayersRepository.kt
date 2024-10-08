@@ -18,4 +18,6 @@ interface PlayersRepository {
 
     suspend fun getPlayerModel(reference: DocumentReference): PlayerModel?
 
+    suspend fun insertPlayersStats(year: String, updatedPlayersStats: List<PlayerStatsModel?>): Boolean
+
 }

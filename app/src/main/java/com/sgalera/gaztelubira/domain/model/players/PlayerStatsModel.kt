@@ -12,5 +12,6 @@ data class PlayerStatsModel(
     var gamesPlayed: Int,
     var ranking: Int,
     var lastRanking: Int,
-    var percentage: String
+    var percentage: String,
+    var sortedPercentage: Float = 0f
 )

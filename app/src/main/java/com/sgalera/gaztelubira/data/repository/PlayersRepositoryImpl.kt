@@ -66,4 +66,29 @@ class PlayersRepositoryImpl @Inject constructor(
                 .addOnFailureListener { cancellableContinuation.resume(null) }
         }
     }
+
+    override suspend fun insertPlayersStats(
+        year: String,
+        updatedPlayersStats: List<PlayerStatsModel?>
+    ): Boolean {
+        return try {
+            updatedPlayersStats.forEach { playerStats ->
+                playerStats?.let {
+                    val data = mapOf(
+                        "assists" to playerStats.assists,
+                        "clean_sheet" to playerStats.cleanSheet,
+                        "games_played" to playerStats.gamesPlayed,
+                        "goals" to playerStats.goals,
+                        "last_ranking" to playerStats.lastRanking,
+                        "penalties" to playerStats.penalties,
+                        "ranking" to playerStats.ranking,
+                    )
+                    firestore.document(playerStats.information?.stats!!.path).set(data)
+                }
+            }
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
 }
