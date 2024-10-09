@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/primary">
 
 
@@ -16,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
+        android:id="@+id/ivBackgroundTable"
         android:layout_width="750dp"
         android:layout_height="0dp"
         android:layout_marginTop="-150dp"
@@ -23,7 +25,20 @@
         android:background="@drawable/curved_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/middlePoint" />
+        app:layout_constraintTop_toTopOf="@id/middlePoint"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/ivChampion"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:background="@drawable/circle_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ivBackgroundTable"
+        tools:src="@drawable/img_player_xabi"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
