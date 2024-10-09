@@ -136,4 +136,6 @@
     <string name="select_clean_sheet">Insert clean sheet player</string>
     <string name="select_penalty">Insert penalty player</string>
     <string name="background_champion_images">Background champion images</string>
+    <string name="description_crown">Crown icon</string>
+    <string name="background_stats">Background image</string>
 </resources>
