@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
+import android.view.View.*
 import android.view.ViewGroup
 import android.widget.GridLayout
 import android.widget.ImageView
@@ -93,8 +93,8 @@ class InsertGameActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 insertGameViewModel.isLoading.collect { isLoading ->
                     when (isLoading) {
-                        true -> binding.pbInsertGame.visibility = View.VISIBLE
-                        false -> binding.pbInsertGame.visibility = View.GONE
+                        true -> binding.pbInsertGame.visibility = VISIBLE
+                        false -> binding.pbInsertGame.visibility = GONE
                     }
                 }
             }
@@ -658,7 +658,7 @@ class InsertGameActivity : AppCompatActivity() {
     }
 
     private fun deselectMatchLocal() {
-        binding.tvSetLocal.visibility = View.VISIBLE
+        binding.tvSetLocal.visibility = VISIBLE
         binding.tvLocalTeam.text = ""
         binding.tvVisitorTeam.text = ""
         binding.btnLocal.setBackgroundColor(resources.getColor(R.color.grey_selected, null))

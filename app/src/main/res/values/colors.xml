@@ -32,4 +32,7 @@
     <color name="almost_transparent">#33FFFFFF</color>
     <color name="grey_forward_arrow">#f9f9f9</color>
 
+    <color name="ranking_table_primary">#3e3c50</color>
+    <color name="ranking_table_secondary">#2a283a</color>
+
 </resources>
