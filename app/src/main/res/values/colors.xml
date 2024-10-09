@@ -32,6 +32,8 @@
     <color name="almost_transparent">#33FFFFFF</color>
     <color name="grey_forward_arrow">#f9f9f9</color>
 
+
+    // Stats colors
     <color name="ranking_table_primary">#3e3c50</color>
     <color name="ranking_table_secondary">#2a283a</color>
 
@@ -46,5 +48,10 @@
     <color name="third_bronze_primary">#dfad98</color>
     <color name="third_bronze_secondary">#7c503f</color>
     <color name="third_bronze_center">#f3cfbd</color>
+
+    <color name="tvBackgroundStart">#f6ddaa</color>
+    <color name="tvBackgroundEnd">#d88c7c</color>
+
+    <color name="tvStats">#a6a5a7</color>
 
 </resources>

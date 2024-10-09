@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/middlePoint"/>
+        app:layout_constraintTop_toTopOf="@id/middlePoint" />
 
     <ImageView
         android:layout_width="100dp"
@@ -52,6 +52,29 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/img_player_xabi" />
 
+    <TextView
+        android:id="@+id/tvChampionName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@id/ivChampion"
+        app:layout_constraintStart_toStartOf="@id/ivChampion"
+        app:layout_constraintTop_toBottomOf="@id/ivChampion"
+        tools:text="Madariaga" />
+
+    <TextView
+        android:id="@+id/tvChampionStat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="18sp"
+        android:textColor="@color/tvStats"
+        app:layout_constraintEnd_toEndOf="@id/tvChampionName"
+        app:layout_constraintStart_toStartOf="@id/tvChampionName"
+        app:layout_constraintTop_toBottomOf="@id/tvChampionName"
+        tools:text="0.97%" />
+
     <ImageView
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -74,6 +97,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/ivChampion"
         tools:src="@drawable/img_player_xabi" />
+
+    <TextView
+        android:id="@+id/tvSecondName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@id/ivSecond"
+        app:layout_constraintStart_toStartOf="@id/ivSecond"
+        app:layout_constraintTop_toBottomOf="@id/ivSecond"
+        tools:text="Madariaga" />
+
+    <TextView
+        android:id="@+id/tvSecondStat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="18sp"
+        android:textColor="@color/tvStats"
+        app:layout_constraintEnd_toEndOf="@id/tvSecondName"
+        app:layout_constraintStart_toStartOf="@id/tvSecondName"
+        app:layout_constraintTop_toBottomOf="@id/tvSecondName"
+        tools:text="0.97%" />
 
 
     <ImageView
@@ -98,6 +144,30 @@
         app:layout_constraintStart_toEndOf="@id/ivChampion"
         app:layout_constraintTop_toTopOf="@id/ivSecond"
         tools:src="@drawable/img_player_xabi" />
+
+    <TextView
+        android:id="@+id/tvThirdName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@id/ivThird"
+        app:layout_constraintStart_toStartOf="@id/ivThird"
+        app:layout_constraintTop_toBottomOf="@id/ivThird"
+        tools:text="Madariaga" />
+
+    <TextView
+        android:id="@+id/tvThirdStat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="18sp"
+        android:textColor="@color/tvStats"
+        app:layout_constraintEnd_toEndOf="@id/tvThirdName"
+        app:layout_constraintStart_toStartOf="@id/tvThirdName"
+        app:layout_constraintTop_toBottomOf="@id/tvThirdName"
+        tools:text="0.97%" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
