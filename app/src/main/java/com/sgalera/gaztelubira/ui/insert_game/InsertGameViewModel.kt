@@ -45,6 +45,9 @@ class InsertGameViewModel @Inject constructor(
     private val _playersList = MutableStateFlow<List<PlayerStatsModel?>>(emptyList())
     private val _playersModelList = MutableStateFlow<List<PlayerModel?>>(emptyList())
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
     private val _expandable = MutableStateFlow<InsertGameExpandable?>(null)
     val expandable: StateFlow<InsertGameExpandable?> = _expandable
 
@@ -279,6 +282,7 @@ class InsertGameViewModel @Inject constructor(
         _matchStats.value.assistants = _assistants.value
         _matchStats.value.penalties = _penaltiesPlayers.value
         viewModelScope.launch {
+            _isLoading.value = true
             val result = withContext(Dispatchers.IO){
                 insertGameUseCase(
                     year = sharedPreferences.credentials.year.toString(),
@@ -296,6 +300,7 @@ class InsertGameViewModel @Inject constructor(
             } else {
                 onFailure()
             }
+            _isLoading.value = false
         }
     }
 

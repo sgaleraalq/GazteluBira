@@ -30,6 +30,7 @@ import com.sgalera.gaztelubira.ui.stats.StatType.PENALTIES
 import com.sgalera.gaztelubira.ui.stats.StatType.PERCENTAGE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 @AndroidEntryPoint
 class StatsFragment : Fragment() {
@@ -174,8 +175,8 @@ class StatsFragment : Fragment() {
     private fun showImage(player: PlayerStatsModel) {
         makeImageElementsVisible()
         binding.tvNameChampion.text = player.information?.name
-        binding.tvChampionGoals.text = player.goals.toString()
-        binding.tvChampionAssists.text = player.assists.toString()
+        binding.tvChampionGoals.text = String.format(Locale.getDefault(),"%,d", player.goals)
+        binding.tvChampionAssists.text = String.format(Locale.getDefault(), "%,d", player.assists)
         Glide.with(requireContext())
             .load(player.information?.img ?: PLAYER_NO_IMAGE)
             .into(binding.ivChampion)

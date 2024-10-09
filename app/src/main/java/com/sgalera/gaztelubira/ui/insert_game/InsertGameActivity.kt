@@ -90,6 +90,17 @@ class InsertGameActivity : AppCompatActivity() {
 
     private fun initExpandable() {
         lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                insertGameViewModel.isLoading.collect { isLoading ->
+                    when (isLoading) {
+                        true -> binding.pbInsertGame.visibility = View.VISIBLE
+                        false -> binding.pbInsertGame.visibility = View.GONE
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 insertGameViewModel.matchType.collect { matchType ->
                     when (matchType) {
