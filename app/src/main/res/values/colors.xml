@@ -39,4 +39,12 @@
     <color name="champion_gold_secondary">#f5dd7d</color>
     <color name="champion_gold_center">#f6f0c5</color>
 
+    <color name="second_silver_primary">#7e7e7e</color>
+    <color name="second_silver_secondary">#b2b2b2</color>
+    <color name="second_silver_center">#f2f2f2</color>
+
+    <color name="third_bronze_primary">#dfad98</color>
+    <color name="third_bronze_secondary">#7c503f</color>
+    <color name="third_bronze_center">#f3cfbd</color>
+
 </resources>

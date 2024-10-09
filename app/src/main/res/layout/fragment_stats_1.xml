@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/primary">
 
 
@@ -27,18 +27,77 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/middlePoint"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@id/middlePoint"/>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/circle_image_background"
+        android:contentDescription="@string/background_champion_images"
+        app:layout_constraintBottom_toBottomOf="@id/ivChampion"
+        app:layout_constraintEnd_toEndOf="@id/ivChampion"
+        app:layout_constraintStart_toStartOf="@id/ivChampion"
+        app:layout_constraintTop_toTopOf="@id/ivChampion" />
 
     <ImageView
         android:id="@+id/ivChampion"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:background="@drawable/circle_image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginBottom="56dp"
+        android:background="@drawable/circle_image_champion"
+        android:contentDescription="@string/description_champion"
         app:layout_constraintBottom_toTopOf="@id/ivBackgroundTable"
-        tools:src="@drawable/img_player_xabi"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/img_player_xabi" />
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/circle_image_background"
+        android:contentDescription="@string/background_champion_images"
+        app:layout_constraintBottom_toBottomOf="@id/ivSecond"
+        app:layout_constraintEnd_toEndOf="@id/ivSecond"
+        app:layout_constraintStart_toStartOf="@id/ivSecond"
+        app:layout_constraintTop_toTopOf="@id/ivSecond" />
+
+    <ImageView
+        android:id="@+id/ivSecond"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/circle_image_second"
+        android:contentDescription="@string/description_champion"
+        app:layout_constraintBottom_toBottomOf="@id/ivChampion"
+        app:layout_constraintEnd_toStartOf="@id/ivChampion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivChampion"
+        tools:src="@drawable/img_player_xabi" />
+
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/circle_image_background"
+        android:contentDescription="@string/background_champion_images"
+        app:layout_constraintBottom_toBottomOf="@id/ivThird"
+        app:layout_constraintEnd_toEndOf="@id/ivThird"
+        app:layout_constraintStart_toStartOf="@id/ivThird"
+        app:layout_constraintTop_toTopOf="@id/ivThird" />
+
+    <ImageView
+        android:id="@+id/ivThird"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/circle_image_third"
+        android:contentDescription="@string/description_champion"
+        app:layout_constraintBottom_toBottomOf="@id/ivSecond"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivChampion"
+        app:layout_constraintTop_toTopOf="@id/ivSecond"
+        tools:src="@drawable/img_player_xabi" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
