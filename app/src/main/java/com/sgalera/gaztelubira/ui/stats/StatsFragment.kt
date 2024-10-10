@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,6 +19,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentStats1Binding
+import com.sgalera.gaztelubira.domain.model.UIState
 import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.ui.stats.adapter.PlayerStatsAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,6 +49,7 @@ class StatsFragment : Fragment() {
     private fun initUI() {
         initTextViewColors()
         initRanking()
+        initListeners()
     }
 
     private fun initTextViewColors() {
@@ -63,10 +66,43 @@ class StatsFragment : Fragment() {
     private fun initRanking() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                statsViewModel.playersStats.collect{ playersStats ->
+                statsViewModel.uiState.collect { uiState ->
+                    when (uiState) {
+                        UIState.Loading -> binding.pbStats.visibility = View.VISIBLE
+                        UIState.Success -> binding.pbStats.visibility = View.GONE
+                        is UIState.Error -> {
+                            Toast.makeText(
+                                context,
+                                getString(R.string.main_error),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            binding.pbStats.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                statsViewModel.playersStats.collect { playersStats ->
                     initRecyclerView(playersStats)
                 }
             }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                statsViewModel.statSelected.collect {
+                    playersStatsAdapter.changeStatSelected(it)
+                }
+            }
+        }
+    }
+
+    private fun initListeners() {
+        binding.btnStats.setOnClickListener {
+            showDialog( onStatSelected = { statsViewModel.sortPlayersBy(it) } )
         }
     }
 
@@ -76,6 +112,10 @@ class StatsFragment : Fragment() {
             adapter = playersStatsAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
+    }
+
+    private fun showDialog(onStatSelected: (StatType) -> Unit) {
+        // TODO
     }
 
     // TODO
@@ -88,7 +128,7 @@ class StatsFragment : Fragment() {
         reflection.start()
     }
 
-    private fun initTextViewGradient(textView: TextView){
+    private fun initTextViewGradient(textView: TextView) {
         val paint = textView.paint
         val width = paint.measureText(textView.text.toString())
         textView.paint.shader = LinearGradient(

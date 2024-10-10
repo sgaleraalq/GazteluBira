@@ -10,23 +10,13 @@
     tools:background="@color/ranking_table_secondary">
 
     <ImageView
-        android:id="@+id/ivArrow"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:padding="4dp"
-        android:src="@drawable/ic_arrow_up"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
         android:id="@+id/ivLaurel"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="12dp"
         android:contentDescription="@string/description_laurel_icon"
         android:src="@drawable/ic_laurel"
-        app:layout_constraintStart_toEndOf="@id/ivArrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/champion_gold_primary" />
 
@@ -42,18 +32,31 @@
         app:layout_constraintTop_toTopOf="@id/ivLaurel"
         tools:text="1" />
 
+    <ImageView
+        android:id="@+id/ivArrow"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:contentDescription="@string/description_icon_arrow"
+        android:padding="4dp"
+        android:src="@drawable/ic_arrow_up"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivLaurel"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <TextView
         android:id="@+id/tvPlayerName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="24dp"
+        android:paddingHorizontal="16dp"
         android:textAlignment="textStart"
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tvPlayerStat"
-        app:layout_constraintStart_toEndOf="@id/ivLaurel"
+        app:layout_constraintStart_toEndOf="@id/ivArrow"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Player Name" />
 

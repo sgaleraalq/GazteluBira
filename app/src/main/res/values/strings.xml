@@ -141,4 +141,5 @@
     <string name="player_name">Player name</string>
     <string name="stat">Stat</string>
     <string name="description_laurel_icon">Laurel icon</string>
+    <string name="player_stat_percentage">%1$s% %</string>
 </resources>

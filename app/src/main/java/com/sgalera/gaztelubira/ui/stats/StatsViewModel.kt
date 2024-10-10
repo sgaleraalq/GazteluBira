@@ -45,6 +45,9 @@ class StatsViewModel @Inject constructor(
     private val _isAdmin = MutableStateFlow(false)
     val isAdmin: StateFlow<Boolean> = _isAdmin
 
+    private val _statSelected = MutableStateFlow(PERCENTAGE)
+    val statSelected: StateFlow<StatType> = _statSelected
+
     init {
         viewModelScope.launch {
             _uiState.value = UIState.Loading
@@ -70,6 +73,10 @@ class StatsViewModel @Inject constructor(
         }
     }
 
+    private fun changeStatSelected(stat: StatType) {
+        _statSelected.value = stat
+    }
+
     private fun initStats(playersList: List<PlayerModel?>, playersStats: List<PlayerStatsModel?>) {
         viewModelScope.launch {
             if (playersStats.isNotEmpty()) {
@@ -78,13 +85,14 @@ class StatsViewModel @Inject constructor(
                     playerStat?.information = player
                     playerStat
                 }.sortedByDescending { it?.percentage }
+                _uiState.value = UIState.Success
             } else {
                 _uiState.value = UIState.Error
             }
         }
     }
 
-    fun sortPlayersBy(stat: StatType, changeButtonColor: (StatType) -> Unit) {
+    fun sortPlayersBy(stat: StatType) {
         val sortedList = _playersStats.value.sortedWith(
             compareByDescending<PlayerStatsModel?> {
                 when (stat) {
@@ -98,7 +106,7 @@ class StatsViewModel @Inject constructor(
             }.thenBy { it?.information?.name }
         )
         _playersStats.value = sortedList
-        changeButtonColor(stat)
+        changeStatSelected(stat)
     }
 
 
@@ -115,6 +123,7 @@ class StatsViewModel @Inject constructor(
         _isAdmin.value = false
         sharedPreferences.manageAdminLogIn(false)
     }
+
 }
 
 enum class StatType {
@@ -124,4 +133,11 @@ enum class StatType {
     PENALTIES,
     CLEAN_SHEET,
     GAMES_PLAYED
+}
+
+enum class RankingPosition {
+    FIRST,
+    SECOND,
+    THIRD,
+    OTHER
 }
