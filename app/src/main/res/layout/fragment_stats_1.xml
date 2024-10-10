@@ -68,11 +68,12 @@
         android:layout_marginBottom="56dp"
         android:background="@drawable/circle_image_champion"
         android:contentDescription="@string/description_champion"
-        android:src="@drawable/img_player_xabi"
+        android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@id/ivBackgroundTable"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/img_player_xabi" />
 
     <ImageView
         android:layout_width="36dp"
@@ -92,23 +93,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Madariaga"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@id/ivChampion"
         app:layout_constraintStart_toStartOf="@id/ivChampion"
-        app:layout_constraintTop_toBottomOf="@id/ivChampion" />
+        app:layout_constraintTop_toBottomOf="@id/ivChampion"
+        tools:text="Madariaga" />
 
     <TextView
         android:id="@+id/tvChampionStat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:text="0.97%"
         android:textColor="@color/tvStats"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@id/tvChampionName"
         app:layout_constraintStart_toStartOf="@id/tvChampionName"
-        app:layout_constraintTop_toBottomOf="@id/tvChampionName" />
+        app:layout_constraintTop_toBottomOf="@id/tvChampionName"
+        tools:text="0.97%" />
 
     <ImageView
         android:layout_width="80dp"
@@ -127,11 +128,12 @@
         android:layout_marginTop="56dp"
         android:background="@drawable/circle_image_second"
         android:contentDescription="@string/description_champion"
-        android:src="@drawable/img_player_xabi"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="@id/ivChampion"
         app:layout_constraintEnd_toStartOf="@id/ivChampion"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/ivChampion" />
+        app:layout_constraintTop_toTopOf="@id/ivChampion"
+        tools:src="@drawable/img_player_xabi" />
 
 
     <ImageView
@@ -152,23 +154,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Madariaga"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@id/ivSecond"
         app:layout_constraintStart_toStartOf="@id/ivSecond"
-        app:layout_constraintTop_toBottomOf="@id/ivSecond" />
+        app:layout_constraintTop_toBottomOf="@id/ivSecond"
+        tools:text="Madariaga" />
 
     <TextView
         android:id="@+id/tvSecondStat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:text="0.97%"
         android:textColor="@color/tvStats"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@id/tvSecondName"
         app:layout_constraintStart_toStartOf="@id/tvSecondName"
-        app:layout_constraintTop_toBottomOf="@id/tvSecondName" />
+        app:layout_constraintTop_toBottomOf="@id/tvSecondName"
+        tools:text="0.97%" />
 
 
     <ImageView
@@ -188,11 +190,12 @@
         android:layout_marginTop="36dp"
         android:background="@drawable/circle_image_third"
         android:contentDescription="@string/description_champion"
-        android:src="@drawable/img_player_xabi"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="@id/ivSecond"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivChampion"
-        app:layout_constraintTop_toTopOf="@id/ivSecond" />
+        app:layout_constraintTop_toTopOf="@id/ivSecond"
+        tools:src="@drawable/img_player_xabi" />
 
     <ImageView
         android:layout_width="32dp"
@@ -212,23 +215,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Madariaga"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@id/ivThird"
         app:layout_constraintStart_toStartOf="@id/ivThird"
-        app:layout_constraintTop_toBottomOf="@id/ivThird" />
+        app:layout_constraintTop_toBottomOf="@id/ivThird"
+        tools:text="Madariaga" />
 
     <TextView
         android:id="@+id/tvThirdStat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:text="0.97%"
         android:textColor="@color/tvStats"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@id/tvThirdName"
         app:layout_constraintStart_toStartOf="@id/tvThirdName"
-        app:layout_constraintTop_toBottomOf="@id/tvThirdName" />
+        app:layout_constraintTop_toBottomOf="@id/tvThirdName"
+        tools:text="0.97%" />
 
 
     <androidx.cardview.widget.CardView
@@ -258,7 +261,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:padding="16dp"
+            android:paddingVertical="16dp"
             android:text="@string/percentage"
             android:textAlignment="center"
             android:textColor="@color/cvTextStats"
@@ -316,11 +319,11 @@
         android:id="@+id/pbStats"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:indeterminateTint="@color/antique_white"
         app:layout_constraintBottom_toBottomOf="@id/rvStats"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/rvStats"
-        android:indeterminateTint="@color/antique_white"/>
+        app:layout_constraintTop_toTopOf="@id/rvStats" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

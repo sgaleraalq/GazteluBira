@@ -2,12 +2,16 @@ package com.sgalera.gaztelubira.ui.stats
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.graphics.LinearGradient
 import android.graphics.Shader
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -17,6 +21,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentStats1Binding
 import com.sgalera.gaztelubira.domain.model.UIState
@@ -87,6 +92,12 @@ class StatsFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 statsViewModel.playersStats.collect { playersStats ->
                     initRecyclerView(playersStats)
+                    initChampions(
+                        playersStats.firstOrNull(),
+                        playersStats.getOrNull(1),
+                        playersStats.getOrNull(2),
+                        statsViewModel.statSelected.value
+                    )
                 }
             }
         }
@@ -102,7 +113,7 @@ class StatsFragment : Fragment() {
 
     private fun initListeners() {
         binding.btnStats.setOnClickListener {
-            showDialog( onStatSelected = { statsViewModel.sortPlayersBy(it) } )
+            showDialog(onStatSelected = { statsViewModel.sortPlayersBy(it) })
         }
     }
 
@@ -114,8 +125,101 @@ class StatsFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
+    private fun initChampions(
+        champion: PlayerStatsModel?,
+        second: PlayerStatsModel?,
+        third: PlayerStatsModel?,
+        stat: StatType
+    ) {
+        Glide.with(requireContext()).load(champion?.information?.img).into(binding.ivChampion)
+        Glide.with(requireContext()).load(second?.information?.img).into(binding.ivSecond)
+        Glide.with(requireContext()).load(third?.information?.img).into(binding.ivThird)
+
+        binding.tvChampionName.text = champion?.information?.name
+        binding.tvSecondName.text = second?.information?.name
+        binding.tvThirdName.text = third?.information?.name
+
+        when (stat) {
+            StatType.PERCENTAGE ->{
+                binding.tvChampionStat.text = champion?.percentage + " %"
+                binding.tvSecondStat.text = second?.percentage + " %"
+                binding.tvThirdStat.text = third?.percentage + " %"
+            }
+            StatType.GOALS -> {
+                binding.tvChampionStat.text = champion?.goals.toString()
+                binding.tvSecondStat.text = second?.goals.toString()
+                binding.tvThirdStat.text = third?.goals.toString()
+            }
+            StatType.ASSISTS -> {
+                binding.tvChampionStat.text = champion?.assists.toString()
+                binding.tvSecondStat.text = second?.assists.toString()
+                binding.tvThirdStat.text = third?.assists.toString()
+            }
+            StatType.PENALTIES -> {
+                binding.tvChampionStat.text = champion?.penalties.toString()
+                binding.tvSecondStat.text = second?.penalties.toString()
+                binding.tvThirdStat.text = third?.penalties.toString()
+            }
+            StatType.CLEAN_SHEET -> {
+                binding.tvChampionStat.text = champion?.cleanSheet.toString()
+                binding.tvSecondStat.text = second?.cleanSheet.toString()
+                binding.tvThirdStat.text = third?.cleanSheet.toString()
+            }
+            StatType.GAMES_PLAYED -> {
+                binding.tvChampionStat.text = champion?.gamesPlayed.toString()
+                binding.tvSecondStat.text = second?.gamesPlayed.toString()
+                binding.tvThirdStat.text = third?.gamesPlayed.toString()
+            }
+        }
+    }
+
     private fun showDialog(onStatSelected: (StatType) -> Unit) {
-        // TODO
+        val builder = AlertDialog.Builder(requireContext())
+        val view = LayoutInflater.from(requireContext()).inflate(
+            R.layout.dialog_stats,
+            builder.create().window?.decorView as? ViewGroup,
+            false
+        )
+
+        with(builder){
+            setView(view)
+            create().apply {
+                window?.setBackgroundDrawableResource(android.R.color.transparent)
+                window?.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
+                show()
+                view.findViewById<LinearLayout>(R.id.llPercentage).setOnClickListener {
+                    binding.tvStats.text = getString(R.string.percentage)
+                    onStatSelected(StatType.PERCENTAGE)
+                    dismiss()
+                }
+                view.findViewById<LinearLayout>(R.id.llGoals).setOnClickListener {
+                    binding.tvStats.text = getString(R.string.goals)
+                    onStatSelected(StatType.GOALS)
+                    dismiss()
+                }
+                view.findViewById<LinearLayout>(R.id.llAssists).setOnClickListener {
+                    binding.tvStats.text = getString(R.string.assists)
+                    onStatSelected(StatType.ASSISTS)
+                    dismiss()
+                }
+                view.findViewById<LinearLayout>(R.id.llPenalties).setOnClickListener {
+                    binding.tvStats.text = getString(R.string.penalties)
+                    onStatSelected(StatType.PENALTIES)
+                    dismiss()
+                }
+                view.findViewById<LinearLayout>(R.id.llCleanSheet).setOnClickListener {
+                    binding.tvStats.text = getString(R.string.clean_sheet)
+                    onStatSelected(StatType.CLEAN_SHEET)
+                    dismiss()
+                }
+                view.findViewById<LinearLayout>(R.id.llGamesPlayed).setOnClickListener {
+                    binding.tvStats.text = getString(R.string.games_played)
+                    onStatSelected(StatType.GAMES_PLAYED)
+                    dismiss()
+                }
+            }
+        }
     }
 
     // TODO
