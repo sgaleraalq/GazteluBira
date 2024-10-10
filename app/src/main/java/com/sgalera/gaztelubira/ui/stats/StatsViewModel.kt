@@ -93,6 +93,7 @@ class StatsViewModel @Inject constructor(
     }
 
     fun sortPlayersBy(stat: StatType) {
+        changeStatSelected(stat)
         val sortedList = _playersStats.value.sortedWith(
             compareByDescending<PlayerStatsModel?> {
                 when (stat) {
@@ -106,7 +107,6 @@ class StatsViewModel @Inject constructor(
             }.thenBy { it?.information?.name }
         )
         _playersStats.value = sortedList
-        changeStatSelected(stat)
     }
 
 
@@ -133,11 +133,4 @@ enum class StatType {
     PENALTIES,
     CLEAN_SHEET,
     GAMES_PLAYED
-}
-
-enum class RankingPosition {
-    FIRST,
-    SECOND,
-    THIRD,
-    OTHER
 }

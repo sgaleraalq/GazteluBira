@@ -101,19 +101,15 @@ class StatsFragment : Fragment() {
                 }
             }
         }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                statsViewModel.statSelected.collect {
-                    playersStatsAdapter.changeStatSelected(it)
-                }
-            }
-        }
     }
 
     private fun initListeners() {
         binding.btnStats.setOnClickListener {
-            showDialog(onStatSelected = { statsViewModel.sortPlayersBy(it) })
+            showDialog(
+                onStatSelected = {
+                    statsViewModel.sortPlayersBy(it)
+                }
+            )
         }
     }
 
@@ -132,6 +128,7 @@ class StatsFragment : Fragment() {
         third: PlayerStatsModel?,
         stat: StatType
     ) {
+        playersStatsAdapter.changeStatSelected(stat)
         Glide.with(requireContext()).load(champion?.information?.img).into(binding.ivChampion)
         Glide.with(requireContext()).load(second?.information?.img).into(binding.ivSecond)
         Glide.with(requireContext()).load(third?.information?.img).into(binding.ivThird)
@@ -140,37 +137,31 @@ class StatsFragment : Fragment() {
         binding.tvSecondName.text = second?.information?.name
         binding.tvThirdName.text = third?.information?.name
 
-        when (stat) {
-            StatType.PERCENTAGE ->{
-                binding.tvChampionStat.text = champion?.percentage + " %"
-                binding.tvSecondStat.text = second?.percentage + " %"
-                binding.tvThirdStat.text = third?.percentage + " %"
-            }
-            StatType.GOALS -> {
-                binding.tvChampionStat.text = champion?.goals.toString()
-                binding.tvSecondStat.text = second?.goals.toString()
-                binding.tvThirdStat.text = third?.goals.toString()
-            }
-            StatType.ASSISTS -> {
-                binding.tvChampionStat.text = champion?.assists.toString()
-                binding.tvSecondStat.text = second?.assists.toString()
-                binding.tvThirdStat.text = third?.assists.toString()
-            }
-            StatType.PENALTIES -> {
-                binding.tvChampionStat.text = champion?.penalties.toString()
-                binding.tvSecondStat.text = second?.penalties.toString()
-                binding.tvThirdStat.text = third?.penalties.toString()
-            }
-            StatType.CLEAN_SHEET -> {
-                binding.tvChampionStat.text = champion?.cleanSheet.toString()
-                binding.tvSecondStat.text = second?.cleanSheet.toString()
-                binding.tvThirdStat.text = third?.cleanSheet.toString()
-            }
-            StatType.GAMES_PLAYED -> {
-                binding.tvChampionStat.text = champion?.gamesPlayed.toString()
-                binding.tvSecondStat.text = second?.gamesPlayed.toString()
-                binding.tvThirdStat.text = third?.gamesPlayed.toString()
-            }
+        binding.tvChampionStat.text = when(playersStatsAdapter.statSelected) {
+            StatType.PERCENTAGE -> champion?.percentage + " %"
+            StatType.GOALS -> champion?.goals.toString()
+            StatType.ASSISTS -> champion?.assists.toString()
+            StatType.PENALTIES -> champion?.penalties.toString()
+            StatType.CLEAN_SHEET -> champion?.cleanSheet.toString()
+            StatType.GAMES_PLAYED -> champion?.gamesPlayed.toString()
+        }
+
+        binding.tvSecondStat.text = when(playersStatsAdapter.statSelected) {
+            StatType.PERCENTAGE -> second?.percentage + " %"
+            StatType.GOALS -> second?.goals.toString()
+            StatType.ASSISTS -> second?.assists.toString()
+            StatType.PENALTIES -> second?.penalties.toString()
+            StatType.CLEAN_SHEET -> second?.cleanSheet.toString()
+            StatType.GAMES_PLAYED -> second?.gamesPlayed.toString()
+        }
+
+        binding.tvThirdStat.text = when(playersStatsAdapter.statSelected) {
+            StatType.PERCENTAGE -> third?.percentage + " %"
+            StatType.GOALS -> third?.goals.toString()
+            StatType.ASSISTS -> third?.assists.toString()
+            StatType.PENALTIES -> third?.penalties.toString()
+            StatType.CLEAN_SHEET -> third?.cleanSheet.toString()
+            StatType.GAMES_PLAYED -> third?.gamesPlayed.toString()
         }
     }
 
@@ -182,11 +173,14 @@ class StatsFragment : Fragment() {
             false
         )
 
-        with(builder){
+        with(builder) {
             setView(view)
             create().apply {
                 window?.setBackgroundDrawableResource(android.R.color.transparent)
-                window?.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
+                window?.setLayout(
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT
+                )
                 show()
                 view.findViewById<LinearLayout>(R.id.llPercentage).setOnClickListener {
                     binding.tvStats.text = getString(R.string.percentage)

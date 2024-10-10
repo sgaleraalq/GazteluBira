@@ -2,13 +2,11 @@ package com.sgalera.gaztelubira.ui.stats.adapter
 
 import android.annotation.SuppressLint
 import android.view.View
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.*
+import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.ItemStatsFragmentBinding
 import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
-import com.sgalera.gaztelubira.ui.stats.RankingPosition
 import com.sgalera.gaztelubira.ui.stats.StatType
 
 class PlayerStatsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -17,40 +15,39 @@ class PlayerStatsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     @SuppressLint("SetTextI18n")
     fun render(
         player: PlayerStatsModel?,
-        position: RankingPosition,
+        position: Int,
         statSelected: StatType,
         onPlayerSelected: () -> Unit
     ) {
         binding.tvPlayerName.text = player?.information?.name
-        when (position) {
-            RankingPosition.FIRST -> {
-                binding.ivLaurel.visibility = View.VISIBLE
-                binding.tvLaurelPosition.visibility = View.VISIBLE
-                binding.ivLaurel.setColorFilter(getColor(itemView.context, R.color.champion_gold_primary))
-                binding.tvLaurelPosition.setTextColor(getColor(itemView.context,R.color.champion_gold_primary))
-                binding.tvLaurelPosition.text = "1"
-            }
+        if (position == 1) {
+            binding.ivLaurel.visibility = View.VISIBLE
+            binding.tvLaurelPosition.visibility = View.VISIBLE
+            binding.ivLaurel.setColorFilter(getColor(itemView.context,R.color.champion_gold_primary))
+            binding.tvLaurelPosition.setTextColor(getColor(itemView.context,R.color.champion_gold_primary))
+            binding.tvLaurelPosition.text = "1"
+        } else if(position == 2) {
+            binding.ivLaurel.visibility = View.VISIBLE
+            binding.tvLaurelPosition.visibility = View.VISIBLE
+            binding.ivLaurel.setColorFilter(getColor(itemView.context,R.color.second_silver_center))
+            binding.tvLaurelPosition.setTextColor(getColor(itemView.context,R.color.second_silver_center))
+            binding.tvLaurelPosition.text = "2"
+        } else if(position == 3) {
+            binding.ivLaurel.visibility = View.VISIBLE
+            binding.tvLaurelPosition.visibility = View.VISIBLE
+            binding.ivLaurel.setColorFilter(getColor(itemView.context,R.color.third_bronze_primary))
+            binding.tvLaurelPosition.setTextColor(getColor(itemView.context,R.color.third_bronze_primary))
+            binding.tvLaurelPosition.text = "3"
+        } else{
+            binding.ivLaurel.visibility = View.INVISIBLE
+            binding.tvLaurelPosition.text = position.toString()
+            binding.tvLaurelPosition.setTextColor(getColor(itemView.context,R.color.white))
+        }
 
-            RankingPosition.SECOND -> {
-                binding.ivLaurel.visibility = View.VISIBLE
-                binding.tvLaurelPosition.visibility = View.VISIBLE
-                binding.ivLaurel.setColorFilter(getColor(itemView.context,R.color.second_silver_center))
-                binding.tvLaurelPosition.setTextColor(getColor(itemView.context,R.color.second_silver_center))
-                binding.tvLaurelPosition.text = "2"
-            }
-
-            RankingPosition.THIRD -> {
-                binding.ivLaurel.visibility = View.VISIBLE
-                binding.tvLaurelPosition.visibility = View.VISIBLE
-                binding.ivLaurel.setColorFilter(getColor(itemView.context,R.color.third_bronze_primary))
-                binding.tvLaurelPosition.setTextColor(getColor(itemView.context,R.color.third_bronze_primary))
-                binding.tvLaurelPosition.text = "3"
-            }
-
-            RankingPosition.OTHER -> {
-                binding.ivLaurel.visibility = View.INVISIBLE
-                binding.tvLaurelPosition.visibility = View.INVISIBLE
-            }
+        if (statSelected == StatType.PERCENTAGE) {
+            binding.ivArrow.visibility = View.VISIBLE
+        } else {
+            binding.ivArrow.visibility = View.GONE
         }
 
         when (statSelected) {
