@@ -2,44 +2,26 @@ package com.sgalera.gaztelubira.ui.stats
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.graphics.LinearGradient
 import android.graphics.Shader
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.sgalera.gaztelubira.R
-import com.sgalera.gaztelubira.core.Constants.PLAYER_NO_IMAGE
 import com.sgalera.gaztelubira.databinding.FragmentStats1Binding
-import com.sgalera.gaztelubira.databinding.FragmentStatsBinding
-import com.sgalera.gaztelubira.databinding.ItemTableRowBinding
-import com.sgalera.gaztelubira.domain.model.UIState
 import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
-import com.sgalera.gaztelubira.ui.stats.StatType.ASSISTS
-import com.sgalera.gaztelubira.ui.stats.StatType.CLEAN_SHEET
-import com.sgalera.gaztelubira.ui.stats.StatType.GAMES_PLAYED
-import com.sgalera.gaztelubira.ui.stats.StatType.GOALS
-import com.sgalera.gaztelubira.ui.stats.StatType.PENALTIES
-import com.sgalera.gaztelubira.ui.stats.StatType.PERCENTAGE
+import com.sgalera.gaztelubira.ui.stats.adapter.PlayerStatsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 @AndroidEntryPoint
 class StatsFragment : Fragment() {
@@ -47,6 +29,7 @@ class StatsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val statsViewModel by viewModels<StatsViewModel>()
+    private lateinit var playersStatsAdapter: PlayerStatsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,6 +46,7 @@ class StatsFragment : Fragment() {
 
     private fun initUI() {
         initTextViewColors()
+        initRanking()
     }
 
     private fun initTextViewColors() {
@@ -76,6 +60,34 @@ class StatsFragment : Fragment() {
 //        startReflectionAnimation(binding.tvThirdName)
     }
 
+    private fun initRanking() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                statsViewModel.playersStats.collect{ playersStats ->
+                    initRecyclerView(playersStats)
+                }
+            }
+        }
+    }
+
+    private fun initRecyclerView(playersStats: List<PlayerStatsModel?>) {
+        playersStatsAdapter = PlayerStatsAdapter(playersStats)
+        binding.rvStats.apply {
+            adapter = playersStatsAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        }
+    }
+
+    // TODO
+    private fun startReflectionAnimation(textView: TextView) {
+        val width = textView.width.toFloat()
+        val reflection = ObjectAnimator.ofFloat(textView, "translationX", -width, width)
+        reflection.duration = 2000
+        reflection.repeatCount = ValueAnimator.INFINITE
+        reflection.repeatMode = ValueAnimator.RESTART
+        reflection.start()
+    }
+
     private fun initTextViewGradient(textView: TextView){
         val paint = textView.paint
         val width = paint.measureText(textView.text.toString())
@@ -87,16 +99,6 @@ class StatsFragment : Fragment() {
             ),
             null, Shader.TileMode.REPEAT
         )
-    }
-
-    // TODO
-    private fun startReflectionAnimation(textView: TextView) {
-        val width = textView.width.toFloat()
-        val reflection = ObjectAnimator.ofFloat(textView, "translationX", -width, width)
-        reflection.duration = 2000
-        reflection.repeatCount = ValueAnimator.INFINITE
-        reflection.repeatMode = ValueAnimator.RESTART
-        reflection.start()
     }
 
 //    private fun initUI() {

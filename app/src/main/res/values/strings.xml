@@ -140,4 +140,5 @@
     <string name="background_stats">Background image</string>
     <string name="player_name">Player name</string>
     <string name="stat">Stat</string>
+    <string name="description_laurel_icon">Laurel icon</string>
 </resources>
