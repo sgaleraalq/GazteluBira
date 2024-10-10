@@ -53,5 +53,10 @@
     <color name="tvBackgroundEnd">#d88c7c</color>
 
     <color name="tvStats">#a6a5a7</color>
+    <color name="cvStats">#e5cba9</color>
+    <color name="cvStatsShadow">#ab977d</color>
+    <color name="cvTextStats">#60341f</color>
+
+    <color name="white_bit_dark">#aeacb5</color>
 
 </resources>

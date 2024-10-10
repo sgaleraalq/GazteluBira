@@ -138,4 +138,6 @@
     <string name="background_champion_images">Background champion images</string>
     <string name="description_crown">Crown icon</string>
     <string name="background_stats">Background image</string>
+    <string name="player_name">Player name</string>
+    <string name="stat">Stat</string>
 </resources>
