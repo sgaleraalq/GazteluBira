@@ -2,324 +2,346 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary"
-    tools:context=".ui.stats.StatsFragment">
-
-    <TextView
-        android:id="@+id/tvLoggedAsAdmin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/loggedAsAdmin"
-        android:textColor="@color/white"
-        android:textSize="10sp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@id/ivBackgroundFifaCard"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SmallSp" />
+    android:background="@color/primary">
 
     <ImageView
-        android:id="@+id/ivBackgroundFifaCard"
-        android:layout_width="160dp"
-        android:layout_height="250dp"
-        android:layout_marginTop="32dp"
-        android:contentDescription="@string/description_football_card"
-        android:scaleType="fitXY"
-        android:src="@drawable/img_fifa_card_bg"
+        android:id="@+id/ivBackgroundStats"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="-100dp"
+        android:contentDescription="@string/background_stats"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_stats_background"
+        app:layout_constraintBottom_toBottomOf="@id/middlePoint"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.549"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/ibAdminLogOut"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginEnd="32dp"
-        android:background="@color/primary_soft"
-        android:contentDescription="@string/description_log_out"
-        android:src="@drawable/ic_log_out_admin"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tvLoggedAsAdmin"
-        app:tint="@color/main_red" />
-
-    <ProgressBar
-        android:id="@+id/pbLoadingChampion"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="@id/ivChampion"
-        app:layout_constraintEnd_toEndOf="@id/ivChampion"
-        app:layout_constraintStart_toStartOf="@id/ivChampion"
-        app:layout_constraintTop_toTopOf="@id/ivChampion" />
-
-    <ImageView
-        android:id="@+id/ivChampion"
-        android:layout_width="120dp"
-        android:layout_height="130dp"
-        android:layout_marginTop="20dp"
-        android:contentDescription="@string/description_champion"
-        app:layout_constraintEnd_toEndOf="@id/ivBackgroundFifaCard"
-        app:layout_constraintStart_toStartOf="@id/ivBackgroundFifaCard"
-        app:layout_constraintTop_toTopOf="@id/ivBackgroundFifaCard" />
 
     <View
-        android:id="@+id/imageCenter"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/stats_gradient_background"
+        app:layout_constraintBottom_toBottomOf="@id/ivBackgroundStats"
+        app:layout_constraintEnd_toEndOf="@id/ivBackgroundStats"
+        app:layout_constraintStart_toStartOf="@id/ivBackgroundStats"
+        app:layout_constraintTop_toTopOf="@id/ivBackgroundStats" />
+
+    <View
+        android:id="@+id/middlePoint"
         android:layout_width="0.1dp"
         android:layout_height="0.1dp"
-        app:layout_constraintEnd_toEndOf="@id/ivBackgroundFifaCard"
-        app:layout_constraintStart_toStartOf="@id/ivBackgroundFifaCard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvNameChampion"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clChampionsView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="4dp"
-        android:gravity="center"
-        android:lines="1"
-        android:textAllCaps="true"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/ivBackgroundFifaCard"
-        app:layout_constraintStart_toStartOf="@id/ivBackgroundFifaCard"
-        app:layout_constraintTop_toBottomOf="@id/ivChampion" />
-
-    <TextView
-        android:id="@+id/tvChampionGoals"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="5dp"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@id/ivIconGoals"
-        app:layout_constraintTop_toBottomOf="@id/tvNameChampion" />
-
-    <ImageView
-        android:id="@+id/ivIconGoals"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_marginEnd="5dp"
-        android:contentDescription="@string/description_goal_icon"
-        android:src="@drawable/ic_football_ball"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@id/tvChampionGoals"
-        app:layout_constraintEnd_toStartOf="@id/imageCenter"
-        app:layout_constraintTop_toTopOf="@id/tvChampionGoals" />
-
-    <TextView
-        android:id="@+id/tvChampionAssists"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/imageCenter"
-        app:layout_constraintTop_toTopOf="@id/tvChampionGoals" />
-
-    <ImageView
-        android:id="@+id/ivIconAssists"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_marginStart="5dp"
-        android:contentDescription="@string/description_goal_icon"
-        android:src="@drawable/ic_football_shoe"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@id/tvChampionAssists"
-        app:layout_constraintStart_toEndOf="@id/tvChampionAssists"
-        app:layout_constraintTop_toTopOf="@id/tvChampionAssists" />
-
-
-    <TableLayout
-        android:id="@+id/tlClassificationHeader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivBackgroundFifaCard">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/primary_dark"
-            android:padding="5dp">
-
-            <TextView
-                android:layout_width="1dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
-
-            <TextView
-                android:layout_width="1dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginHorizontal="4dp"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                tools:ignore="RtlSymmetry" />
-
-            <TextView
-                android:layout_width="158dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="@string/player"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                tools:ignore="RtlSymmetry" />
-
-
-            <ImageView
-                android:id="@+id/percentageIcon"
-                style="@style/table_row_image_view_header"
-                android:layout_marginHorizontal="2dp"
-                android:background="@color/grey_80_opacity"
-                android:contentDescription="@string/description_clean_sheet_icon"
-                android:paddingHorizontal="4dp"
-                android:src="@drawable/ic_percentage" />
-
-            <ImageView
-                android:id="@+id/goalsIcon"
-                style="@style/table_row_image_view_header"
-                android:layout_marginHorizontal="2dp"
-                android:contentDescription="@string/description_goal_icon"
-                android:paddingHorizontal="4dp"
-                android:src="@drawable/ic_football_ball"
-                app:tint="@color/white" />
-
-            <ImageView
-                android:id="@+id/assistsIcon"
-                style="@style/table_row_image_view_header"
-                android:layout_marginHorizontal="2dp"
-                android:contentDescription="@string/description_goal_icon"
-                android:paddingHorizontal="3dp"
-                android:src="@drawable/ic_football_shoe"
-                app:tint="@color/white" />
-
-            <ImageView
-                android:id="@+id/penaltiesIcon"
-                style="@style/table_row_image_view_header"
-                android:layout_marginHorizontal="2dp"
-                android:contentDescription="@string/description_penalties_icon"
-                android:paddingHorizontal="4dp"
-                android:src="@drawable/ic_penalty" />
-
-            <ImageView
-                android:id="@+id/cleanSheetIcon"
-                style="@style/table_row_image_view_header"
-                android:layout_marginHorizontal="2dp"
-                android:contentDescription="@string/description_clean_sheet_icon"
-                android:paddingHorizontal="4dp"
-                android:src="@drawable/ic_clean_sheet" />
-
-            <ImageView
-                android:id="@+id/gamesIcon"
-                style="@style/table_row_image_view_header"
-                android:layout_marginHorizontal="2dp"
-                android:contentDescription="@string/description_football_field"
-                android:paddingHorizontal="4dp"
-                android:src="@drawable/ic_color_football_field" />
-
-        </TableRow>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginBottom="16dp"
-            android:background="@color/white" />
-
-    </TableLayout>
-
-    <ScrollView
-        android:id="@+id/svClassification"
-        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/middlePoint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tlClassificationHeader">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TableLayout
-            android:id="@+id/tlClassification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/ivChampionBackground"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/circle_image_background"
+            android:contentDescription="@string/background_champion_images"
+            app:layout_constraintBottom_toBottomOf="@id/ivChampion"
+            app:layout_constraintEnd_toEndOf="@id/ivChampion"
+            app:layout_constraintStart_toStartOf="@id/ivChampion"
+            app:layout_constraintTop_toTopOf="@id/ivChampion" />
 
-            <ProgressBar
-                android:id="@+id/pbLoading"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:indeterminateTint="@color/gold" />
+        <ImageView
+            android:id="@+id/ivChampion"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginBottom="72dp"
+            android:background="@drawable/circle_image_champion"
+            android:contentDescription="@string/description_champion"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/img_player_xabi" />
 
-        </TableLayout>
-
-    </ScrollView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvAdmin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        app:cardBackgroundColor="@color/main_red"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="8dp"
-        app:layout_constraintBottom_toTopOf="@id/tlClassificationHeader"
-        app:layout_constraintEnd_toEndOf="@id/tlClassificationHeader">
+        <ImageView
+            android:id="@+id/ivChampionCrown"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="-30dp"
+            android:background="@drawable/circle_image_background"
+            android:contentDescription="@string/description_crown"
+            android:padding="6dp"
+            android:src="@drawable/ic_crown"
+            app:layout_constraintEnd_toEndOf="@id/ivChampion"
+            app:layout_constraintStart_toStartOf="@id/ivChampion"
+            app:layout_constraintTop_toTopOf="@id/ivChampion"
+            app:tint="@color/champion_gold_primary" />
 
         <TextView
+            android:id="@+id/tvChampionName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"
-            android:text="@string/admin"
-            android:textColor="@color/antique_white"
-            android:textSize="10sp"
-            tools:ignore="SmallSp" />
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/ivChampion"
+            app:layout_constraintStart_toStartOf="@id/ivChampion"
+            app:layout_constraintTop_toBottomOf="@id/ivChampion"
+            tools:text="Madariaga" />
 
-    </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/tvChampionStat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/tvStats"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/tvChampionName"
+            app:layout_constraintStart_toStartOf="@id/tvChampionName"
+            app:layout_constraintTop_toBottomOf="@id/tvChampionName"
+            tools:text="0.97%" />
 
-    <ImageView
-        android:id="@+id/ivError"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_error"
-        app:tint="@color/main_red"
-        android:layout_marginTop="56dp"
+        <ImageView
+            android:id="@+id/ivSecondBackground"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/circle_image_background"
+            android:contentDescription="@string/background_champion_images"
+            app:layout_constraintBottom_toBottomOf="@id/ivSecond"
+            app:layout_constraintEnd_toEndOf="@id/ivSecond"
+            app:layout_constraintStart_toStartOf="@id/ivSecond"
+            app:layout_constraintTop_toTopOf="@id/ivSecond" />
+
+        <ImageView
+            android:id="@+id/ivSecond"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="56dp"
+            android:background="@drawable/circle_image_second"
+            android:contentDescription="@string/description_champion"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/ivChampion"
+            app:layout_constraintEnd_toStartOf="@id/ivChampion"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivChampion"
+            tools:src="@drawable/img_player_xabi" />
+
+
+        <ImageView
+            android:id="@+id/ivSecondCrown"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="-28dp"
+            android:background="@drawable/circle_image_background"
+            android:contentDescription="@string/description_crown"
+            android:padding="6dp"
+            android:src="@drawable/ic_crown"
+            app:layout_constraintEnd_toEndOf="@id/ivSecond"
+            app:layout_constraintStart_toStartOf="@id/ivSecond"
+            app:layout_constraintTop_toTopOf="@id/ivSecond"
+            app:tint="@color/second_silver_secondary" />
+
+        <TextView
+            android:id="@+id/tvSecondName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/ivSecond"
+            app:layout_constraintStart_toStartOf="@id/ivSecond"
+            app:layout_constraintTop_toBottomOf="@id/ivSecond"
+            tools:text="Madariaga" />
+
+        <TextView
+            android:id="@+id/tvSecondStat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/tvStats"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/tvSecondName"
+            app:layout_constraintStart_toStartOf="@id/tvSecondName"
+            app:layout_constraintTop_toBottomOf="@id/tvSecondName"
+            tools:text="0.97%" />
+
+
+        <ImageView
+            android:id="@+id/ivThirdBackground"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/circle_image_background"
+            android:contentDescription="@string/background_champion_images"
+            app:layout_constraintBottom_toBottomOf="@id/ivThird"
+            app:layout_constraintEnd_toEndOf="@id/ivThird"
+            app:layout_constraintStart_toStartOf="@id/ivThird"
+            app:layout_constraintTop_toTopOf="@id/ivThird" />
+
+        <ImageView
+            android:id="@+id/ivThird"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="36dp"
+            android:background="@drawable/circle_image_third"
+            android:contentDescription="@string/description_champion"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/ivSecond"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivChampion"
+            app:layout_constraintTop_toTopOf="@id/ivSecond"
+            tools:src="@drawable/img_player_xabi" />
+
+        <ImageView
+            android:id="@+id/ivThirdCrown"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="-28dp"
+            android:background="@drawable/circle_image_background"
+            android:contentDescription="@string/description_crown"
+            android:padding="6dp"
+            android:src="@drawable/ic_crown"
+            app:layout_constraintEnd_toEndOf="@id/ivThird"
+            app:layout_constraintStart_toStartOf="@id/ivThird"
+            app:layout_constraintTop_toTopOf="@id/ivThird"
+            app:tint="@color/third_bronze_center" />
+
+        <TextView
+            android:id="@+id/tvThirdName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/ivThird"
+            app:layout_constraintStart_toStartOf="@id/ivThird"
+            app:layout_constraintTop_toBottomOf="@id/ivThird"
+            tools:text="Madariaga" />
+
+        <TextView
+            android:id="@+id/tvThirdStat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/tvStats"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/tvThirdName"
+            app:layout_constraintStart_toStartOf="@id/tvThirdName"
+            app:layout_constraintTop_toBottomOf="@id/tvThirdName"
+            tools:text="0.97%" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clStats"
+        android:layout_width="0dp"
+        android:layout_height="350dp"
+        android:layout_marginTop="-60dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/curved_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="invisible"/>
+        app:layout_constraintStart_toStartOf="parent">
 
-    <TextView
-        android:id="@+id/tvError"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/ivError"
-        app:layout_constraintStart_toStartOf="@id/ivError"
-        app:layout_constraintEnd_toEndOf="@id/ivError"
-        android:text="@string/an_error_has_occurred"
-        android:textColor="@color/grey_80_opacity"
-        android:visibility="invisible"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/vLineBackground"
+            android:layout_width="120dp"
+            android:layout_height="5dp"
+            app:cardBackgroundColor="@color/primary"
+            app:cardCornerRadius="4dp"
+            app:layout_constraintBottom_toBottomOf="@id/btnStats"
+            app:layout_constraintEnd_toEndOf="@id/btnStats"
+            app:layout_constraintStart_toStartOf="@id/btnStats" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btnStats"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="@color/cvStats"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvStats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingVertical="16dp"
+                android:text="@string/percentage"
+                android:textAlignment="center"
+                android:textColor="@color/cvTextStats"
+                android:textSize="12sp" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvStatsBackground"
+            android:layout_width="0dp"
+            android:layout_height="12dp"
+            app:cardBackgroundColor="@color/cvStats"
+            app:cardElevation="6dp"
+            app:layout_constraintBottom_toBottomOf="@id/btnStats"
+            app:layout_constraintEnd_toEndOf="@id/btnStats"
+            app:layout_constraintStart_toStartOf="@id/btnStats" />
+
+        <TextView
+            android:id="@+id/tvPlayerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-12dp"
+            android:layout_marginTop="26dp"
+            android:text="@string/player_name"
+            android:textAllCaps="true"
+            android:textColor="@color/white_bit_dark"
+            app:layout_constraintStart_toStartOf="@id/vLineBackground"
+            app:layout_constraintTop_toBottomOf="@id/btnStats" />
+
+        <TextView
+            android:id="@+id/tvStat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="50dp"
+            android:text="@string/stat"
+            android:textAllCaps="true"
+            android:textColor="@color/white_bit_dark"
+            app:layout_constraintBottom_toBottomOf="@id/tvPlayerName"
+            app:layout_constraintEnd_toEndOf="@id/rvStats"
+            app:layout_constraintTop_toTopOf="@id/tvPlayerName" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvStats"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="-90dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvPlayerName"
+            app:layout_constraintTop_toBottomOf="@id/tvPlayerName" />
+
+        <ProgressBar
+            android:id="@+id/pbStats"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:indeterminateTint="@color/antique_white"
+            app:layout_constraintBottom_toBottomOf="@id/rvStats"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/rvStats" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

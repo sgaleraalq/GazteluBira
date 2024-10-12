@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:startColor="@color/ranking_table_secondary"
+        android:endColor="@color/ranking_table_primary"
+        android:angle="90"
+        android:type="linear"/>
+    <size
+        android:width="100dp"
+        android:height="100dp" />
 
-    <item android:top="50dp">
-        <shape android:shape="rectangle">
-            <gradient
-                android:startColor="@color/ranking_table_secondary"
-                android:endColor="@color/ranking_table_primary"
-                android:angle="90" />
-            <size
-                android:width="800dp"
-                android:height="800dp" />
-        </shape>
-    </item>
+    <corners
+        android:topLeftRadius="150dp"
+        android:topRightRadius="150dp"/>
 
-    <item>
-        <shape android:shape="oval">
-            <solid android:color="@color/ranking_table_primary" />
-            <size
-                android:width="800dp"
-                android:height="200dp" />
-        </shape>
-    </item>
-
-</layer-list>
+</shape>

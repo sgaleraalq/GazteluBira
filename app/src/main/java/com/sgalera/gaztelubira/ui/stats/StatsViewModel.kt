@@ -36,6 +36,9 @@ class StatsViewModel @Inject constructor(
     private val getPlayersStatsUseCase: GetPlayersStatsUseCase,
 ) : ViewModel() {
 
+    private val _responsiveUI = MutableStateFlow(false)
+    val responsiveUI: StateFlow<Boolean> = _responsiveUI
+
     private val _uiState = MutableStateFlow<UIState>(UIState.Loading)
     val uiState: StateFlow<UIState> = _uiState
 
@@ -74,6 +77,10 @@ class StatsViewModel @Inject constructor(
                 initStats(playersList, playersStats)
             }
         }
+    }
+
+    fun onResponsiveUIChanged(isResponsive: Boolean) {
+        _responsiveUI.value = isResponsive
     }
 
     private fun changeStatSelected(stat: StatType) {

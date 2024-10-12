@@ -1,17 +1,20 @@
 package com.sgalera.gaztelubira.ui.stats
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.graphics.LinearGradient
 import android.graphics.Shader
+import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -24,34 +27,49 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.sgalera.gaztelubira.R
-import com.sgalera.gaztelubira.databinding.FragmentStats1Binding
+import com.sgalera.gaztelubira.databinding.FragmentStatsBinding
 import com.sgalera.gaztelubira.domain.model.UIState
 import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.ui.stats.adapter.PlayerStatsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 
 @AndroidEntryPoint
 class StatsFragment : Fragment() {
-    private var _binding: FragmentStats1Binding? = null
+    private var _binding: FragmentStatsBinding? = null
     private val binding get() = _binding!!
 
     private val statsViewModel by viewModels<StatsViewModel>()
     private lateinit var playersStatsAdapter: PlayerStatsAdapter
 
+    private val minHeight = 1000
+    private val maxHeight = 1600
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentStats1Binding.inflate(layoutInflater, container, false)
+        _binding = FragmentStatsBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
+        initMinHeight()
     }
+
+    private fun initMinHeight() {
+        val layoutParams = binding.clStats.layoutParams
+        layoutParams.height = minHeight
+        binding.clStats.layoutParams = layoutParams
+    }
+
 
     private fun initUI() {
         initTextViewColors()
@@ -115,22 +133,54 @@ class StatsFragment : Fragment() {
     }
 
     private fun initListeners() {
-        binding.btnStats.setOnClickListener {
-            showDialog(
-                onStatSelected = {
-                    statsViewModel.sortPlayersBy(it)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                statsViewModel.responsiveUI.collect { isResponsive ->
+                    if (isResponsive) {
+                        binding.btnStats.setCardBackgroundColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.cvStats
+                            )
+                        )
+                        binding.cvStatsBackground.setCardBackgroundColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.cvStats
+                            )
+                        )
+                        binding.tvStats.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.cvTextStats
+                            )
+                        )
+                        binding.btnStats.setOnClickListener {
+                            showDialog(onStatSelected = { statsViewModel.sortPlayersBy(it) })
+                        }
+                    } else {
+                        binding.btnStats.setCardBackgroundColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.grey_selected_soft
+                            )
+                        )
+                        binding.cvStatsBackground.setCardBackgroundColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.grey_selected_soft
+                            )
+                        )
+                        binding.tvStats.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.black
+                            )
+                        )
+                    }
                 }
-            )
+            }
         }
-
-        // TODO be removed
-//        binding.btnOpacity.setOnClickListener {
-//            if (binding.clChampionsView.alpha == 1f) {
-//                statsViewModel.onOpacityChanged(0.5f)
-//            } else {
-//                statsViewModel.onOpacityChanged(1f)
-//            }
-//        }
     }
 
     private fun initRecyclerView(playersStats: List<PlayerStatsModel?>) {
@@ -149,90 +199,203 @@ class StatsFragment : Fragment() {
         stat: StatType
     ) {
         playersStatsAdapter.changeStatSelected(stat)
-        Glide.with(requireContext()).load(champion?.information?.img).into(binding.ivChampion)
-        Glide.with(requireContext()).load(second?.information?.img).into(binding.ivSecond)
-        Glide.with(requireContext()).load(third?.information?.img).into(binding.ivThird)
+        setChampionsOpacity()
 
-        binding.tvChampionName.text = champion?.information?.name
-        binding.tvSecondName.text = second?.information?.name
-        binding.tvThirdName.text = third?.information?.name
+        binding.tvChampionName.text = champion?.information?.name ?: "N/A"
+        binding.tvChampionStat.text = getChampionStat(champion, stat)
 
-        binding.tvChampionStat.text = when(playersStatsAdapter.statSelected) {
-            StatType.PERCENTAGE -> champion?.percentage + " %"
-            StatType.GOALS -> champion?.goals.toString()
-            StatType.ASSISTS -> champion?.assists.toString()
-            StatType.PENALTIES -> champion?.penalties.toString()
-            StatType.CLEAN_SHEET -> champion?.cleanSheet.toString()
-            StatType.GAMES_PLAYED -> champion?.gamesPlayed.toString()
+        loadChampionImage(
+            champion?.information?.img,
+            binding.ivChampion,
+            binding.tvChampionName,
+            binding.tvChampionStat,
+            binding.ivChampionBackground,
+            binding.ivChampionCrown
+        ) {
+            binding.tvSecondName.text = second?.information?.name ?: "N/A"
+            binding.tvSecondStat.text = getChampionStat(second, stat)
+
+            loadChampionImage(
+                second?.information?.img,
+                binding.ivSecond,
+                binding.tvSecondName,
+                binding.tvSecondStat,
+                binding.ivSecondBackground,
+                binding.ivSecondCrown
+            ) {
+                binding.tvThirdName.text = third?.information?.name ?: "N/A"
+                binding.tvThirdStat.text = getChampionStat(third, stat)
+
+                loadChampionImage(
+                    third?.information?.img,
+                    binding.ivThird,
+                    binding.tvThirdName,
+                    binding.tvThirdStat,
+                    binding.ivThirdBackground,
+                    binding.ivThirdCrown
+                ) {
+                    statsViewModel.onResponsiveUIChanged(true)
+                }
+            }
         }
+    }
 
-        binding.tvSecondStat.text = when(playersStatsAdapter.statSelected) {
-            StatType.PERCENTAGE -> second?.percentage + " %"
-            StatType.GOALS -> second?.goals.toString()
-            StatType.ASSISTS -> second?.assists.toString()
-            StatType.PENALTIES -> second?.penalties.toString()
-            StatType.CLEAN_SHEET -> second?.cleanSheet.toString()
-            StatType.GAMES_PLAYED -> second?.gamesPlayed.toString()
-        }
+    private fun setChampionsOpacity() {
+        binding.ivChampion.alpha = 0f
+        binding.ivSecond.alpha = 0f
+        binding.ivThird.alpha = 0f
 
-        binding.tvThirdStat.text = when(playersStatsAdapter.statSelected) {
-            StatType.PERCENTAGE -> third?.percentage + " %"
-            StatType.GOALS -> third?.goals.toString()
-            StatType.ASSISTS -> third?.assists.toString()
-            StatType.PENALTIES -> third?.penalties.toString()
-            StatType.CLEAN_SHEET -> third?.cleanSheet.toString()
-            StatType.GAMES_PLAYED -> third?.gamesPlayed.toString()
+        binding.ivChampionBackground.alpha = 0f
+        binding.ivSecondBackground.alpha = 0f
+        binding.ivThirdBackground.alpha = 0f
+
+        binding.ivChampionCrown.alpha = 0f
+        binding.ivSecondCrown.alpha = 0f
+        binding.ivThirdCrown.alpha = 0f
+
+        binding.tvChampionName.alpha = 0f
+        binding.tvSecondName.alpha = 0f
+        binding.tvThirdName.alpha = 0f
+        binding.tvChampionStat.alpha = 0f
+        binding.tvSecondStat.alpha = 0f
+        binding.tvThirdStat.alpha = 0f
+    }
+
+    private fun loadChampionImage(
+        imageUrl: String?,
+        imageView: ImageView,
+        playerName: TextView,
+        playerStats: TextView,
+        ivBackground: ImageView,
+        ivCrown: ImageView,
+        onLoadComplete: () -> Unit
+    ) {
+        Glide.with(requireContext())
+            .load(imageUrl)
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable,
+                    model: Any,
+                    target: Target<Drawable>?,
+                    dataSource: com.bumptech.glide.load.DataSource,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    startImageAnimation(
+                        imageView,
+                        playerName,
+                        playerStats,
+                        ivBackground,
+                        ivCrown,
+                    ) {
+                        onLoadComplete()
+                    }
+                    return false
+                }
+            })
+            .into(imageView)
+    }
+
+    private fun startImageAnimation(
+        imageView: ImageView,
+        playerName: TextView,
+        playerStats: TextView,
+        ivBackground: ImageView,
+        ivCrown: ImageView,
+        onAnimationFinish: () -> Unit
+    ) {
+        imageView.translationY = 1000f
+        imageView.alpha = 1f
+        val slideUp = ObjectAnimator.ofFloat(imageView, "translationY", 1000f, 0f).apply { duration = 1000 }
+
+        val fadeInViews = listOf(playerName, playerStats, ivBackground, ivCrown)
+
+        slideUp.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                fadeInViews.forEach { view ->
+                    ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).apply {
+                        duration = 1000
+                        start()
+                    }
+                }
+                onAnimationFinish()
+            }
+        })
+        slideUp.start()
+    }
+
+
+    private fun getChampionStat(champion: PlayerStatsModel?, stat: StatType): String {
+        return when (stat) {
+            StatType.PERCENTAGE -> "${champion?.percentage ?: 0} %"
+            StatType.GOALS -> champion?.goals?.toString() ?: "0"
+            StatType.ASSISTS -> champion?.assists?.toString() ?: "0"
+            StatType.PENALTIES -> champion?.penalties?.toString() ?: "0"
+            StatType.CLEAN_SHEET -> champion?.cleanSheet?.toString() ?: "0"
+            StatType.GAMES_PLAYED -> champion?.gamesPlayed?.toString() ?: "0"
         }
     }
 
     private fun showDialog(onStatSelected: (StatType) -> Unit) {
         val builder = AlertDialog.Builder(requireContext())
-        val view = LayoutInflater.from(requireContext()).inflate(
-            R.layout.dialog_stats,
-            builder.create().window?.decorView as? ViewGroup,
-            false
-        )
+        val view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_stats, null)
 
-        with(builder) {
-            setView(view)
-            create().apply {
+        val dialog = builder.setView(view)
+            .create().apply {
                 window?.setBackgroundDrawableResource(android.R.color.transparent)
                 window?.setLayout(
                     WindowManager.LayoutParams.WRAP_CONTENT,
                     WindowManager.LayoutParams.WRAP_CONTENT
                 )
                 show()
-                view.findViewById<LinearLayout>(R.id.llPercentage).setOnClickListener {
-                    binding.tvStats.text = getString(R.string.percentage)
-                    onStatSelected(StatType.PERCENTAGE)
-                    dismiss()
-                }
-                view.findViewById<LinearLayout>(R.id.llGoals).setOnClickListener {
-                    binding.tvStats.text = getString(R.string.goals)
-                    onStatSelected(StatType.GOALS)
-                    dismiss()
-                }
-                view.findViewById<LinearLayout>(R.id.llAssists).setOnClickListener {
-                    binding.tvStats.text = getString(R.string.assists)
-                    onStatSelected(StatType.ASSISTS)
-                    dismiss()
-                }
-                view.findViewById<LinearLayout>(R.id.llPenalties).setOnClickListener {
-                    binding.tvStats.text = getString(R.string.penalties)
-                    onStatSelected(StatType.PENALTIES)
-                    dismiss()
-                }
-                view.findViewById<LinearLayout>(R.id.llCleanSheet).setOnClickListener {
-                    binding.tvStats.text = getString(R.string.clean_sheet)
-                    onStatSelected(StatType.CLEAN_SHEET)
-                    dismiss()
-                }
-                view.findViewById<LinearLayout>(R.id.llGamesPlayed).setOnClickListener {
-                    binding.tvStats.text = getString(R.string.games_played)
-                    onStatSelected(StatType.GAMES_PLAYED)
-                    dismiss()
-                }
             }
+
+        setupStatClickListener(view, R.id.llPercentage, StatType.PERCENTAGE, onStatSelected, dialog)
+        setupStatClickListener(view, R.id.llGoals, StatType.GOALS, onStatSelected, dialog)
+        setupStatClickListener(view, R.id.llAssists, StatType.ASSISTS, onStatSelected, dialog)
+        setupStatClickListener(view, R.id.llPenalties, StatType.PENALTIES, onStatSelected, dialog)
+        setupStatClickListener(
+            view,
+            R.id.llCleanSheet,
+            StatType.CLEAN_SHEET,
+            onStatSelected,
+            dialog
+        )
+        setupStatClickListener(
+            view,
+            R.id.llGamesPlayed,
+            StatType.GAMES_PLAYED,
+            onStatSelected,
+            dialog
+        )
+    }
+
+    private fun setupStatClickListener(
+        view: View,
+        layoutId: Int,
+        statType: StatType,
+        onStatSelected: (StatType) -> Unit,
+        dialog: AlertDialog
+    ) {
+        view.findViewById<LinearLayout>(layoutId).setOnClickListener {
+            binding.tvStats.text = when (statType) {
+                StatType.PERCENTAGE -> getString(R.string.percentage)
+                StatType.GOALS -> getString(R.string.goals)
+                StatType.ASSISTS -> getString(R.string.assists)
+                StatType.PENALTIES -> getString(R.string.penalties)
+                StatType.CLEAN_SHEET -> getString(R.string.clean_sheet)
+                StatType.GAMES_PLAYED -> getString(R.string.games_played)
+            }
+            onStatSelected(statType)
+            dialog.dismiss()
         }
     }
 
@@ -250,46 +413,31 @@ class StatsFragment : Fragment() {
     }
 
     private fun initRecyclerViewScroll() {
-//        val initialHeight = binding.clStats.height
-//        val maxHeight = 1000 // Define una altura máxima deseada para clStats
-//        val stopAtY = 100f // Valor donde quieres que clStats se detenga
-//
-//        binding.rvStats.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                super.onScrolled(recyclerView, dx, dy)
-//
-//                // Obtener la posición actual en pantalla de clStats
-//                val location = IntArray(2)
-//                binding.clStats.getLocationOnScreen(location)
-//                val clStatsY = location[1]
-//
-//                // Si clStats ha llegado a la posición deseada y estamos haciendo scroll hacia arriba, no hagas nada
-//                if (clStatsY <= stopAtY && dy > 0) {
-//                    return
-//                }
-//
-//                // Calcular nueva altura basada en el desplazamiento (scroll)
-//                val newHeight = (binding.clStats.height - dy).coerceIn(initialHeight, maxHeight)
-//
-//                // Asignar la nueva altura
-//                val layoutParams = binding.clStats.layoutParams
-//                layoutParams.height = newHeight
-//                binding.clStats.layoutParams = layoutParams
-//            }
-//        })
-    }
+        var currentHeight = minHeight
+        val scrollThreshold = 3
+        val heightChangeFactor = 0.5
 
-    // Función para actualizar la posición Y de clStats
-    private fun updateTranslationY(newTranslationY: Float) {
-        binding.clStats.translationY = newTranslationY
-    }
+        binding.rvStats.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
 
-    private fun hideHeader() {
-        binding.ivChampion.visibility = View.GONE
-    }
+                if (abs(dy) < scrollThreshold) return
 
-    private fun showHeader() {
-        binding.ivChampion.visibility = View.VISIBLE
+                val change = (dy * heightChangeFactor).toInt()
+                val newHeight = (currentHeight + change).coerceIn(minHeight, maxHeight)
+
+                if (newHeight != currentHeight) {
+                    val layoutParams = binding.clStats.layoutParams
+                    layoutParams.height = newHeight
+                    binding.clStats.layoutParams = layoutParams
+                    currentHeight = newHeight
+
+                    val newOpacity =
+                        1 - ((newHeight - minHeight) / (maxHeight - minHeight).toFloat())
+                    statsViewModel.onOpacityChanged(newOpacity)
+                }
+            }
+        })
     }
 
 
@@ -302,180 +450,4 @@ class StatsFragment : Fragment() {
         reflection.repeatMode = ValueAnimator.RESTART
         reflection.start()
     }
-
-
-
-//    private fun initUI() {
-//        initComponents()
-//        initListeners()
-//    }
-//
-//    private fun initComponents() {
-//        lifecycleScope.launch {
-//            repeatOnLifecycle(Lifecycle.State.STARTED){
-//                statsViewModel.uiState.collect { uiState ->
-//                    when (uiState) {
-//                        UIState.Loading -> { onLoading() }
-//                        is UIState.Error -> { onError() }
-//                        UIState.Success -> {}
-//                    }
-//                }
-//            }
-//        }
-//
-//        lifecycleScope.launch {
-//            repeatOnLifecycle(Lifecycle.State.STARTED){
-//                statsViewModel.playersStats.collect { playersStats ->
-//                    onSuccess(playersStats, playersStats.firstOrNull())
-//                }
-//            }
-//        }
-//
-//        lifecycleScope.launch {
-//            repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                statsViewModel.isAdmin.collect { isAdmin ->
-//                    if (isAdmin) {
-//                        binding.tvLoggedAsAdmin.visibility = View.VISIBLE
-//                        binding.cvAdmin.visibility = View.GONE
-//                        binding.ibAdminLogOut.visibility = View.VISIBLE
-//                    } else {
-//                        binding.tvLoggedAsAdmin.visibility = View.GONE
-//                        binding.cvAdmin.visibility = View.VISIBLE
-//                        binding.ibAdminLogOut.visibility = View.GONE
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//    private fun onLoading() {
-//        binding.pbLoading.visibility = View.VISIBLE
-//        binding.pbLoadingChampion.visibility = View.VISIBLE
-//    }
-//
-//    private fun onError() {
-//        binding.pbLoading.visibility = View.GONE
-//        binding.pbLoadingChampion.visibility = View.GONE
-//        binding.ivError.visibility = View.VISIBLE
-//        binding.tvError.visibility = View.VISIBLE
-//        Toast.makeText(context, getString(R.string.main_error), Toast.LENGTH_SHORT).show()
-//    }
-//
-//    private fun onSuccess(playersListStats: List<PlayerStatsModel?>, champion: PlayerStatsModel?) {
-//        binding.pbLoading.visibility = View.GONE
-//
-//        // Show the table
-//        binding.tlClassification.removeAllViews()
-//        playersListStats.forEachIndexed { index, player ->
-//            binding.tlClassification.addView(insertRow(player, index))
-//        }
-//
-//        // Show champion card
-//        if (champion != null){
-//            showImage(champion)
-//        }
-//
-//        initButtonListeners()
-//    }
-//
-//    private fun insertRow(player: PlayerStatsModel?, index: Int): View {
-//        val binding = ItemTableRowBinding.inflate(layoutInflater)
-//        val arrow = getArrow(player)
-//
-//        with(binding) {
-//            ivArrow.setImageResource(arrow)
-//            tvRanking.text = getString(R.string.player_ranking, index + 1)
-//            tvPlayerName.text = player?.information?.name ?: getString(R.string.could_not_retrieve)
-//            tvPlayerProportion.text = player?.percentage
-//            tvPlayerGoals.text = player?.goals.toString()
-//            tvPlayerAssists.text = player?.assists.toString()
-//            tvPlayerPenalties.text = player?.penalties.toString()
-//            tvPlayerCleanSheet.text = player?.cleanSheet.toString()
-//            tvPlayerGames.text = player?.gamesPlayed.toString()
-//        }
-//        return binding.root
-//    }
-//
-//    private fun initListeners() {
-//        binding.cvAdmin.setOnClickListener { showAdminDialog() }
-//        binding.ibAdminLogOut.setOnClickListener { statsViewModel.adminLogOut() }
-//    }
-//
-//    private fun initButtonListeners() {
-//        binding.percentageIcon.setOnClickListener { statsViewModel.sortPlayersBy(PERCENTAGE) { changeButtonColor(it) } }
-//        binding.goalsIcon.setOnClickListener { statsViewModel.sortPlayersBy(GOALS) { changeButtonColor(it) } }
-//        binding.assistsIcon.setOnClickListener { statsViewModel.sortPlayersBy(ASSISTS) { changeButtonColor(it) } }
-//        binding.penaltiesIcon.setOnClickListener { statsViewModel.sortPlayersBy(PENALTIES) { changeButtonColor(it) } }
-//        binding.cleanSheetIcon.setOnClickListener { statsViewModel.sortPlayersBy(CLEAN_SHEET) { changeButtonColor(it) } }
-//        binding.gamesIcon.setOnClickListener { statsViewModel.sortPlayersBy(GAMES_PLAYED) { changeButtonColor(it) } }
-//    }
-//
-//    private fun changeButtonColor(stat: StatType){
-//        val buttonMap = mapOf(
-//            PERCENTAGE to binding.percentageIcon,
-//            GOALS to binding.goalsIcon,
-//            ASSISTS to binding.assistsIcon,
-//            PENALTIES to binding.penaltiesIcon,
-//            CLEAN_SHEET to binding.cleanSheetIcon,
-//            GAMES_PLAYED to binding.gamesIcon
-//        )
-//        buttonMap[stat]?.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.grey_80_opacity))
-//        buttonMap.filterKeys { it != stat }.forEach { (_, button) ->
-//            button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.primary))
-//        }
-//    }
-//
-//    private fun showImage(player: PlayerStatsModel) {
-//        makeImageElementsVisible()
-//        binding.tvNameChampion.text = player.information?.name
-//        binding.tvChampionGoals.text = String.format(Locale.getDefault(),"%,d", player.goals)
-//        binding.tvChampionAssists.text = String.format(Locale.getDefault(), "%,d", player.assists)
-//        Glide.with(requireContext())
-//            .load(player.information?.img ?: PLAYER_NO_IMAGE)
-//            .into(binding.ivChampion)
-//    }
-//
-//    private fun makeImageElementsVisible() {
-//        binding.ivIconGoals.visibility = View.VISIBLE
-//        binding.ivIconAssists.visibility = View.VISIBLE
-//        binding.pbLoadingChampion.visibility = View.INVISIBLE
-//    }
-//
-//    @SuppressLint("InflateParams")
-//    private fun showAdminDialog() {
-//        val builder = AlertDialog.Builder(requireContext())
-//        val view = LayoutInflater.from(requireContext()).inflate(R.layout.item_admin_dialog, null)
-//
-//        with(builder){
-//            setView(view)
-//            create().apply {
-//                window?.setBackgroundDrawableResource(android.R.color.transparent)
-//                show()
-//
-//                val password = view.findViewById<EditText>(R.id.etAdminPassword)
-//                view.findViewById<AppCompatButton>(R.id.btnLogInAdmin)
-//                    .setOnClickListener {
-//                        val result = statsViewModel.adminLogIn(password.text.toString())
-//                        if (result){
-//                            Toast.makeText(context, getString(R.string.correct_password), Toast.LENGTH_SHORT).show()
-//                            dismiss()
-//                        } else {
-//                            Toast.makeText(context, getString(R.string.incorrect_password), Toast.LENGTH_SHORT).show()
-//                        }
-//                    }
-//            }
-//        }
-//    }
-//
-//    private fun getArrow(player: PlayerStatsModel?): Int {
-//        return if (player == null){
-//            R.drawable.ic_arrow_equal
-//        } else if (player.lastRanking < player.ranking) {
-//            R.drawable.ic_arrow_down
-//        } else if (player.lastRanking > player.ranking) {
-//            R.drawable.ic_arrow_up
-//        } else {
-//            R.drawable.ic_arrow_equal
-//        }
-//    }
 }

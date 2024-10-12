@@ -22,7 +22,7 @@
         android:id="@+id/statsFragment"
         android:name="com.sgalera.gaztelubira.ui.stats.StatsFragment"
         android:label="fragment_stats"
-        tools:layout="@layout/fragment_stats_1" />
+        tools:layout="@layout/fragment_stats" />
     <activity
         android:id="@+id/detailMatchActivity"
         android:name="com.sgalera.gaztelubira.ui.matches.detail.DetailMatchActivity"
