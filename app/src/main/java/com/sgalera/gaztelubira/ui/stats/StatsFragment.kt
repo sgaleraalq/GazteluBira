@@ -18,7 +18,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -34,6 +34,12 @@ import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentStatsBinding
 import com.sgalera.gaztelubira.domain.model.UIState
 import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
+import com.sgalera.gaztelubira.ui.stats.StatType.ASSISTS
+import com.sgalera.gaztelubira.ui.stats.StatType.CLEAN_SHEET
+import com.sgalera.gaztelubira.ui.stats.StatType.GAMES_PLAYED
+import com.sgalera.gaztelubira.ui.stats.StatType.GOALS
+import com.sgalera.gaztelubira.ui.stats.StatType.PENALTIES
+import com.sgalera.gaztelubira.ui.stats.StatType.PERCENTAGE
 import com.sgalera.gaztelubira.ui.stats.adapter.PlayerStatsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -138,48 +144,50 @@ class StatsFragment : Fragment() {
                 statsViewModel.responsiveUI.collect { isResponsive ->
                     if (isResponsive) {
                         binding.btnStats.setCardBackgroundColor(
-                            ContextCompat.getColor(
+                            getColor(
                                 requireContext(),
                                 R.color.cvStats
                             )
                         )
                         binding.cvStatsBackground.setCardBackgroundColor(
-                            ContextCompat.getColor(
+                            getColor(
                                 requireContext(),
                                 R.color.cvStats
                             )
                         )
                         binding.tvStats.setTextColor(
-                            ContextCompat.getColor(
+                            getColor(
                                 requireContext(),
                                 R.color.cvTextStats
                             )
                         )
                         binding.btnStats.setOnClickListener {
-                            showDialog(onStatSelected = { statsViewModel.sortPlayersBy(it) })
+                            showDialog(
+                                onStatSelected = {
+                                    statsViewModel.sortPlayersBy(it)
+                                })
                         }
                     } else {
                         binding.btnStats.setCardBackgroundColor(
-                            ContextCompat.getColor(
+                            getColor(
                                 requireContext(),
                                 R.color.grey_selected_soft
                             )
                         )
                         binding.cvStatsBackground.setCardBackgroundColor(
-                            ContextCompat.getColor(
+                            getColor(
                                 requireContext(),
                                 R.color.grey_selected_soft
                             )
                         )
-                        binding.tvStats.setTextColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.black
-                            )
-                        )
+                        binding.tvStats.setTextColor(getColor(requireContext(), R.color.black))
                     }
                 }
             }
+        }
+
+        binding.psSeason.setOnClickListener{
+
         }
     }
 
@@ -314,7 +322,8 @@ class StatsFragment : Fragment() {
     ) {
         imageView.translationY = 1000f
         imageView.alpha = 1f
-        val slideUp = ObjectAnimator.ofFloat(imageView, "translationY", 1000f, 0f).apply { duration = 1000 }
+        val slideUp =
+            ObjectAnimator.ofFloat(imageView, "translationY", 1000f, 0f).apply { duration = 1000 }
 
         val fadeInViews = listOf(playerName, playerStats, ivBackground, ivCrown)
 
@@ -335,12 +344,12 @@ class StatsFragment : Fragment() {
 
     private fun getChampionStat(champion: PlayerStatsModel?, stat: StatType): String {
         return when (stat) {
-            StatType.PERCENTAGE -> "${champion?.percentage ?: 0} %"
-            StatType.GOALS -> champion?.goals?.toString() ?: "0"
-            StatType.ASSISTS -> champion?.assists?.toString() ?: "0"
-            StatType.PENALTIES -> champion?.penalties?.toString() ?: "0"
-            StatType.CLEAN_SHEET -> champion?.cleanSheet?.toString() ?: "0"
-            StatType.GAMES_PLAYED -> champion?.gamesPlayed?.toString() ?: "0"
+            PERCENTAGE -> champion?.percentage ?: "0"
+            GOALS -> champion?.goals?.toString() ?: "0"
+            ASSISTS -> champion?.assists?.toString() ?: "0"
+            PENALTIES -> champion?.penalties?.toString() ?: "0"
+            CLEAN_SHEET -> champion?.cleanSheet?.toString() ?: "0"
+            GAMES_PLAYED -> champion?.gamesPlayed?.toString() ?: "0"
         }
     }
 
@@ -358,24 +367,12 @@ class StatsFragment : Fragment() {
                 show()
             }
 
-        setupStatClickListener(view, R.id.llPercentage, StatType.PERCENTAGE, onStatSelected, dialog)
-        setupStatClickListener(view, R.id.llGoals, StatType.GOALS, onStatSelected, dialog)
-        setupStatClickListener(view, R.id.llAssists, StatType.ASSISTS, onStatSelected, dialog)
-        setupStatClickListener(view, R.id.llPenalties, StatType.PENALTIES, onStatSelected, dialog)
-        setupStatClickListener(
-            view,
-            R.id.llCleanSheet,
-            StatType.CLEAN_SHEET,
-            onStatSelected,
-            dialog
-        )
-        setupStatClickListener(
-            view,
-            R.id.llGamesPlayed,
-            StatType.GAMES_PLAYED,
-            onStatSelected,
-            dialog
-        )
+        setupStatClickListener(view, R.id.llPercentage, PERCENTAGE, onStatSelected, dialog)
+        setupStatClickListener(view, R.id.llGoals, GOALS, onStatSelected, dialog)
+        setupStatClickListener(view, R.id.llAssists, ASSISTS, onStatSelected, dialog)
+        setupStatClickListener(view, R.id.llPenalties, PENALTIES, onStatSelected, dialog)
+        setupStatClickListener(view, R.id.llCleanSheet, CLEAN_SHEET, onStatSelected, dialog)
+        setupStatClickListener(view, R.id.llGamesPlayed, GAMES_PLAYED, onStatSelected, dialog)
     }
 
     private fun setupStatClickListener(
@@ -387,12 +384,12 @@ class StatsFragment : Fragment() {
     ) {
         view.findViewById<LinearLayout>(layoutId).setOnClickListener {
             binding.tvStats.text = when (statType) {
-                StatType.PERCENTAGE -> getString(R.string.percentage)
-                StatType.GOALS -> getString(R.string.goals)
-                StatType.ASSISTS -> getString(R.string.assists)
-                StatType.PENALTIES -> getString(R.string.penalties)
-                StatType.CLEAN_SHEET -> getString(R.string.clean_sheet)
-                StatType.GAMES_PLAYED -> getString(R.string.games_played)
+                PERCENTAGE -> getString(R.string.percentage)
+                GOALS -> getString(R.string.goals)
+                ASSISTS -> getString(R.string.assists)
+                PENALTIES -> getString(R.string.penalties)
+                CLEAN_SHEET -> getString(R.string.clean_sheet)
+                GAMES_PLAYED -> getString(R.string.games_played)
             }
             onStatSelected(statType)
             dialog.dismiss()
@@ -405,8 +402,8 @@ class StatsFragment : Fragment() {
         textView.paint.shader = LinearGradient(
             0f, 0f, width, textView.textSize,
             intArrayOf(
-                ContextCompat.getColor(requireContext(), R.color.tvBackgroundEnd),
-                ContextCompat.getColor(requireContext(), R.color.tvBackgroundStart)
+                getColor(requireContext(), R.color.tvBackgroundEnd),
+                getColor(requireContext(), R.color.tvBackgroundStart)
             ),
             null, Shader.TileMode.REPEAT
         )

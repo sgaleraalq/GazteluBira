@@ -36,17 +36,20 @@ class StatsViewModel @Inject constructor(
     private val getPlayersStatsUseCase: GetPlayersStatsUseCase,
 ) : ViewModel() {
 
+    private val _isAdmin = MutableStateFlow(false)
+    val isAdmin: StateFlow<Boolean> = _isAdmin
+
     private val _responsiveUI = MutableStateFlow(false)
     val responsiveUI: StateFlow<Boolean> = _responsiveUI
+
+    private val _season = MutableStateFlow(2023)
+    val season: StateFlow<Int> = _season
 
     private val _uiState = MutableStateFlow<UIState>(UIState.Loading)
     val uiState: StateFlow<UIState> = _uiState
 
     private val _playersStats = MutableStateFlow<List<PlayerStatsModel?>>(emptyList())
     val playersStats: StateFlow<List<PlayerStatsModel?>> = _playersStats
-
-    private val _isAdmin = MutableStateFlow(false)
-    val isAdmin: StateFlow<Boolean> = _isAdmin
 
     private val _statSelected = MutableStateFlow(PERCENTAGE)
     val statSelected: StateFlow<StatType> = _statSelected
