@@ -48,6 +48,9 @@ class StatsViewModel @Inject constructor(
     private val _statSelected = MutableStateFlow(PERCENTAGE)
     val statSelected: StateFlow<StatType> = _statSelected
 
+    private val _headerOpacity = MutableStateFlow(1f)
+    val headerOpacity: StateFlow<Float> = _headerOpacity
+
     init {
         viewModelScope.launch {
             _uiState.value = UIState.Loading
@@ -109,6 +112,10 @@ class StatsViewModel @Inject constructor(
         _playersStats.value = sortedList
     }
 
+
+    fun onOpacityChanged(opacity: Float) {
+        _headerOpacity.value = opacity
+    }
 
     fun adminLogIn(password: String): Boolean {
         val result = passwordManager.checkPassword(password)

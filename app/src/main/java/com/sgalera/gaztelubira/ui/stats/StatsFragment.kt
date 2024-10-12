@@ -7,6 +7,7 @@ import android.app.AlertDialog
 import android.graphics.LinearGradient
 import android.graphics.Shader
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentStats1Binding
@@ -55,6 +57,7 @@ class StatsFragment : Fragment() {
         initTextViewColors()
         initRanking()
         initListeners()
+        initRecyclerViewScroll()
     }
 
     private fun initTextViewColors() {
@@ -101,6 +104,14 @@ class StatsFragment : Fragment() {
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                statsViewModel.headerOpacity.collect {
+                    binding.clChampionsView.alpha = it
+                }
+            }
+        }
     }
 
     private fun initListeners() {
@@ -111,6 +122,15 @@ class StatsFragment : Fragment() {
                 }
             )
         }
+
+        // TODO be removed
+//        binding.btnOpacity.setOnClickListener {
+//            if (binding.clChampionsView.alpha == 1f) {
+//                statsViewModel.onOpacityChanged(0.5f)
+//            } else {
+//                statsViewModel.onOpacityChanged(1f)
+//            }
+//        }
     }
 
     private fun initRecyclerView(playersStats: List<PlayerStatsModel?>) {
@@ -216,16 +236,6 @@ class StatsFragment : Fragment() {
         }
     }
 
-    // TODO
-    private fun startReflectionAnimation(textView: TextView) {
-        val width = textView.width.toFloat()
-        val reflection = ObjectAnimator.ofFloat(textView, "translationX", -width, width)
-        reflection.duration = 2000
-        reflection.repeatCount = ValueAnimator.INFINITE
-        reflection.repeatMode = ValueAnimator.RESTART
-        reflection.start()
-    }
-
     private fun initTextViewGradient(textView: TextView) {
         val paint = textView.paint
         val width = paint.measureText(textView.text.toString())
@@ -238,6 +248,46 @@ class StatsFragment : Fragment() {
             null, Shader.TileMode.REPEAT
         )
     }
+
+    private fun initRecyclerViewScroll() {
+        val maxY = 0f
+        val minY = binding.clStats.height.toFloat()
+
+        binding.rvStats.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val currentY = binding.clStats.translationY
+                val scrollY = recyclerView.computeVerticalScrollOffset()
+                Log.i("StatsFragment", "scrollY: $scrollY")
+            }
+        })
+    }
+
+    // Función para actualizar la posición Y de clStats
+    private fun updateTranslationY(newTranslationY: Float) {
+        binding.clStats.translationY = newTranslationY
+    }
+
+    private fun hideHeader() {
+        binding.ivChampion.visibility = View.GONE
+    }
+
+    private fun showHeader() {
+        binding.ivChampion.visibility = View.VISIBLE
+    }
+
+
+    // TODO
+    private fun startReflectionAnimation(textView: TextView) {
+        val width = textView.width.toFloat()
+        val reflection = ObjectAnimator.ofFloat(textView, "translationX", -width, width)
+        reflection.duration = 2000
+        reflection.repeatCount = ValueAnimator.INFINITE
+        reflection.repeatMode = ValueAnimator.RESTART
+        reflection.start()
+    }
+
+
 
 //    private fun initUI() {
 //        initComponents()
