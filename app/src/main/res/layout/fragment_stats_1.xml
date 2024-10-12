@@ -233,24 +233,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clStats"
-        android:layout_width="600dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="-60dp"
-        android:layout_marginBottom="-200dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/curved_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/middlePoint">
 
-        <View
-            android:id="@+id/ivBackgroundTable"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/curved_background"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/vLineBackground"
@@ -272,7 +264,7 @@
             app:cardElevation="6dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ivBackgroundTable">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/tvStats"

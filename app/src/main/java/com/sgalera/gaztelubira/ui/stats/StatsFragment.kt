@@ -250,17 +250,33 @@ class StatsFragment : Fragment() {
     }
 
     private fun initRecyclerViewScroll() {
-        val maxY = 0f
-        val minY = binding.clStats.height.toFloat()
-
-        binding.rvStats.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val currentY = binding.clStats.translationY
-                val scrollY = recyclerView.computeVerticalScrollOffset()
-                Log.i("StatsFragment", "scrollY: $scrollY")
-            }
-        })
+//        val initialHeight = binding.clStats.height
+//        val maxHeight = 1000 // Define una altura máxima deseada para clStats
+//        val stopAtY = 100f // Valor donde quieres que clStats se detenga
+//
+//        binding.rvStats.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy)
+//
+//                // Obtener la posición actual en pantalla de clStats
+//                val location = IntArray(2)
+//                binding.clStats.getLocationOnScreen(location)
+//                val clStatsY = location[1]
+//
+//                // Si clStats ha llegado a la posición deseada y estamos haciendo scroll hacia arriba, no hagas nada
+//                if (clStatsY <= stopAtY && dy > 0) {
+//                    return
+//                }
+//
+//                // Calcular nueva altura basada en el desplazamiento (scroll)
+//                val newHeight = (binding.clStats.height - dy).coerceIn(initialHeight, maxHeight)
+//
+//                // Asignar la nueva altura
+//                val layoutParams = binding.clStats.layoutParams
+//                layoutParams.height = newHeight
+//                binding.clStats.layoutParams = layoutParams
+//            }
+//        })
     }
 
     // Función para actualizar la posición Y de clStats
