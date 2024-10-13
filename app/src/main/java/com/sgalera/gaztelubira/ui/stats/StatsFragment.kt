@@ -165,7 +165,6 @@ class StatsFragment : Fragment() {
                             showDialog(
                                 onStatSelected = {
                                     statsViewModel.sortPlayersBy(it)
-                                    initMinHeight()
                                 })
                         }
                     } else {
