@@ -42,7 +42,6 @@ import com.sgalera.gaztelubira.ui.stats.StatType.GOALS
 import com.sgalera.gaztelubira.ui.stats.StatType.PENALTIES
 import com.sgalera.gaztelubira.ui.stats.StatType.PERCENTAGE
 import com.sgalera.gaztelubira.ui.stats.adapter.PlayerStatsAdapter
-import com.skydoves.powerspinner.IconSpinnerItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -360,8 +359,7 @@ class StatsFragment : Fragment() {
 
         imageView.translationY = 1000f
         imageView.alpha = 1f
-        val slideUp =
-            ObjectAnimator.ofFloat(imageView, "translationY", 1000f, 0f).apply { duration = 1000 }
+        val slideUp = ObjectAnimator.ofFloat(imageView, "translationY", 1000f, 0f).apply { duration = 1000 }
 
         val fadeInViews = listOf(playerName, playerStats, ivBackground, ivCrown)
 
@@ -467,8 +465,7 @@ class StatsFragment : Fragment() {
                     binding.clStats.layoutParams = layoutParams
                     currentHeight = newHeight
 
-                    val newOpacity =
-                        1 - ((newHeight - minHeight) / (maxHeight - minHeight).toFloat())
+                    val newOpacity = 1 - ((newHeight - minHeight) / (maxHeight - minHeight).toFloat())
                     statsViewModel.onOpacityChanged(newOpacity)
                 }
             }
