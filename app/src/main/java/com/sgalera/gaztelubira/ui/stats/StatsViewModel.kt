@@ -1,6 +1,5 @@
 package com.sgalera.gaztelubira.ui.stats
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.domain.manager.PasswordManager
@@ -48,8 +47,8 @@ class StatsViewModel @Inject constructor(
     private val _seasons = MutableStateFlow<List<String>>(emptyList())
     val seasons: StateFlow<List<String>> = _seasons
 
-    private val _season = MutableStateFlow(2023)
-    val season: StateFlow<Int> = _season
+    private val _season = MutableStateFlow<Int?>(null)
+    val season: StateFlow<Int?> = _season
 
     private val _uiState = MutableStateFlow<UIState>(UIState.Loading)
     val uiState: StateFlow<UIState> = _uiState
@@ -68,10 +67,33 @@ class StatsViewModel @Inject constructor(
     private val _headerOpacity = MutableStateFlow(1f)
     val headerOpacity: StateFlow<Float> = _headerOpacity
 
+    fun onResponsiveUIChanged(isResponsive: Boolean) {
+        _responsiveUI.value = isResponsive
+    }
+
+    private fun changeStatSelected(stat: StatType) {
+        _statSelected.value = stat
+    }
+
+    fun onOpacityChanged(opacity: Float) {
+        _headerOpacity.value = opacity
+    }
+
+    fun onSeasonChanged(season: Int) {
+        if (season == _season.value) return
+        _season.value = season
+        viewModelScope.launch {
+            sharedPreferences.manageSeason(season)
+            _uiState.value = UIState.Loading
+            changeSeason(season)
+        }
+    }
+
     init {
         viewModelScope.launch {
             _uiState.value = UIState.Loading
             sharedPreferences.getCredentials()
+            _season.value = sharedPreferences.credentials.year
 
             val seasonsResult = withContext(Dispatchers.IO){
                 getSeasonsUseCase()
@@ -98,13 +120,29 @@ class StatsViewModel @Inject constructor(
         }
     }
 
-    fun onResponsiveUIChanged(isResponsive: Boolean) {
-        _responsiveUI.value = isResponsive
+    private fun changeSeason(season: Int) {
+        viewModelScope.launch {
+            val playersListResult = withContext(Dispatchers.IO){
+                getPlayersUseCase(season.toString())
+            }
+
+            val playersStatsResult = withContext(Dispatchers.IO){
+                getPlayersStatsUseCase(season.toString())
+            }
+
+            withContext(Dispatchers.IO){
+                getTeamsUseCase(season.toString())
+            }
+
+            if (playersListResult && playersStatsResult) {
+                val playersList = playersRepository.playersList.value
+                val playersStats = playersRepository.playersStats.value
+                initStats(playersList, playersStats)
+            }
+        }
     }
 
-    private fun changeStatSelected(stat: StatType) {
-        _statSelected.value = stat
-    }
+
 
     private fun initStats(playersList: List<PlayerModel?>, playersStats: List<PlayerStatsModel?>) {
         viewModelScope.launch {
@@ -148,16 +186,6 @@ class StatsViewModel @Inject constructor(
             "Third" to champions[2]
         )
         _playersChampions.value = championsMap
-    }
-
-
-    fun onOpacityChanged(opacity: Float) {
-        _headerOpacity.value = opacity
-    }
-
-    fun onSeasonChanged(season: Int) {
-        _season.value = season
-        Log.i("StatsViewModel", "Season changed to $season")
     }
 
     fun adminLogIn(password: String): Boolean {

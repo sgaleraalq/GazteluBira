@@ -26,6 +26,11 @@ class SharedPreferences(context: Context) {
         saveCredentials(credentials)
     }
 
+    fun manageSeason(season: Int) {
+        credentials.year = season
+        saveCredentials(credentials)
+    }
+
     fun getCredentials(): Boolean {
         return try {
             credentials = Credentials(

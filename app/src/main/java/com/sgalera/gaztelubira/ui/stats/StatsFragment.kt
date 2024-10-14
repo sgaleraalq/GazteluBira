@@ -42,6 +42,7 @@ import com.sgalera.gaztelubira.ui.stats.StatType.GOALS
 import com.sgalera.gaztelubira.ui.stats.StatType.PENALTIES
 import com.sgalera.gaztelubira.ui.stats.StatType.PERCENTAGE
 import com.sgalera.gaztelubira.ui.stats.adapter.PlayerStatsAdapter
+import com.skydoves.powerspinner.IconSpinnerItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -101,16 +102,9 @@ class StatsFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 statsViewModel.uiState.collect { uiState ->
                     when (uiState) {
-                        UIState.Loading -> binding.pbStats.visibility = View.VISIBLE
+                        UIState.Loading -> onLoadingState()
                         UIState.Success -> binding.pbStats.visibility = View.GONE
-                        is UIState.Error -> {
-                            Toast.makeText(
-                                context,
-                                getString(R.string.main_error),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            binding.pbStats.visibility = View.GONE
-                        }
+                        is UIState.Error -> onErrorState()
                     }
                 }
             }
@@ -152,6 +146,19 @@ class StatsFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun onLoadingState() {
+        binding.pbStats.visibility = View.VISIBLE
+    }
+
+    private fun onErrorState() {
+        Toast.makeText(
+            context,
+            getString(R.string.main_error),
+            Toast.LENGTH_SHORT
+        ).show()
+        binding.pbStats.visibility = View.GONE
     }
 
 
@@ -216,7 +223,11 @@ class StatsFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initSeasons(seasonsList: List<String>) {
+        binding.psSeason.visibility = View.VISIBLE
+        binding.psSeason.text = statsViewModel.season.value.toString()
+        binding.psSeason.setOnClickListener { binding.psSeason.show() }
         binding.psSeason.setItems(seasonsList)
         binding.psSeason.setOnSpinnerItemSelectedListener<String> { _, _, _, newSeason ->
             statsViewModel.onSeasonChanged(newSeason.toInt())

@@ -348,15 +348,23 @@
         android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="@string/twothousandtwentyfour"
-        android:padding="2dp"
-        android:textSize="12sp"
-        android:gravity="center"
-        android:textColor="@color/white_bit_dark"
-        app:spinner_popup_animation="bounce"
         android:background="@color/ranking_table_primary"
+        android:gravity="center"
+        android:padding="2dp"
+        android:textColor="@color/white_bit_dark"
+        android:textSize="12sp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:spinner_arrow_gravity="end"
+        app:spinner_arrow_padding="8dp"
+        app:spinner_divider_color="@color/white_bit_dark"
+        app:spinner_divider_show="true"
+        app:spinner_divider_size="0.4dp"
+        app:spinner_item_height="32dp"
+        app:spinner_popup_animation="bounce"
+        app:spinner_popup_background="@color/ranking_table_primary"
+        app:spinner_popup_elevation="14dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
