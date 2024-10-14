@@ -345,10 +345,16 @@
 
     <com.skydoves.powerspinner.PowerSpinnerView
         android:id="@+id/psSeason"
-        android:layout_width="100dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/twothousandtwentyfour"
+        android:padding="2dp"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:textColor="@color/white_bit_dark"
+        app:spinner_popup_animation="bounce"
+        android:background="@color/ranking_table_primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

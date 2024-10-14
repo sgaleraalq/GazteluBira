@@ -8,7 +8,9 @@ import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 import com.sgalera.gaztelubira.domain.repository.TeamsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
+import kotlin.coroutines.resumeWithException
 
 class TeamsRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore
@@ -24,6 +26,14 @@ class TeamsRepositoryImpl @Inject constructor(
             true
         } catch (e: Exception) {
             false
+        }
+    }
+
+    override suspend fun getSeasons(): List<String>? {
+        return suspendCancellableCoroutine { continuation ->
+            firestore.collection(TEAMS).get()
+                .addOnSuccessListener {continuation.resumeWith(Result.success(it.documents.map { doc -> doc.id })) }
+                .addOnFailureListener { continuation.resumeWithException(it) }
         }
     }
 }

@@ -9,4 +9,6 @@ interface TeamsRepository {
 
     suspend fun getTeams(year: String): Boolean
 
+    suspend fun getSeasons(): List<String>?
+
 }

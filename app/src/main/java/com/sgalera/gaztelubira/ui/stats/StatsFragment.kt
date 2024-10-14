@@ -126,6 +126,16 @@ class StatsFragment : Fragment() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                statsViewModel.seasons.collect { seasons ->
+                    if (seasons.isNotEmpty()){
+                        initSeasons(seasons)
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 statsViewModel.playersChampions.collect { championsMap ->
                     val champion = championsMap["Champion"]
                     val second = championsMap["Second"]
@@ -143,6 +153,7 @@ class StatsFragment : Fragment() {
             }
         }
     }
+
 
     private fun initListeners() {
         lifecycleScope.launch {
@@ -202,6 +213,13 @@ class StatsFragment : Fragment() {
         binding.rvStats.apply {
             adapter = playersStatsAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        }
+    }
+
+    private fun initSeasons(seasonsList: List<String>) {
+        binding.psSeason.setItems(seasonsList)
+        binding.psSeason.setOnSpinnerItemSelectedListener<String> { _, _, _, newSeason ->
+            statsViewModel.onSeasonChanged(newSeason.toInt())
         }
     }
 
@@ -445,7 +463,6 @@ class StatsFragment : Fragment() {
             }
         })
     }
-
 
     // TODO
     private fun startReflectionAnimation(textView: TextView) {

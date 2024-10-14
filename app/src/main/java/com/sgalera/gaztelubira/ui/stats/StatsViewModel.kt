@@ -12,6 +12,7 @@ import com.sgalera.gaztelubira.domain.repository.PlayersRepository
 import com.sgalera.gaztelubira.domain.usecases.matches.GetTeamsUseCase
 import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersStatsUseCase
 import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersUseCase
+import com.sgalera.gaztelubira.domain.usecases.season.GetSeasonsUseCase
 import com.sgalera.gaztelubira.ui.stats.StatType.ASSISTS
 import com.sgalera.gaztelubira.ui.stats.StatType.CLEAN_SHEET
 import com.sgalera.gaztelubira.ui.stats.StatType.GAMES_PLAYED
@@ -31,6 +32,7 @@ import javax.inject.Inject
 class StatsViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val passwordManager: PasswordManager,
+    private val getSeasonsUseCase: GetSeasonsUseCase,
     private val playersRepository: PlayersRepository,
     private val getPlayersUseCase: GetPlayersUseCase,
     private val getTeamsUseCase: GetTeamsUseCase,
@@ -43,6 +45,9 @@ class StatsViewModel @Inject constructor(
     private val _responsiveUI = MutableStateFlow(false)
     val responsiveUI: StateFlow<Boolean> = _responsiveUI
 
+    private val _seasons = MutableStateFlow<List<String>>(emptyList())
+    val seasons: StateFlow<List<String>> = _seasons
+
     private val _season = MutableStateFlow(2023)
     val season: StateFlow<Int> = _season
 
@@ -53,11 +58,7 @@ class StatsViewModel @Inject constructor(
     val playersStats: StateFlow<List<PlayerStatsModel?>> = _playersStats
 
     private val _playersChampions = MutableStateFlow<Map<String, PlayerStatsModel?>>(
-        mapOf(
-            "Champion" to null,
-            "Second" to null,
-            "Third" to null
-        )
+        mapOf("Champion" to null, "Second" to null, "Third" to null)
     )
     val playersChampions: StateFlow<Map<String, PlayerStatsModel?>> = _playersChampions
 
@@ -72,6 +73,10 @@ class StatsViewModel @Inject constructor(
             _uiState.value = UIState.Loading
             sharedPreferences.getCredentials()
 
+            val seasonsResult = withContext(Dispatchers.IO){
+                getSeasonsUseCase()
+            }
+
             val playersListResult = withContext(Dispatchers.IO){
                 getPlayersUseCase(sharedPreferences.credentials.year.toString())
             }
@@ -84,7 +89,8 @@ class StatsViewModel @Inject constructor(
                 getTeamsUseCase(sharedPreferences.credentials.year.toString())
             }
 
-            if (playersListResult && playersStatsResult) {
+            if (playersListResult && playersStatsResult && seasonsResult != null) {
+                _seasons.value = seasonsResult
                 val playersList = playersRepository.playersList.value
                 val playersStats = playersRepository.playersStats.value
                 initStats(playersList, playersStats)
@@ -149,6 +155,11 @@ class StatsViewModel @Inject constructor(
         _headerOpacity.value = opacity
     }
 
+    fun onSeasonChanged(season: Int) {
+        _season.value = season
+        Log.i("StatsViewModel", "Season changed to $season")
+    }
+
     fun adminLogIn(password: String): Boolean {
         val result = passwordManager.checkPassword(password)
         if (result) {
@@ -162,7 +173,6 @@ class StatsViewModel @Inject constructor(
         _isAdmin.value = false
         sharedPreferences.manageAdminLogIn(false)
     }
-
 }
 
 enum class StatType {
