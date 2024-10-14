@@ -1,5 +1,6 @@
 package com.sgalera.gaztelubira.ui.stats
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.domain.manager.PasswordManager
@@ -51,6 +52,15 @@ class StatsViewModel @Inject constructor(
     private val _playersStats = MutableStateFlow<List<PlayerStatsModel?>>(emptyList())
     val playersStats: StateFlow<List<PlayerStatsModel?>> = _playersStats
 
+    private val _playersChampions = MutableStateFlow<Map<String, PlayerStatsModel?>>(
+        mapOf(
+            "Champion" to null,
+            "Second" to null,
+            "Third" to null
+        )
+    )
+    val playersChampions: StateFlow<Map<String, PlayerStatsModel?>> = _playersChampions
+
     private val _statSelected = MutableStateFlow(PERCENTAGE)
     val statSelected: StateFlow<StatType> = _statSelected
 
@@ -98,6 +108,7 @@ class StatsViewModel @Inject constructor(
                     playerStat?.information = player
                     playerStat
                 }.sortedByDescending { it?.percentage }
+                setChampions()
                 _uiState.value = UIState.Success
             } else {
                 _uiState.value = UIState.Error
@@ -120,6 +131,17 @@ class StatsViewModel @Inject constructor(
             }.thenBy { it?.information?.name }
         )
         _playersStats.value = sortedList
+        setChampions()
+    }
+
+    private fun setChampions() {
+        val champions = _playersStats.value.take(3)
+        val championsMap = mapOf(
+            "Champion" to champions[0],
+            "Second" to champions[1],
+            "Third" to champions[2]
+        )
+        _playersChampions.value = championsMap
     }
 
 

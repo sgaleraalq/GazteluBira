@@ -51,7 +51,7 @@ class PlayerStatsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         }
 
         when (statSelected) {
-            StatType.PERCENTAGE -> binding.tvPlayerStat.text = player?.percentage.toString() + " %"
+            StatType.PERCENTAGE -> binding.tvPlayerStat.text = player?.percentage.toString()
             StatType.GOALS -> binding.tvPlayerStat.text = player?.goals.toString()
             StatType.ASSISTS -> binding.tvPlayerStat.text = player?.assists.toString()
             StatType.PENALTIES -> binding.tvPlayerStat.text = player?.penalties.toString()

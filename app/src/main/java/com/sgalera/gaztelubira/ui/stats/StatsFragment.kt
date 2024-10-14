@@ -27,6 +27,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
@@ -119,12 +120,17 @@ class StatsFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 statsViewModel.playersStats.collect { playersStats ->
                     initRecyclerView(playersStats)
-                    initChampions(
-                        playersStats.firstOrNull(),
-                        playersStats.getOrNull(1),
-                        playersStats.getOrNull(2),
-                        statsViewModel.statSelected.value
-                    )
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                statsViewModel.playersChampions.collect { championsMap ->
+                    val champion = championsMap["Champion"]
+                    val second = championsMap["Second"]
+                    val third = championsMap["Third"]
+                    initChampions(champion, second, third, statsViewModel.statSelected.value)
                 }
             }
         }
@@ -280,6 +286,8 @@ class StatsFragment : Fragment() {
     ) {
         Glide.with(requireContext())
             .load(imageUrl)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
