@@ -320,6 +320,7 @@ class StatsFragment : Fragment() {
         ivCrown: ImageView,
         onAnimationFinish: () -> Unit
     ) {
+
         imageView.translationY = 1000f
         imageView.alpha = 1f
         val slideUp =
