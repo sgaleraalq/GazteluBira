@@ -1,10 +1,12 @@
 package com.sgalera.gaztelubira.ui.player_compare
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -63,7 +65,15 @@ class PlayerCompareFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 playerComparisonViewModel.playerOne.collect { playerOne ->
-                    initPlayer(playerOne, 1)
+                    if (playerOne == null) {
+                        binding.ivPlayerOne.visibility = View.INVISIBLE
+                        binding.ivPlayerOneNotSelected.visibility = View.VISIBLE
+                        binding.tvPlayerOneName.text = getString(R.string.select_player_one)
+                    } else {
+                        binding.ivPlayerOne.visibility = View.VISIBLE
+                        binding.ivPlayerOneNotSelected.visibility = View.GONE
+                        initPlayer(playerOne, 1)
+                    }
                 }
             }
         }
@@ -71,7 +81,15 @@ class PlayerCompareFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 playerComparisonViewModel.playerTwo.collect { playerTwo ->
-                    initPlayer(playerTwo, 2)
+                    if (playerTwo == null) {
+                        binding.ivPlayerTwo.visibility = View.INVISIBLE
+                        binding.ivPlayerTwoNotSelected.visibility = View.VISIBLE
+                        binding.tvPlayerTwoName.text = getString(R.string.select_player_two)
+                    } else {
+                        binding.ivPlayerTwo.visibility = View.VISIBLE
+                        binding.ivPlayerTwoNotSelected.visibility = View.GONE
+                        initPlayer(playerTwo, 2)
+                    }
                 }
             }
         }
@@ -141,12 +159,10 @@ class PlayerCompareFragment : Fragment() {
             1 -> {
                 Glide.with(requireContext()).load(player?.img).into(binding.ivPlayerOne)
                 binding.tvPlayerOneName.text = player?.name
-                binding.tvPlayerOneName.visibility = View.VISIBLE
             }
             else -> {
                 Glide.with(requireContext()).load(player?.img).into(binding.ivPlayerTwo)
                 binding.tvPlayerTwoName.text = player?.name
-                binding.tvPlayerTwoName.visibility = View.VISIBLE
             }
         }
     }

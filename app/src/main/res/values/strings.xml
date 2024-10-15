@@ -147,4 +147,6 @@
     <string name="defender">Defender</string>
     <string name="midfielder">Mid fielder</string>
     <string name="forward">Striker</string>
+    <string name="select_player_one">Player one</string>
+    <string name="select_player_two">Player two</string>
 </resources>
