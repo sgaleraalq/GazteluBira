@@ -59,8 +59,7 @@
 
     <color name="white_bit_dark">#aeacb5</color>
 
-    // Card view gradients
-    <color name="first_gradient_start">#7D8BB4</color>
-    <color name="first_gradient_end">#495d8b</color>
+    <color name="red_vs">#62050D</color>
+    <color name="blue_vs">#0B4A71</color>
 
 </resources>
