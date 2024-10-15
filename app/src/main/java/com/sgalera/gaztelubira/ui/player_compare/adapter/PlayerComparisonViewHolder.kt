@@ -18,16 +18,7 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerPosition
 class PlayerComparisonViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val binding = ItemPlayerSelectionBinding.bind(view)
 
-    private val gradients = listOf(
-        Pair(R.color.first_gradient_start, R.color.first_gradient_end),
-        Pair(R.color.second_gradient_start, R.color.second_gradient_end),
-        Pair(R.color.third_gradient_start, R.color.third_gradient_end),
-        Pair(R.color.fourth_gradient_start, R.color.fourth_gradient_end),
-    )
-
     fun render(playerModel: PlayerModel?, onPlayerSelected: (PlayerModel) -> Unit) {
-        applyGradientBackground(playerModel?.position)
-
         playerModel?.let { player ->
             with(binding) {
                 tvPlayerName.text = player.name
@@ -48,11 +39,11 @@ class PlayerComparisonViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private fun updateSelectionState(isSelected: Boolean) {
         with(binding) {
             if (isSelected) {
-                clTextViewBackground.setBackgroundResource(R.color.antique_white)
-                setTextColor(R.color.black)
-            } else {
-                clTextViewBackground.setBackgroundResource(R.color.primary_soft)
+                clTextViewBackground.setBackgroundResource(R.color.green)
                 setTextColor(R.color.antique_white)
+            } else {
+                clTextViewBackground.setBackgroundResource(R.color.white_bit_dark)
+                setTextColor(R.color.black)
             }
         }
     }
@@ -64,28 +55,6 @@ class PlayerComparisonViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             tvDorsal.setTextColor(color)
             tvPlayerPosition.setTextColor(color)
         }
-    }
-
-    private fun applyGradientBackground(position: PlayerPosition?) {
-        val gradient = when (position){
-            PlayerPosition.GOALKEEPER -> gradients[0]
-            PlayerPosition.DEFENDER -> gradients[1]
-            PlayerPosition.MIDFIELDER -> gradients[2]
-            PlayerPosition.FORWARD -> gradients[3]
-            PlayerPosition.TECHNICAL_STAFF -> gradients[0]
-            PlayerPosition.UNKNOWN -> gradients[0]
-            null -> gradients[0]
-        }
-
-        val gradientDrawable = GradientDrawable(
-            GradientDrawable.Orientation.TL_BR,
-            intArrayOf(
-                ContextCompat.getColor(binding.root.context, gradient.first),
-                ContextCompat.getColor(binding.root.context, gradient.second)
-            )
-        )
-        gradientDrawable.cornerRadius = 16f
-        binding.cvBackground.background = gradientDrawable
     }
 
     private fun loadImage(img: String?) {

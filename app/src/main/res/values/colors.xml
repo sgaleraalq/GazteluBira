@@ -60,16 +60,7 @@
     <color name="white_bit_dark">#aeacb5</color>
 
     // Card view gradients
-    <color name="first_gradient_start">#FFE5EC</color>
-    <color name="first_gradient_end">#B9C5FF</color>
-
-    <color name="second_gradient_start">#F7FBF7</color>
-    <color name="second_gradient_end">#D9FBB2</color>
-
-    <color name="third_gradient_start">#FFB3AC</color>
-    <color name="third_gradient_end">#F2D2CE</color>
-
-    <color name="fourth_gradient_start">#C2A1FF</color>
-    <color name="fourth_gradient_end">#DED4F4</color>
+    <color name="first_gradient_start">#7D8BB4</color>
+    <color name="first_gradient_end">#495d8b</color>
 
 </resources>

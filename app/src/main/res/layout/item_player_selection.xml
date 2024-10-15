@@ -6,7 +6,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:elevation="8dp"
+    android:elevation="16dp"
     app:cardBackgroundColor="@color/transparent"
     app:cardCornerRadius="8dp">
 
@@ -19,6 +19,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             app:cardCornerRadius="4dp"
+            app:cardBackgroundColor="@color/primary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -53,7 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="12dp"
-            android:background="@color/primary"
+            android:background="@color/white_bit_dark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,28 +63,15 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/tvDorsal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:textColor="@color/antique_white"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="@id/tvPlayerName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvPlayerName"
-            tools:text="10" />
-
-        <TextView
             android:id="@+id/tvPlayerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:gravity="center"
             android:lines="1"
             android:padding="2dp"
-            android:textColor="@color/antique_white"
+            android:textColor="@color/primary"
             android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/tvDorsal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cvPlayer"
             tools:text="Madariaga" />
 
@@ -91,17 +79,30 @@
             android:id="@+id/tvPlayerPosition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginBottom="4dp"
             android:gravity="center"
             android:lines="1"
-            android:textColor="@color/antique_white"
+            android:layout_marginStart="2dp"
+            android:textColor="@color/primary"
             android:textSize="8sp"
             android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tvPlayerName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvPlayerName"
             tools:text="Madariaga" />
+
+        <TextView
+            android:id="@+id/tvDorsal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary"
+            android:layout_marginStart="8dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvPlayerName"
+            tools:text="10" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

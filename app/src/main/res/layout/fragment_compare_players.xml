@@ -28,10 +28,20 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/ivPlayerOneNotSelected"
+            android:layout_width="100dp"
+            android:layout_height="140dp"
+            android:contentDescription="@string/description_compare_players"
+            android:src="@drawable/img_football_player_one"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
             android:id="@+id/ivPlayerOne"
             android:layout_width="100dp"
             android:layout_height="140dp"
             android:contentDescription="@string/description_compare_players"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/img_player_xabi" />
@@ -40,9 +50,11 @@
             android:id="@+id/tvPlayerOneName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:textAlignment="center"
+            android:textAllCaps="true"
             android:textColor="@color/antique_white"
-            android:textSize="12sp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivPlayerOne"
@@ -60,27 +72,47 @@
         app:layout_constraintTop_toTopOf="@id/cvPlayerOne">
 
         <ImageView
+            android:id="@+id/ivPlayerTwoNotSelected"
+            android:layout_width="100dp"
+            android:layout_height="140dp"
+            android:contentDescription="@string/description_compare_players"
+            android:src="@drawable/img_football_player_two"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
             android:id="@+id/ivPlayerTwo"
             android:layout_width="100dp"
             android:layout_height="140dp"
             android:contentDescription="@string/description_compare_players"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/img_player_xabi" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvPlayerTwoName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:textAlignment="center"
+            android:textAllCaps="true"
             android:textColor="@color/antique_white"
-            android:textSize="12sp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivPlayerTwo"
             tools:text="Madariaga" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/ranking_table_primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cvPlayerOne" />
 
 
     <TextView
