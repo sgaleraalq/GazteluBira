@@ -7,6 +7,19 @@
     android:background="@color/primary">
 
     <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/backgroundSelectPlayers"
+        android:contentDescription="@string/description_background"
+        android:src="@drawable/img_stats_background"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"/>
+
+    <ImageView
         android:id="@+id/ivVersusLogo"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -30,6 +43,7 @@
             android:id="@+id/ivPlayerOneNotSelected"
             android:layout_width="100dp"
             android:layout_height="140dp"
+            android:padding="12dp"
             android:contentDescription="@string/description_compare_players"
             android:src="@drawable/img_football_player_one"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,6 +87,7 @@
             android:id="@+id/ivPlayerTwoNotSelected"
             android:layout_width="100dp"
             android:layout_height="140dp"
+            android:padding="12dp"
             android:contentDescription="@string/description_compare_players"
             android:src="@drawable/img_football_player_two"
             app:layout_constraintStart_toStartOf="parent"
