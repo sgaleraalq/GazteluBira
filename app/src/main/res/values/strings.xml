@@ -143,4 +143,8 @@
     <string name="description_laurel_icon">Laurel icon</string>
     <string name="player_stat_percentage">%1$s% %</string>
     <string name="twothousandtwentyfour">2024</string>
+    <string name="goalkeeper">Goal keeper</string>
+    <string name="defender">Defender</string>
+    <string name="midfielder">Mid fielder</string>
+    <string name="forward">Striker</string>
 </resources>

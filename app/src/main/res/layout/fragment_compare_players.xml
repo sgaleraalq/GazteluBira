@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/ivVersusLogo"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:contentDescription="@string/description_versus"
         android:scaleType="centerCrop"
         android:src="@drawable/img_versus"
@@ -18,101 +18,80 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/cvPlayerOne" />
 
-    <androidx.cardview.widget.CardView
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cvPlayerOne"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="12dp"
-        app:cardBackgroundColor="@color/primary_soft"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="12dp"
+        android:padding="8dp"
         app:layout_constraintEnd_toStartOf="@id/ivVersusLogo"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageView
+            android:id="@+id/ivPlayerOne"
+            android:layout_width="100dp"
+            android:layout_height="140dp"
+            android:contentDescription="@string/description_compare_players"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/img_player_xabi" />
+
+        <TextView
+            android:id="@+id/tvPlayerOneName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp">
-
-            <ImageView
-                android:id="@+id/ivPlayerOne"
-                android:layout_width="75dp"
-                android:layout_height="100dp"
-                android:contentDescription="@string/description_compare_players"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/img_player_xabi" />
-
-            <TextView
-                android:id="@+id/tvPlayerOneName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textColor="@color/antique_white"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ivPlayerOne"
-                tools:text="Madariaga" />
+            android:textAlignment="center"
+            android:textColor="@color/antique_white"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivPlayerOne"
+            tools:text="Madariaga" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvPlayerTwo"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        app:cardBackgroundColor="@color/primary_soft"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="8dp"
         app:layout_constraintStart_toEndOf="@id/ivVersusLogo"
         app:layout_constraintTop_toTopOf="@id/cvPlayerOne">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageView
+            android:id="@+id/ivPlayerTwo"
+            android:layout_width="100dp"
+            android:layout_height="140dp"
+            android:contentDescription="@string/description_compare_players"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/img_player_xabi" />
+
+        <TextView
+            android:id="@+id/tvPlayerTwoName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:textAlignment="center"
+            android:textColor="@color/antique_white"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivPlayerTwo"
+            tools:text="Madariaga" />
 
-            <ImageView
-                android:id="@+id/ivPlayerTwo"
-                android:layout_width="75dp"
-                android:layout_height="100dp"
-                android:contentDescription="@string/description_compare_players"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/img_player_xabi" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/tvPlayerTwoName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textColor="@color/antique_white"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ivPlayerTwo"
-                tools:text="Madariaga" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/tvSelectPlayers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:paddingHorizontal="32dp"
         android:text="@string/select_players"
         android:textColor="@color/white"
-        android:textSize="22sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cvPlayerOne" />
@@ -121,7 +100,6 @@
         android:id="@+id/rvPlayers"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         android:padding="8dp"
         app:layout_constraintBottom_toTopOf="@id/btnCompare"
         app:layout_constraintEnd_toEndOf="parent"
@@ -132,16 +110,16 @@
         android:id="@+id/btnCompare"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
         android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp"
         android:backgroundTint="@color/grey_forward_arrow"
         android:text="@string/compare_players"
         android:textColor="@color/primary_soft"
+        android:visibility="gone"
+        app:cornerRadius="12dp"
         app:icon="@drawable/ic_forward_ios"
         app:iconGravity="end"
         app:iconTint="@color/primary_soft"
-        app:cornerRadius="12dp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -150,9 +128,9 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:indeterminateTint="@color/antique_white"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

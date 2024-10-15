@@ -11,8 +11,7 @@ class BenchViewHolder(view: View): RecyclerView.ViewHolder(view) {
     private val binding = ItemPlayerSelectionBinding.bind(view)
 
     fun render(player: PlayerModel?, onCancelSelected: (String) -> Unit) {
-        binding.ivCancel.visibility = View.VISIBLE
-        binding.ivCancel.setOnClickListener { onCancelSelected(player?.name ?: "") }
+        binding.parent.setOnClickListener { onCancelSelected(player?.name ?: "") }
         binding.tvPlayerName.text = player?.name
         binding.pbLoadingPlayer.visibility = View.GONE
         binding.tvDorsal.text = player?.dorsal.toString()
