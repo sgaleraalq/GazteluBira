@@ -1,5 +1,6 @@
 package com.sgalera.gaztelubira.ui.player_compare.detail
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
@@ -32,8 +33,8 @@ class ComparePlayersViewModel @Inject constructor(
     private val _playerTwoStats = MutableStateFlow<PlayerStatsModel?>(null)
     val playerTwoStats: StateFlow<PlayerStatsModel?> = _playerTwoStats
 
-    private val _playersList = MutableStateFlow<List<PlayerModel?>>(emptyList())
 
+    private val _playersList = MutableStateFlow<List<PlayerModel?>>(emptyList())
 
     init {
         _playersList.value = playersRepository.playersList.value
@@ -66,5 +67,14 @@ class ComparePlayersViewModel @Inject constructor(
 
         _playerOneStats.value = playerOneStats.copy(information = playerOneInformation)
         _playerTwoStats.value = playerTwoStats.copy(information = playerTwoInformation)
+    }
+
+    fun provideMaxStatValue(): Int {
+        val maxGoals = maxOf(_playerOneStats.value?.goals ?: 0, _playerTwoStats.value?.goals ?: 0)
+        val maxAssists = maxOf(_playerOneStats.value?.assists ?: 0, _playerTwoStats.value?.assists ?: 0)
+        val maxPenalties = maxOf(_playerOneStats.value?.penalties ?: 0, _playerTwoStats.value?.penalties ?: 0)
+        val maxCleanSheets = maxOf(_playerOneStats.value?.cleanSheet ?: 0, _playerTwoStats.value?.cleanSheet ?: 0)
+        val maxGamesPlayed = maxOf(_playerOneStats.value?.gamesPlayed ?: 0, _playerTwoStats.value?.gamesPlayed ?: 0)
+        return maxOf(maxGoals, maxAssists, maxPenalties, maxCleanSheets, maxGamesPlayed)
     }
 }

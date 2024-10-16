@@ -6,7 +6,6 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -17,13 +16,18 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
+import com.github.mikephil.charting.charts.RadarChart
+import com.github.mikephil.charting.data.RadarData
+import com.github.mikephil.charting.data.RadarDataSet
+import com.github.mikephil.charting.data.RadarEntry
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.core.Constants.PLAYER_NO_IMAGE
 import com.sgalera.gaztelubira.databinding.ActivityComparePlayersBinding
 import com.sgalera.gaztelubira.domain.model.UIState
 import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
+import com.skydoves.progressview.ProgressView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -34,6 +38,11 @@ class ComparePlayersActivity : AppCompatActivity() {
 
     private lateinit var playerOne: Pair<String, String>
     private lateinit var playerTwo: Pair<String, String>
+
+    private lateinit var playerOneStats: PlayerStatsModel
+    private lateinit var playerTwoStats: PlayerStatsModel
+
+    private var maxValue = 30
 
     companion object {
         private const val EXTRA_PLAYER_ONE = "player_one_ref"
@@ -83,6 +92,7 @@ class ComparePlayersActivity : AppCompatActivity() {
         initPlayerImages()
     }
 
+
     private fun init() {
         comparePlayersViewModel.getPlayerStats(playerOne.first, playerTwo.first)
         lifecycleScope.launch {
@@ -100,12 +110,25 @@ class ComparePlayersActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 comparePlayersViewModel.playerOneStats.collect { playerOne ->
-                    initPlayer(
-                        playerOne,
-                        binding.ivPlayerOneStats,
-                        binding.tvPlayerOneNameStats,
-                        binding.tvPlayerOnePercentage
-                    )
+                    if (playerOne != null) {
+                        initPlayer(
+                            playerOne,
+                            binding.ivPlayerOneStats,
+                            binding.tvPlayerOneNameStats,
+                            binding.tvPlayerOnePercentage,
+                            binding.tvPlayerOneGoals,
+                            binding.tvPlayerOneAssists,
+                            binding.tvPlayerOnePenalties,
+                            binding.tvPlayerOneCleanSheet,
+                            binding.tvPlayerOneGamesPlayed,
+                            binding.pvGoalsPlayerOne,
+                            binding.pvAssistsPlayerOne,
+                            binding.pvPenaltiesPlayerOne,
+                            binding.pvCleanSheetPlayerOne,
+                            binding.pvGamesPlayedPlayerOne
+                        )
+                        playerOneStats = playerOne
+                    }
                 }
             }
         }
@@ -113,16 +136,97 @@ class ComparePlayersActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 comparePlayersViewModel.playerTwoStats.collect { playerTwo ->
-                    initPlayer(
-                        playerTwo,
-                        binding.ivPlayerTwoStats,
-                        binding.tvPlayerTwoNameStats,
-                        binding.tvPlayerTwoPercentage
-                    )
+                    if (playerTwo != null) {
+                        initPlayer(
+                            playerTwo,
+                            binding.ivPlayerTwoStats,
+                            binding.tvPlayerTwoNameStats,
+                            binding.tvPlayerTwoPercentage,
+                            binding.tvPlayerTwoGoals,
+                            binding.tvPlayerTwoAssists,
+                            binding.tvPlayerTwoPenalties,
+                            binding.tvPlayerTwoCleanSheet,
+                            binding.tvPlayerTwoGamesPlayed,
+                            binding.pvGoalsPlayerTwo,
+                            binding.pvAssistsPlayerTwo,
+                            binding.pvPenaltiesPlayerTwo,
+                            binding.pvCleanSheetPlayerTwo,
+                            binding.pvGamesPlayedPlayerTwo,
+                        )
+                        playerTwoStats = playerTwo
+                    }
                 }
             }
         }
     }
+
+    private fun initPlayer(
+        player: PlayerStatsModel?,
+        playerImage: ImageView,
+        playerText: TextView,
+        playerPercentage: TextView,
+        playerGoals: TextView,
+        playerAssists: TextView,
+        playerPenalties: TextView,
+        playerCleanSheet: TextView,
+        playerGamesPlayed: TextView,
+        goalProgress: ProgressView,
+        assistProgress: ProgressView,
+        penaltyProgress: ProgressView,
+        cleanSheetProgress: ProgressView,
+        gamesPlayedProgress: ProgressView,
+    ) {
+        maxValue = comparePlayersViewModel.provideMaxStatValue()
+
+        Glide.with(this).load(player?.information?.img).into(playerImage)
+        playerText.text = player?.information?.name
+        playerPercentage.text = player?.percentage
+        playerGoals.text = player?.goals.toString()
+        playerAssists.text = player?.assists.toString()
+        playerPenalties.text = player?.penalties.toString()
+        playerCleanSheet.text = player?.cleanSheet.toString()
+        playerGamesPlayed.text = player?.gamesPlayed.toString()
+
+        val stats = listOf(
+            player?.goals?.toFloat() ?: 0f,
+            player?.assists?.toFloat() ?: 0f,
+            player?.penalties?.toFloat() ?: 0f,
+            player?.cleanSheet?.toFloat() ?: 0f,
+            player?.gamesPlayed?.toFloat() ?: 0f
+        )
+        val progressViews = listOf(goalProgress, assistProgress, penaltyProgress, cleanSheetProgress, gamesPlayedProgress)
+
+        stats.zip(progressViews) { stat, progressView ->
+            progressView.progress = stat
+            progressView.max = maxValue.toFloat()
+        }
+    }
+
+
+    private fun setupRadarChart(radarChart: RadarChart, stats: List<Float>, myColor: Int) {
+        radarChart.clear()
+        val labels = listOf("Goals", "Assists", "Penalties", "Clean Sheets", "Games Played")
+        val entryList = ArrayList<RadarEntry>()
+        for (i in stats.indices) {
+            entryList.add(RadarEntry(stats[i] / maxValue))
+        }
+
+        val dataSet = RadarDataSet(entryList, "Player Stats").apply {
+            color = myColor
+            fillColor = myColor
+            setDrawFilled(true)
+            valueTextSize = 12f
+            lineWidth = 2f
+            fillAlpha = 90
+        }
+
+        val radarData = RadarData(dataSet)
+
+        radarChart.data = radarData
+        radarChart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+        radarChart.invalidate()
+    }
+
 
     private fun onErrorState() {
         Toast.makeText(this, getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT).show()
@@ -152,16 +256,6 @@ class ComparePlayersActivity : AppCompatActivity() {
     }
 
 
-    private fun initPlayer(
-        player: PlayerStatsModel?,
-        playerImage: ImageView,
-        playerText: TextView,
-        playerPercentage: TextView
-    ) {
-        Glide.with(this).load(player?.information?.img).into(playerImage)
-        playerText.text = player?.information?.name
-        playerPercentage.text = player?.percentage
-    }
 
 
     // ANIMATIONS

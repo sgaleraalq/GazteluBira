@@ -14,6 +14,12 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_background_compare"/>
+
+        <ImageView
             android:id="@+id/ivBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,7 +66,7 @@
             android:layout_marginTop="8dp"
             android:textAlignment="center"
             android:textAllCaps="true"
-            android:textColor="@color/antique_white"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/ivPlayerOneStats"
@@ -75,7 +81,7 @@
             android:layout_marginTop="8dp"
             android:textAlignment="center"
             android:textAllCaps="true"
-            android:textColor="@color/antique_white"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/ivPlayerTwoStats"
@@ -88,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAllCaps="true"
-            android:textColor="@color/antique_white"
+            android:textColor="@color/white"
             android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="@id/ivPlayerOneStats"
             app:layout_constraintEnd_toStartOf="@id/ivPlayerOneStats"
@@ -100,7 +106,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAllCaps="true"
-            android:textColor="@color/antique_white"
+            android:textColor="@color/white"
             android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="@id/ivPlayerTwoStats"
             app:layout_constraintEnd_toEndOf="parent"
@@ -110,10 +116,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clStatsView"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginVertical="12dp"
-            app:layout_constraintBottom_toTopOf="@id/rcStats"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvPlayerOneNameStats">
@@ -122,40 +127,317 @@
                 android:id="@+id/midPoint"
                 android:layout_width="0.1dp"
                 android:layout_height="0.1dp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvGoals"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/goals"
+                android:textColor="@color/white"
                 android:textSize="10sp"
-                android:textColor="@color/white_bit_dark"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/midPoint"
+                app:layout_constraintStart_toStartOf="@id/midPoint"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvPlayerOneGoals"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@id/pvGoalsPlayerOne"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/pvGoalsPlayerOne"
+                tools:text="14" />
 
             <com.skydoves.progressview.ProgressView
                 android:id="@+id/pvGoalsPlayerOne"
                 android:layout_width="0dp"
-                android:layout_height="1dp"
-                app:layout_constraintEnd_toStartOf="parent"
+                android:layout_height="2dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="2dp"
+                android:rotation="180"
+                app:layout_constraintEnd_toStartOf="@id/midPoint"
+                app:layout_constraintStart_toEndOf="@id/tvPlayerOneGoals"
+                app:layout_constraintTop_toBottomOf="@id/tvGoals"
+                app:progressView_colorProgress="@color/red_vs" />
+
+            <TextView
+                android:id="@+id/tvPlayerTwoGoals"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@id/pvGoalsPlayerOne"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/pvGoalsPlayerOne"
+                tools:text="14" />
+
+            <com.skydoves.progressview.ProgressView
+                android:id="@+id/pvGoalsPlayerTwo"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="14dp"
+                app:layout_constraintEnd_toStartOf="@id/tvPlayerTwoGoals"
+                app:layout_constraintStart_toEndOf="@id/midPoint"
+                app:layout_constraintTop_toBottomOf="@id/tvGoals"
+                app:progressView_colorProgress="@color/blue_vs" />
+
+            <TextView
+                android:id="@+id/tvAssists"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/assists"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="@id/midPoint"
+                app:layout_constraintStart_toStartOf="@id/midPoint"
+                app:layout_constraintTop_toBottomOf="@id/pvGoalsPlayerOne" />
+
+            <TextView
+                android:id="@+id/tvPlayerOneAssists"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@id/pvAssistsPlayerOne"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvGoals" />
+                app:layout_constraintTop_toTopOf="@id/pvAssistsPlayerOne"
+                tools:text="14" />
+
+            <com.skydoves.progressview.ProgressView
+                android:id="@+id/pvAssistsPlayerOne"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="2dp"
+                android:rotation="180"
+                app:layout_constraintEnd_toStartOf="@id/midPoint"
+                app:layout_constraintStart_toEndOf="@id/tvPlayerOneGoals"
+                app:layout_constraintTop_toBottomOf="@id/tvAssists"
+                app:progressView_colorProgress="@color/red_vs" />
+
+            <TextView
+                android:id="@+id/tvPlayerTwoAssists"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@id/pvAssistsPlayerTwo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/pvAssistsPlayerTwo"
+                tools:text="14" />
+
+            <com.skydoves.progressview.ProgressView
+                android:id="@+id/pvAssistsPlayerTwo"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="14dp"
+                app:layout_constraintEnd_toStartOf="@id/tvPlayerTwoGoals"
+                app:layout_constraintStart_toEndOf="@id/midPoint"
+                app:layout_constraintTop_toBottomOf="@id/tvAssists"
+                app:progressView_colorProgress="@color/blue_vs" />
+
+            <TextView
+                android:id="@+id/tvPenalties"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/penalties"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="@id/midPoint"
+                app:layout_constraintStart_toStartOf="@id/midPoint"
+                app:layout_constraintTop_toBottomOf="@id/pvAssistsPlayerOne" />
+
+            <TextView
+                android:id="@+id/tvPlayerOnePenalties"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@id/pvPenaltiesPlayerOne"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/pvPenaltiesPlayerOne"
+                tools:text="14" />
+
+            <com.skydoves.progressview.ProgressView
+                android:id="@+id/pvPenaltiesPlayerOne"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="2dp"
+                android:rotation="180"
+                app:layout_constraintEnd_toStartOf="@id/midPoint"
+                app:layout_constraintStart_toEndOf="@id/tvPlayerOneGoals"
+                app:layout_constraintTop_toBottomOf="@id/tvPenalties"
+                app:progressView_colorProgress="@color/red_vs" />
+
+            <TextView
+                android:id="@+id/tvPlayerTwoPenalties"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@id/pvPenaltiesPlayerTwo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/pvPenaltiesPlayerTwo"
+                tools:text="14" />
+
+            <com.skydoves.progressview.ProgressView
+                android:id="@+id/pvPenaltiesPlayerTwo"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="14dp"
+                app:progressView_colorProgress="@color/blue_vs"
+                app:layout_constraintEnd_toStartOf="@id/tvPlayerTwoGoals"
+                app:layout_constraintStart_toEndOf="@id/midPoint"
+                app:layout_constraintTop_toBottomOf="@id/tvPenalties" />
+
+            <TextView
+                android:id="@+id/tvCleanSheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/clean_sheet"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="@id/midPoint"
+                app:layout_constraintStart_toStartOf="@id/midPoint"
+                app:layout_constraintTop_toBottomOf="@id/pvPenaltiesPlayerOne" />
+
+            <TextView
+                android:id="@+id/tvPlayerOneCleanSheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@id/pvCleanSheetPlayerOne"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/pvCleanSheetPlayerOne"
+                tools:text="14" />
+
+            <com.skydoves.progressview.ProgressView
+                android:id="@+id/pvCleanSheetPlayerOne"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="2dp"
+                android:rotation="180"
+                app:progressView_colorProgress="@color/red_vs"
+                app:layout_constraintEnd_toStartOf="@id/midPoint"
+                app:layout_constraintStart_toEndOf="@id/tvPlayerOneGoals"
+                app:layout_constraintTop_toBottomOf="@id/tvCleanSheet" />
+
+            <TextView
+                android:id="@+id/tvPlayerTwoCleanSheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@id/pvCleanSheetPlayerTwo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/pvCleanSheetPlayerTwo"
+                tools:text="14" />
+
+            <com.skydoves.progressview.ProgressView
+                android:id="@+id/pvCleanSheetPlayerTwo"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="14dp"
+                app:progressView_colorProgress="@color/blue_vs"
+                app:layout_constraintEnd_toStartOf="@id/tvPlayerTwoGoals"
+                app:layout_constraintStart_toEndOf="@id/midPoint"
+                app:layout_constraintTop_toBottomOf="@id/tvCleanSheet" />
+
+            <TextView
+                android:id="@+id/tvGamesPlayed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/games_played"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="@id/midPoint"
+                app:layout_constraintStart_toStartOf="@id/midPoint"
+                app:layout_constraintTop_toBottomOf="@id/pvCleanSheetPlayerOne" />
+
+            <TextView
+                android:id="@+id/tvPlayerOneGamesPlayed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@id/pvGamesPlayedPlayerOne"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/pvGamesPlayedPlayerOne"
+                tools:text="14" />
+
+            <com.skydoves.progressview.ProgressView
+                android:id="@+id/pvGamesPlayedPlayerOne"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="2dp"
+                android:rotation="180"
+                app:progressView_colorProgress="@color/red_vs"
+                app:layout_constraintEnd_toStartOf="@id/midPoint"
+                app:layout_constraintStart_toEndOf="@id/tvPlayerOneGoals"
+                app:layout_constraintTop_toBottomOf="@id/tvGamesPlayed" />
+
+            <TextView
+                android:id="@+id/tvPlayerTwoGamesPlayed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@id/pvGamesPlayedPlayerTwo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/pvGamesPlayedPlayerTwo"
+                tools:text="14" />
+
+            <com.skydoves.progressview.ProgressView
+                android:id="@+id/pvGamesPlayedPlayerTwo"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="14dp"
+                app:progressView_colorProgress="@color/blue_vs"
+                app:layout_constraintEnd_toStartOf="@id/tvPlayerTwoGoals"
+                app:layout_constraintStart_toEndOf="@id/midPoint"
+                app:layout_constraintTop_toBottomOf="@id/tvGamesPlayed" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.github.mikephil.charting.charts.RadarChart
             android:id="@+id/rcStats"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="0dp"
             android:layout_marginHorizontal="36dp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clStatsView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
