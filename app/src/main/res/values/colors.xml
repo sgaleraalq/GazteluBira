@@ -60,6 +60,9 @@
     <color name="white_bit_dark">#aeacb5</color>
 
     <color name="red_vs">#62050D</color>
+    <color name="red_radar_chart">#d3577b</color>
     <color name="blue_vs">#0B4A71</color>
+    <color name="blue_radar_chart">#8c6ef0</color>
+
 
 </resources>

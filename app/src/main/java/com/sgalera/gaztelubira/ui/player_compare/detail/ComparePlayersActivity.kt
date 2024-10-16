@@ -5,6 +5,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -12,11 +13,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.size
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.github.mikephil.charting.charts.RadarChart
+import com.github.mikephil.charting.components.Legend.LegendHorizontalAlignment.CENTER
 import com.github.mikephil.charting.data.RadarData
 import com.github.mikephil.charting.data.RadarDataSet
 import com.github.mikephil.charting.data.RadarEntry
@@ -160,10 +164,10 @@ class ComparePlayersActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 comparePlayersViewModel.bothPlayersStats.collect { bothPlayers ->
-                    if (bothPlayers != null){
-                        setupRadarChart(bothPlayers.first, bothPlayers.second)
+                    if (bothPlayers != null) {
+                        setupRadarChart(binding.rcStats, bothPlayers.first, bothPlayers.second)
                     }
                 }
             }
@@ -204,7 +208,13 @@ class ComparePlayersActivity : AppCompatActivity() {
             player?.cleanSheet?.toFloat() ?: 0f,
             player?.gamesPlayed?.toFloat() ?: 0f
         )
-        val progressViews = listOf(goalProgress, assistProgress, penaltyProgress, cleanSheetProgress, gamesPlayedProgress)
+        val progressViews = listOf(
+            goalProgress,
+            assistProgress,
+            penaltyProgress,
+            cleanSheetProgress,
+            gamesPlayedProgress
+        )
 
         stats.zip(progressViews) { stat, progressView ->
             progressView.progress = stat
@@ -213,8 +223,12 @@ class ComparePlayersActivity : AppCompatActivity() {
     }
 
 
-    private fun setupRadarChart(firstPlayer: PlayerStatsModel?, secondPlayer: PlayerStatsModel?) {
-        val radarChart = binding.rcStats
+    private fun setupRadarChart(
+        radarChart: RadarChart,
+        firstPlayer: PlayerStatsModel?,
+        secondPlayer: PlayerStatsModel?
+    ) {
+        val context = this
 
         radarChart.clear()
         val labels = listOf("Goals", "Assists", "Penalties", "Clean Sheets", "Games Played")
@@ -239,32 +253,47 @@ class ComparePlayersActivity : AppCompatActivity() {
         val entryListPlayerTwo = ArrayList<RadarEntry>()
 
         for (i in labels.indices) {
-            entryListPlayerOne.add(RadarEntry(firstPlayerStats[i] / maxValue))
-            entryListPlayerTwo.add(RadarEntry(secondPlayerStats[i] / maxValue))
+            entryListPlayerOne.add(RadarEntry(firstPlayerStats[i]))
+            entryListPlayerTwo.add(RadarEntry(secondPlayerStats[i]))
         }
 
-        val dataSetPlayerOne = RadarDataSet(entryListPlayerOne, "Player One").apply {
-            color = R.color.red_vs
-            fillColor = R.color.red_vs
+        val dataSetPlayerOne = RadarDataSet(entryListPlayerOne, playerOneStats.information?.name).apply {
+            color = ContextCompat.getColor(context, R.color.red_radar_chart)
+            fillColor = ContextCompat.getColor(context, R.color.red_radar_chart)
+            lineWidth = 1f
+            fillAlpha = 180
             setDrawFilled(true)
-            valueTextSize = 12f
-            lineWidth = 2f
-            fillAlpha = 90
+            setDrawValues(false)
         }
 
-        val dataSetPlayerTwo = RadarDataSet(entryListPlayerTwo, "Player Two").apply {
-            color = R.color.blue_vs
-            fillColor = R.color.blue_vs
+        val dataSetPlayerTwo = RadarDataSet(entryListPlayerTwo, playerTwoStats.information?.name).apply {
+            color = ContextCompat.getColor(context, R.color.blue_radar_chart)
+            fillColor = ContextCompat.getColor(context, R.color.blue_radar_chart)
+            lineWidth = 1f
+            fillAlpha = 180
             setDrawFilled(true)
-            valueTextSize = 12f
-            lineWidth = 2f
-            fillAlpha = 90
+            setDrawValues(false)
         }
 
-        val radarData = RadarData(dataSetPlayerOne, dataSetPlayerTwo)
+        val yAxis = radarChart.yAxis
+        yAxis.setDrawLabels(false)
+        yAxis.setLabelCount(5, true)
 
-        radarChart.data = radarData
-        radarChart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+        val xAxis = radarChart.xAxis
+        xAxis.textColor = Color.WHITE
+        xAxis.yOffset = 5f
+        xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+        xAxis.setDrawLabels(true)
+        xAxis.setLabelCount(labels.size, true)
+
+        radarChart.legend.textColor = Color.WHITE
+        radarChart.webLineWidth = 1f
+        radarChart.webLineWidthInner = 0.5f
+        radarChart.webAlpha = 100
+        radarChart.description = null
+        radarChart.legend.horizontalAlignment = CENTER
+
+        radarChart.data = RadarData(dataSetPlayerOne, dataSetPlayerTwo)
         radarChart.invalidate()
     }
 
@@ -295,8 +324,6 @@ class ComparePlayersActivity : AppCompatActivity() {
         binding.tvPlayerOneName.text = playerOne.first
         binding.tvPlayerTwoName.text = playerTwo.first
     }
-
-
 
 
     // ANIMATIONS

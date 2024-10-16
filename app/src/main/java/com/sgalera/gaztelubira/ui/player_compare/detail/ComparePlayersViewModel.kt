@@ -1,14 +1,13 @@
 package com.sgalera.gaztelubira.ui.player_compare.detail
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
-import com.sgalera.gaztelubira.domain.usecases.players.GetPlayerStatsUseCase
 import com.sgalera.gaztelubira.domain.manager.SharedPreferences
 import com.sgalera.gaztelubira.domain.model.UIState
 import com.sgalera.gaztelubira.domain.model.players.PlayerModel
+import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.repository.PlayersRepository
+import com.sgalera.gaztelubira.domain.usecases.players.GetPlayerStatsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,8 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ComparePlayersViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
-    private val playersRepository: PlayersRepository,
     private val getPlayerStatsUseCase: GetPlayerStatsUseCase,
+    playersRepository: PlayersRepository
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow<UIState>(UIState.Loading)
@@ -35,6 +34,9 @@ class ComparePlayersViewModel @Inject constructor(
 
     private val _bothPlayersStats = MutableStateFlow<Pair<PlayerStatsModel?, PlayerStatsModel?>?>(null)
     val bothPlayersStats: StateFlow<Pair<PlayerStatsModel?, PlayerStatsModel?>?> = _bothPlayersStats
+
+    private val _mappingStats = MutableStateFlow<List<String>>(emptyList())
+    val mappingStats: StateFlow<List<String>> = _mappingStats
 
     private val _playersList = MutableStateFlow<List<PlayerModel?>>(emptyList())
 
@@ -70,6 +72,7 @@ class ComparePlayersViewModel @Inject constructor(
         _playerOneStats.value = playerOneStats.copy(information = playerOneInformation)
         _playerTwoStats.value = playerTwoStats.copy(information = playerTwoInformation)
         _bothPlayersStats.value = Pair(_playerOneStats.value, _playerTwoStats.value)
+
     }
 
     fun provideMaxStatValue(): Int {
