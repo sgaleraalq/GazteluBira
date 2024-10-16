@@ -164,7 +164,7 @@ class ComparePlayersActivity : AppCompatActivity() {
     private fun initExitScreenAnimation() {
         val alphaAnimation = ObjectAnimator.ofFloat(binding.clCompareAnimations, "alpha", 1f, 0f)
         alphaAnimation.duration = 1000
-        alphaAnimation.startDelay = 1000
+        alphaAnimation.startDelay = 1500
         alphaAnimation.start()
     }
 
@@ -173,8 +173,8 @@ class ComparePlayersActivity : AppCompatActivity() {
 
         val translationX = ObjectAnimator.ofFloat(binding.cvPlayerOne, "translationX", -1000f, 0f)
         val translationY = ObjectAnimator.ofFloat(binding.cvPlayerOne, "translationY", 800f, 0f)
-        translationX.duration = 1000
-        translationY.duration = 1000
+        translationX.duration = 750
+        translationY.duration = 750
         val animatorSet = AnimatorSet()
         animatorSet.playTogether(translationX, translationY)
         return animatorSet
@@ -185,8 +185,8 @@ class ComparePlayersActivity : AppCompatActivity() {
 
         val translationX = ObjectAnimator.ofFloat(binding.cvPlayerTwo, "translationX", 1000f, 0f)
         val translationY = ObjectAnimator.ofFloat(binding.cvPlayerTwo, "translationY", -800f, 0f)
-        translationX.duration = 1000
-        translationY.duration = 1000
+        translationX.duration = 750
+        translationY.duration = 750
         val animatorSet = AnimatorSet()
         animatorSet.playTogether(translationX, translationY)
         return animatorSet

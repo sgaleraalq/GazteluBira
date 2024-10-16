@@ -11,6 +11,7 @@ plugins {
     id("kotlin-parcelize")
 }
 
+
 android {
     namespace = "com.sgalera.gaztelubira"
     compileSdk = 34
@@ -56,7 +57,7 @@ android {
 }
 
 dependencies {
-    //NavComponent
+    // Nav Component
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
 
@@ -92,6 +93,8 @@ dependencies {
 
     // Circle Image View
     implementation("de.hdodenhof:circleimageview:3.1.0")
+
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
 
     implementation(libs.androidx.core.ktx)
