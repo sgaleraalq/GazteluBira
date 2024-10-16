@@ -6,6 +6,8 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.usecases.players.GetPlayerStatsUseCase
 import com.sgalera.gaztelubira.domain.manager.SharedPreferences
 import com.sgalera.gaztelubira.domain.model.UIState
+import com.sgalera.gaztelubira.domain.model.players.PlayerModel
+import com.sgalera.gaztelubira.domain.repository.PlayersRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ComparePlayersViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
+    private val playersRepository: PlayersRepository,
     private val getPlayerStatsUseCase: GetPlayerStatsUseCase,
 ): ViewModel() {
 
@@ -29,24 +32,39 @@ class ComparePlayersViewModel @Inject constructor(
     private val _playerTwoStats = MutableStateFlow<PlayerStatsModel?>(null)
     val playerTwoStats: StateFlow<PlayerStatsModel?> = _playerTwoStats
 
+    private val _playersList = MutableStateFlow<List<PlayerModel?>>(emptyList())
 
-    fun getPlayerStats(playerName: String) {
+
+    init {
+        _playersList.value = playersRepository.playersList.value
+    }
+
+    fun getPlayerStats(playerOneName: String, playerTwoName: String) {
         viewModelScope.launch {
             _uiState.value = UIState.Loading
             val playerOneStats = withContext(Dispatchers.IO){
-                getPlayerStatsUseCase(playerName, sharedPreferences.credentials.year.toString())
+                getPlayerStatsUseCase(playerOneName, sharedPreferences.credentials.year.toString())
             }
             val playerTwoStats = withContext(Dispatchers.IO){
-                getPlayerStatsUseCase(playerName, sharedPreferences.credentials.year.toString())
+                getPlayerStatsUseCase(playerTwoName, sharedPreferences.credentials.year.toString())
             }
 
             if (playerOneStats != null && playerTwoStats != null) {
-                _playerOneStats.value = playerOneStats
-                _playerTwoStats.value = playerTwoStats
+                mapInformation(playerOneStats, playerTwoStats)
                 _uiState.value = UIState.Success
             } else {
                 _uiState.value = UIState.Error
             }
         }
+    }
+
+    private fun mapInformation(playerOneStats: PlayerStatsModel, playerTwoStats: PlayerStatsModel) {
+        val playersList = _playersList.value
+
+        val playerOneInformation = playersList.find { it?.ownReference == playerOneStats.reference }
+        val playerTwoInformation = playersList.find { it?.ownReference == playerTwoStats.reference }
+
+        _playerOneStats.value = playerOneStats.copy(information = playerOneInformation)
+        _playerTwoStats.value = playerTwoStats.copy(information = playerTwoInformation)
     }
 }

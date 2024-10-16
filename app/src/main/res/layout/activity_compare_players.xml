@@ -24,13 +24,146 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/antique_white" />
 
+        <View
+            android:id="@+id/middlePoint"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivPlayerOneStats"
+            android:layout_width="120dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintEnd_toStartOf="@id/middlePoint"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/img_player_xabi" />
+
+        <ImageView
+            android:id="@+id/ivPlayerTwoStats"
+            android:layout_width="120dp"
+            android:layout_height="140dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="36dp"
+            app:layout_constraintStart_toEndOf="@id/middlePoint"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/img_player_xabi" />
+
+        <TextView
+            android:id="@+id/tvPlayerOneNameStats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/antique_white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/ivPlayerOneStats"
+            app:layout_constraintStart_toStartOf="@id/ivPlayerOneStats"
+            app:layout_constraintTop_toBottomOf="@id/ivPlayerOneStats"
+            tools:text="Madariaga" />
+
+        <TextView
+            android:id="@+id/tvPlayerTwoNameStats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/antique_white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/ivPlayerTwoStats"
+            app:layout_constraintStart_toStartOf="@id/ivPlayerTwoStats"
+            app:layout_constraintTop_toBottomOf="@id/ivPlayerTwoStats"
+            tools:text="Madariaga" />
+
+        <TextView
+            android:id="@+id/tvPlayerOnePercentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:textColor="@color/antique_white"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="@id/ivPlayerOneStats"
+            app:layout_constraintEnd_toStartOf="@id/ivPlayerOneStats"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="0,57" />
+
+        <TextView
+            android:id="@+id/tvPlayerTwoPercentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:textColor="@color/antique_white"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="@id/ivPlayerTwoStats"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivPlayerTwoStats"
+            tools:text="0,57" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clStatsView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginVertical="12dp"
+            app:layout_constraintBottom_toTopOf="@id/rcStats"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvPlayerOneNameStats">
+
+            <View
+                android:id="@+id/midPoint"
+                android:layout_width="0.1dp"
+                android:layout_height="0.1dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/tvGoals"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/goals"
+                android:textSize="10sp"
+                android:textColor="@color/white_bit_dark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.skydoves.progressview.ProgressView
+                android:id="@+id/pvGoalsPlayerOne"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvGoals" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.github.mikephil.charting.charts.RadarChart
+            android:id="@+id/rcStats"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_marginHorizontal="36dp"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clCompareAnimations"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <com.sgalera.gaztelubira.ui.core.UpperDiagonalView
             android:layout_width="match_parent"
@@ -57,8 +190,8 @@
             android:layout_marginStart="150dp"
             android:layout_marginBottom="350dp"
             android:visibility="gone"
-            app:cardElevation="0dp"
             app:cardBackgroundColor="@color/transparent"
+            app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -80,10 +213,10 @@
                 android:id="@+id/tvPlayerOneName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom | center"
                 android:textColor="@color/antique_white"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:layout_gravity="bottom | center"
                 tools:text="Madariaga" />
 
         </androidx.cardview.widget.CardView>
@@ -109,8 +242,8 @@
             android:layout_marginTop="350dp"
             android:layout_marginEnd="150dp"
             android:visibility="gone"
-            app:cardElevation="0dp"
             app:cardBackgroundColor="@color/transparent"
+            app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -132,10 +265,10 @@
                 android:id="@+id/tvPlayerTwoName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom | center"
                 android:textColor="@color/antique_white"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:layout_gravity="bottom | center"
                 tools:text="Madariaga" />
 
         </androidx.cardview.widget.CardView>
@@ -144,10 +277,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clParent"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/primary">
+        android:background="@color/primary"
+        android:visibility="gone">
 
         <ProgressBar
             android:id="@+id/pbLoading"

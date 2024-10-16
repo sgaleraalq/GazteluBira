@@ -6,8 +6,10 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -79,18 +81,44 @@ class ComparePlayersActivity : AppCompatActivity() {
         init()
         checkReferences()
         initPlayerImages()
-        initPlayersStats()
     }
 
     private fun init() {
+        comparePlayersViewModel.getPlayerStats(playerOne.first, playerTwo.first)
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 comparePlayersViewModel.uiState.collect { uiState ->
-                    when (uiState){
+                    when (uiState) {
                         UIState.Error -> onErrorState()
                         UIState.Loading -> {}
                         UIState.Success -> onSuccessState()
                     }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                comparePlayersViewModel.playerOneStats.collect { playerOne ->
+                    initPlayer(
+                        playerOne,
+                        binding.ivPlayerOneStats,
+                        binding.tvPlayerOneNameStats,
+                        binding.tvPlayerOnePercentage
+                    )
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                comparePlayersViewModel.playerTwoStats.collect { playerTwo ->
+                    initPlayer(
+                        playerTwo,
+                        binding.ivPlayerTwoStats,
+                        binding.tvPlayerTwoNameStats,
+                        binding.tvPlayerTwoPercentage
+                    )
                 }
             }
         }
@@ -110,7 +138,8 @@ class ComparePlayersActivity : AppCompatActivity() {
 
     private fun checkReferences() {
         if (playerOne.first.isEmpty() || playerTwo.first.isEmpty()) {
-            Toast.makeText(this, getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT)
+                .show()
             onBackPressedDispatcher.onBackPressed()
         }
     }
@@ -123,21 +152,16 @@ class ComparePlayersActivity : AppCompatActivity() {
     }
 
 
-    private fun initPlayersStats() {
-        comparePlayersViewModel.getPlayerStats(playerOne.first)
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                comparePlayersViewModel.playerOneStats.collect { playerOne ->
-                    initPlayer(playerOne, binding.ivPlayerOne)
-                }
-            }
-        }
+    private fun initPlayer(
+        player: PlayerStatsModel?,
+        playerImage: ImageView,
+        playerText: TextView,
+        playerPercentage: TextView
+    ) {
+        Glide.with(this).load(player?.information?.img).into(playerImage)
+        playerText.text = player?.information?.name
+        playerPercentage.text = player?.percentage
     }
-
-    private fun initPlayer(player: PlayerStatsModel?, itemView: ImageView) {
-        // TODO
-    }
-
 
 
     // ANIMATIONS
@@ -147,7 +171,7 @@ class ComparePlayersActivity : AppCompatActivity() {
 
         val animationSet = AnimatorSet()
         animationSet.playTogether(playerOneAnimation, playerTwoAnimation)
-        animationSet.addListener(object: Animator.AnimatorListener {
+        animationSet.addListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(animation: Animator) {}
 
             override fun onAnimationEnd(animation: Animator) {
