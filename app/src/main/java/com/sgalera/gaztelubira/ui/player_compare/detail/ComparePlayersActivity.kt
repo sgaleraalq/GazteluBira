@@ -158,6 +158,16 @@ class ComparePlayersActivity : AppCompatActivity() {
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                comparePlayersViewModel.bothPlayersStats.collect { bothPlayers ->
+                    if (bothPlayers != null){
+                        setupRadarChart(bothPlayers.first, bothPlayers.second)
+                    }
+                }
+            }
+        }
     }
 
     private fun initPlayer(
@@ -203,24 +213,55 @@ class ComparePlayersActivity : AppCompatActivity() {
     }
 
 
-    private fun setupRadarChart(radarChart: RadarChart, stats: List<Float>, myColor: Int) {
+    private fun setupRadarChart(firstPlayer: PlayerStatsModel?, secondPlayer: PlayerStatsModel?) {
+        val radarChart = binding.rcStats
+
         radarChart.clear()
         val labels = listOf("Goals", "Assists", "Penalties", "Clean Sheets", "Games Played")
-        val entryList = ArrayList<RadarEntry>()
-        for (i in stats.indices) {
-            entryList.add(RadarEntry(stats[i] / maxValue))
+
+        val firstPlayerStats = listOf(
+            firstPlayer?.goals?.toFloat() ?: 0f,
+            firstPlayer?.assists?.toFloat() ?: 0f,
+            firstPlayer?.penalties?.toFloat() ?: 0f,
+            firstPlayer?.cleanSheet?.toFloat() ?: 0f,
+            firstPlayer?.gamesPlayed?.toFloat() ?: 0f
+        )
+
+        val secondPlayerStats = listOf(
+            secondPlayer?.goals?.toFloat() ?: 0f,
+            secondPlayer?.assists?.toFloat() ?: 0f,
+            secondPlayer?.penalties?.toFloat() ?: 0f,
+            secondPlayer?.cleanSheet?.toFloat() ?: 0f,
+            secondPlayer?.gamesPlayed?.toFloat() ?: 0f
+        )
+
+        val entryListPlayerOne = ArrayList<RadarEntry>()
+        val entryListPlayerTwo = ArrayList<RadarEntry>()
+
+        for (i in labels.indices) {
+            entryListPlayerOne.add(RadarEntry(firstPlayerStats[i] / maxValue))
+            entryListPlayerTwo.add(RadarEntry(secondPlayerStats[i] / maxValue))
         }
 
-        val dataSet = RadarDataSet(entryList, "Player Stats").apply {
-            color = myColor
-            fillColor = myColor
+        val dataSetPlayerOne = RadarDataSet(entryListPlayerOne, "Player One").apply {
+            color = R.color.red_vs
+            fillColor = R.color.red_vs
             setDrawFilled(true)
             valueTextSize = 12f
             lineWidth = 2f
             fillAlpha = 90
         }
 
-        val radarData = RadarData(dataSet)
+        val dataSetPlayerTwo = RadarDataSet(entryListPlayerTwo, "Player Two").apply {
+            color = R.color.blue_vs
+            fillColor = R.color.blue_vs
+            setDrawFilled(true)
+            valueTextSize = 12f
+            lineWidth = 2f
+            fillAlpha = 90
+        }
+
+        val radarData = RadarData(dataSetPlayerOne, dataSetPlayerTwo)
 
         radarChart.data = radarData
         radarChart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)

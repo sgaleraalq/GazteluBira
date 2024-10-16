@@ -33,6 +33,8 @@ class ComparePlayersViewModel @Inject constructor(
     private val _playerTwoStats = MutableStateFlow<PlayerStatsModel?>(null)
     val playerTwoStats: StateFlow<PlayerStatsModel?> = _playerTwoStats
 
+    private val _bothPlayersStats = MutableStateFlow<Pair<PlayerStatsModel?, PlayerStatsModel?>?>(null)
+    val bothPlayersStats: StateFlow<Pair<PlayerStatsModel?, PlayerStatsModel?>?> = _bothPlayersStats
 
     private val _playersList = MutableStateFlow<List<PlayerModel?>>(emptyList())
 
@@ -67,6 +69,7 @@ class ComparePlayersViewModel @Inject constructor(
 
         _playerOneStats.value = playerOneStats.copy(information = playerOneInformation)
         _playerTwoStats.value = playerTwoStats.copy(information = playerTwoInformation)
+        _bothPlayersStats.value = Pair(_playerOneStats.value, _playerTwoStats.value)
     }
 
     fun provideMaxStatValue(): Int {
