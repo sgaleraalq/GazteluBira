@@ -1,8 +1,12 @@
 package com.sgalera.gaztelubira.ui.player_compare.detail
 
+import android.animation.Animator
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -14,8 +18,10 @@ import com.bumptech.glide.Glide
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.core.Constants.PLAYER_NO_IMAGE
 import com.sgalera.gaztelubira.databinding.ActivityComparePlayersBinding
+import com.sgalera.gaztelubira.domain.model.UIState
 import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -70,10 +76,37 @@ class ComparePlayersActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
+        init()
         checkReferences()
         initPlayerImages()
         initPlayersStats()
     }
+
+    private fun init() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                comparePlayersViewModel.uiState.collect { uiState ->
+                    when (uiState){
+                        UIState.Error -> onErrorState()
+                        UIState.Loading -> {}
+                        UIState.Success -> onSuccessState()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun onErrorState() {
+        Toast.makeText(this, getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT).show()
+        onBackPressedDispatcher.onBackPressed()
+    }
+
+    private fun onSuccessState() {
+        binding.pbLoading.visibility = View.GONE
+        binding.clParent.visibility = View.GONE
+        initAnimations()
+    }
+
 
     private fun checkReferences() {
         if (playerOne.first.isEmpty() || playerTwo.first.isEmpty()) {
@@ -103,5 +136,59 @@ class ComparePlayersActivity : AppCompatActivity() {
 
     private fun initPlayer(player: PlayerStatsModel?, itemView: ImageView) {
         // TODO
+    }
+
+
+
+    // ANIMATIONS
+    private fun initAnimations() {
+        val playerOneAnimation = initPlayerOneAnimation()
+        val playerTwoAnimation = initPlayerTwoAnimation()
+
+        val animationSet = AnimatorSet()
+        animationSet.playTogether(playerOneAnimation, playerTwoAnimation)
+        animationSet.addListener(object: Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator) {}
+
+            override fun onAnimationEnd(animation: Animator) {
+                initExitScreenAnimation()
+            }
+
+            override fun onAnimationCancel(animation: Animator) {}
+
+            override fun onAnimationRepeat(animation: Animator) {}
+        })
+        animationSet.start()
+    }
+
+    private fun initExitScreenAnimation() {
+        val alphaAnimation = ObjectAnimator.ofFloat(binding.clCompareAnimations, "alpha", 1f, 0f)
+        alphaAnimation.duration = 1000
+        alphaAnimation.startDelay = 1000
+        alphaAnimation.start()
+    }
+
+    private fun initPlayerOneAnimation(): AnimatorSet {
+        binding.cvPlayerOne.visibility = View.VISIBLE
+
+        val translationX = ObjectAnimator.ofFloat(binding.cvPlayerOne, "translationX", -1000f, 0f)
+        val translationY = ObjectAnimator.ofFloat(binding.cvPlayerOne, "translationY", 800f, 0f)
+        translationX.duration = 1000
+        translationY.duration = 1000
+        val animatorSet = AnimatorSet()
+        animatorSet.playTogether(translationX, translationY)
+        return animatorSet
+    }
+
+    private fun initPlayerTwoAnimation(): AnimatorSet {
+        binding.cvPlayerTwo.visibility = View.VISIBLE
+
+        val translationX = ObjectAnimator.ofFloat(binding.cvPlayerTwo, "translationX", 1000f, 0f)
+        val translationY = ObjectAnimator.ofFloat(binding.cvPlayerTwo, "translationY", -800f, 0f)
+        translationX.duration = 1000
+        translationY.duration = 1000
+        val animatorSet = AnimatorSet()
+        animatorSet.playTogether(translationX, translationY)
+        return animatorSet
     }
 }

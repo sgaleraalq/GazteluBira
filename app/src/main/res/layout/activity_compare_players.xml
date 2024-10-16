@@ -8,112 +8,155 @@
     android:background="@color/primary"
     tools:context=".ui.player_compare.detail.ComparePlayersActivity">
 
-    <com.sgalera.gaztelubira.ui.core.UpperDiagonalView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clCompareStats"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
 
-    <com.sgalera.gaztelubira.ui.core.LowerDiagonalView
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/description_ic_back"
+            android:padding="24dp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/antique_white" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clCompareAnimations"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
 
-    <com.sgalera.gaztelubira.ui.core.DiagonalLineView
-        android:id="@+id/diagonalLine"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/transparent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <com.sgalera.gaztelubira.ui.core.UpperDiagonalView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <ImageView
-        android:id="@+id/ivBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/description_ic_back"
-        android:padding="24dp"
-        android:src="@drawable/ic_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/antique_white" />
+        <com.sgalera.gaztelubira.ui.core.LowerDiagonalView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <ImageView
-        android:id="@+id/ivPlayerOne"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="48dp"
-        android:contentDescription="@string/description_compare_players"
-        app:layout_constraintStart_toStartOf="@id/diagonalLine"
-        app:layout_constraintTop_toTopOf="@id/diagonalLine"
-        tools:src="@drawable/img_player_xabi" />
+        <com.sgalera.gaztelubira.ui.core.DiagonalLineView
+            android:id="@+id/diagonalLine"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvPlayerOneName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/antique_white"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/ivPlayerOne"
-        app:layout_constraintStart_toStartOf="@id/ivPlayerOne"
-        app:layout_constraintTop_toBottomOf="@id/ivPlayerOne"
-        tools:text="Madariaga" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvPlayerOne"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_marginStart="150dp"
+            android:layout_marginBottom="350dp"
+            android:visibility="gone"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/ivVersus"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:contentDescription="@string/description_versus"
-        android:src="@drawable/img_versus"
-        android:layout_marginTop="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/ivPlayerOne"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="top | center"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="@string/description_compare_players"
+                app:layout_constraintBottom_toTopOf="@id/tvPlayerOneName"
+                app:layout_constraintEnd_toEndOf="@id/tvPlayerOneName"
+                app:layout_constraintStart_toStartOf="@id/tvPlayerOneName"
+                tools:src="@drawable/img_player_xabi" />
 
-    <ImageView
-        android:id="@+id/ivPlayerTwo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="64dp"
-        android:contentDescription="@string/description_compare_players"
-        app:layout_constraintBottom_toBottomOf="@id/diagonalLine"
-        app:layout_constraintEnd_toEndOf="@id/diagonalLine"
-        tools:src="@drawable/img_player_xabi" />
+            <TextView
+                android:id="@+id/tvPlayerOneName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/antique_white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_gravity="bottom | center"
+                tools:text="Madariaga" />
 
-    <TextView
-        android:id="@+id/tvPlayerTwoName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/antique_white"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/ivPlayerTwo"
-        app:layout_constraintStart_toStartOf="@id/ivPlayerTwo"
-        app:layout_constraintTop_toBottomOf="@id/ivPlayerTwo"
-        tools:text="Madariaga" />
+        </androidx.cardview.widget.CardView>
 
+
+        <ImageView
+            android:id="@+id/ivVersus"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="24dp"
+            android:contentDescription="@string/description_versus"
+            android:src="@drawable/img_versus"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvPlayerTwo"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_marginTop="350dp"
+            android:layout_marginEnd="150dp"
+            android:visibility="gone"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/ivPlayerTwo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="top | center"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="@string/description_compare_players"
+                app:layout_constraintBottom_toTopOf="@id/tvPlayerOneName"
+                app:layout_constraintEnd_toEndOf="@id/tvPlayerOneName"
+                app:layout_constraintStart_toStartOf="@id/tvPlayerOneName"
+                tools:src="@drawable/img_player_xabi" />
+
+            <TextView
+                android:id="@+id/tvPlayerTwoName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/antique_white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_gravity="bottom | center"
+                tools:text="Madariaga" />
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clParent"
-        android:visibility="gone"
-        android:background="@color/primary"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/primary">
 
         <ProgressBar
             android:id="@+id/pbLoading"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:indeterminateTint="@color/antique_white"
-            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
