@@ -167,7 +167,8 @@ class ComparePlayersActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 comparePlayersViewModel.bothPlayersStats.collect { bothPlayers ->
                     if (bothPlayers != null) {
-                        setupRadarChart(binding.rcStats, bothPlayers.first, bothPlayers.second)
+                        setUpRadarChart(binding.rcStats, bothPlayers.first, bothPlayers.second)
+                        setUpFireBackground(bothPlayers)
                     }
                 }
             }
@@ -222,8 +223,22 @@ class ComparePlayersActivity : AppCompatActivity() {
         }
     }
 
+    private fun setUpFireBackground(bothPlayers: Pair<PlayerStatsModel?, PlayerStatsModel?>) {
+        val percentageOne = bothPlayers.first?.percentage?.replace("%", "")?.toFloat() ?: 0f
+        val percentageTwo = bothPlayers.second?.percentage?.replace("%", "")?.toFloat() ?: 0f
+        if (percentageOne > percentageTwo) {
+            binding.laPlayerOne.visibility = View.VISIBLE
+            binding.laPlayerTwo.visibility = View.GONE
+        } else if (percentageOne < percentageTwo) {
+            binding.laPlayerOne.visibility = View.GONE
+            binding.laPlayerTwo.visibility = View.VISIBLE
+        } else {
+            binding.laPlayerOne.visibility = View.GONE
+            binding.laPlayerTwo.visibility = View.GONE
+        }
+    }
 
-    private fun setupRadarChart(
+    private fun setUpRadarChart(
         radarChart: RadarChart,
         firstPlayer: PlayerStatsModel?,
         secondPlayer: PlayerStatsModel?

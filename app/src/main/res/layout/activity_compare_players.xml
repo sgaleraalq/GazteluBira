@@ -39,7 +39,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-<!--        <Lottie-->
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/laPlayerOne"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/ivPlayerOneStats"
+            app:layout_constraintEnd_toEndOf="@id/ivPlayerOneStats"
+            app:layout_constraintStart_toStartOf="@id/ivPlayerOneStats"
+            app:layout_constraintTop_toTopOf="@id/ivPlayerOneStats"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/anim_fire" />
 
         <ImageView
             android:id="@+id/ivPlayerOneStats"
@@ -50,6 +61,20 @@
             app:layout_constraintEnd_toStartOf="@id/middlePoint"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/img_player_xabi" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/laPlayerTwo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/ivPlayerTwoStats"
+            app:layout_constraintEnd_toEndOf="@id/ivPlayerTwoStats"
+            app:layout_constraintStart_toStartOf="@id/ivPlayerTwoStats"
+            app:layout_constraintTop_toTopOf="@id/ivPlayerTwoStats"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/anim_fire" />
+
 
         <ImageView
             android:id="@+id/ivPlayerTwoStats"
@@ -421,19 +446,19 @@
             android:id="@+id/tvPlayerOnePercentage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/tvPercentageOne"
-            app:layout_constraintEnd_toEndOf="@id/tvPercentageOne"
-            app:layout_constraintTop_toBottomOf="@id/tvPercentageOne"
-            android:textColor="@color/red_radar_chart"
             android:layout_marginTop="4dp"
-            android:textSize="16sp"/>
+            android:textColor="@color/red_radar_chart"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/tvPercentageOne"
+            app:layout_constraintStart_toStartOf="@id/tvPercentageOne"
+            app:layout_constraintTop_toBottomOf="@id/tvPercentageOne" />
 
         <TextView
             android:id="@+id/tvPercentageTwo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/percentage"
             android:textColor="@color/blue_radar_chart"
             android:textSize="12sp"
@@ -444,12 +469,12 @@
             android:id="@+id/tvPlayerTwoPercentage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/tvPercentageTwo"
-            app:layout_constraintEnd_toEndOf="@id/tvPercentageTwo"
-            app:layout_constraintTop_toBottomOf="@id/tvPercentageTwo"
-            android:textColor="@color/blue_radar_chart"
             android:layout_marginTop="4dp"
-            android:textSize="16sp"/>
+            android:textColor="@color/blue_radar_chart"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/tvPercentageTwo"
+            app:layout_constraintStart_toStartOf="@id/tvPercentageTwo"
+            app:layout_constraintTop_toBottomOf="@id/tvPercentageTwo" />
 
         <com.github.mikephil.charting.charts.RadarChart
             android:id="@+id/rcStats"
