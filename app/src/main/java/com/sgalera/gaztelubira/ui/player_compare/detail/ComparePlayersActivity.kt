@@ -14,7 +14,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.size
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -115,22 +114,6 @@ class ComparePlayersActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 comparePlayersViewModel.playerOneStats.collect { playerOne ->
                     if (playerOne != null) {
-                        initPlayer(
-                            playerOne,
-                            binding.ivPlayerOneStats,
-                            binding.tvPlayerOneNameStats,
-                            binding.tvPlayerOnePercentage,
-                            binding.tvPlayerOneGoals,
-                            binding.tvPlayerOneAssists,
-                            binding.tvPlayerOnePenalties,
-                            binding.tvPlayerOneCleanSheet,
-                            binding.tvPlayerOneGamesPlayed,
-                            binding.pvGoalsPlayerOne,
-                            binding.pvAssistsPlayerOne,
-                            binding.pvPenaltiesPlayerOne,
-                            binding.pvCleanSheetPlayerOne,
-                            binding.pvGamesPlayedPlayerOne
-                        )
                         playerOneStats = playerOne
                     }
                 }
@@ -141,22 +124,6 @@ class ComparePlayersActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 comparePlayersViewModel.playerTwoStats.collect { playerTwo ->
                     if (playerTwo != null) {
-                        initPlayer(
-                            playerTwo,
-                            binding.ivPlayerTwoStats,
-                            binding.tvPlayerTwoNameStats,
-                            binding.tvPlayerTwoPercentage,
-                            binding.tvPlayerTwoGoals,
-                            binding.tvPlayerTwoAssists,
-                            binding.tvPlayerTwoPenalties,
-                            binding.tvPlayerTwoCleanSheet,
-                            binding.tvPlayerTwoGamesPlayed,
-                            binding.pvGoalsPlayerTwo,
-                            binding.pvAssistsPlayerTwo,
-                            binding.pvPenaltiesPlayerTwo,
-                            binding.pvCleanSheetPlayerTwo,
-                            binding.pvGamesPlayedPlayerTwo,
-                        )
                         playerTwoStats = playerTwo
                     }
                 }
@@ -366,7 +333,68 @@ class ComparePlayersActivity : AppCompatActivity() {
         val alphaAnimation = ObjectAnimator.ofFloat(binding.clCompareAnimations, "alpha", 1f, 0f)
         alphaAnimation.duration = 1000
         alphaAnimation.startDelay = 1500
+
+        alphaAnimation.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator) {}
+
+            override fun onAnimationEnd(animation: Animator) {
+                initProgressViews()
+            }
+
+            override fun onAnimationCancel(animation: Animator) {}
+
+            override fun onAnimationRepeat(animation: Animator) {}
+        })
+
         alphaAnimation.start()
+    }
+
+    private fun initProgressViews() {
+        initPlayer(
+            playerOneStats,
+            binding.ivPlayerOneStats,
+            binding.tvPlayerOneNameStats,
+            binding.tvPlayerOnePercentage,
+            binding.tvPlayerOneGoals,
+            binding.tvPlayerOneAssists,
+            binding.tvPlayerOnePenalties,
+            binding.tvPlayerOneCleanSheet,
+            binding.tvPlayerOneGamesPlayed,
+            binding.pvGoalsPlayerOne,
+            binding.pvAssistsPlayerOne,
+            binding.pvPenaltiesPlayerOne,
+            binding.pvCleanSheetPlayerOne,
+            binding.pvGamesPlayedPlayerOne
+        )
+
+        initPlayer(
+            playerTwoStats,
+            binding.ivPlayerTwoStats,
+            binding.tvPlayerTwoNameStats,
+            binding.tvPlayerTwoPercentage,
+            binding.tvPlayerTwoGoals,
+            binding.tvPlayerTwoAssists,
+            binding.tvPlayerTwoPenalties,
+            binding.tvPlayerTwoCleanSheet,
+            binding.tvPlayerTwoGamesPlayed,
+            binding.pvGoalsPlayerTwo,
+            binding.pvAssistsPlayerTwo,
+            binding.pvPenaltiesPlayerTwo,
+            binding.pvCleanSheetPlayerTwo,
+            binding.pvGamesPlayedPlayerTwo,
+        )
+
+        binding.pvGoalsPlayerOne.progressAnimate()
+        binding.pvAssistsPlayerOne.progressAnimate()
+        binding.pvPenaltiesPlayerOne.progressAnimate()
+        binding.pvCleanSheetPlayerOne.progressAnimate()
+        binding.pvGamesPlayedPlayerOne.progressAnimate()
+
+        binding.pvGoalsPlayerTwo.progressAnimate()
+        binding.pvAssistsPlayerTwo.progressAnimate()
+        binding.pvPenaltiesPlayerTwo.progressAnimate()
+        binding.pvCleanSheetPlayerTwo.progressAnimate()
+        binding.pvGamesPlayedPlayerTwo.progressAnimate()
     }
 
     private fun initPlayerOneAnimation(): AnimatorSet {

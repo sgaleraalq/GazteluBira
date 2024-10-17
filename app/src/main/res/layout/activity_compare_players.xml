@@ -493,8 +493,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clCompareAnimations"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+        android:layout_height="match_parent">
 
         <com.sgalera.gaztelubira.ui.core.UpperDiagonalView
             android:layout_width="match_parent"
@@ -610,8 +609,7 @@
         android:id="@+id/clParent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/primary"
-        android:visibility="gone">
+        android:background="@color/primary">
 
         <ProgressBar
             android:id="@+id/pbLoading"
