@@ -48,6 +48,15 @@ class MatchesViewModel @Inject constructor(
         }
     }
 
+    fun initAgain() {
+        viewModelScope.launch {
+            val teamsList = teamsRepository.teamsList.value
+            if (teamsList.isNotEmpty()){
+                initMatches(teamsList)
+            }
+        }
+    }
+
     private fun initMatches(teamsList: List<TeamModel?>) {
         viewModelScope.launch {
             _uiState.value = Loading

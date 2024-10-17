@@ -44,6 +44,7 @@ class MatchesFragment : Fragment() {
         initRecyclerView()
         initMatchesList()
         insertGameListener()
+        initSwipeToRefresh()
     }
 
     private fun initRecyclerView() {
@@ -116,6 +117,25 @@ class MatchesFragment : Fragment() {
                     leagueJourney = matchesViewModel.leagueJourney.value
                 )
             )
+        }
+    }
+
+    private fun initSwipeToRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            refreshData()
+        }
+    }
+
+    private fun refreshData() {
+        matchesViewModel.initAgain()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                matchesViewModel.uiState.collect {
+                    if (it == UIState.Success || it == UIState.Error) {
+                        binding.swipeRefreshLayout.isRefreshing = false
+                    }
+                }
+            }
         }
     }
 }
