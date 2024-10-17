@@ -81,21 +81,21 @@ dependencies {
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore.ktx)
-    implementation("com.google.firebase:firebase-analytics")
+    implementation(libs.firebase.analytics)
     // Firebase auth
-    implementation("com.google.firebase:firebase-auth")
+    implementation(libs.firebase.auth)
 
     // Progress View
     implementation(libs.progressview)
 
     // Power spinner
-    implementation("com.github.skydoves:powerspinner:1.2.7")
+    implementation(libs.powerspinner)
 
-    // Circle Image View
-    implementation("de.hdodenhof:circleimageview:3.1.0")
+    // Radar Chart
+    implementation(libs.mpandroidchart)
 
-    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
-
+    // Lottie
+    implementation(libs.lottie)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

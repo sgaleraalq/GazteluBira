@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/img_background_compare"/>
+            android:src="@drawable/img_background_compare" />
 
         <ImageView
             android:id="@+id/ivBack"
@@ -39,12 +39,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+<!--        <Lottie-->
+
         <ImageView
             android:id="@+id/ivPlayerOneStats"
             android:layout_width="120dp"
             android:layout_height="140dp"
             android:layout_marginTop="36dp"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="24dp"
             app:layout_constraintEnd_toStartOf="@id/middlePoint"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/img_player_xabi" />
@@ -53,7 +55,7 @@
             android:id="@+id/ivPlayerTwoStats"
             android:layout_width="120dp"
             android:layout_height="140dp"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="36dp"
             app:layout_constraintStart_toEndOf="@id/middlePoint"
             app:layout_constraintTop_toTopOf="parent"
@@ -88,30 +90,6 @@
             app:layout_constraintStart_toStartOf="@id/ivPlayerTwoStats"
             app:layout_constraintTop_toBottomOf="@id/ivPlayerTwoStats"
             tools:text="Madariaga" />
-
-        <TextView
-            android:id="@+id/tvPlayerOnePercentage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="22sp"
-            app:layout_constraintBottom_toBottomOf="@id/ivPlayerOneStats"
-            app:layout_constraintEnd_toStartOf="@id/ivPlayerOneStats"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="0,57" />
-
-        <TextView
-            android:id="@+id/tvPlayerTwoPercentage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="22sp"
-            app:layout_constraintBottom_toBottomOf="@id/ivPlayerTwoStats"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivPlayerTwoStats"
-            tools:text="0,57" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clStatsView"
@@ -302,10 +280,10 @@
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="14dp"
-                app:progressView_colorProgress="@color/blue_vs"
                 app:layout_constraintEnd_toStartOf="@id/tvPlayerTwoGoals"
                 app:layout_constraintStart_toEndOf="@id/midPoint"
-                app:layout_constraintTop_toBottomOf="@id/tvPenalties" />
+                app:layout_constraintTop_toBottomOf="@id/tvPenalties"
+                app:progressView_colorProgress="@color/blue_vs" />
 
             <TextView
                 android:id="@+id/tvCleanSheet"
@@ -338,10 +316,10 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="2dp"
                 android:rotation="180"
-                app:progressView_colorProgress="@color/red_vs"
                 app:layout_constraintEnd_toStartOf="@id/midPoint"
                 app:layout_constraintStart_toEndOf="@id/tvPlayerOneGoals"
-                app:layout_constraintTop_toBottomOf="@id/tvCleanSheet" />
+                app:layout_constraintTop_toBottomOf="@id/tvCleanSheet"
+                app:progressView_colorProgress="@color/red_vs" />
 
             <TextView
                 android:id="@+id/tvPlayerTwoCleanSheet"
@@ -361,10 +339,10 @@
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="14dp"
-                app:progressView_colorProgress="@color/blue_vs"
                 app:layout_constraintEnd_toStartOf="@id/tvPlayerTwoGoals"
                 app:layout_constraintStart_toEndOf="@id/midPoint"
-                app:layout_constraintTop_toBottomOf="@id/tvCleanSheet" />
+                app:layout_constraintTop_toBottomOf="@id/tvCleanSheet"
+                app:progressView_colorProgress="@color/blue_vs" />
 
             <TextView
                 android:id="@+id/tvGamesPlayed"
@@ -397,10 +375,10 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="2dp"
                 android:rotation="180"
-                app:progressView_colorProgress="@color/red_vs"
                 app:layout_constraintEnd_toStartOf="@id/midPoint"
                 app:layout_constraintStart_toEndOf="@id/tvPlayerOneGoals"
-                app:layout_constraintTop_toBottomOf="@id/tvGamesPlayed" />
+                app:layout_constraintTop_toBottomOf="@id/tvGamesPlayed"
+                app:progressView_colorProgress="@color/red_vs" />
 
             <TextView
                 android:id="@+id/tvPlayerTwoGamesPlayed"
@@ -420,12 +398,58 @@
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="14dp"
-                app:progressView_colorProgress="@color/blue_vs"
                 app:layout_constraintEnd_toStartOf="@id/tvPlayerTwoGoals"
                 app:layout_constraintStart_toEndOf="@id/midPoint"
-                app:layout_constraintTop_toBottomOf="@id/tvGamesPlayed" />
+                app:layout_constraintTop_toBottomOf="@id/tvGamesPlayed"
+                app:progressView_colorProgress="@color/blue_vs" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tvPercentageOne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/percentage"
+            android:textColor="@color/red_radar_chart"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/rcStats" />
+
+        <TextView
+            android:id="@+id/tvPlayerOnePercentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/tvPercentageOne"
+            app:layout_constraintEnd_toEndOf="@id/tvPercentageOne"
+            app:layout_constraintTop_toBottomOf="@id/tvPercentageOne"
+            android:textColor="@color/red_radar_chart"
+            android:layout_marginTop="4dp"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tvPercentageTwo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/percentage"
+            android:textColor="@color/blue_radar_chart"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/rcStats" />
+
+        <TextView
+            android:id="@+id/tvPlayerTwoPercentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/tvPercentageTwo"
+            app:layout_constraintEnd_toEndOf="@id/tvPercentageTwo"
+            app:layout_constraintTop_toBottomOf="@id/tvPercentageTwo"
+            android:textColor="@color/blue_radar_chart"
+            android:layout_marginTop="4dp"
+            android:textSize="16sp"/>
 
         <com.github.mikephil.charting.charts.RadarChart
             android:id="@+id/rcStats"
