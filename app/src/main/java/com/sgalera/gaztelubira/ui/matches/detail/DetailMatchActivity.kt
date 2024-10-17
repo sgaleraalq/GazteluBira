@@ -89,10 +89,12 @@ class DetailMatchActivity : AppCompatActivity() {
     }
 
     private fun initScorers(scorers: List<PlayerModel?>) {
+        binding.llGoals.removeAllViews()
         scorers.forEach { inflateView(it, binding.llGoals) }
     }
 
     private fun initAssistants(assistants: List<PlayerModel?>) {
+        binding.llAssists.removeAllViews()
         assistants.forEach { inflateView(it, binding.llAssists,false) }
     }
 
@@ -115,6 +117,8 @@ class DetailMatchActivity : AppCompatActivity() {
     }
 
     private fun initBench(bench: List<PlayerModel?>) {
+        binding.llBench1.removeAllViews()
+        binding.llBench2.removeAllViews()
         bench.forEachIndexed { index, benchPlayer -> inflateBenchView(benchPlayer, index, binding.llBench1, binding.llBench2) }
     }
 
