@@ -1,5 +1,6 @@
 package com.sgalera.gaztelubira.ui.team
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -52,6 +53,7 @@ class TeamListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initUI()
         initAdapters()
+        initSwipeToRefresh()
     }
 
     private fun initUI() {
@@ -130,7 +132,7 @@ class TeamListFragment : Fragment() {
 
     private fun onSuccess() {
         binding.progressBarLoadingTeamTemplate.visibility = View.GONE
-        binding.scrollViewTeamTemplate.visibility = View.VISIBLE
+        binding.scrollView.visibility = View.VISIBLE
     }
 
     private fun onError() {
@@ -142,8 +144,21 @@ class TeamListFragment : Fragment() {
         ).show()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initPlayersList(teamList: List<PlayerModel?>) {
+        goalKeeperList.clear()
+        defendersList.clear()
+        midfieldersList.clear()
+        forwardsList.clear()
+        technicalStaffList.clear()
+
         teamList.forEach { player -> inflateRecyclerView(player) }
+
+        binding.rvGoalKeepers.adapter?.notifyDataSetChanged()
+        binding.rvDefenders.adapter?.notifyDataSetChanged()
+        binding.rvMidFielders.adapter?.notifyDataSetChanged()
+        binding.rvForwards.adapter?.notifyDataSetChanged()
+        binding.rvTechnicalStaff.adapter?.notifyDataSetChanged()
     }
 
     private fun inflateRecyclerView(player: PlayerModel?) {
@@ -163,6 +178,14 @@ class TeamListFragment : Fragment() {
             this.adapter = adapter
             layoutManager = GridLayoutManager(requireContext(), 3)
             isNestedScrollingEnabled = false
+        }
+    }
+
+    private fun initSwipeToRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            teamListViewModel.initAgain()
+            fetchInformation()
+            binding.swipeRefreshLayout.isRefreshing = false
         }
     }
 }

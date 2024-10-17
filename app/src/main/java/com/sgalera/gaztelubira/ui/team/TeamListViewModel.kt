@@ -33,4 +33,16 @@ class TeamListViewModel @Inject constructor(
             }
         }
     }
+
+    fun initAgain(){
+        viewModelScope.launch {
+            _uiState.value = UIState.Loading
+            _playersList.value = playersRepository.playersList.value.sortedBy { it?.dorsal }
+            if (_playersList.value.isEmpty()){
+                _uiState.value = UIState.Error
+            } else {
+                _uiState.value = UIState.Success
+            }
+        }
+    }
 }
