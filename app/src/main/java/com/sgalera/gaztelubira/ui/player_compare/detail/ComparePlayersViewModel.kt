@@ -35,9 +35,6 @@ class ComparePlayersViewModel @Inject constructor(
     private val _bothPlayersStats = MutableStateFlow<Pair<PlayerStatsModel?, PlayerStatsModel?>?>(null)
     val bothPlayersStats: StateFlow<Pair<PlayerStatsModel?, PlayerStatsModel?>?> = _bothPlayersStats
 
-    private val _mappingStats = MutableStateFlow<List<String>>(emptyList())
-    val mappingStats: StateFlow<List<String>> = _mappingStats
-
     private val _playersList = MutableStateFlow<List<PlayerModel?>>(emptyList())
 
     init {

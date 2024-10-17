@@ -7,6 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -191,18 +193,20 @@ class ComparePlayersActivity : AppCompatActivity() {
     }
 
     private fun setUpFireBackground(bothPlayers: Pair<PlayerStatsModel?, PlayerStatsModel?>) {
-        val percentageOne = bothPlayers.first?.percentage?.replace("%", "")?.toFloat() ?: 0f
-        val percentageTwo = bothPlayers.second?.percentage?.replace("%", "")?.toFloat() ?: 0f
-        if (percentageOne > percentageTwo) {
-            binding.laPlayerOne.visibility = View.VISIBLE
-            binding.laPlayerTwo.visibility = View.GONE
-        } else if (percentageOne < percentageTwo) {
-            binding.laPlayerOne.visibility = View.GONE
-            binding.laPlayerTwo.visibility = View.VISIBLE
-        } else {
-            binding.laPlayerOne.visibility = View.GONE
-            binding.laPlayerTwo.visibility = View.GONE
-        }
+        Handler(Looper.getMainLooper()).postDelayed({
+            val percentageOne = bothPlayers.first?.percentage?.replace("%", "")?.toFloat() ?: 0f
+            val percentageTwo = bothPlayers.second?.percentage?.replace("%", "")?.toFloat() ?: 0f
+            if (percentageOne > percentageTwo) {
+                binding.laPlayerOne.visibility = View.VISIBLE
+                binding.laPlayerTwo.visibility = View.GONE
+            } else if (percentageOne < percentageTwo) {
+                binding.laPlayerOne.visibility = View.GONE
+                binding.laPlayerTwo.visibility = View.VISIBLE
+            } else {
+                binding.laPlayerOne.visibility = View.GONE
+                binding.laPlayerTwo.visibility = View.GONE
+            }
+        }, 4000)
     }
 
     private fun setUpRadarChart(
