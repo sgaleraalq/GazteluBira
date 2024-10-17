@@ -56,6 +56,7 @@ class StatsFragment : Fragment() {
 
     private val minHeight = 1000
     private val maxHeight = 1600
+    private var currentHeight = minHeight
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -183,6 +184,7 @@ class StatsFragment : Fragment() {
                             showDialog(
                                 onStatSelected = {
                                     statsViewModel.sortPlayersBy(it)
+                                    resetPosition(binding.clStats)
                                 })
                         }
                     } else {
@@ -202,10 +204,6 @@ class StatsFragment : Fragment() {
                     }
                 }
             }
-        }
-
-        binding.psSeason.setOnClickListener{
-
         }
     }
 
@@ -372,7 +370,6 @@ class StatsFragment : Fragment() {
         slideUp.start()
     }
 
-
     private fun getChampionStat(champion: PlayerStatsModel?, stat: StatType): String {
         return when (stat) {
             PERCENTAGE -> champion?.percentage ?: "0"
@@ -441,9 +438,9 @@ class StatsFragment : Fragment() {
     }
 
     private fun initRecyclerViewScroll() {
-        var currentHeight = minHeight
-        val scrollThreshold = 3
-        val heightChangeFactor = 0.5
+        currentHeight = minHeight
+        val scrollThreshold = 5
+        val heightChangeFactor = 0.2
 
         binding.rvStats.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -465,6 +462,17 @@ class StatsFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun resetPosition(view: View) {
+        val layoutParams = view.layoutParams
+        layoutParams.height = minHeight
+        view.layoutParams = layoutParams
+
+        currentHeight = minHeight
+
+        statsViewModel.onOpacityChanged(1f)
+        view.alpha = 1f
     }
 
     private fun showDialog(player: PlayerStatsModel?){
