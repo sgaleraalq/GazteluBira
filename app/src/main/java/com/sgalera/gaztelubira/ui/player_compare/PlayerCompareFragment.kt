@@ -1,12 +1,16 @@
 package com.sgalera.gaztelubira.ui.player_compare
 
+import android.graphics.LinearGradient
+import android.graphics.Shader
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -46,6 +50,7 @@ class PlayerCompareFragment : Fragment() {
     }
 
     private fun initUI() {
+        initTextViewGradient(binding.tvSelectPlayers)
         initPlayers()
         initAdapter()
         initListeners()
@@ -65,14 +70,8 @@ class PlayerCompareFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 playerComparisonViewModel.playerOne.collect { playerOne ->
-                    if (playerOne == null) {
-                        binding.ivPlayerOne.visibility = View.INVISIBLE
-                        binding.ivPlayerOneNotSelected.visibility = View.VISIBLE
-                        binding.tvPlayerOneName.text = getString(R.string.select_player_one)
-                    } else {
-                        binding.ivPlayerOne.visibility = View.VISIBLE
-                        binding.ivPlayerOneNotSelected.visibility = View.GONE
-                        initPlayer(playerOne, 1)
+                    if (playerOne != null) {
+                        binding.tvPlayerOne.text = playerOne.name
                     }
                 }
             }
@@ -81,14 +80,8 @@ class PlayerCompareFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 playerComparisonViewModel.playerTwo.collect { playerTwo ->
-                    if (playerTwo == null) {
-                        binding.ivPlayerTwo.visibility = View.INVISIBLE
-                        binding.ivPlayerTwoNotSelected.visibility = View.VISIBLE
-                        binding.tvPlayerTwoName.text = getString(R.string.select_player_two)
-                    } else {
-                        binding.ivPlayerTwo.visibility = View.VISIBLE
-                        binding.ivPlayerTwoNotSelected.visibility = View.GONE
-                        initPlayer(playerTwo, 2)
+                    if (playerTwo != null) {
+                        binding.tvPlayerTwo.text = playerTwo.name
                     }
                 }
             }
@@ -154,16 +147,16 @@ class PlayerCompareFragment : Fragment() {
         }
     }
 
-    private fun initPlayer(player: PlayerModel?, playerIdx: Int) {
-        when (playerIdx){
-            1 -> {
-                Glide.with(requireContext()).load(player?.img).into(binding.ivPlayerOne)
-                binding.tvPlayerOneName.text = player?.name
-            }
-            else -> {
-                Glide.with(requireContext()).load(player?.img).into(binding.ivPlayerTwo)
-                binding.tvPlayerTwoName.text = player?.name
-            }
-        }
+    private fun initTextViewGradient(textView: TextView) {
+        val paint = textView.paint
+        val width = paint.measureText(textView.text.toString())
+        textView.paint.shader = LinearGradient(
+            0f, 0f, width, textView.textSize,
+            intArrayOf(
+                getColor(requireContext(), R.color.tvBackgroundEnd),
+                getColor(requireContext(), R.color.tvBackgroundStart)
+            ),
+            null, Shader.TileMode.REPEAT
+        )
     }
 }

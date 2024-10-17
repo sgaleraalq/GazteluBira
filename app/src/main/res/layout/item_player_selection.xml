@@ -6,9 +6,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:elevation="16dp"
     app:cardBackgroundColor="@color/transparent"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="8dp"
+    app:cardElevation="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -18,34 +18,55 @@
             android:id="@+id/cvPlayer"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="4dp"
             app:cardBackgroundColor="@color/primary"
+            app:cardCornerRadius="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <View
-                android:id="@+id/cvBackground"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="100dp"
-                android:layout_height="60dp" />
+                android:layout_height="60dp">
 
-            <ImageView
-                android:id="@+id/ivPlayer"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
-                android:contentDescription="@string/description_compare_players"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/img_player_xabi" />
+                <View
+                    android:id="@+id/cvBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
-            <ProgressBar
-                android:id="@+id/pbLoadingPlayer"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:indeterminateTint="@color/antique_white" />
+                <ImageView
+                    android:id="@+id/ivPlayer"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/description_compare_players"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/img_player_xabi" />
+
+                <ProgressBar
+                    android:id="@+id/pbLoadingPlayer"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/antique_white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/ivStamp"
+                    android:visibility="gone"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_margin="4dp"
+                    android:src="@drawable/ic_verify"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/green" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
 
@@ -79,16 +100,16 @@
             android:id="@+id/tvPlayerPosition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
             android:layout_marginBottom="4dp"
             android:gravity="center"
             android:lines="1"
-            android:layout_marginStart="2dp"
             android:textColor="@color/primary"
             android:textSize="8sp"
             android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvPlayerName"
             tools:text="Madariaga" />
 
@@ -96,8 +117,8 @@
             android:id="@+id/tvDorsal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/primary"
             android:layout_marginStart="8dp"
+            android:textColor="@color/primary"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

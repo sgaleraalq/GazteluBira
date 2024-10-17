@@ -4,159 +4,115 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary">
-
-    <ImageView
-        android:id="@+id/ivVersusLogo"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:contentDescription="@string/description_versus"
-        android:scaleType="centerCrop"
-        android:src="@drawable/img_versus"
-        app:layout_constraintBottom_toBottomOf="@id/cvPlayerOne"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/cvPlayerOne" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cvPlayerOne"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        app:layout_constraintEnd_toStartOf="@id/ivVersusLogo"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/ivPlayerOneNotSelected"
-            android:layout_width="100dp"
-            android:layout_height="140dp"
-            android:padding="12dp"
-            android:contentDescription="@string/description_compare_players"
-            android:src="@drawable/img_football_player_one"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/ivPlayerOne"
-            android:layout_width="100dp"
-            android:layout_height="140dp"
-            android:contentDescription="@string/description_compare_players"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvPlayerOneName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:text="@string/select_player_one"
-            android:textColor="@color/antique_white"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivPlayerOne"/>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        app:layout_constraintStart_toEndOf="@id/ivVersusLogo"
-        app:layout_constraintTop_toTopOf="@id/cvPlayerOne">
-
-        <ImageView
-            android:id="@+id/ivPlayerTwoNotSelected"
-            android:layout_width="100dp"
-            android:layout_height="140dp"
-            android:padding="12dp"
-            android:contentDescription="@string/description_compare_players"
-            android:src="@drawable/img_football_player_two"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/ivPlayerTwo"
-            android:layout_width="100dp"
-            android:layout_height="140dp"
-            android:contentDescription="@string/description_compare_players"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvPlayerTwoName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="@color/antique_white"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:text="@string/select_player_two"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivPlayerTwo" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <View
-        android:id="@+id/backgroundSelectPlayers"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/ranking_table_primary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cvPlayerOne" />
-
+    android:background="@color/ranking_table_primary">
 
     <TextView
         android:id="@+id/tvSelectPlayers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:paddingHorizontal="32dp"
         android:text="@string/select_players"
+        android:textAllCaps="true"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cvPlayerOne" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPlayers"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:padding="8dp"
         app:layout_constraintBottom_toTopOf="@id/btnCompare"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvSelectPlayers" />
 
-    <com.google.android.material.button.MaterialButton
+    <androidx.cardview.widget.CardView
         android:id="@+id/btnCompare"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="8dp"
-        android:backgroundTint="@color/grey_forward_arrow"
-        android:text="@string/compare_players"
-        android:textColor="@color/primary_soft"
+        app:cardBackgroundColor="@color/grey_forward_arrow"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="8dp"
         android:visibility="gone"
-        app:cornerRadius="12dp"
-        app:icon="@drawable/ic_forward_ios"
-        app:iconGravity="end"
-        app:iconTint="@color/primary_soft"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/compare_players"
+                    android:textAlignment="center"
+                    android:textColor="@color/primary_soft"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvPlayerOne"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textAlignment="center"
+                        android:textColor="@color/red_vs"
+                        android:textSize="12sp"
+                        tools:text="Madariaga" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/versus"
+                        android:textAllCaps="true"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvPlayerTwo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textAlignment="center"
+                        android:textColor="@color/blue_vs"
+                        android:textSize="12sp"
+                        tools:text="Madariaga" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:padding="12dp"
+                android:src="@drawable/ic_forward_ios"
+                app:tint="@color/primary_soft" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <ProgressBar
         android:id="@+id/pbLoading"

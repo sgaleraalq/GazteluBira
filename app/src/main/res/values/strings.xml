@@ -150,4 +150,5 @@
     <string name="select_player_one">Player one</string>
     <string name="select_player_two">Player two</string>
     <string name="description_background">Background image</string>
+    <string name="versus">VS</string>
 </resources>

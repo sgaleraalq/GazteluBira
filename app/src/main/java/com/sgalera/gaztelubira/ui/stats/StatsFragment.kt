@@ -89,11 +89,6 @@ class StatsFragment : Fragment() {
         initTextViewGradient(binding.tvChampionName)
         initTextViewGradient(binding.tvSecondName)
         initTextViewGradient(binding.tvThirdName)
-
-//        // Reflection effect
-//        startReflectionAnimation(binding.tvChampionName)
-//        startReflectionAnimation(binding.tvSecondName)
-//        startReflectionAnimation(binding.tvThirdName)
     }
 
     private fun initRanking() {
@@ -470,15 +465,5 @@ class StatsFragment : Fragment() {
                 }
             }
         })
-    }
-
-    // TODO
-    private fun startReflectionAnimation(textView: TextView) {
-        val width = textView.width.toFloat()
-        val reflection = ObjectAnimator.ofFloat(textView, "translationX", -width, width)
-        reflection.duration = 2000
-        reflection.repeatCount = ValueAnimator.INFINITE
-        reflection.repeatMode = ValueAnimator.RESTART
-        reflection.start()
     }
 }

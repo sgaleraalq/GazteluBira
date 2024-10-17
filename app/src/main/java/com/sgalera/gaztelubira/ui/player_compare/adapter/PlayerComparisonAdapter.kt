@@ -10,10 +10,11 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerModel
 class PlayerComparisonAdapter(
     var playersList: MutableList<PlayerModel?> = mutableListOf(),
     private val onPlayerSelected: (PlayerModel) -> Unit
-): RecyclerView.Adapter<PlayerComparisonViewHolder>() {
+) : RecyclerView.Adapter<PlayerComparisonViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerComparisonViewHolder {
         return PlayerComparisonViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_player_selection, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_player_selection, parent, false)
         )
     }
 
@@ -22,6 +23,7 @@ class PlayerComparisonAdapter(
     override fun onBindViewHolder(holder: PlayerComparisonViewHolder, position: Int) {
         holder.render(playersList[position]) { player -> onPlayerSelected(player) }
     }
+
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateList(newList: MutableList<PlayerModel?>) {

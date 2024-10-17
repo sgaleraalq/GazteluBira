@@ -41,7 +41,9 @@ class PlayerComparisonViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             if (isSelected) {
                 clTextViewBackground.setBackgroundResource(R.color.green)
                 setTextColor(R.color.antique_white)
+                binding.ivStamp.visibility = View.VISIBLE
             } else {
+                binding.ivStamp.visibility = View.GONE
                 clTextViewBackground.setBackgroundResource(R.color.white_bit_dark)
                 setTextColor(R.color.black)
             }
