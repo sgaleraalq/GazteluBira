@@ -10,8 +10,8 @@ import com.sgalera.gaztelubira.ui.stats.StatType
 
 class PlayerStatsAdapter(
     private val playerStats: List<PlayerStatsModel?> = emptyList(),
-    var statSelected: StatType = StatType.PERCENTAGE,
-    private val onPlayerSelected: () -> Unit = {}
+    private var statSelected: StatType = StatType.PERCENTAGE,
+    private val onPlayerSelected: (PlayerStatsModel?) -> Unit = {}
 ): RecyclerView.Adapter<PlayerStatsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerStatsViewHolder {
         return PlayerStatsViewHolder(
@@ -25,8 +25,8 @@ class PlayerStatsAdapter(
         holder.render(
             player = playerStats[position],
             position = position + 1,
-            statSelected = statSelected, // TODO
-            onPlayerSelected = { onPlayerSelected() }
+            statSelected = statSelected,
+            onPlayerSelected = { onPlayerSelected(it) }
         )
     }
 

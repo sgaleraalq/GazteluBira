@@ -3,7 +3,6 @@ package com.sgalera.gaztelubira.ui.stats
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.graphics.LinearGradient
@@ -31,6 +30,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.google.android.material.button.MaterialButton
 import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.databinding.FragmentStatsBinding
 import com.sgalera.gaztelubira.domain.model.UIState
@@ -210,7 +210,7 @@ class StatsFragment : Fragment() {
     }
 
     private fun initRecyclerView(playersStats: List<PlayerStatsModel?>) {
-        playersStatsAdapter = PlayerStatsAdapter(playersStats)
+        playersStatsAdapter = PlayerStatsAdapter(playersStats) { showDialog(it) }
         binding.rvStats.apply {
             adapter = playersStatsAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -465,5 +465,29 @@ class StatsFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun showDialog(player: PlayerStatsModel?){
+        val builder = AlertDialog.Builder(requireContext())
+        val view = LayoutInflater.from(requireContext()).inflate(R.layout.item_stats_player, null)
+        val dialog = builder.setView(view).create().apply {
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
+            window?.attributes?.windowAnimations = R.style.DialogAnimation
+        }
+
+        Glide.with(this).load(player?.information?.img).into(view.findViewById(R.id.ivPlayer))
+        initTextViewGradient(view.findViewById(R.id.tvPlayerName))
+        view.findViewById<TextView>(R.id.tvPlayerName).text = player?.information?.name
+        view.findViewById<TextView>(R.id.tvGoals).text = player?.goals.toString()
+        view.findViewById<TextView>(R.id.tvAssists).text = player?.assists.toString()
+        view.findViewById<TextView>(R.id.tvPenalties).text = player?.penalties.toString()
+        view.findViewById<TextView>(R.id.tvCleanSheet).text = player?.cleanSheet.toString()
+        view.findViewById<TextView>(R.id.tvGamesPlayed).text = player?.gamesPlayed.toString()
+        view.findViewById<TextView>(R.id.tvPercentage).text = player?.percentage.toString()
+        view.findViewById<MaterialButton>(R.id.btnClose).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }

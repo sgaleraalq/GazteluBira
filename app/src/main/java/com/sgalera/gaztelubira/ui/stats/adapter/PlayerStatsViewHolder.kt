@@ -17,7 +17,7 @@ class PlayerStatsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         player: PlayerStatsModel?,
         position: Int,
         statSelected: StatType,
-        onPlayerSelected: () -> Unit
+        onPlayerSelected: (PlayerStatsModel?) -> Unit
     ) {
         binding.tvPlayerName.text = player?.information?.name
         if (position == 1) {
@@ -67,6 +67,6 @@ class PlayerStatsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             binding.ivArrow.setImageResource(R.drawable.ic_arrow_equal)
         }
 
-        binding.parent.setOnClickListener { onPlayerSelected() }
+        binding.parent.setOnClickListener { onPlayerSelected(player) }
     }
 }

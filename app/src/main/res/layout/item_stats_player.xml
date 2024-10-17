@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:cardBackgroundColor="@color/primary"
+    app:cardCornerRadius="12dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/ivPlayer"
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:contentDescription="@string/description_football_player"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/img_player_xabi" />
+
+        <TextView
+            android:id="@+id/tvPlayerName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:padding="8dp"
+            android:textAllCaps="true"
+            android:textColor="@color/antique_white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivPlayer"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Madariaga" />
+
+        <View
+            android:id="@+id/midPoint"
+            android:layout_width="0.5dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/gamesPlayedTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivPlayer"
+            app:layout_constraintTop_toTopOf="@id/goalsTextView" />
+
+        <TextView
+            android:id="@+id/goalsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/goals"
+            android:textColor="@color/antique_white"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@id/ivPlayer"
+            app:layout_constraintTop_toBottomOf="@id/tvPlayerName" />
+
+        <TextView
+            android:id="@+id/tvGoals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/antique_white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/goalsTextView"
+            app:layout_constraintEnd_toStartOf="@id/ivGoals"
+            app:layout_constraintTop_toTopOf="@id/goalsTextView"
+            tools:text="1" />
+
+        <ImageView
+            android:id="@+id/ivGoals"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/description_icon"
+            android:padding="8dp"
+            android:src="@drawable/ic_football_goal"
+            app:layout_constraintBottom_toBottomOf="@id/goalsTextView"
+            app:layout_constraintEnd_toStartOf="@id/midPoint"
+            app:layout_constraintTop_toTopOf="@id/goalsTextView" />
+
+        <TextView
+            android:id="@+id/assistsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/assists"
+            android:textColor="@color/antique_white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/goalsTextView"
+            app:layout_constraintStart_toEndOf="@id/midPoint"
+            app:layout_constraintTop_toTopOf="@id/goalsTextView" />
+
+        <TextView
+            android:id="@+id/tvAssists"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/antique_white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/assistsTextView"
+            app:layout_constraintEnd_toStartOf="@id/ivAssists"
+            app:layout_constraintTop_toTopOf="@id/assistsTextView"
+            tools:text="1" />
+
+        <ImageView
+            android:id="@+id/ivAssists"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/description_icon"
+            android:padding="8dp"
+            android:src="@drawable/ic_football_shoe"
+            app:layout_constraintBottom_toBottomOf="@id/assistsTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/assistsTextView"
+            app:tint="@color/antique_white" />
+
+        <TextView
+            android:id="@+id/penaltiesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/penalties"
+            android:textColor="@color/antique_white"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@id/ivPlayer"
+            app:layout_constraintTop_toBottomOf="@id/goalsTextView" />
+
+        <TextView
+            android:id="@+id/tvPenalties"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/antique_white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/penaltiesTextView"
+            app:layout_constraintEnd_toStartOf="@id/ivPenalties"
+            app:layout_constraintTop_toTopOf="@id/penaltiesTextView"
+            tools:text="1" />
+
+        <ImageView
+            android:id="@+id/ivPenalties"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/description_icon"
+            android:padding="8dp"
+            android:src="@drawable/ic_penalty"
+            app:layout_constraintBottom_toBottomOf="@id/penaltiesTextView"
+            app:layout_constraintEnd_toStartOf="@id/midPoint"
+            app:layout_constraintTop_toTopOf="@id/penaltiesTextView"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/cleanSheetTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/clean_sheet"
+            android:textColor="@color/antique_white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/penaltiesTextView"
+            app:layout_constraintStart_toEndOf="@id/midPoint"
+            app:layout_constraintTop_toTopOf="@id/penaltiesTextView" />
+
+        <TextView
+            android:id="@+id/tvCleanSheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/antique_white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/cleanSheetTextView"
+            app:layout_constraintEnd_toStartOf="@id/ivCleanSheet"
+            app:layout_constraintTop_toTopOf="@id/cleanSheetTextView"
+            tools:text="1" />
+
+        <ImageView
+            android:id="@+id/ivCleanSheet"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/description_icon"
+            android:padding="8dp"
+            android:src="@drawable/ic_clean_sheet"
+            app:layout_constraintBottom_toBottomOf="@id/cleanSheetTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cleanSheetTextView"
+            app:tint="@color/antique_white" />
+
+        <TextView
+            android:id="@+id/gamesPlayedTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/games_played"
+            android:textColor="@color/antique_white"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@id/ivPlayer"
+            app:layout_constraintTop_toBottomOf="@id/penaltiesTextView" />
+
+        <TextView
+            android:id="@+id/tvGamesPlayed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/antique_white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/gamesPlayedTextView"
+            app:layout_constraintEnd_toStartOf="@id/ivGamesPlayed"
+            app:layout_constraintTop_toTopOf="@id/gamesPlayedTextView"
+            tools:text="1" />
+
+        <ImageView
+            android:id="@+id/ivGamesPlayed"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/description_icon"
+            android:padding="8dp"
+            android:src="@drawable/ic_color_football_field"
+            app:layout_constraintBottom_toBottomOf="@id/gamesPlayedTextView"
+            app:layout_constraintEnd_toStartOf="@id/midPoint"
+            app:layout_constraintTop_toTopOf="@id/gamesPlayedTextView" />
+
+        <TextView
+            android:id="@+id/percentageTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/percentage"
+            android:textColor="@color/antique_white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/gamesPlayedTextView"
+            app:layout_constraintStart_toEndOf="@id/midPoint"
+            app:layout_constraintTop_toTopOf="@id/gamesPlayedTextView" />
+
+        <TextView
+            android:id="@+id/tvPercentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/antique_white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/percentageTextView"
+            app:layout_constraintEnd_toStartOf="@id/ivPercentage"
+            app:layout_constraintTop_toTopOf="@id/percentageTextView"
+            tools:text="1" />
+
+        <ImageView
+            android:id="@+id/ivPercentage"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/description_icon"
+            android:padding="8dp"
+            android:src="@drawable/ic_percentage"
+            app:layout_constraintBottom_toBottomOf="@id/percentageTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/percentageTextView"
+            app:tint="@color/antique_white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnClose"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="24dp"
+            android:text="@string/close"
+            android:textSize="10sp"
+            app:backgroundTint="@color/main_red"
+            app:cornerRadius="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivPlayer" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>
