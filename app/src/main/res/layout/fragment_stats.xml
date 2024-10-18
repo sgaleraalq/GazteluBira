@@ -366,5 +366,11 @@
         app:spinner_popup_background="@color/ranking_table_primary"
         app:spinner_popup_elevation="14dp" />
 
+    <View
+        android:id="@+id/blockView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/primary"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

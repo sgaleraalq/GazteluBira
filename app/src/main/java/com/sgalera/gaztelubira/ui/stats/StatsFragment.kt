@@ -99,7 +99,7 @@ class StatsFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 statsViewModel.showBlockDialog.collect {
-                    if (it == false) showBlockDialog()
+                    if (it == true) showBlockDialog()
                 }
             }
         }
@@ -511,8 +511,11 @@ class StatsFragment : Fragment() {
     }
 
     private fun showBlockDialog() {
+        binding.blockView.visibility = View.VISIBLE
+
         val builder = AlertDialog.Builder(requireContext())
         val view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_block, null)
+
         val dialog = builder.setView(view).create().apply {
             window?.setBackgroundDrawableResource(android.R.color.transparent)
             window?.attributes?.windowAnimations = R.style.DialogAnimation
