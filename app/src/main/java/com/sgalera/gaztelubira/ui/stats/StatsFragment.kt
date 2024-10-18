@@ -5,9 +5,11 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.LinearGradient
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +19,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -510,5 +513,20 @@ class StatsFragment : Fragment() {
     private fun showBlockDialog() {
         val builder = AlertDialog.Builder(requireContext())
         val view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_block, null)
+        val dialog = builder.setView(view).create().apply {
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
+            window?.attributes?.windowAnimations = R.style.DialogAnimation
+        }
+
+        view.findViewById<CardView>(R.id.btnUpdate).setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse("https://github.com/sgaleraalq/GazteluBira/releases")
+            }
+            startActivity(intent)
+        }
+
+        dialog.show()
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
     }
 }
