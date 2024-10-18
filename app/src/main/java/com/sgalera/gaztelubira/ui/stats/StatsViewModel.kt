@@ -8,6 +8,7 @@ import com.sgalera.gaztelubira.domain.model.UIState
 import com.sgalera.gaztelubira.domain.model.players.PlayerModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.repository.PlayersRepository
+import com.sgalera.gaztelubira.domain.usecases.CanAccessAppUseCase
 import com.sgalera.gaztelubira.domain.usecases.matches.GetTeamsUseCase
 import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersStatsUseCase
 import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersUseCase
@@ -31,6 +32,7 @@ import javax.inject.Inject
 class StatsViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val passwordManager: PasswordManager,
+    private val canAccessAppUseCase: CanAccessAppUseCase,
     private val getSeasonsUseCase: GetSeasonsUseCase,
     private val playersRepository: PlayersRepository,
     private val getPlayersUseCase: GetPlayersUseCase,
@@ -55,6 +57,10 @@ class StatsViewModel @Inject constructor(
 
     private val _playersStats = MutableStateFlow<List<PlayerStatsModel?>>(emptyList())
     val playersStats: StateFlow<List<PlayerStatsModel?>> = _playersStats
+
+    private val _showBlockDialog = MutableStateFlow<Boolean?>(null)
+    val showBlockDialog = _showBlockDialog
+
 
     private val _playersChampions = MutableStateFlow<Map<String, PlayerStatsModel?>>(
         mapOf("Champion" to null, "Second" to null, "Third" to null)
@@ -95,27 +101,34 @@ class StatsViewModel @Inject constructor(
             sharedPreferences.getCredentials()
             _season.value = sharedPreferences.credentials.year
 
-            val seasonsResult = withContext(Dispatchers.IO){
-                getSeasonsUseCase()
+            val canAccess = withContext(Dispatchers.IO) {
+                canAccessAppUseCase()
             }
+            _showBlockDialog.value = !canAccess
 
-            val playersListResult = withContext(Dispatchers.IO){
-                getPlayersUseCase(sharedPreferences.credentials.year.toString())
-            }
+            if (canAccess) {
+                val seasonsResult = withContext(Dispatchers.IO){
+                    getSeasonsUseCase()
+                }
 
-            val playersStatsResult = withContext(Dispatchers.IO){
-                getPlayersStatsUseCase(sharedPreferences.credentials.year.toString())
-            }
+                val playersListResult = withContext(Dispatchers.IO){
+                    getPlayersUseCase(sharedPreferences.credentials.year.toString())
+                }
 
-            withContext(Dispatchers.IO){
-                getTeamsUseCase(sharedPreferences.credentials.year.toString())
-            }
+                val playersStatsResult = withContext(Dispatchers.IO){
+                    getPlayersStatsUseCase(sharedPreferences.credentials.year.toString())
+                }
 
-            if (playersListResult && playersStatsResult && seasonsResult != null) {
-                _seasons.value = seasonsResult
-                val playersList = playersRepository.playersList.value
-                val playersStats = playersRepository.playersStats.value
-                initStats(playersList, playersStats)
+                withContext(Dispatchers.IO){
+                    getTeamsUseCase(sharedPreferences.credentials.year.toString())
+                }
+
+                if (playersListResult && playersStatsResult && seasonsResult != null) {
+                    _seasons.value = seasonsResult
+                    val playersList = playersRepository.playersList.value
+                    val playersStats = playersRepository.playersStats.value
+                    initStats(playersList, playersStats)
+                }
             }
         }
     }

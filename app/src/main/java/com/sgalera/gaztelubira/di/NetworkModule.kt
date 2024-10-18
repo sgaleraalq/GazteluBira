@@ -4,6 +4,9 @@ import android.content.Context
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import com.sgalera.gaztelubira.R
 import com.sgalera.gaztelubira.data.repository.MatchesRepositoryImpl
 import com.sgalera.gaztelubira.data.repository.PlayersRepositoryImpl
 import com.sgalera.gaztelubira.data.repository.TeamsRepositoryImpl
@@ -34,6 +37,18 @@ object NetworkModule {
     @Provides
     @Singleton
     fun providePasswordManager() = PasswordManager()
+
+    @Provides
+    @Singleton
+    fun provideRemoteConfig() = Firebase.remoteConfig.apply {
+        setConfigSettingsAsync(
+            remoteConfigSettings {
+                minimumFetchIntervalInSeconds = 3600
+            }
+        )
+        setDefaultsAsync(R.xml.remote_config_defaults)
+        fetchAndActivate()
+    }
 
     @Provides
     @Singleton
