@@ -95,6 +95,14 @@ class StatsFragment : Fragment() {
     private fun initRanking() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                statsViewModel.showBlockDialog.collect {
+                    if (it == false) showBlockDialog()
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 statsViewModel.uiState.collect { uiState ->
                     when (uiState) {
                         UIState.Loading -> onLoadingState()
@@ -497,5 +505,10 @@ class StatsFragment : Fragment() {
         }
 
         dialog.show()
+    }
+
+    private fun showBlockDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        val view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_block, null)
     }
 }

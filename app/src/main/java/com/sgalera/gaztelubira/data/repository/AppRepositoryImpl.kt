@@ -2,6 +2,7 @@ package com.sgalera.gaztelubira.data.repository
 
 import android.content.Context
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.sgalera.gaztelubira.domain.repository.AppRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
