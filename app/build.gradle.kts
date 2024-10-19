@@ -85,6 +85,7 @@ dependencies {
     // Firebase auth
     implementation(libs.firebase.auth)
     implementation(libs.firebase.config.ktx)
+    implementation(libs.firebase.messaging.ktx)
 
     // Progress View
     implementation(libs.progressview)
