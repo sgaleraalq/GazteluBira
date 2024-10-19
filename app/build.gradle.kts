@@ -57,6 +57,8 @@ android {
 }
 
 dependencies {
+    implementation("com.google.android.gms:play-services:17.0.0")
+
     // Nav Component
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
