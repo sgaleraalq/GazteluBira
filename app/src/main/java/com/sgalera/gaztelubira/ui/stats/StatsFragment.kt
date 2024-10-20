@@ -19,6 +19,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
@@ -152,6 +153,20 @@ class StatsFragment : Fragment() {
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                statsViewModel.isAdmin.collect {
+                    if (it) {
+                        binding.btnLogOut.visibility = View.VISIBLE
+                        binding.tvAdmin.text = getString(R.string.admin_logged_in)
+                    } else {
+                        binding.btnLogOut.visibility = View.GONE
+                        binding.tvAdmin.text = getString(R.string.admin_log_in)
+                    }
+                }
+            }
+        }
     }
 
     private fun onLoadingState() {
@@ -191,6 +206,7 @@ class StatsFragment : Fragment() {
                                 R.color.cvTextStats
                             )
                         )
+                        // LISTENER
                         binding.btnStats.setOnClickListener {
                             showDialog(
                                 onStatSelected = {
@@ -215,6 +231,14 @@ class StatsFragment : Fragment() {
                     }
                 }
             }
+        }
+
+        binding.btnAdmin.setOnClickListener {
+            showAdminDialog()
+        }
+
+        binding.btnLogOut.setOnClickListener {
+            statsViewModel.adminLogOut()
         }
     }
 
@@ -505,6 +529,31 @@ class StatsFragment : Fragment() {
         view.findViewById<TextView>(R.id.tvPercentage).text = player?.percentage.toString()
         view.findViewById<MaterialButton>(R.id.btnClose).setOnClickListener {
             dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun showAdminDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        val view = LayoutInflater.from(requireContext()).inflate(R.layout.item_admin_dialog, null)
+        val dialog = builder.setView(view).create().apply {
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
+            window?.attributes?.windowAnimations = R.style.DialogAnimation
+        }
+
+        view.findViewById<AppCompatButton>(R.id.btnLogInAdmin).setOnClickListener {
+            val password = view.findViewById<TextView>(R.id.etAdminPassword).text.toString()
+            val result = statsViewModel.adminLogIn(password)
+            if (!result) {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.wrong_password),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                dialog.dismiss()
+            }
         }
 
         dialog.show()

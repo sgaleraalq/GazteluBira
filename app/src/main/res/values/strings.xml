@@ -156,4 +156,8 @@
     <string name="there_is_an_update">There has been an update!</string>
     <string name="update_to_enter">Update to enter  the app:</string>
     <string name="update">Update</string>
+    <string name="admin_log_in">Admin log in</string>
+    <string name="description_admin">Admin icon</string>
+    <string name="admin_logged_in">Logged as admin</string>
+    <string name="wrong_password">Wrong password...</string>
 </resources>

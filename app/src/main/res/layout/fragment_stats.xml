@@ -7,6 +7,57 @@
     android:layout_height="match_parent"
     android:background="@color/primary">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnAdmin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardBackgroundColor="@color/ranking_table_primary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/description_admin"
+                android:src="@drawable/ic_admin"
+                app:tint="@color/white_bit_dark" />
+
+            <TextView
+                android:id="@+id/tvAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="4dp"
+                android:gravity="center"
+                android:text="@string/admin_log_in"
+                android:textAlignment="center"
+                android:textColor="@color/white_bit_dark" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/btnLogOut"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/description_log_out"
+        android:elevation="4dp"
+        android:src="@drawable/ic_exit"
+        app:layout_constraintBottom_toBottomOf="@id/btnAdmin"
+        app:layout_constraintStart_toEndOf="@id/btnAdmin"
+        app:layout_constraintTop_toTopOf="@id/btnAdmin"
+        app:tint="@color/main_red" />
+
     <ImageView
         android:id="@+id/ivBackgroundStats"
         android:layout_width="0dp"
@@ -370,7 +421,7 @@
         android:id="@+id/blockView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:background="@color/primary"/>
+        android:background="@color/primary"
+        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
