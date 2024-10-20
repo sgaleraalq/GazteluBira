@@ -57,8 +57,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.play.services)
-
     // Nav Component
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
