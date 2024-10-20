@@ -23,8 +23,8 @@
             android:padding="8dp">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/description_admin"
                 android:src="@drawable/ic_admin"
@@ -33,9 +33,10 @@
             <TextView
                 android:id="@+id/tvAdmin"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="4dp"
+                android:textSize="10sp"
                 android:gravity="center"
                 android:text="@string/admin_log_in"
                 android:textAlignment="center"
@@ -47,8 +48,8 @@
 
     <ImageView
         android:id="@+id/btnLogOut"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
         android:layout_marginStart="8dp"
         android:contentDescription="@string/description_log_out"
         android:elevation="4dp"
