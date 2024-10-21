@@ -100,6 +100,7 @@ class StatsViewModel @Inject constructor(
             _uiState.value = UIState.Loading
             sharedPreferences.getCredentials()
             _season.value = sharedPreferences.credentials.year
+            _isAdmin.value = sharedPreferences.credentials.isAdmin
 
             val canAccess = withContext(Dispatchers.IO) {
                 canAccessAppUseCase()

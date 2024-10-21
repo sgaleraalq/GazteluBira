@@ -88,7 +88,7 @@ class MatchesFragment : Fragment() {
                 matchesViewModel.isAdmin.collect {
                     when (it) {
                         true -> binding.btnInsertGame.visibility = View.VISIBLE
-                        false -> binding.btnInsertGame.visibility = View.INVISIBLE
+                        false -> binding.btnInsertGame.visibility = View.GONE
                     }
                 }
             }
