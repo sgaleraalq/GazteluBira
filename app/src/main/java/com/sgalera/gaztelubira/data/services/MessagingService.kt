@@ -17,7 +17,6 @@ class MessagingService @Inject constructor(): FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         sendRegistrationToken(token)
-
     }
 
     private fun sendRegistrationToken(token: String) {
