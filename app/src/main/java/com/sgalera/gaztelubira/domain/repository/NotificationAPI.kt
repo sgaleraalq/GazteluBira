@@ -1,5 +1,7 @@
 package com.sgalera.gaztelubira.domain.repository
 
+import com.sgalera.gaztelubira.core.Constants.CONTENT_TYPE
+import com.sgalera.gaztelubira.core.Constants.SERVER_KEY
 import com.sgalera.gaztelubira.domain.model.app.PushNotification
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -9,7 +11,7 @@ import retrofit2.http.POST
 
 interface NotificationAPI {
 
-    @Headers("Authorization: key=YOUR_SERVER_KEY", "Content-Type: application/json")
+    @Headers("Authorization: key=${SERVER_KEY}", "Content-Type:${CONTENT_TYPE}")
     @POST("fcm/send")
     suspend fun sendNotification(
         @Body notification: PushNotification
