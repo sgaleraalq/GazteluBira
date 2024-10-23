@@ -15,7 +15,7 @@ object Constants {
         "https://firebasestorage.googleapis.com/v0/b/gaztelubira-2067b.appspot.com/o/players%2Fimg_no_profile_picture.png?alt=media&token=e1e8f70e-dc35-48ea-94ad-a83a64d46391"
 
 
-    const val SERVER_KEY =
-        ""
+    const val BASE_URL = "https://fcm.googleapis.com"
+    const val SERVER_KEY = "AIzaSyCifrMpp28R90PmNe4kS22GNrmZaDNPuRU"
     const val CONTENT_TYPE = "application/json"
 }

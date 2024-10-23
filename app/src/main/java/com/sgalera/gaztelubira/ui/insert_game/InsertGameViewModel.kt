@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.core.Constants.PLAYER_NO_IMAGE
+import com.sgalera.gaztelubira.core.Constants.SERVER_KEY
 import com.sgalera.gaztelubira.domain.manager.SharedPreferences
 import com.sgalera.gaztelubira.domain.model.matches.MatchModel
 import com.sgalera.gaztelubira.domain.model.matches.MatchStatsModel
@@ -281,18 +282,18 @@ class InsertGameViewModel @Inject constructor(
         _matchStats.value.penalties = _penaltiesPlayers.value
         viewModelScope.launch {
             _isLoading.value = true
-            val result = withContext(Dispatchers.IO){
-                insertGameUseCase(
-                    year = sharedPreferences.credentials.year.toString(),
-                    id = id,
-                    journey = journey,
-                    matchModel = _match.value,
-                    matchStats = _matchStats.value,
-                    playersStats = _playersList.value,
-                    cleanSheet = _cleanSheetPlayers.value
-                )
-            }
-
+//            val result = withContext(Dispatchers.IO){
+//                insertGameUseCase(
+//                    year = sharedPreferences.credentials.year.toString(),
+//                    id = id,
+//                    journey = journey,
+//                    matchModel = _match.value,
+//                    matchStats = _matchStats.value,
+//                    playersStats = _playersList.value,
+//                    cleanSheet = _cleanSheetPlayers.value
+//                )
+//            }
+            val result = true
             if (result) {
                 onSuccess()
             } else {
@@ -303,7 +304,19 @@ class InsertGameViewModel @Inject constructor(
     }
 
     fun sendNotification(title: String, message: String) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val result = withContext(Dispatchers.IO) {
+                sendNotificationUseCase(SERVER_KEY, title, message)
+            }
 
+            if (result.isSuccessful) {
+                Log.i("InsertGameViewModel", "Notification sent")
+            } else {
+                Log.i("InsertGameViewModel", "Notification not sent")
+            }
+            _isLoading.value = false
+        }
     }
 
     private fun checkMatchModel(onMissingField: (InsertGameChecks) -> Unit): Boolean {

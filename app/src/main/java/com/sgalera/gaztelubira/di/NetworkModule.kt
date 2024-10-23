@@ -8,6 +8,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.sgalera.gaztelubira.R
+import com.sgalera.gaztelubira.core.Constants.BASE_URL
 import com.sgalera.gaztelubira.data.repository.AppRepositoryImpl
 import com.sgalera.gaztelubira.data.repository.MatchesRepositoryImpl
 import com.sgalera.gaztelubira.data.repository.PlayersRepositoryImpl
@@ -25,6 +26,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -42,6 +44,14 @@ object NetworkModule {
     @Provides
     @Singleton
     fun providePasswordManager() = PasswordManager()
+
+    @Provides
+    fun provideRetrofit(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
 
     @Provides
     @Singleton
