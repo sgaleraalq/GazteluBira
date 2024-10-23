@@ -90,7 +90,7 @@ class InsertGameActivity : AppCompatActivity() {
 
     private fun initExpandable() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 insertGameViewModel.isLoading.collect { isLoading ->
                     when (isLoading) {
                         true -> binding.pbInsertGame.visibility = VISIBLE
@@ -182,7 +182,8 @@ class InsertGameActivity : AppCompatActivity() {
                     )
                     binding.rvAssists.apply {
                         adapter = assistantsAdapter
-                        layoutManager = LinearLayoutManager(this@InsertGameActivity, VERTICAL, false)
+                        layoutManager =
+                            LinearLayoutManager(this@InsertGameActivity, VERTICAL, false)
                     }
                 }
             }
@@ -197,7 +198,8 @@ class InsertGameActivity : AppCompatActivity() {
                     )
                     binding.rvCleanSheet.apply {
                         adapter = cleanSheetAdapter
-                        layoutManager = LinearLayoutManager(this@InsertGameActivity, VERTICAL, false)
+                        layoutManager =
+                            LinearLayoutManager(this@InsertGameActivity, VERTICAL, false)
                     }
                 }
             }
@@ -212,7 +214,8 @@ class InsertGameActivity : AppCompatActivity() {
                     )
                     binding.rvPenalties.apply {
                         adapter = penaltiesAdapter
-                        layoutManager = LinearLayoutManager(this@InsertGameActivity, VERTICAL, false)
+                        layoutManager =
+                            LinearLayoutManager(this@InsertGameActivity, VERTICAL, false)
                     }
                 }
             }
@@ -390,8 +393,20 @@ class InsertGameActivity : AppCompatActivity() {
                 journey = journey,
                 homeGoals = binding.etLocalGoals.text.toString(),
                 awayGoals = binding.etVisitorGoals.text.toString(),
-                onSuccess = { onBackPressedDispatcher.onBackPressed() },
-                onFailure = { Toast.makeText(this, getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT).show() },
+                onSuccess = {
+                    insertGameViewModel.sendNotification(
+                        title = getString(R.string.new_game),
+                        message = getString(R.string.new_game_message)
+                    )
+                    onBackPressedDispatcher.onBackPressed()
+                },
+                onFailure = {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.an_error_has_occurred),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                },
                 onMissingField = { showErrors(it) }
             )
         }
@@ -552,7 +567,7 @@ class InsertGameActivity : AppCompatActivity() {
                         dialogItem?.second
                     )
                 }
-            } else if (matchStat != null){
+            } else if (matchStat != null) {
                 Glide.with(this).load(insertGameViewModel.getPlayerImg(dialogItem?.first))
                     .into(item.findViewById(R.id.ivDialog))
                 item.setOnClickListener { onStatSelected(matchStat, dialogItem?.first) }

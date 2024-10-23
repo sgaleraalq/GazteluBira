@@ -160,4 +160,6 @@
     <string name="description_admin">Admin icon</string>
     <string name="admin_logged_in">Logged as admin</string>
     <string name="wrong_password">Wrong password...</string>
+    <string name="new_game">New game</string>
+    <string name="new_game_message">Ejemplo</string>
 </resources>

@@ -18,11 +18,13 @@ import com.sgalera.gaztelubira.domain.repository.TeamsRepository
 import com.sgalera.gaztelubira.domain.manager.PasswordManager
 import com.sgalera.gaztelubira.domain.manager.SharedPreferences
 import com.sgalera.gaztelubira.domain.repository.AppRepository
+import com.sgalera.gaztelubira.domain.repository.NotificationAPI
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
@@ -70,7 +72,13 @@ object NetworkModule {
     @Provides
     fun provideAppRepository(
         @ApplicationContext context: Context,
-        remoteConfig: FirebaseRemoteConfig
-    ): AppRepository = AppRepositoryImpl(remoteConfig, context)
+        remoteConfig: FirebaseRemoteConfig,
+        notificationAPI: NotificationAPI
+    ): AppRepository = AppRepositoryImpl(remoteConfig, notificationAPI, context)
+
+    @Provides
+    fun provideNotificationAPI(retrofit: Retrofit): NotificationAPI {
+        return retrofit.create(NotificationAPI::class.java)
+    }
 
 }

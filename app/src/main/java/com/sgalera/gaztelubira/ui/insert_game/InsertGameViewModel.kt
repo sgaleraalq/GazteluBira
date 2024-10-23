@@ -12,6 +12,7 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 import com.sgalera.gaztelubira.domain.repository.PlayersRepository
 import com.sgalera.gaztelubira.domain.repository.TeamsRepository
+import com.sgalera.gaztelubira.domain.usecases.SendNotificationUseCase
 import com.sgalera.gaztelubira.domain.usecases.matches.InsertGameUseCase
 import com.sgalera.gaztelubira.ui.insert_game.InsertGameChecks.BENCH
 import com.sgalera.gaztelubira.ui.insert_game.InsertGameChecks.CLEAN_SHEET
@@ -35,7 +36,8 @@ class InsertGameViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val teamsRepository: TeamsRepository,
     private val playersRepository: PlayersRepository,
-    private val insertGameUseCase: InsertGameUseCase
+    private val insertGameUseCase: InsertGameUseCase,
+    private val sendNotificationUseCase: SendNotificationUseCase
 ) : ViewModel() {
 
     private val _match = MutableStateFlow(MatchModel())
@@ -258,10 +260,6 @@ class InsertGameViewModel @Inject constructor(
         onFailure: () -> Unit,
         onMissingField: (InsertGameChecks) -> Unit
     ) {
-        Log.i("InsertGameViewModel", "Match: ${_match.value}")
-        Log.i("InsertGameViewModel", "MatchStats: ${_matchStats.value}")
-        Log.i("InsertGameViewModel", id.toString())
-        Log.i("InsertGameViewModel", journey.toString())
 
         if (homeGoals.isBlank() || awayGoals.isBlank()) {
             onMissingField(RESULT)
@@ -302,6 +300,10 @@ class InsertGameViewModel @Inject constructor(
             }
             _isLoading.value = false
         }
+    }
+
+    fun sendNotification(title: String, message: String) {
+
     }
 
     private fun checkMatchModel(onMissingField: (InsertGameChecks) -> Unit): Boolean {
