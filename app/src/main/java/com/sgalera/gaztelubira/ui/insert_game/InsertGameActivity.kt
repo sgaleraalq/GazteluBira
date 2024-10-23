@@ -394,6 +394,7 @@ class InsertGameActivity : AppCompatActivity() {
                 homeGoals = binding.etLocalGoals.text.toString(),
                 awayGoals = binding.etVisitorGoals.text.toString(),
                 onSuccess = {
+                    // TODO
                     insertGameViewModel.sendNotification(
                         title = getString(R.string.new_game),
                         message = getString(R.string.new_game_message)
@@ -408,6 +409,13 @@ class InsertGameActivity : AppCompatActivity() {
                     ).show()
                 },
                 onMissingField = { showErrors(it) }
+            )
+        }
+
+        binding.btnTest.setOnClickListener {
+            insertGameViewModel.sendNotification(
+                title = getString(R.string.new_game),
+                message = getString(R.string.new_game_message)
             )
         }
     }

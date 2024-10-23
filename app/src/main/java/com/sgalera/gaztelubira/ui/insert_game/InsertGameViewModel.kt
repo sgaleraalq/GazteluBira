@@ -282,18 +282,17 @@ class InsertGameViewModel @Inject constructor(
         _matchStats.value.penalties = _penaltiesPlayers.value
         viewModelScope.launch {
             _isLoading.value = true
-//            val result = withContext(Dispatchers.IO){
-//                insertGameUseCase(
-//                    year = sharedPreferences.credentials.year.toString(),
-//                    id = id,
-//                    journey = journey,
-//                    matchModel = _match.value,
-//                    matchStats = _matchStats.value,
-//                    playersStats = _playersList.value,
-//                    cleanSheet = _cleanSheetPlayers.value
-//                )
-//            }
-            val result = true
+            val result = withContext(Dispatchers.IO){
+                insertGameUseCase(
+                    year = sharedPreferences.credentials.year.toString(),
+                    id = id,
+                    journey = journey,
+                    matchModel = _match.value,
+                    matchStats = _matchStats.value,
+                    playersStats = _playersList.value,
+                    cleanSheet = _cleanSheetPlayers.value
+                )
+            }
             if (result) {
                 onSuccess()
             } else {

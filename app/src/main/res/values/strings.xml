@@ -162,4 +162,5 @@
     <string name="wrong_password">Wrong password...</string>
     <string name="new_game">New game</string>
     <string name="new_game_message">Ejemplo</string>
+    <string name="test">Test</string>
 </resources>

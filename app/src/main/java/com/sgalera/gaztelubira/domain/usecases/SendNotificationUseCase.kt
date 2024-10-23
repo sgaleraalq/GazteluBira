@@ -1,5 +1,6 @@
 package com.sgalera.gaztelubira.domain.usecases
 
+import android.util.Log
 import com.sgalera.gaztelubira.domain.model.app.NotificationData
 import com.sgalera.gaztelubira.domain.model.app.PushNotification
 import com.sgalera.gaztelubira.domain.repository.AppRepository
@@ -15,6 +16,7 @@ class SendNotificationUseCase @Inject constructor(
             NotificationData(title, message),
             token
         )
+        Log.i("SendNotificationUseCase", "invoke: $notification")
         return appRepository.sendNotification(notification)
     }
 }
