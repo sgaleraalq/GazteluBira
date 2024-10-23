@@ -19,6 +19,7 @@ class MessagingService @Inject constructor(): FirebaseMessagingService() {
         sendRegistrationToken(token)
     }
 
+
     private fun sendRegistrationToken(token: String) {
         Log.i("MessagingService", "Token: $token")
     }
