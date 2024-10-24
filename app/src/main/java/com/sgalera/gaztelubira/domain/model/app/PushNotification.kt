@@ -1,11 +1,16 @@
 package com.sgalera.gaztelubira.domain.model.app
 
-data class PushNotification (
-    val data: NotificationData,
-    val to: String
+data class PushNotification(
+    val message: Message
 )
 
-data class NotificationData (
+data class Message(
+    val topic: String,
+    val notification: Notification? = null,
+    val data: Map<String, String>? = null
+)
+
+data class Notification(
     val title: String,
-    val message: String
+    val body: String
 )

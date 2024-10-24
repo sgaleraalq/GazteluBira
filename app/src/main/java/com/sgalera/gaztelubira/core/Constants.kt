@@ -16,7 +16,6 @@ object Constants {
 
 
     const val BASE_URL = "https://fcm.googleapis.com"
-    const val SERVER_KEY = "ef87d240c38ec9778625e7a17b211274c08fa7de"
     const val CONTENT_TYPE = "application/json"
     const val ALL_TOPICS = "/topics/all"
     const val PROJECT_ID = "gaztelubira-2067b"

@@ -310,9 +310,10 @@ class InsertGameViewModel @Inject constructor(
             }
 
             if (result.isSuccessful) {
-                Log.i("InsertGameViewModel", "Notification sent")
+                Log.i("SendNotification", "Notification sent")
             } else {
-                Log.i("InsertGameViewModel", "Notification not sent")
+                val errorBody = result.errorBody()?.string()
+                Log.e("SendNotification", "Error: $errorBody")
             }
             _isLoading.value = false
         }
