@@ -10,13 +10,25 @@
     tools:background="@color/ranking_table_secondary">
 
     <ImageView
+        android:id="@+id/ivAdjust"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/description_icon_arrow"
+        android:padding="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
         android:id="@+id/ivLaurel"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:contentDescription="@string/description_laurel_icon"
         android:src="@drawable/ic_laurel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivAdjust"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/champion_gold_primary" />
 

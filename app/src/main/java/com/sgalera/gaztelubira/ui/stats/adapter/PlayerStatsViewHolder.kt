@@ -46,8 +46,10 @@ class PlayerStatsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         if (statSelected == StatType.PERCENTAGE) {
             binding.ivArrow.visibility = View.VISIBLE
+            binding.ivAdjust.visibility = View.GONE
         } else {
             binding.ivArrow.visibility = View.GONE
+            binding.ivAdjust.visibility = View.VISIBLE
         }
 
         when (statSelected) {

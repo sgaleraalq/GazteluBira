@@ -76,6 +76,18 @@ class StatsFragment : Fragment() {
         initMinHeight()
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.tvStats.text = when (statsViewModel.statSelected.value) {
+            PERCENTAGE -> getString(R.string.percentage)
+            GOALS -> getString(R.string.goals)
+            ASSISTS -> getString(R.string.assists)
+            PENALTIES -> getString(R.string.penalties)
+            CLEAN_SHEET -> getString(R.string.clean_sheet)
+            GAMES_PLAYED -> getString(R.string.games_played)
+        }
+    }
+
     private fun initMinHeight() {
         val layoutParams = binding.clStats.layoutParams
         layoutParams.height = minHeight
@@ -181,7 +193,6 @@ class StatsFragment : Fragment() {
         ).show()
         binding.pbStats.visibility = View.GONE
     }
-
 
     private fun initListeners() {
         lifecycleScope.launch {
@@ -473,7 +484,6 @@ class StatsFragment : Fragment() {
     }
 
     private fun initRecyclerViewScroll() {
-        binding.tvStat.text = statsViewModel.statSelected.value.toString()
         currentHeight = minHeight
         val scrollThreshold = 5
         val heightChangeFactor = 0.2
