@@ -399,7 +399,7 @@
         android:id="@+id/psSeason"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="8dp"
         android:background="@color/ranking_table_primary"
         android:gravity="center"
         android:padding="2dp"

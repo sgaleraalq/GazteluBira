@@ -107,7 +107,7 @@
     <string name="there_is_an_update">¡Ha habido una actualización!</string>
     <string name="update_to_enter">Actualiza para entrar en la app:</string>
     <string name="update">Actualizar</string>
-    <string name="admin_log_in">Inicio sesión de admin</string>
+    <string name="admin_log_in">Admin</string>
     <string name="description_admin">Icono de administrador</string>
     <string name="admin_logged_in">Admin</string>
     <string name="wrong_password">Contraseña incorrecta…</string>
