@@ -3,7 +3,6 @@ package com.sgalera.gaztelubira.ui.stats
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.LinearGradient
@@ -58,8 +57,8 @@ class StatsFragment : Fragment() {
     private val statsViewModel by viewModels<StatsViewModel>()
     private lateinit var playersStatsAdapter: PlayerStatsAdapter
 
-    private val minHeight = 950
-    private val maxHeight = 1600
+    private var minHeight = 0
+    private var maxHeight = 0
     private var currentHeight = minHeight
 
     override fun onCreateView(
@@ -90,6 +89,8 @@ class StatsFragment : Fragment() {
 
     private fun initMinHeight() {
         val layoutParams = binding.clStats.layoutParams
+        minHeight = layoutParams.height - 50
+        maxHeight = minHeight * 2
         layoutParams.height = minHeight
         binding.clStats.layoutParams = layoutParams
     }
@@ -261,7 +262,6 @@ class StatsFragment : Fragment() {
         }
     }
 
-    @SuppressLint("SetTextI18n")
     private fun initSeasons(seasonsList: List<String>) {
         binding.psSeason.visibility = View.VISIBLE
         binding.psSeason.text = statsViewModel.season.value.toString()
@@ -272,7 +272,6 @@ class StatsFragment : Fragment() {
         }
     }
 
-    @SuppressLint("SetTextI18n")
     private fun initChampions(
         champion: PlayerStatsModel?,
         second: PlayerStatsModel?,

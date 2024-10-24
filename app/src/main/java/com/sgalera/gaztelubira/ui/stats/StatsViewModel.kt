@@ -192,11 +192,13 @@ class StatsViewModel @Inject constructor(
                 }
             }.thenBy { it?.information?.name }
         )
+        _playersStats.value = emptyList()
         _playersStats.value = sortedList
         setChampions()
     }
 
     private fun setChampions() {
+        _playersChampions.value = mapOf("Champion" to null, "Second" to null, "Third" to null)
         val champions = _playersStats.value.take(3)
         val championsMap = mapOf(
             "Champion" to champions[0],

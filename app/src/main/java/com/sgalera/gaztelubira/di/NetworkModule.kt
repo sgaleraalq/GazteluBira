@@ -1,6 +1,7 @@
 package com.sgalera.gaztelubira.di
 
 import android.content.Context
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -63,7 +64,13 @@ object NetworkModule {
             }
         )
         setDefaultsAsync(R.xml.remote_config_defaults)
-        fetchAndActivate()
+        fetchAndActivate().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d("RemoteConfig", "Fetch and activate succeeded")
+            } else {
+                Log.e("RemoteConfig", "Fetch failed")
+            }
+        }
     }
 
     @Provides
