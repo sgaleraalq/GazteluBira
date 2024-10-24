@@ -8,7 +8,7 @@ import com.sgalera.gaztelubira.domain.model.UIState
 import com.sgalera.gaztelubira.domain.model.players.PlayerModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.repository.PlayersRepository
-import com.sgalera.gaztelubira.domain.usecases.CanAccessAppUseCase
+import com.sgalera.gaztelubira.domain.usecases.app.CanAccessAppUseCase
 import com.sgalera.gaztelubira.domain.usecases.matches.GetTeamsUseCase
 import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersStatsUseCase
 import com.sgalera.gaztelubira.domain.usecases.players.GetPlayersUseCase

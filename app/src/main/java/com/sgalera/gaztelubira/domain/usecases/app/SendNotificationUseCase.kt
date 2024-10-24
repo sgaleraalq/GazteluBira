@@ -1,4 +1,4 @@
-package com.sgalera.gaztelubira.domain.usecases
+package com.sgalera.gaztelubira.domain.usecases.app
 
 import android.util.Log
 import com.sgalera.gaztelubira.domain.model.app.NotificationData

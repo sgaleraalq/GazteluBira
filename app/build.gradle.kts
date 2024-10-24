@@ -54,6 +54,14 @@ android {
         dataBinding = true
         buildConfig = true
     }
+
+    packaging {
+        resources.excludes.add("META-INF/DEPENDENCIES")
+        resources.excludes.add("META-INF/LICENSE")
+        resources.excludes.add("META-INF/LICENSE.txt")
+        resources.excludes.add("META-INF/NOTICE")
+        resources.excludes.add("META-INF/NOTICE.txt")
+    }
 }
 
 dependencies {
@@ -86,6 +94,9 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.config.ktx)
     implementation(libs.firebase.messaging.ktx)
+
+    // Google credentials
+    implementation(libs.google.auth.library.oauth2.http)
 
     // Progress View
     implementation(libs.progressview)

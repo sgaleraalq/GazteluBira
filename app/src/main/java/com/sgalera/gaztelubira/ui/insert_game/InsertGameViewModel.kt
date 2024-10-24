@@ -3,8 +3,8 @@ package com.sgalera.gaztelubira.ui.insert_game
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sgalera.gaztelubira.core.Constants.ALL_TOPICS
 import com.sgalera.gaztelubira.core.Constants.PLAYER_NO_IMAGE
-import com.sgalera.gaztelubira.core.Constants.SERVER_KEY
 import com.sgalera.gaztelubira.domain.manager.SharedPreferences
 import com.sgalera.gaztelubira.domain.model.matches.MatchModel
 import com.sgalera.gaztelubira.domain.model.matches.MatchStatsModel
@@ -13,7 +13,7 @@ import com.sgalera.gaztelubira.domain.model.players.PlayerStatsModel
 import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 import com.sgalera.gaztelubira.domain.repository.PlayersRepository
 import com.sgalera.gaztelubira.domain.repository.TeamsRepository
-import com.sgalera.gaztelubira.domain.usecases.SendNotificationUseCase
+import com.sgalera.gaztelubira.domain.usecases.app.SendNotificationUseCase
 import com.sgalera.gaztelubira.domain.usecases.matches.InsertGameUseCase
 import com.sgalera.gaztelubira.ui.insert_game.InsertGameChecks.BENCH
 import com.sgalera.gaztelubira.ui.insert_game.InsertGameChecks.CLEAN_SHEET
@@ -306,7 +306,7 @@ class InsertGameViewModel @Inject constructor(
         viewModelScope.launch {
             _isLoading.value = true
             val result = withContext(Dispatchers.IO) {
-                sendNotificationUseCase(SERVER_KEY, title, message)
+                sendNotificationUseCase(ALL_TOPICS, title, message)
             }
 
             if (result.isSuccessful) {

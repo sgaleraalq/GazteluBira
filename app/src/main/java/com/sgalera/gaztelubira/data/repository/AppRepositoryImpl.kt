@@ -1,10 +1,12 @@
 package com.sgalera.gaztelubira.data.repository
 
 import android.content.Context
+import android.util.Log
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.sgalera.gaztelubira.domain.model.app.PushNotification
 import com.sgalera.gaztelubira.domain.repository.AppRepository
 import com.sgalera.gaztelubira.domain.repository.NotificationAPI
+import com.sgalera.gaztelubira.domain.token.FCMAccessToken
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.tasks.await
 import okhttp3.ResponseBody
@@ -39,6 +41,9 @@ class AppRepositoryImpl @Inject constructor(
     }
 
     override suspend fun sendNotification(notification: PushNotification): Response<ResponseBody> {
-        return notificationAPI.sendNotification(notification)
+        val accessToken = FCMAccessToken.getAccessToken(context)
+        val response = notificationAPI.sendNotification(notification, "Bearer $accessToken")
+        Log.i("SendNotification", "sendNotification: $response")
+        return response
     }
 }
