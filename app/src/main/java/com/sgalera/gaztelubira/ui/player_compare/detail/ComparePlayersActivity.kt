@@ -194,8 +194,8 @@ class ComparePlayersActivity : AppCompatActivity() {
 
     private fun setUpFireBackground(bothPlayers: Pair<PlayerStatsModel?, PlayerStatsModel?>) {
         Handler(Looper.getMainLooper()).postDelayed({
-            val percentageOne = bothPlayers.first?.percentage?.replace("%", "")?.toFloat() ?: 0f
-            val percentageTwo = bothPlayers.second?.percentage?.replace("%", "")?.toFloat() ?: 0f
+            val percentageOne = bothPlayers.first?.percentage?.replace("%", "")?.replace(",", ".")?.toFloat() ?: 0f
+            val percentageTwo = bothPlayers.second?.percentage?.replace("%", "")?.replace(",", ".")?.toFloat() ?: 0f
             if (percentageOne > percentageTwo) {
                 binding.laPlayerOne.visibility = View.VISIBLE
                 binding.laPlayerTwo.visibility = View.GONE

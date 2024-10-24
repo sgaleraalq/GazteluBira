@@ -33,7 +33,7 @@
     </activity>
     <fragment
         android:id="@+id/teamFragment"
-        android:name="com.sgalera.gaztelubira.ui.team.TeamListFragment"
+        android:name="com.sgalera.gaztelubira.ui.team.TeamFragment"
         android:label="fragment_team"
         tools:layout="@layout/fragment_team" >
         <action

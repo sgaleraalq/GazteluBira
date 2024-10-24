@@ -29,12 +29,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class TeamListFragment : Fragment() {
+class TeamFragment : Fragment() {
 
     private var _binding: FragmentTeamBinding? = null
     private val binding get() = _binding!!
 
-    private val teamListViewModel by viewModels<TeamListViewModel>()
+    private val teamListViewModel by viewModels<TeamViewModel>()
     private var goalKeeperList = mutableListOf<PlayerModel>()
     private var defendersList = mutableListOf<PlayerModel>()
     private var midfieldersList = mutableListOf<PlayerModel>()
@@ -63,7 +63,7 @@ class TeamListFragment : Fragment() {
     private fun initAdapters() {
         val navigateToPlayerDetail: (PlayerModel) -> Unit = { player ->
             findNavController().navigate(
-                TeamListFragmentDirections.actionTeamFragmentToPlayerInformationDetail(
+                TeamFragmentDirections.actionTeamFragmentToPlayerInformationDetail(
                     name = player.name,
                     dorsal = player.dorsal ?: 0,
                     image = player.img,

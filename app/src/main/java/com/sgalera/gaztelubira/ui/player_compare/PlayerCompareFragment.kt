@@ -32,6 +32,11 @@ class PlayerCompareFragment : Fragment() {
 
     private lateinit var playerComparisonAdapter: PlayerComparisonAdapter
 
+    override fun onResume() {
+        super.onResume()
+        playerComparisonViewModel.initAgain()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

@@ -44,6 +44,15 @@ class PlayerComparisonViewModel @Inject constructor(
         }
     }
 
+    fun initAgain() {
+        viewModelScope.launch {
+            _playersList.value = playersRepository.playersList.value.filter { it?.position != TECHNICAL_STAFF }.sortedBy { it?.dorsal }
+            if (_playersList.value.isNotEmpty()) {
+                _uiState.value = PlayerComparisonUiState.Success
+            }
+        }
+    }
+
     fun selectPlayer(player: PlayerModel) {
         val firstPlayerIdx = _playersList.value.indexOfFirst { it?.ownReference == player.ownReference }
         val secondPlayerIdx: Int?

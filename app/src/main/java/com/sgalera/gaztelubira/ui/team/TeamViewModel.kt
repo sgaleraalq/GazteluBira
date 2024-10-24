@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TeamListViewModel @Inject constructor(
+class TeamViewModel @Inject constructor(
     private val playersRepository: PlayersRepository
 ): ViewModel(){
 

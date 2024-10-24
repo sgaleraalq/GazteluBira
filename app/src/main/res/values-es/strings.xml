@@ -98,8 +98,8 @@
     <string name="password">Contraseña</string>
     <string name="log_in">Iniciar sesión</string>
     <string name="loggedAsAdmin">Conectado como: Admin</string>
-    <string name="player_name">Nombre del jugador</string>
-    <string name="stat">Estadística</string>
+    <string name="player_name">Jugador</string>
+    <string name="stat">Stat</string>
     <string name="player_stat_percentage">%1$s% %</string>
     <string name="twothousandtwentyfour">2024</string>
     <string name="close">Cerrar</string>
@@ -109,7 +109,7 @@
     <string name="update">Actualizar</string>
     <string name="admin_log_in">Inicio sesión de admin</string>
     <string name="description_admin">Icono de administrador</string>
-    <string name="admin_logged_in">Conectado como administrador</string>
+    <string name="admin_logged_in">Admin</string>
     <string name="wrong_password">Contraseña incorrecta…</string>
 
     // Teams || Team fragment
