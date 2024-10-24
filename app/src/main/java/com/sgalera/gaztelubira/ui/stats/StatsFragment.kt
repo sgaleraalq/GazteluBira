@@ -58,7 +58,7 @@ class StatsFragment : Fragment() {
     private val statsViewModel by viewModels<StatsViewModel>()
     private lateinit var playersStatsAdapter: PlayerStatsAdapter
 
-    private val minHeight = 1000
+    private val minHeight = 950
     private val maxHeight = 1600
     private var currentHeight = minHeight
 
@@ -473,6 +473,7 @@ class StatsFragment : Fragment() {
     }
 
     private fun initRecyclerViewScroll() {
+        binding.tvStat.text = statsViewModel.statSelected.value.toString()
         currentHeight = minHeight
         val scrollThreshold = 5
         val heightChangeFactor = 0.2
