@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.firebase.crashlytics")
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.gms.google-services")
     id("kotlin-parcelize")
@@ -94,6 +95,7 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.config.ktx)
     implementation(libs.firebase.messaging.ktx)
+    implementation(libs.firebase.crashlytics)
 
     // Google credentials
     implementation(libs.google.auth.library.oauth2.http)
