@@ -394,10 +394,19 @@ class InsertGameActivity : AppCompatActivity() {
                 homeGoals = binding.etLocalGoals.text.toString(),
                 awayGoals = binding.etVisitorGoals.text.toString(),
                 onSuccess = {
-                    // TODO
+                    val localTeam = binding.tvLocalTeam.text.toString()
+                    val localGoals = binding.etLocalGoals.text.toString()
+                    val visitorTeam = binding.tvVisitorTeam.text.toString()
+                    val visitorGoals = binding.etVisitorGoals.text.toString()
                     insertGameViewModel.sendNotification(
                         title = getString(R.string.new_game),
-                        message = getString(R.string.new_game_message)
+                        message = getString(
+                            R.string.new_game_message,
+                            localTeam,
+                            localGoals,
+                            visitorGoals,
+                            visitorTeam
+                        ),
                     )
                     onBackPressedDispatcher.onBackPressed()
                 },
@@ -409,13 +418,6 @@ class InsertGameActivity : AppCompatActivity() {
                     ).show()
                 },
                 onMissingField = { showErrors(it) }
-            )
-        }
-
-        binding.btnTest.setOnClickListener {
-            insertGameViewModel.sendNotification(
-                title = getString(R.string.new_game),
-                message = getString(R.string.new_game_message)
             )
         }
     }

@@ -2,6 +2,8 @@ package com.sgalera.gaztelubira.ui.stats
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sgalera.gaztelubira.core.Constants.ALL_TOPICS
+import com.sgalera.gaztelubira.data.services.TopicsService
 import com.sgalera.gaztelubira.domain.manager.PasswordManager
 import com.sgalera.gaztelubira.domain.manager.SharedPreferences
 import com.sgalera.gaztelubira.domain.model.UIState
@@ -33,6 +35,7 @@ class StatsViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val passwordManager: PasswordManager,
     private val canAccessAppUseCase: CanAccessAppUseCase,
+    private val topicsService: TopicsService,
     private val getSeasonsUseCase: GetSeasonsUseCase,
     private val playersRepository: PlayersRepository,
     private val getPlayersUseCase: GetPlayersUseCase,
@@ -97,10 +100,11 @@ class StatsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            _uiState.value = UIState.Loading
             sharedPreferences.getCredentials()
+            _uiState.value = UIState.Loading
             _season.value = sharedPreferences.credentials.year
             _isAdmin.value = sharedPreferences.credentials.isAdmin
+            topicsService.subscribeToTopic(ALL_TOPICS)
 
             val canAccess = withContext(Dispatchers.IO) {
                 canAccessAppUseCase()
