@@ -7,7 +7,7 @@
     <string name="random_number_1">10</string>
     <string name="random_number_2">3</string>
     <string name="madariaga">Madariaga</string>
-
+    <string name="test">Test</string>
 
     // App and Fragment names
     <string name="gaztelu_bira">Gaztelu Bira</string>
@@ -25,9 +25,20 @@
     <string name="percentage">Percentage</string>
     <string name="choose_two_different_players">Choose two different players</string>
     <string name="done">Done!</string>
+    <string name="compare_players">Compare players</string>
+    <string name="select_players">Select players</string>
+    <string name="goalkeeper">Goal keeper</string>
+    <string name="defender">Defender</string>
+    <string name="midfielder">Mid fielder</string>
+    <string name="forward">Striker</string>
+    <string name="select_player_one">Player one</string>
+    <string name="select_player_two">Player two</string>
+    <string name="versus">VS</string>
 
     // Matches fragment
     <string name="matchesPlayed">Played games</string>
+    <string name="journey">Journey %1$s</string>
+    <string name="match_type">Match type</string>
 
     // Matches Item
     <string name="slash">-</string>
@@ -47,14 +58,59 @@
     <string name="next">Continue -></string>
     <string name="league">League</string>
     <string name="cup">Cup</string>
+    <string name="match_local">Home / Away</string>
+    <string name="local">Local</string>
+    <string name="visitor">Visitor</string>
+    <string name="starters">Starters</string>
+    <string name="result">Result</string>
+    <string name="zero">0</string>
+    <string name="insert_local">Set local to insert result</string>
+    <string name="stats">Stats</string>
+    <string name="select_team">Select team</string>
+    <string name="select_goalkeeper">Select goalkeeper</string>
+    <string name="select_left_back">Select left back</string>
+    <string name="select_right_back">Select right back</string>
+    <string name="select_left_centre_back">Select left centre back</string>
+    <string name="select_right_centre_back">Select right centre back</string>
+    <string name="select_defensive_midfielder">Select defensive midfielder</string>
+    <string name="select_left_midfielder">Select left midfielder</string>
+    <string name="select_right_midfielder">Select right midfielder</string>
+    <string name="select_left_striker">Select left striker</string>
+    <string name="select_right_striker">Select right striker</string>
+    <string name="select_striker">Select striker</string>
+    <string name="select_bench_player">Select bench player</string>
+    <string name="max_bench_players_error">Max bench players already added</string>
+    <string name="missing_field_error">You are missing a field</string>
+    <string name="select_scorer">Select scorer</string>
+    <string name="select_assistant">Select assistants</string>
+    <string name="select_clean_sheet">Insert clean sheet player</string>
+    <string name="select_penalty">Insert penalty player</string>
+    <string name="new_game">New game inserted</string>
+    <string name="new_game_message">%1$s %2$s - %3$s %4$s</string>
 
     // Stats fragment
+    <string name="player_ranking">%1$d</string>
+    <string name="correct_password">Correct password</string>
+    <string name="incorrect_password">Incorrect password</string>
     <string name="player">Player</string>
     <string name="admin">Admin</string>
     <string name="insert_admin_password">Insert admin password:</string>
     <string name="password">Password</string>
     <string name="log_in">Log in</string>
     <string name="loggedAsAdmin">Logged as: Admin</string>
+    <string name="player_name">Player name</string>
+    <string name="stat">Stat</string>
+    <string name="player_stat_percentage">%1$s% %</string>
+    <string name="twothousandtwentyfour">2024</string>
+    <string name="close">Close</string>
+    <string name="good_news">Good news!</string>
+    <string name="there_is_an_update">There has been an update!</string>
+    <string name="update_to_enter">Update to enter  the app:</string>
+    <string name="update">Update</string>
+    <string name="admin_log_in">Admin log in</string>
+    <string name="description_admin">Admin icon</string>
+    <string name="admin_logged_in">Logged as admin</string>
+    <string name="wrong_password">Wrong password…</string>
 
     // Teams || Team fragment
     <string name="error">Error</string>
@@ -91,76 +147,20 @@
     <string name="description_league">League icon</string>
     <string name="description_local_team">Local team image</string>
     <string name="description_away_team">Away team</string>
+    <string name="description_log_out">Admin log out button</string>
+    <string name="description_compare_players">Image compare players</string>
+    <string name="description_icon_arrow">Arrow icon</string>
+    <string name="description_icon">Icon</string>
+    <string name="description_crown">Crown icon</string>
+    <string name="background_champion_images">Background champion images</string>
+    <string name="background_stats">Background image</string>
+    <string name="description_laurel_icon">Laurel icon</string>
+    <string name="description_background">Background image</string>
+
 
     // Error messages
     <string name="main_error">An error has occurred loading players</string>
     <string name="error_fetching_credentials">Error fetching credentials</string>
-    <string name="player_ranking">%1$d</string>
     <string name="could_not_retrieve">Could not get information</string>
-    <string name="correct_password">Correct password</string>
-    <string name="incorrect_password">Incorrect password</string>
-    <string name="description_log_out">Admin log out button</string>
     <string name="an_error_has_occurred">An error has occurred</string>
-    <string name="description_compare_players">Image compare players</string>
-    <string name="compare_players">Compare players</string>
-    <string name="select_players">Select players</string>
-    <string name="journey">Journey %1$s</string>
-    <string name="match_type">Match type</string>
-    <string name="description_icon_arrow">Arrow icon</string>
-    <string name="match_local">Home / Away</string>
-    <string name="local">Local</string>
-    <string name="visitor">Visitor</string>
-    <string name="starters">Starters</string>
-    <string name="result">Result</string>
-    <string name="zero">0</string>
-    <string name="insert_local">Set local to insert result</string>
-    <string name="stats">Stats</string>
-    <string name="select_team">Select team</string>
-    <string name="description_icon">Icon</string>
-    <string name="select_goalkeeper">Select goalkeeper</string>
-    <string name="select_left_back">Select left back</string>
-    <string name="select_right_back">Select right back</string>
-    <string name="select_left_centre_back">Select left centre back</string>
-    <string name="select_right_centre_back">Select right centre back</string>
-    <string name="select_defensive_midfielder">Select defensive midfielder</string>
-    <string name="select_left_midfielder">Select left midfielder</string>
-    <string name="select_right_midfielder">Select right midfielder</string>
-    <string name="select_left_striker">Select left striker</string>
-    <string name="select_right_striker">Select right striker</string>
-    <string name="select_striker">Select striker</string>
-    <string name="select_bench_player">Select bench player</string>
-    <string name="max_bench_players_error">Max bench players already added</string>
-    <string name="missing_field_error">You are missing a field</string>
-    <string name="select_scorer">Select scorer</string>
-    <string name="select_assistant">Select assistants</string>
-    <string name="select_clean_sheet">Insert clean sheet player</string>
-    <string name="select_penalty">Insert penalty player</string>
-    <string name="background_champion_images">Background champion images</string>
-    <string name="description_crown">Crown icon</string>
-    <string name="background_stats">Background image</string>
-    <string name="player_name">Player name</string>
-    <string name="stat">Stat</string>
-    <string name="description_laurel_icon">Laurel icon</string>
-    <string name="player_stat_percentage">%1$s% %</string>
-    <string name="twothousandtwentyfour">2024</string>
-    <string name="goalkeeper">Goal keeper</string>
-    <string name="defender">Defender</string>
-    <string name="midfielder">Mid fielder</string>
-    <string name="forward">Striker</string>
-    <string name="select_player_one">Player one</string>
-    <string name="select_player_two">Player two</string>
-    <string name="description_background">Background image</string>
-    <string name="versus">VS</string>
-    <string name="close">Close</string>
-    <string name="good_news">Good news!</string>
-    <string name="there_is_an_update">There has been an update!</string>
-    <string name="update_to_enter">Update to enter  the app:</string>
-    <string name="update">Update</string>
-    <string name="admin_log_in">Admin log in</string>
-    <string name="description_admin">Admin icon</string>
-    <string name="admin_logged_in">Logged as admin</string>
-    <string name="wrong_password">Wrong password…</string>
-    <string name="new_game">New game inserted</string>
-    <string name="new_game_message">%1$s %2$s - %3$s %4$s</string>
-    <string name="test">Test</string>
 </resources>
