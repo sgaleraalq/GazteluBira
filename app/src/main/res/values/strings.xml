@@ -159,7 +159,7 @@
     <string name="admin_log_in">Admin log in</string>
     <string name="description_admin">Admin icon</string>
     <string name="admin_logged_in">Logged as admin</string>
-    <string name="wrong_password">Wrong password...</string>
+    <string name="wrong_password">Wrong password…</string>
     <string name="new_game">New game inserted</string>
     <string name="new_game_message">%1$s %2$s - %3$s %4$s</string>
     <string name="test">Test</string>

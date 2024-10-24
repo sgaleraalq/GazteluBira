@@ -1,7 +1,7 @@
 package com.sgalera.gaztelubira.domain.model.matches
 
-import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerModel
+import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 
 data class MatchStatsModel(
     val id: Int = 0,

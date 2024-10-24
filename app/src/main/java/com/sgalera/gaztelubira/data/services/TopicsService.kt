@@ -1,5 +1,6 @@
 package com.sgalera.gaztelubira.data.services
 
+import android.util.Log
 import com.google.firebase.messaging.FirebaseMessaging
 import javax.inject.Inject
 
@@ -14,9 +15,9 @@ class TopicsService @Inject constructor(
     fun subscribeToTopic(topic: String) {
         firebaseMessaging.subscribeToTopic(topic).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-//                 Log.i("TopicsService", "Subscribed to topic $topic")
+                 Log.i("TopicsService", "Subscribed to topic $topic")
             } else {
-                // Log.e("TopicsService", "Error subscribing to topic $topic")
+                 Log.e("TopicsService", "Error subscribing to topic $topic")
             }
         }
     }

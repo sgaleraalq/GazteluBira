@@ -21,7 +21,6 @@ import kotlin.coroutines.resume
 class MatchesRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : MatchesRepository {
-    // TODO check if we can inject sharedPreferences
 
     override suspend fun getTeam(teamReference: DocumentReference?): TeamModel? {
         if (teamReference == null) return null

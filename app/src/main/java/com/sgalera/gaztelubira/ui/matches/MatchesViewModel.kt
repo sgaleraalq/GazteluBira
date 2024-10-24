@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgalera.gaztelubira.domain.manager.SharedPreferences
 import com.sgalera.gaztelubira.domain.model.UIState
-import com.sgalera.gaztelubira.domain.model.UIState.*
+import com.sgalera.gaztelubira.domain.model.UIState.Error
+import com.sgalera.gaztelubira.domain.model.UIState.Loading
+import com.sgalera.gaztelubira.domain.model.UIState.Success
 import com.sgalera.gaztelubira.domain.model.matches.MatchModel
 import com.sgalera.gaztelubira.domain.model.teams.TeamModel
 import com.sgalera.gaztelubira.domain.repository.TeamsRepository

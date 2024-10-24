@@ -14,13 +14,13 @@ import com.sgalera.gaztelubira.data.repository.AppRepositoryImpl
 import com.sgalera.gaztelubira.data.repository.MatchesRepositoryImpl
 import com.sgalera.gaztelubira.data.repository.PlayersRepositoryImpl
 import com.sgalera.gaztelubira.data.repository.TeamsRepositoryImpl
-import com.sgalera.gaztelubira.domain.repository.MatchesRepository
-import com.sgalera.gaztelubira.domain.repository.PlayersRepository
-import com.sgalera.gaztelubira.domain.repository.TeamsRepository
 import com.sgalera.gaztelubira.domain.manager.PasswordManager
 import com.sgalera.gaztelubira.domain.manager.SharedPreferences
 import com.sgalera.gaztelubira.domain.repository.AppRepository
+import com.sgalera.gaztelubira.domain.repository.MatchesRepository
 import com.sgalera.gaztelubira.domain.repository.NotificationAPI
+import com.sgalera.gaztelubira.domain.repository.PlayersRepository
+import com.sgalera.gaztelubira.domain.repository.TeamsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

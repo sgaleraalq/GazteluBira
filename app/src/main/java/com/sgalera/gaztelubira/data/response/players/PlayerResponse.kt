@@ -4,7 +4,12 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.PropertyName
 import com.sgalera.gaztelubira.domain.model.players.PlayerModel
 import com.sgalera.gaztelubira.domain.model.players.PlayerPosition
-import com.sgalera.gaztelubira.domain.model.players.PlayerPosition.*
+import com.sgalera.gaztelubira.domain.model.players.PlayerPosition.DEFENDER
+import com.sgalera.gaztelubira.domain.model.players.PlayerPosition.FORWARD
+import com.sgalera.gaztelubira.domain.model.players.PlayerPosition.GOALKEEPER
+import com.sgalera.gaztelubira.domain.model.players.PlayerPosition.MIDFIELDER
+import com.sgalera.gaztelubira.domain.model.players.PlayerPosition.TECHNICAL_STAFF
+import com.sgalera.gaztelubira.domain.model.players.PlayerPosition.UNKNOWN
 
 data class PlayerResponse(
     @get:PropertyName("complete_name") @set:PropertyName("complete_name") var completeName: String = "",
