@@ -586,6 +586,7 @@ class StatsFragment : Fragment() {
             }
             startActivity(intent)
         }
+
         dialog.show()
         dialog.setCancelable(false)
         dialog.setCanceledOnTouchOutside(false)
