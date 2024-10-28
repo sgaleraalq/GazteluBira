@@ -38,7 +38,8 @@ class MainActivity: AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == notificationsCode){
+        if (requestCode == notificationsCode && mainViewModel.getFirstTime()){
+            mainViewModel.manageFirstTime()
             if (grantResults.isNotEmpty() && grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED){
                 Toast.makeText(this, getString(R.string.notifications_granted), Toast.LENGTH_SHORT).show()
             } else {

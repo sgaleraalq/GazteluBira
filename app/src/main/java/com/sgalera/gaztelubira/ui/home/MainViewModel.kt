@@ -35,4 +35,12 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
+    fun getFirstTime(): Boolean {
+        return sharedPreferences.getFirstTime()
+    }
+
+    fun manageFirstTime() {
+        sharedPreferences.manageFirstTime()
+    }
 }

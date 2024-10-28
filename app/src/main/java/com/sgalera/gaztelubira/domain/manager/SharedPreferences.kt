@@ -44,4 +44,12 @@ class SharedPreferences(context: Context) {
             false
         }
     }
+
+    fun getFirstTime(): Boolean {
+        return sharedPreferences.getBoolean("firstTime", true)
+    }
+
+    fun manageFirstTime() {
+        sharedPreferences.edit().putBoolean("firstTime", false).apply()
+    }
 }
