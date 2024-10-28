@@ -163,4 +163,6 @@
     <string name="error_fetching_credentials">Error fetching credentials</string>
     <string name="could_not_retrieve">Could not get information</string>
     <string name="an_error_has_occurred">An error has occurred</string>
+    <string name="notifications_granted">Notifications granted</string>
+    <string name="notifications_denied">Notifications denied</string>
 </resources>

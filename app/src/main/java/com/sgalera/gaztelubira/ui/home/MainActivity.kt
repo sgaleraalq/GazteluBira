@@ -1,5 +1,6 @@
 package com.sgalera.gaztelubira.ui.home
 
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
 class MainActivity: AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private val notificationsCode = 100
 
     private val mainViewModel by viewModels<MainViewModel>()
 
@@ -30,8 +32,30 @@ class MainActivity: AppCompatActivity() {
         initUI()
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == notificationsCode){
+            if (grantResults.isNotEmpty() && grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(this, getString(R.string.notifications_granted), Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, getString(R.string.notifications_denied), Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     private fun initUI() {
         initVariables()
+        checkNotifications()
+    }
+
+    private fun checkNotifications() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), notificationsCode)
+        }
     }
 
     private fun initVariables() {
