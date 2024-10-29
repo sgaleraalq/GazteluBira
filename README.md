@@ -36,6 +36,8 @@ It also shows a card fifa-like of the highest percentage rated player. The perce
 
 <p align="center">% = <sup><img src="/assets/ic_football_ball.svg" alt="Goals" style="width: 16px; height: 16px;"> + <img src="/assets/ic_football_shoe.svg" alt="Assists" style="width: 16px; height: 16px;"> + <img src="/assets/ic_penalty.svg" alt="Penalty" style="width: 16px; height: 16px;"> + <img src="/assets/ic_clean_sheet.svg" alt="Clean sheet" style="width: 16px; height: 16px;"></sup>/<sub><img src="/assets/ic_color_football_field.svg" alt="Games played" style="width: 16px; height: 16px;"></sub></p>
 
+If user presses any of the players, a dialog of their specific stats will be shown.
+
 Finally contains an admin button that makes you admin if you insert the correct password. Useful to insert games if needed.
 
 
@@ -82,9 +84,9 @@ Contains a Recycler View of all the players with their images. When you press in
 
 <img src="/assets/gaztelu_last_screen.gif" align="right" width="180">
 
-In this last screen, it contains a way of comparing one player to another. When you press compare players, you will get a pop up (dialog) that shows all players in the team. You can select two players and compare them. It will show a card with the stats of both players and the difference between them.
+In this last screen, it contains a way of comparing one player to another. When user compares two players, they will get redirect to another screen that shows a small animation of the comparison. After a few seconds, a new activity will be shown where each player will appear with its respective stats along with a Radar Chart that shows the comparison of each stat.
 
-It uses power spinners to represent each individual stat.
+It uses power spinners to represent each individual stat and Radar Chart to compare them.
 
 --
 
@@ -113,3 +115,4 @@ It uses power spinners to represent each individual stat.
 - [Navigation Component](https://developer.android.com/guide/navigation): Component that helps to implement navigation, from simple button clicks to more complex patterns, such as app bars and the navigation drawer.
 - Custom Views
   - [ProgressView](https://github.com/skydoves/progressview): A polished and flexible ProgressView, fully customizable with animations.
+  - [Radar Chart](https://github.com/PhilJay/MPAndroidChart):  A powerful & easy to use chart library for Android 
