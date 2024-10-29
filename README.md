@@ -60,7 +60,7 @@ It also contains a button if you are logged as an admin to insert new games from
 
 ## Screen 3
 
-<img src="/assets/gaztelu_screen_3.gif" align="right" width="180">
+<img src="/assets/gaztelu_prev_to_last_screen.gif" align="right" width="180">
 
 Contains a Recycler View of all the players with their images. When you press in any of the players, it redirects you to another activity which shows the specific information of that player. It contains the following information:
   
@@ -80,7 +80,7 @@ Contains a Recycler View of all the players with their images. When you press in
 
 ## Screen 4
 
-<img src="/assets/gaztelu_screen_4.gif" align="right" width="180">
+<img src="/assets/gaztelu_last_screen.gif" align="right" width="180">
 
 In this last screen, it contains a way of comparing one player to another. When you press compare players, you will get a pop up (dialog) that shows all players in the team. You can select two players and compare them. It will show a card with the stats of both players and the difference between them.
 
