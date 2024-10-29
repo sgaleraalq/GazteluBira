@@ -29,6 +29,7 @@ Main screen of the app. Shows a table containing each player with their respecti
   </ul>
 </div>
 
+
 If you press in any of the stats, it gets sorted from highest to lowest for that specific stat.
 
 It also shows a card fifa-like of the highest percentage rated player. The percentage is just a sum of all the stats divided by the maximum possible value.
