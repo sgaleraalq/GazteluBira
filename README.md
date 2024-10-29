@@ -116,4 +116,4 @@ It uses power spinners to represent each individual stat and Radar Chart to comp
 - Custom Views
   - [ProgressView](https://github.com/skydoves/progressview): A polished and flexible ProgressView, fully customizable with animations.
   - [Radar Chart](https://github.com/PhilJay/MPAndroidChart):  A powerful & easy to use chart library for Android
-  - [Lottie Animation](hhttps://github.com/airbnb/lottie-android): Lottie is a mobile library for Android and iOS that parses Adobe After Effects animations exported as json with Bodymovin and renders them natively on mobile!
+  - [Lottie Animation](https://github.com/airbnb/lottie-android): Lottie is a mobile library for Android and iOS that parses Adobe After Effects animations exported as json with Bodymovin and renders them natively on mobile!
