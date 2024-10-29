@@ -15,7 +15,7 @@ Go to the [Releases](https://github.com/sgaleraalq/GazteluBira/releases) to down
 
 ## Screen 1
 
-<img src="/assets/gaztelu_screen_1.gif" align="right" width="180">
+<img src="/assets/gaztelu_screen_1.mp4" align="right" width="180">
 
 Main screen of the app. Shows a table containing each player with their respective stat:
 
