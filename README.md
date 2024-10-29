@@ -115,4 +115,5 @@ It uses power spinners to represent each individual stat and Radar Chart to comp
 - [Navigation Component](https://developer.android.com/guide/navigation): Component that helps to implement navigation, from simple button clicks to more complex patterns, such as app bars and the navigation drawer.
 - Custom Views
   - [ProgressView](https://github.com/skydoves/progressview): A polished and flexible ProgressView, fully customizable with animations.
-  - [Radar Chart](https://github.com/PhilJay/MPAndroidChart):  A powerful & easy to use chart library for Android 
+  - [Radar Chart](https://github.com/PhilJay/MPAndroidChart):  A powerful & easy to use chart library for Android
+  - [Lottie Animation](hhttps://github.com/airbnb/lottie-android): Lottie is a mobile library for Android and iOS that parses Adobe After Effects animations exported as json with Bodymovin and renders them natively on mobile!
